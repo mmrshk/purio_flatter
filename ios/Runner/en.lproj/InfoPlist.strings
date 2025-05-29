@@ -1,0 +1,4 @@
+NSCameraUsageDescription = "permission";
+PermissionGroupNotification = "permission";
+NSLocationWhenInUseUsageDescription = "permission";
+NSPhotoLibraryUsageDescription = "permission";

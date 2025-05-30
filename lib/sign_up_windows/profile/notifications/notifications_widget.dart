@@ -119,7 +119,7 @@ class _NotificationsWidgetState extends State<NotificationsWidget>
                     size: 24.0,
                   ),
                   onPressed: () {
-                    print('IconButton pressed ...');
+                    context.pop();
                   },
                 ),
                 Align(

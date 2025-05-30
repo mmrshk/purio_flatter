@@ -116,7 +116,7 @@ class _TermsOfUseWidgetState extends State<TermsOfUseWidget> with RouteAware {
                     size: 24.0,
                   ),
                   onPressed: () {
-                    print('IconButton pressed ...');
+                    context.pop();
                   },
                 ),
                 Align(

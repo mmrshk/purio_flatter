@@ -10,6 +10,10 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'navbar_model.dart';
+import 'dart:io' show Platform, Process;
+import 'dart:async';
+import 'dart:isolate';
+
 export 'navbar_model.dart';
 
 class NavbarWidget extends StatefulWidget {
@@ -212,57 +216,106 @@ class _NavbarWidgetState extends State<NavbarWidget> with RouteAware {
                     hoverColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     onTap: () async {
-                      if (isiOS && !isWeb) {
-                        // Show mock scanner in simulator
-                        final result = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MockScanner(
-                              onScan: (String barcode) {
-                                Navigator.pop(context, barcode);
-                              },
+                      if (Platform.isIOS && !Platform.environment.containsKey('FLUTTER_TEST')) {
+                        // Check if we're running in a simulator
+                        final isSimulator = await _isSimulator();
+                        if (isSimulator) {
+                          // Show mock scanner in simulator
+                          final result = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MockScanner(
+                                onScan: (String barcode) {
+                                  Navigator.pop(context, barcode);
+                                },
+                              ),
                             ),
-                          ),
-                        );
-                        
-                        if (result != null) {
-                          _model.barcodeValue = result;
-                          _model.apiResultOpenFoods =
-                              await OpenFoodFactsAPICall.call(
-                            barCodeValue: _model.barcodeValue,
                           );
+                          
+                          if (result != null) {
+                            _model.barcodeValue = result;
+                            _model.apiResultOpenFoods =
+                                await OpenFoodFactsAPICall.call(
+                              barCodeValue: _model.barcodeValue,
+                            );
 
-                          if ((_model.apiResultOpenFoods?.succeeded ?? true)) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'Found',
-                                  style: TextStyle(
-                                    color: FlutterFlowTheme.of(context).primaryText,
+                            if ((_model.apiResultOpenFoods?.succeeded ?? true)) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Found',
+                                    style: TextStyle(
+                                      color: FlutterFlowTheme.of(context).primaryText,
+                                    ),
                                   ),
+                                  duration: const Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).secondary,
                                 ),
-                                duration: const Duration(milliseconds: 4000),
-                                backgroundColor:
-                                    FlutterFlowTheme.of(context).secondary,
-                              ),
-                            );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'Not found',
-                                  style: TextStyle(
-                                    color: FlutterFlowTheme.of(context).primaryText,
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Not found',
+                                    style: TextStyle(
+                                      color: FlutterFlowTheme.of(context).primaryText,
+                                    ),
                                   ),
+                                  duration: const Duration(milliseconds: 4000),
+                                  backgroundColor: FlutterFlowTheme.of(context).error,
                                 ),
-                                duration: const Duration(milliseconds: 4000),
-                                backgroundColor: FlutterFlowTheme.of(context).error,
-                              ),
+                              );
+                            }
+                          }
+                        } else {
+                          // Use ScanScreen on physical devices
+                          final result = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ScanScreen(),
+                            ),
+                          );
+                          
+                          if (result != null) {
+                            _model.barcodeValue = result;
+                            _model.apiResultOpenFoods =
+                                await OpenFoodFactsAPICall.call(
+                              barCodeValue: _model.barcodeValue,
                             );
+
+                            if ((_model.apiResultOpenFoods?.succeeded ?? true)) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Found',
+                                    style: TextStyle(
+                                      color: FlutterFlowTheme.of(context).primaryText,
+                                    ),
+                                  ),
+                                  duration: const Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).secondary,
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Not found',
+                                    style: TextStyle(
+                                      color: FlutterFlowTheme.of(context).primaryText,
+                                    ),
+                                  ),
+                                  duration: const Duration(milliseconds: 4000),
+                                  backgroundColor: FlutterFlowTheme.of(context).error,
+                                ),
+                              );
+                            }
                           }
                         }
                       } else {
-                        // Use ScanScreen on physical devices
+                        // Use ScanScreen on Android and web
                         final result = await Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -345,5 +398,17 @@ class _NavbarWidgetState extends State<NavbarWidget> with RouteAware {
         ),
       ),
     );
+  }
+
+  Future<bool> _isSimulator() async {
+    if (Platform.isIOS) {
+      try {
+        final result = await Process.run('xcrun', ['simctl', 'list', 'devices']);
+        return result.stdout.toString().contains('Booted');
+      } catch (e) {
+        return false;
+      }
+    }
+    return false;
   }
 }

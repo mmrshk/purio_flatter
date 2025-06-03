@@ -155,21 +155,26 @@ class _SettingsCardWidgetState extends State<SettingsCardWidget>
                   ),
                 ],
               ),
-              const Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(120.0, 0.0, 0.0, 0.0),
-                    child: Icon(
-                      Icons.arrow_forward_ios,
-                      color: Color(0xFF40A5A5),
-                      size: 24.0,
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: const Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(120.0, 0.0, 0.0, 0.0),
+                      child: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Color(0xFF40A5A5),
+                        size: 24.0,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

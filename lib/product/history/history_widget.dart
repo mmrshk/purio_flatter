@@ -119,7 +119,7 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                     size: 24.0,
                   ),
                   onPressed: () {
-                    print('IconButton pressed ...');
+                    Navigator.pop(context);
                   },
                 ),
                 Align(

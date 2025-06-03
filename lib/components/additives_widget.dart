@@ -176,7 +176,7 @@ class _AdditivesWidgetState extends State<AdditivesWidget> with RouteAware {
                 size: 24.0,
               ),
               onPressed: () {
-                print('IconButton pressed ...');
+                Navigator.pop(context);
               },
             ),
           ],

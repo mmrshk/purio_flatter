@@ -189,7 +189,7 @@ class _FirstQuestionWidgetState extends State<FirstQuestionWidget>
                         const EdgeInsetsDirectional.fromSTEB(30.0, 0.0, 0.0, 0.0),
                     child: FFButtonWidget(
                       onPressed: () {
-                        print('Button pressed ...');
+                        Navigator.pop(context);
                       },
                       text: FFLocalizations.of(context).getText(
                         '4nrmy9zk' /*  */,

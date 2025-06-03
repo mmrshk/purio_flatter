@@ -33,26 +33,48 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
     super.initState();
     _model = createModel(context, () => HomeScreenModel());
 
-    // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      _model.userDataResponse = await UserDataTable().queryRows(
-        queryFn: (q) => q.eqOrNull(
-          'user_id',
-          currentUserUid,
-        ),
-      );
-      if ((_model.userDataResponse != null &&
-              (_model.userDataResponse)!.isNotEmpty) ==
-          true) {
-        FFAppState().firstName =
-            _model.userDataResponse!.firstOrNull!.firstName!;
-        safeSetState(() {});
-        FFAppState().lastName = _model.userDataResponse!.firstOrNull!.lastName!;
-        safeSetState(() {});
-      } else {
-        context.goNamed(ContinueAccountDetailsWidget.routeName);
-      }
+      await _fetchUserData();
+      await _fetchProducts();
     });
+  }
+
+  Future<void> _fetchUserData() async {
+    _model.userDataResponse = await UserDataTable().queryRows(
+      queryFn: (q) => q.eqOrNull(
+        'user_id',
+        currentUserUid,
+      ),
+    );
+    if ((_model.userDataResponse != null &&
+            (_model.userDataResponse)!.isNotEmpty) ==
+        true) {
+      FFAppState().firstName =
+          _model.userDataResponse!.firstOrNull!.firstName!;
+      safeSetState(() {});
+      FFAppState().lastName = _model.userDataResponse!.firstOrNull!.lastName!;
+      safeSetState(() {});
+    } else {
+      context.goNamed(ContinueAccountDetailsWidget.routeName);
+    }
+  }
+
+  Future<void> _fetchProducts() async {
+    try {
+      final result = await SupaFlow.client
+          .from('Products')
+          .select('id, name, image_front_url, category, created_at, updated_at, barcode, health_score, description, ingredients, supermarket_url, additional_images_urls, specifications, nutritional')
+          .limit(5);
+      
+      if (result != null && result.isNotEmpty) {
+        _model.randomProducts = await ProductTable().queryRows(
+          queryFn: (q) => q.select().limit(5),
+        );
+      }
+    } catch (e) {
+      // Handle error silently
+    }
+    safeSetState(() {});
   }
 
   @override
@@ -85,6 +107,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
     if (mounted && DebugFlutterFlowModelContext.maybeOf(context) == null) {
       setState(() => _model.isRouteVisible = true);
       debugLogWidgetClass(_model);
+      _fetchProducts();
     }
   }
 
@@ -545,8 +568,7 @@ quickly. */
                                               Text(
                                                 FFLocalizations.of(context)
                                                     .getText(
-                                                  '6k9wcww2' /* Find product info
-fast. */
+                                                  '6k9wcww2' /* Find product info fast. */
                                                   ,
                                                 ),
                                                 style: FlutterFlowTheme.of(
@@ -850,333 +872,73 @@ fast. */
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 16.0, 0.0),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            width: 120.0,
-                                            height: 120.0,
-                                            decoration: BoxDecoration(
-                                              color: FlutterFlowTheme.of(context)
-                                                  .secondaryBackground,
-                                              borderRadius:
-                                                  BorderRadius.circular(16.0),
-                                            ),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(16.0),
-                                              child: Image.network(
-                                                'https://picsum.photos/seed/895/600',
+                                    if (_model.randomProducts != null)
+                                      ..._model.randomProducts!.map((product) {
+                                        return Padding(
+                                          padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 16.0, 0.0),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.max,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
                                                 width: 120.0,
                                                 height: 120.0,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 120.0,
-                                            height: 40.0,
-                                            child: Text(
-                                              FFLocalizations.of(context)
-                                                  .getText(
-                                                'o9egt2id' /* Apa plata minerala */,
-                                              ),
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodySmall
-                                                      .override(
-                                                        font:
-                                                            GoogleFonts.roboto(
-                                                          fontWeight: FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodySmall
-                                                              .fontWeight,
-                                                          fontStyle: FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodySmall
-                                                              .fontStyle,
-                                                        ),
-                                                        letterSpacing: 0.0,
-                                                        fontWeight: FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodySmall
-                                                            .fontWeight,
-                                                        fontStyle: FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodySmall
-                                                            .fontStyle,
-                                                      ),
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ),
-                                        ].divide(const SizedBox(height: 8.0)),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 16.0, 0.0),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            width: 120.0,
-                                            height: 120.0,
-                                            decoration: BoxDecoration(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
+                                                decoration: BoxDecoration(
+                                                  color: FlutterFlowTheme.of(context)
                                                       .secondaryBackground,
-                                              borderRadius:
-                                                  BorderRadius.circular(16.0),
-                                            ),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(16.0),
-                                              child: Image.network(
-                                                'https://picsum.photos/seed/895/600',
+                                                  borderRadius:
+                                                      BorderRadius.circular(16.0),
+                                                ),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(16.0),
+                                                  child: Image.network(
+                                                    product.imageFrontUrl ?? 'https://picsum.photos/seed/895/600',
+                                                    width: 120.0,
+                                                    height: 120.0,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
                                                 width: 120.0,
-                                                height: 120.0,
-                                                fit: BoxFit.cover,
+                                                height: 40.0,
+                                                child: Text(
+                                                  product.name ?? '',
+                                                  style:
+                                                      FlutterFlowTheme.of(context)
+                                                          .bodySmall
+                                                          .override(
+                                                            font:
+                                                                GoogleFonts.roboto(
+                                                              fontWeight: FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodySmall
+                                                                  .fontWeight,
+                                                              fontStyle: FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodySmall
+                                                                  .fontStyle,
+                                                            ),
+                                                            letterSpacing: 0.0,
+                                                            fontWeight: FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodySmall
+                                                                .fontWeight,
+                                                            fontStyle: FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodySmall
+                                                                .fontStyle,
+                                                          ),
+                                                  maxLines: 2,
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
                                               ),
-                                            ),
+                                            ].divide(const SizedBox(height: 8.0)),
                                           ),
-                                          SizedBox(
-                                            width: 120.0,
-                                            height: 40.0,
-                                            child: Text(
-                                              FFLocalizations.of(context)
-                                                  .getText(
-                                                'qr0pztpu' /* Apa plata minerala San Benedet... */,
-                                              ),
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodySmall
-                                                      .override(
-                                                        font:
-                                                            GoogleFonts.roboto(
-                                                          fontWeight: FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodySmall
-                                                              .fontWeight,
-                                                          fontStyle: FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodySmall
-                                                              .fontStyle,
-                                                        ),
-                                                        letterSpacing: 0.0,
-                                                        fontWeight: FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodySmall
-                                                            .fontWeight,
-                                                        fontStyle: FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodySmall
-                                                            .fontStyle,
-                                                      ),
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ),
-                                        ].divide(const SizedBox(height: 8.0)),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 16.0, 0.0),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            width: 120.0,
-                                            height: 120.0,
-                                            decoration: BoxDecoration(
-                                              color: FlutterFlowTheme.of(context)
-                                                  .secondaryBackground,
-                                              borderRadius:
-                                                  BorderRadius.circular(16.0),
-                                            ),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(16.0),
-                                              child: Image.network(
-                                                'https://picsum.photos/seed/896/600',
-                                                width: 120.0,
-                                                height: 120.0,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 120.0,
-                                            height: 40.0,
-                                            child: Text(
-                                              'Organic Milk',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodySmall
-                                                      .override(
-                                                        font:
-                                                            GoogleFonts.roboto(
-                                                          fontWeight: FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodySmall
-                                                              .fontWeight,
-                                                          fontStyle: FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodySmall
-                                                              .fontStyle,
-                                                        ),
-                                                        letterSpacing: 0.0,
-                                                        fontWeight: FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodySmall
-                                                            .fontWeight,
-                                                        fontStyle: FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodySmall
-                                                            .fontStyle,
-                                                      ),
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ),
-                                        ].divide(const SizedBox(height: 8.0)),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 16.0, 0.0),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            width: 120.0,
-                                            height: 120.0,
-                                            decoration: BoxDecoration(
-                                              color: FlutterFlowTheme.of(context)
-                                                  .secondaryBackground,
-                                              borderRadius:
-                                                  BorderRadius.circular(16.0),
-                                            ),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(16.0),
-                                              child: Image.network(
-                                                'https://picsum.photos/seed/897/600',
-                                                width: 120.0,
-                                                height: 120.0,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 120.0,
-                                            height: 40.0,
-                                            child: Text(
-                                              'Whole Grain Bread',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodySmall
-                                                      .override(
-                                                        font:
-                                                            GoogleFonts.roboto(
-                                                          fontWeight: FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodySmall
-                                                              .fontWeight,
-                                                          fontStyle: FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodySmall
-                                                              .fontStyle,
-                                                        ),
-                                                        letterSpacing: 0.0,
-                                                        fontWeight: FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodySmall
-                                                            .fontWeight,
-                                                        fontStyle: FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodySmall
-                                                            .fontStyle,
-                                                      ),
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ),
-                                        ].divide(const SizedBox(height: 8.0)),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 16.0, 0.0),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            width: 120.0,
-                                            height: 120.0,
-                                            decoration: BoxDecoration(
-                                              color: FlutterFlowTheme.of(context)
-                                                  .secondaryBackground,
-                                              borderRadius:
-                                                  BorderRadius.circular(16.0),
-                                            ),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(16.0),
-                                              child: Image.network(
-                                                'https://picsum.photos/seed/898/600',
-                                                width: 120.0,
-                                                height: 120.0,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 120.0,
-                                            height: 40.0,
-                                            child: Text(
-                                              'Fresh Orange Juice',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodySmall
-                                                      .override(
-                                                        font:
-                                                            GoogleFonts.roboto(
-                                                          fontWeight: FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodySmall
-                                                              .fontWeight,
-                                                          fontStyle: FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodySmall
-                                                              .fontStyle,
-                                                        ),
-                                                        letterSpacing: 0.0,
-                                                        fontWeight: FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodySmall
-                                                            .fontWeight,
-                                                        fontStyle: FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodySmall
-                                                            .fontStyle,
-                                                      ),
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ),
-                                        ].divide(const SizedBox(height: 8.0)),
-                                      ),
-                                    ),
+                                        );
+                                      }).toList(),
                                   ],
                                 ),
                               ),

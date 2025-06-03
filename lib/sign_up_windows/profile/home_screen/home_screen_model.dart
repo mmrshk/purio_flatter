@@ -30,6 +30,9 @@ class HomeScreenModel extends FlutterFlowModel<HomeScreenWidget> {
   final Map<String, DebugDataField> debugGeneratorVariables = {};
   final Map<String, DebugDataField> debugBackendQueries = {};
   final Map<String, FlutterFlowModel> widgetBuilderComponents = {};
+
+  List<ProductRow>? randomProducts;
+
   @override
   void initState(BuildContext context) {
     navbarModel = createModel(context, () => NavbarModel());

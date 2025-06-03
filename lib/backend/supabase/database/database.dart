@@ -6,3 +6,4 @@ export 'row.dart';
 export 'table.dart';
 
 export 'tables/user_data.dart';
+export 'tables/product.dart';

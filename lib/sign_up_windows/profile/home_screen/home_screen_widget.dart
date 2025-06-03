@@ -3,8 +3,6 @@ import '/backend/supabase/supabase.dart';
 import '/components/navbar_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:ui';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -40,22 +38,27 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
   }
 
   Future<void> _fetchUserData() async {
-    _model.userDataResponse = await UserDataTable().queryRows(
-      queryFn: (q) => q.eqOrNull(
-        'user_id',
-        currentUserUid,
-      ),
-    );
-    if ((_model.userDataResponse != null &&
-            (_model.userDataResponse)!.isNotEmpty) ==
-        true) {
-      FFAppState().firstName =
-          _model.userDataResponse!.firstOrNull!.firstName!;
+    try {
+      _model.userDataResponse = await UserDataTable().queryRows(
+        queryFn: (q) => q.eqOrNull(
+          'user_id',
+          currentUserUid,
+        ),
+      );
+      if ((_model.userDataResponse != null &&
+              (_model.userDataResponse)!.isNotEmpty) ==
+          true) {
+        FFAppState().firstName =
+            _model.userDataResponse!.firstOrNull!.firstName!;
+        safeSetState(() {});
+        FFAppState().lastName = _model.userDataResponse!.firstOrNull!.lastName!;
+        safeSetState(() {});
+      } else {
+        context.goNamed(ContinueAccountDetailsWidget.routeName);
+      }
+    } finally {
+      _model.isLoading = false;
       safeSetState(() {});
-      FFAppState().lastName = _model.userDataResponse!.firstOrNull!.lastName!;
-      safeSetState(() {});
-    } else {
-      context.goNamed(ContinueAccountDetailsWidget.routeName);
     }
   }
 
@@ -147,11 +150,37 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
           top: true,
           child: Stack(
             children: [
-              SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Container(
+              if (_model.isLoading)
+                Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Color(0xFFE6F7F5), Colors.white],
+                      stops: [0.0, 1.0],
+                      begin: AlignmentDirectional(0.0, -1.0),
+                      end: AlignmentDirectional(0, 1.0),
+                    ),
+                  ),
+                  child: const Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF50B2B2)),
+                    ),
+                  ),
+                )
+              else
+                RefreshIndicator(
+                  color: const Color(0xFF50B2B2),
+                  onRefresh: () async {
+                    setState(() {
+                      _model.isLoading = true;
+                    });
+                    await _fetchUserData();
+                    await _fetchProducts();
+                  },
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Container(
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       height: MediaQuery.sizeOf(context).height * 1.0,
                       decoration: const BoxDecoration(
@@ -923,13 +952,13 @@ quickly. */
                                                             ),
                                                             letterSpacing: 0.0,
                                                             fontWeight: FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodySmall
-                                                                .fontWeight,
+                                                                  context)
+                                                                  .bodySmall
+                                                                  .fontWeight,
                                                             fontStyle: FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodySmall
-                                                                .fontStyle,
+                                                                  context)
+                                                                  .bodySmall
+                                                                  .fontStyle,
                                                           ),
                                                   maxLines: 2,
                                                   overflow: TextOverflow.ellipsis,
@@ -947,9 +976,8 @@ quickly. */
                         ),
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
               Positioned(
                 left: 0,
                 right: 0,

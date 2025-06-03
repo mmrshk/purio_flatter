@@ -15,23 +15,20 @@ import 'package:provider/provider.dart';
 class HomeScreenModel extends FlutterFlowModel<HomeScreenWidget> {
   ///  State fields for stateful widgets in this page.
 
-  // Stores action output result for [Backend Call - Query Rows] action in HomeScreen widget.
-  List<UserDataRow>? _userDataResponse;
-  set userDataResponse(List<UserDataRow>? value) {
-    _userDataResponse = value;
-    debugLogWidgetClass(this);
-  }
-
-  List<UserDataRow>? get userDataResponse => _userDataResponse;
-
+  final unfocusNode = FocusNode();
+  // State field(s) for TextField widget.
+  FocusNode? textFieldFocusNode;
+  TextEditingController? textController;
+  String? Function(BuildContext, String?)? textControllerValidator;
+  List<UserDataRow>? userDataResponse;
+  List<ProductRow>? randomProducts;
   // Model for Navbar component.
   late NavbarModel navbarModel;
+  bool isLoading = true;
 
   final Map<String, DebugDataField> debugGeneratorVariables = {};
   final Map<String, DebugDataField> debugBackendQueries = {};
   final Map<String, FlutterFlowModel> widgetBuilderComponents = {};
-
-  List<ProductRow>? randomProducts;
 
   @override
   void initState(BuildContext context) {
@@ -42,6 +39,10 @@ class HomeScreenModel extends FlutterFlowModel<HomeScreenWidget> {
 
   @override
   void dispose() {
+    unfocusNode.dispose();
+    textFieldFocusNode?.dispose();
+    textController?.dispose();
+
     navbarModel.dispose();
   }
 

@@ -22,7 +22,7 @@ class Continue1stQuestionModel
 
   String? get selectedLevel => _selectedLevel;
 
-  Color _selectedBtnColor = Color(4294967295);
+  Color _selectedBtnColor = const Color(0xffffffff);
   set selectedBtnColor(Color value) {
     _selectedBtnColor = value;
     debugLogWidgetClass(this);
@@ -87,11 +87,11 @@ class Continue1stQuestionModel
         backendQueries: debugBackendQueries,
         componentStates: {
           'firstQuestionModel1 (FirstQuestion)':
-              firstQuestionModel1?.toWidgetClassDebugData(),
+              firstQuestionModel1.toWidgetClassDebugData(),
           'firstQuestionModel2 (FirstQuestion)':
-              firstQuestionModel2?.toWidgetClassDebugData(),
+              firstQuestionModel2.toWidgetClassDebugData(),
           'firstQuestionModel3 (FirstQuestion)':
-              firstQuestionModel3?.toWidgetClassDebugData(),
+              firstQuestionModel3.toWidgetClassDebugData(),
           ...widgetBuilderComponents.map(
             (key, value) => MapEntry(
               key,

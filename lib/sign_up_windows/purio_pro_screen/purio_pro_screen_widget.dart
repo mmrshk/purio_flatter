@@ -98,7 +98,7 @@ class _PurioProScreenWidgetState extends State<PurioProScreenWidget>
         key: scaffoldKey,
         backgroundColor: Colors.white,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60.0),
+          preferredSize: const Size.fromHeight(60.0),
           child: AppBar(
             backgroundColor: Colors.white,
             automaticallyImplyLeading: false,
@@ -107,20 +107,20 @@ class _PurioProScreenWidgetState extends State<PurioProScreenWidget>
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Align(
-                  alignment: AlignmentDirectional(0.0, 0.0),
+                  alignment: const AlignmentDirectional(0.0, 0.0),
                   child: Stack(
-                    alignment: AlignmentDirectional(1.0, -1.0),
+                    alignment: const AlignmentDirectional(1.0, -1.0),
                     children: [
                       Container(
                         width: 350.0,
                         height: 40.0,
-                        decoration: BoxDecoration(),
+                        decoration: const BoxDecoration(),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Align(
-                              alignment: AlignmentDirectional(0.0, 0.0),
+                              alignment: const AlignmentDirectional(0.0, 0.0),
                               child: Text(
                                 FFLocalizations.of(context).getText(
                                   '5lhkthck' /* Purio  */,
@@ -144,7 +144,7 @@ class _PurioProScreenWidgetState extends State<PurioProScreenWidget>
                               ),
                             ),
                             Align(
-                              alignment: AlignmentDirectional(0.0, 0.0),
+                              alignment: const AlignmentDirectional(0.0, 0.0),
                               child: Text(
                                 FFLocalizations.of(context).getText(
                                   '2o4n27pd' /* Pro */,
@@ -174,8 +174,8 @@ class _PurioProScreenWidgetState extends State<PurioProScreenWidget>
                         borderColor: Colors.transparent,
                         borderRadius: 100.0,
                         borderWidth: 1.0,
-                        fillColor: Color(0xFFFAF9F9),
-                        icon: Icon(
+                        fillColor: const Color(0xFFFAF9F9),
+                        icon: const Icon(
                           Icons.close,
                           color: Color(0xFF40A5A5),
                           size: 24.0,
@@ -189,7 +189,7 @@ class _PurioProScreenWidgetState extends State<PurioProScreenWidget>
                 ),
               ],
             ),
-            actions: [],
+            actions: const [],
             centerTitle: true,
             elevation: 1.0,
           ),
@@ -204,19 +204,19 @@ class _PurioProScreenWidgetState extends State<PurioProScreenWidget>
                 decoration: BoxDecoration(
                   color: FlutterFlowTheme.of(context).secondaryBackground,
                 ),
-                alignment: AlignmentDirectional(-1.0, -1.0),
+                alignment: const AlignmentDirectional(-1.0, -1.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 110.0, 0.0, 23.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 110.0, 0.0, 23.0),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 77.0),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(8.0),
@@ -236,7 +236,7 @@ class _PurioProScreenWidgetState extends State<PurioProScreenWidget>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 16.0),
                           child: Text(
                             FFLocalizations.of(context).getText(
@@ -272,7 +272,7 @@ class _PurioProScreenWidgetState extends State<PurioProScreenWidget>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 16.0),
                           child: Text(
                             FFLocalizations.of(context).getText(
@@ -304,14 +304,14 @@ class _PurioProScreenWidgetState extends State<PurioProScreenWidget>
                 ),
               ),
               Stack(
-                alignment: AlignmentDirectional(0.0, 1.0),
+                alignment: const AlignmentDirectional(0.0, 1.0),
                 children: [
                   Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        decoration: BoxDecoration(),
+                        decoration: const BoxDecoration(),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -320,7 +320,7 @@ class _PurioProScreenWidgetState extends State<PurioProScreenWidget>
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 0.0, 80.0),
                                   child: InkWell(
                                     splashColor: Colors.transparent,
@@ -335,13 +335,13 @@ class _PurioProScreenWidgetState extends State<PurioProScreenWidget>
                                       width: 305.0,
                                       height: 43.0,
                                       decoration: BoxDecoration(
-                                        color: Color(0xFF40E0D0),
+                                        color: const Color(0xFF40E0D0),
                                         borderRadius:
                                             BorderRadius.circular(30.0),
                                       ),
-                                      alignment: AlignmentDirectional(0.0, 0.0),
+                                      alignment: const AlignmentDirectional(0.0, 0.0),
                                       child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
                                             26.0, 0.0, 26.0, 0.0),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
@@ -349,7 +349,7 @@ class _PurioProScreenWidgetState extends State<PurioProScreenWidget>
                                               MainAxisAlignment.center,
                                           children: [
                                             Align(
-                                              alignment: AlignmentDirectional(
+                                              alignment: const AlignmentDirectional(
                                                   0.0, 0.0),
                                               child: Text(
                                                 FFLocalizations.of(context)
@@ -397,7 +397,7 @@ class _PurioProScreenWidgetState extends State<PurioProScreenWidget>
                   ),
                   Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 20.0),
+                        const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 20.0),
                     child: Text(
                       FFLocalizations.of(context).getText(
                         '6gezjcuo' /* Terms & Conditions */,

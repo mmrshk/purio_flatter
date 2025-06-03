@@ -60,19 +60,19 @@ class SearchModel extends FlutterFlowModel<SearchWidget> {
         backendQueries: debugBackendQueries,
         componentStates: {
           'searchProductModel1 (SearchProduct)':
-              searchProductModel1?.toWidgetClassDebugData(),
+              searchProductModel1.toWidgetClassDebugData(),
           'searchProductModel2 (SearchProduct)':
-              searchProductModel2?.toWidgetClassDebugData(),
+              searchProductModel2.toWidgetClassDebugData(),
           'searchProductModel3 (SearchProduct)':
-              searchProductModel3?.toWidgetClassDebugData(),
+              searchProductModel3.toWidgetClassDebugData(),
           'searchProductModel4 (SearchProduct)':
-              searchProductModel4?.toWidgetClassDebugData(),
+              searchProductModel4.toWidgetClassDebugData(),
           'searchProductModel5 (SearchProduct)':
-              searchProductModel5?.toWidgetClassDebugData(),
+              searchProductModel5.toWidgetClassDebugData(),
           'searchProductModel6 (SearchProduct)':
-              searchProductModel6?.toWidgetClassDebugData(),
+              searchProductModel6.toWidgetClassDebugData(),
           'searchProductModel7 (SearchProduct)':
-              searchProductModel7?.toWidgetClassDebugData(),
+              searchProductModel7.toWidgetClassDebugData(),
           ...widgetBuilderComponents.map(
             (key, value) => MapEntry(
               key,

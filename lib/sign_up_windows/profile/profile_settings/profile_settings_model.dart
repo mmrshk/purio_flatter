@@ -71,22 +71,22 @@ class ProfileSettingsModel extends FlutterFlowModel<ProfileSettingsWidget> {
         backendQueries: debugBackendQueries,
         componentStates: {
           'settingsCardModel1 (SettingsCard)':
-              settingsCardModel1?.toWidgetClassDebugData(),
+              settingsCardModel1.toWidgetClassDebugData(),
           'settingsCardModel2 (SettingsCard)':
-              settingsCardModel2?.toWidgetClassDebugData(),
+              settingsCardModel2.toWidgetClassDebugData(),
           'settingsCardModel3 (SettingsCard)':
-              settingsCardModel3?.toWidgetClassDebugData(),
+              settingsCardModel3.toWidgetClassDebugData(),
           'settingsCardModel4 (SettingsCard)':
-              settingsCardModel4?.toWidgetClassDebugData(),
+              settingsCardModel4.toWidgetClassDebugData(),
           'settingsCardModel5 (SettingsCard)':
-              settingsCardModel5?.toWidgetClassDebugData(),
+              settingsCardModel5.toWidgetClassDebugData(),
           'settingsCardModel6 (SettingsCard)':
-              settingsCardModel6?.toWidgetClassDebugData(),
+              settingsCardModel6.toWidgetClassDebugData(),
           'settingsCardModel7 (SettingsCard)':
-              settingsCardModel7?.toWidgetClassDebugData(),
+              settingsCardModel7.toWidgetClassDebugData(),
           'settingsCardModel8 (SettingsCard)':
-              settingsCardModel8?.toWidgetClassDebugData(),
-          'navbarModel (Navbar)': navbarModel?.toWidgetClassDebugData(),
+              settingsCardModel8.toWidgetClassDebugData(),
+          'navbarModel (Navbar)': navbarModel.toWidgetClassDebugData(),
           ...widgetBuilderComponents.map(
             (key, value) => MapEntry(
               key,

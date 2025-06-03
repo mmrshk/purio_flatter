@@ -5,6 +5,8 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ScanScreen extends StatefulWidget {
+  const ScanScreen({super.key});
+
   @override
   State<ScanScreen> createState() => _ScanScreenState();
 }
@@ -14,7 +16,8 @@ class _ScanScreenState extends State<ScanScreen> {
   bool isFlashOn = false;
   CameraController? _cameraController;
   List<CameraDescription>? _cameras;
-  MobileScannerController _barcodeController = MobileScannerController();
+  final MobileScannerController _barcodeController = MobileScannerController();
+  String? _lastScannedCode;
 
   @override
   void initState() {
@@ -73,12 +76,12 @@ class _ScanScreenState extends State<ScanScreen> {
 
   void _onBarcodeDetected(BarcodeCapture capture) async {
     final String? code = capture.barcodes.first.rawValue;
-    if (code != null) {
-      // TODO: Call your Supabase API with the barcode
-      // final result = await yourSupabaseApiCall(code);
-      // if (result != null) {
-      //   Navigator.pushNamed(context, '/productDetails', arguments: result);
-      // }
+    if (code != null && code != _lastScannedCode) {
+      _lastScannedCode = code;
+      // Return the barcode to the previous screen
+      if (mounted) {
+        Navigator.pop(context, code);
+      }
     }
   }
 
@@ -92,12 +95,11 @@ class _ScanScreenState extends State<ScanScreen> {
             child: isBarcodeMode
                 ? MobileScanner(
                     controller: _barcodeController,
-                    allowDuplicates: false,
                     onDetect: _onBarcodeDetected,
                   )
                 : (_cameraController != null && _cameraController!.value.isInitialized)
                     ? CameraPreview(_cameraController!)
-                    : Center(child: CircularProgressIndicator()),
+                    : const Center(child: CircularProgressIndicator()),
           ),
           // Overlay frame
           Positioned.fill(
@@ -119,7 +121,7 @@ class _ScanScreenState extends State<ScanScreen> {
             top: 60,
             left: 24,
             child: IconButton(
-              icon: Icon(Icons.close, size: 36, color: Colors.teal),
+              icon: const Icon(Icons.close, size: 36, color: Colors.teal),
               onPressed: () => Navigator.pop(context),
             ),
           ),
@@ -200,14 +202,14 @@ class _ScanButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(icon, color: Colors.white, size: 28),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Text(
               label,
-              style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+              style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
             ),
             if (onAction != null && enabled)
               IconButton(
-                icon: Icon(Icons.circle, color: Colors.white, size: 20),
+                icon: const Icon(Icons.circle, color: Colors.white, size: 20),
                 onPressed: onAction,
               ),
           ],

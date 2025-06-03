@@ -101,7 +101,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
         key: scaffoldKey,
         backgroundColor: Colors.white,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60.0),
+          preferredSize: const Size.fromHeight(60.0),
           child: AppBar(
             backgroundColor: Colors.white,
             automaticallyImplyLeading: false,
@@ -114,8 +114,8 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                   borderRadius: 100.0,
                   borderWidth: 1.0,
                   buttonSize: 45.0,
-                  fillColor: Color(0xFFFAF9F9),
-                  icon: Icon(
+                  fillColor: const Color(0xFFFAF9F9),
+                  icon: const Icon(
                     Icons.arrow_back_ios_new,
                     color: Color(0xFF40A5A5),
                     size: 24.0,
@@ -125,11 +125,11 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                   },
                 ),
                 Align(
-                  alignment: AlignmentDirectional(0.0, 0.0),
+                  alignment: const AlignmentDirectional(0.0, 0.0),
                   child: Container(
                     width: 300.0,
                     height: 60.0,
-                    decoration: BoxDecoration(),
+                    decoration: const BoxDecoration(),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -160,7 +160,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                 ),
               ],
             ),
-            actions: [],
+            actions: const [],
             centerTitle: true,
             elevation: 1.0,
           ),
@@ -168,29 +168,29 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
         body: SafeArea(
           top: true,
           child: Align(
-            alignment: AlignmentDirectional(0.0, 1.0),
+            alignment: const AlignmentDirectional(0.0, 1.0),
             child: Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0.0, 23.0, 0.0, 0.0),
+              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 23.0, 0.0, 0.0),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Stack(
-                    alignment: AlignmentDirectional(0.0, 0.95),
+                    alignment: const AlignmentDirectional(0.0, 0.95),
                     children: [
                       Container(
                         height: MediaQuery.sizeOf(context).height * 1.0,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.rectangle,
                         ),
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 120.0),
                           child: SingleChildScrollView(
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 0.0, 34.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -201,16 +201,16 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                         children: [
                                           Padding(
                                             padding:
-                                                EdgeInsetsDirectional.fromSTEB(
+                                                const EdgeInsetsDirectional.fromSTEB(
                                                     0.0, 0.0, 0.0, 19.0),
                                             child: Stack(
-                                              alignment: AlignmentDirectional(
+                                              alignment: const AlignmentDirectional(
                                                   0.7, 1.0),
                                               children: [
                                                 Container(
                                                   width: 140.0,
                                                   height: 140.0,
-                                                  decoration: BoxDecoration(),
+                                                  decoration: const BoxDecoration(),
                                                   child: ClipRRect(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -239,7 +239,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                           ),
                                           Padding(
                                             padding:
-                                                EdgeInsetsDirectional.fromSTEB(
+                                                const EdgeInsetsDirectional.fromSTEB(
                                                     0.0, 0.0, 0.0, 9.0),
                                             child: Text(
                                               FFLocalizations.of(context)
@@ -298,7 +298,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                             .bodyMedium
                                                             .fontStyle,
                                                   ),
-                                                  color: Color(0xFF6A7F98),
+                                                  color: const Color(0xFF6A7F98),
                                                   fontSize: 16.0,
                                                   letterSpacing: 0.0,
                                                   fontWeight:
@@ -319,7 +319,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       33.0, 20.0, 33.0, 0.0),
                                   child: Container(
                                     width:
@@ -335,7 +335,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                       children: [
                                         Padding(
                                           padding:
-                                              EdgeInsetsDirectional.fromSTEB(
+                                              const EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 0.0, 0.0, 200.0),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
@@ -360,7 +360,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                     return DebugFlutterFlowModelContext(
                                                       rootModel:
                                                           _model.rootModel,
-                                                      child: SettingsCardWidget(
+                                                      child: const SettingsCardWidget(
                                                         icon: Icon(
                                                           Icons.person_outlined,
                                                           color:
@@ -392,7 +392,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                     return DebugFlutterFlowModelContext(
                                                       rootModel:
                                                           _model.rootModel,
-                                                      child: SettingsCardWidget(
+                                                      child: const SettingsCardWidget(
                                                         icon: Icon(
                                                           Icons
                                                               .record_voice_over_outlined,
@@ -414,7 +414,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                 child: Builder(builder: (_) {
                                                   return DebugFlutterFlowModelContext(
                                                     rootModel: _model.rootModel,
-                                                    child: SettingsCardWidget(
+                                                    child: const SettingsCardWidget(
                                                       icon: Icon(
                                                         Icons
                                                             .handshake_outlined,
@@ -448,7 +448,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                     return DebugFlutterFlowModelContext(
                                                       rootModel:
                                                           _model.rootModel,
-                                                      child: SettingsCardWidget(
+                                                      child: const SettingsCardWidget(
                                                         icon: Icon(
                                                           Icons
                                                               .lock_open_outlined,
@@ -483,7 +483,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                     return DebugFlutterFlowModelContext(
                                                       rootModel:
                                                           _model.rootModel,
-                                                      child: SettingsCardWidget(
+                                                      child: const SettingsCardWidget(
                                                         icon: Icon(
                                                           Icons
                                                               .article_outlined,
@@ -517,7 +517,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                     return DebugFlutterFlowModelContext(
                                                       rootModel:
                                                           _model.rootModel,
-                                                      child: SettingsCardWidget(
+                                                      child: const SettingsCardWidget(
                                                         icon: Icon(
                                                           Icons
                                                               .notifications_outlined,
@@ -540,7 +540,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                 child: Builder(builder: (_) {
                                                   return DebugFlutterFlowModelContext(
                                                     rootModel: _model.rootModel,
-                                                    child: SettingsCardWidget(
+                                                    child: const SettingsCardWidget(
                                                       icon: Icon(
                                                         Icons
                                                             .question_mark_outlined,
@@ -561,7 +561,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                 child: Builder(builder: (_) {
                                                   return DebugFlutterFlowModelContext(
                                                     rootModel: _model.rootModel,
-                                                    child: SettingsCardWidget(
+                                                    child: const SettingsCardWidget(
                                                       icon: Icon(
                                                         Icons
                                                             .star_border_purple500_outlined,
@@ -574,12 +574,12 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                   );
                                                 }),
                                               ),
-                                              Divider(
+                                              const Divider(
                                                 thickness: 2.0,
                                                 color: Color(0xFFDBD8D8),
                                               ),
                                               Padding(
-                                                padding: EdgeInsetsDirectional
+                                                padding: const EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         0.0, 30.0, 0.0, 43.0),
                                                 child: Text(
@@ -622,7 +622,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                 children: [
                                                   FlutterFlowIconButton(
                                                     borderRadius: 8.0,
-                                                    icon: FaIcon(
+                                                    icon: const FaIcon(
                                                       FontAwesomeIcons
                                                           .instagram,
                                                       color: Colors.black,
@@ -635,7 +635,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                   ),
                                                   FlutterFlowIconButton(
                                                     borderRadius: 8.0,
-                                                    icon: Icon(
+                                                    icon: const Icon(
                                                       Icons.facebook_sharp,
                                                       color: Colors.black,
                                                       size: 40.0,
@@ -647,7 +647,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                   ),
                                                   FlutterFlowIconButton(
                                                     borderRadius: 8.0,
-                                                    icon: Icon(
+                                                    icon: const Icon(
                                                       Icons.tiktok,
                                                       color: Color(0xFF090909),
                                                       size: 40.0,
@@ -659,7 +659,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                   ),
                                                 ],
                                               ),
-                                              Padding(
+                                              const Padding(
                                                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 100.0),
                                                 child: SizedBox(),
                                               ),
@@ -681,7 +681,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                         child: Builder(builder: (_) {
                           return DebugFlutterFlowModelContext(
                             rootModel: _model.rootModel,
-                            child: NavbarWidget(),
+                            child: const NavbarWidget(),
                           );
                         }),
                       ),

@@ -1,6 +1,8 @@
 import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/scan/mock_scanner.dart';
+import '/scan/scan_screen.dart';
 import 'dart:ui';
 import '/index.dart';
 import 'package:flutter/material.dart';
@@ -90,8 +92,8 @@ class _NavbarWidgetState extends State<NavbarWidget> with RouteAware {
         ?.call(_model);
 
     return Align(
-      alignment: AlignmentDirectional(0.0, -1.0),
-      child: Container(
+      alignment: const AlignmentDirectional(0.0, -1.0),
+      child: SizedBox(
         height: 100.0,
         child: Stack(
           children: [
@@ -105,14 +107,14 @@ class _NavbarWidgetState extends State<NavbarWidget> with RouteAware {
               ),
             ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
+              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
               child: Container(
                 width: double.infinity,
                 height: 100.0,
-                constraints: BoxConstraints(
+                constraints: const BoxConstraints(
                   minHeight: 100.0,
                 ),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Color(0xFFEAF5EE),
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(0.0),
@@ -122,7 +124,7 @@ class _NavbarWidgetState extends State<NavbarWidget> with RouteAware {
                   ),
                 ),
                 child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(60.0, 0.0, 60.0, 0.0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(60.0, 0.0, 60.0, 0.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,7 +136,7 @@ class _NavbarWidgetState extends State<NavbarWidget> with RouteAware {
                           Container(
                             width: 42.0,
                             height: 50.0,
-                            decoration: BoxDecoration(),
+                            decoration: const BoxDecoration(),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(8.0),
                               child: Image.asset(
@@ -147,7 +149,7 @@ class _NavbarWidgetState extends State<NavbarWidget> with RouteAware {
                           ),
                         ],
                       ),
-                      Spacer(flex: 5),
+                      const Spacer(flex: 5),
                       Column(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -155,7 +157,7 @@ class _NavbarWidgetState extends State<NavbarWidget> with RouteAware {
                           Container(
                             width: 51.0,
                             height: 50.0,
-                            decoration: BoxDecoration(),
+                            decoration: const BoxDecoration(),
                             child: InkWell(
                               splashColor: Colors.transparent,
                               focusColor: Colors.transparent,
@@ -165,7 +167,7 @@ class _NavbarWidgetState extends State<NavbarWidget> with RouteAware {
                                 context.pushNamed(
                                   HistoryWidget.routeName,
                                   extra: <String, dynamic>{
-                                    kTransitionInfoKey: TransitionInfo(
+                                    kTransitionInfoKey: const TransitionInfo(
                                       hasTransition: true,
                                       transitionType: PageTransitionType.fade,
                                       duration: Duration(milliseconds: 0),
@@ -192,66 +194,118 @@ class _NavbarWidgetState extends State<NavbarWidget> with RouteAware {
               ),
             ),
             Align(
-              alignment: AlignmentDirectional(0.0, -1.0),
+              alignment: const AlignmentDirectional(0.0, -1.0),
               child: AnimatedContainer(
-                duration: Duration(milliseconds: 100),
+                duration: const Duration(milliseconds: 100),
                 curve: Curves.easeIn,
                 width: 96.0,
                 height: 96.0,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Color(0xFFEAF5EE),
                   shape: BoxShape.circle,
                 ),
                 child: Align(
-                  alignment: AlignmentDirectional(0.0, 0.0),
+                  alignment: const AlignmentDirectional(0.0, 0.0),
                   child: InkWell(
                     splashColor: Colors.transparent,
                     focusColor: Colors.transparent,
                     hoverColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     onTap: () async {
-                      _model.barcodeValue =
-                          await FlutterBarcodeScanner.scanBarcode(
-                        '#C62828', // scanning line color
-                        FFLocalizations.of(context).getText(
-                          'gymm28kd' /* Cancel */,
-                        ), // cancel button text
-                        true, // whether to show the flash icon
-                        ScanMode.BARCODE,
-                      );
-
-                      _model.apiResultOpenFoods =
-                          await OpenFoodFactsAPICall.call(
-                        barCodeValue: _model.barcodeValue,
-                      );
-
-                      if ((_model.apiResultOpenFoods?.succeeded ?? true)) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'Found',
-                              style: TextStyle(
-                                color: FlutterFlowTheme.of(context).primaryText,
-                              ),
+                      if (isiOS && !isWeb) {
+                        // Show mock scanner in simulator
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MockScanner(
+                              onScan: (String barcode) {
+                                Navigator.pop(context, barcode);
+                              },
                             ),
-                            duration: Duration(milliseconds: 4000),
-                            backgroundColor:
-                                FlutterFlowTheme.of(context).secondary,
                           ),
                         );
+                        
+                        if (result != null) {
+                          _model.barcodeValue = result;
+                          _model.apiResultOpenFoods =
+                              await OpenFoodFactsAPICall.call(
+                            barCodeValue: _model.barcodeValue,
+                          );
+
+                          if ((_model.apiResultOpenFoods?.succeeded ?? true)) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Found',
+                                  style: TextStyle(
+                                    color: FlutterFlowTheme.of(context).primaryText,
+                                  ),
+                                ),
+                                duration: const Duration(milliseconds: 4000),
+                                backgroundColor:
+                                    FlutterFlowTheme.of(context).secondary,
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Not found',
+                                  style: TextStyle(
+                                    color: FlutterFlowTheme.of(context).primaryText,
+                                  ),
+                                ),
+                                duration: const Duration(milliseconds: 4000),
+                                backgroundColor: FlutterFlowTheme.of(context).error,
+                              ),
+                            );
+                          }
+                        }
                       } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'Not found',
-                              style: TextStyle(
-                                color: FlutterFlowTheme.of(context).primaryText,
-                              ),
-                            ),
-                            duration: Duration(milliseconds: 4000),
-                            backgroundColor: FlutterFlowTheme.of(context).error,
+                        // Use ScanScreen on physical devices
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ScanScreen(),
                           ),
                         );
+                        
+                        if (result != null) {
+                          _model.barcodeValue = result;
+                          _model.apiResultOpenFoods =
+                              await OpenFoodFactsAPICall.call(
+                            barCodeValue: _model.barcodeValue,
+                          );
+
+                          if ((_model.apiResultOpenFoods?.succeeded ?? true)) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Found',
+                                  style: TextStyle(
+                                    color: FlutterFlowTheme.of(context).primaryText,
+                                  ),
+                                ),
+                                duration: const Duration(milliseconds: 4000),
+                                backgroundColor:
+                                    FlutterFlowTheme.of(context).secondary,
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Not found',
+                                  style: TextStyle(
+                                    color: FlutterFlowTheme.of(context).primaryText,
+                                  ),
+                                ),
+                                duration: const Duration(milliseconds: 4000),
+                                backgroundColor: FlutterFlowTheme.of(context).error,
+                              ),
+                            );
+                          }
+                        }
                       }
 
                       safeSetState(() {});
@@ -259,16 +313,16 @@ class _NavbarWidgetState extends State<NavbarWidget> with RouteAware {
                     child: Container(
                       width: 66.0,
                       height: 66.0,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Color(0xFFEAF5EE),
                         shape: BoxShape.circle,
                       ),
                       child: Align(
-                        alignment: AlignmentDirectional(0.0, -1.0),
+                        alignment: const AlignmentDirectional(0.0, -1.0),
                         child: Container(
                           width: 60.0,
                           height: 60.0,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                           ),
                           child: ClipRRect(

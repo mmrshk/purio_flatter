@@ -61,18 +61,18 @@ class HistoryModel extends FlutterFlowModel<HistoryWidget> {
         backendQueries: debugBackendQueries,
         componentStates: {
           'productCardModel1 (ProductCard)':
-              productCardModel1?.toWidgetClassDebugData(),
+              productCardModel1.toWidgetClassDebugData(),
           'productCardModel2 (ProductCard)':
-              productCardModel2?.toWidgetClassDebugData(),
+              productCardModel2.toWidgetClassDebugData(),
           'productCardModel3 (ProductCard)':
-              productCardModel3?.toWidgetClassDebugData(),
+              productCardModel3.toWidgetClassDebugData(),
           'productCardModel4 (ProductCard)':
-              productCardModel4?.toWidgetClassDebugData(),
+              productCardModel4.toWidgetClassDebugData(),
           'productCardModel5 (ProductCard)':
-              productCardModel5?.toWidgetClassDebugData(),
+              productCardModel5.toWidgetClassDebugData(),
           'productCardModel6 (ProductCard)':
-              productCardModel6?.toWidgetClassDebugData(),
-          'navbarModel (Navbar)': navbarModel?.toWidgetClassDebugData(),
+              productCardModel6.toWidgetClassDebugData(),
+          'navbarModel (Navbar)': navbarModel.toWidgetClassDebugData(),
           ...widgetBuilderComponents.map(
             (key, value) => MapEntry(
               key,

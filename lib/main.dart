@@ -109,6 +109,8 @@ Stack trace: ${filteredStackTrace.join("\n")}''';
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   // This widget is the root of your application.
   @override
   State<MyApp> createState() => _MyAppState();
@@ -153,7 +155,7 @@ class _MyAppState extends State<MyApp> {
       });
     jwtTokenStream.listen((_) {});
     Future.delayed(
-      Duration(milliseconds: 1000),
+      const Duration(milliseconds: 1000),
       () => _appStateNotifier.stopShowingSplashImage(),
     );
 
@@ -183,7 +185,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Purio',
-      localizationsDelegates: [
+      localizationsDelegates: const [
         FFLocalizationsDelegate(),
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -199,14 +201,14 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         brightness: Brightness.light,
         scrollbarTheme: ScrollbarThemeData(
-          thumbVisibility: MaterialStateProperty.all(false),
+          thumbVisibility: WidgetStateProperty.all(false),
         ),
         useMaterial3: false,
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
         scrollbarTheme: ScrollbarThemeData(
-          thumbVisibility: MaterialStateProperty.all(false),
+          thumbVisibility: WidgetStateProperty.all(false),
         ),
         useMaterial3: false,
       ),

@@ -98,7 +98,7 @@ class _ScoringMethodWidgetState extends State<ScoringMethodWidget>
         key: scaffoldKey,
         backgroundColor: Colors.white,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60.0),
+          preferredSize: const Size.fromHeight(60.0),
           child: AppBar(
             backgroundColor: Colors.white,
             automaticallyImplyLeading: false,
@@ -111,8 +111,8 @@ class _ScoringMethodWidgetState extends State<ScoringMethodWidget>
                   borderRadius: 100.0,
                   borderWidth: 1.0,
                   buttonSize: 45.0,
-                  fillColor: Color(0xFFFAF9F9),
-                  icon: Icon(
+                  fillColor: const Color(0xFFFAF9F9),
+                  icon: const Icon(
                     Icons.arrow_back_ios_new,
                     color: Color(0xFF40A5A5),
                     size: 24.0,
@@ -122,11 +122,11 @@ class _ScoringMethodWidgetState extends State<ScoringMethodWidget>
                   },
                 ),
                 Align(
-                  alignment: AlignmentDirectional(0.0, 0.0),
+                  alignment: const AlignmentDirectional(0.0, 0.0),
                   child: Container(
                     width: 300.0,
                     height: 60.0,
-                    decoration: BoxDecoration(),
+                    decoration: const BoxDecoration(),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -158,7 +158,7 @@ class _ScoringMethodWidgetState extends State<ScoringMethodWidget>
                 ),
               ],
             ),
-            actions: [],
+            actions: const [],
             centerTitle: true,
             elevation: 1.0,
           ),
@@ -166,12 +166,12 @@ class _ScoringMethodWidgetState extends State<ScoringMethodWidget>
         body: SafeArea(
           top: true,
           child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(29.0, 38.0, 29.0, 0.0),
+            padding: const EdgeInsetsDirectional.fromSTEB(29.0, 38.0, 29.0, 0.0),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 24.0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 24.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
@@ -199,7 +199,7 @@ class _ScoringMethodWidgetState extends State<ScoringMethodWidget>
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 21.0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 21.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
@@ -243,25 +243,25 @@ class _ScoringMethodWidgetState extends State<ScoringMethodWidget>
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 29.0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 29.0),
                   child: Container(
                     width: double.infinity,
                     height: 225.0,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20.0),
                       border: Border.all(
-                        color: Color(0xFF40E0D0),
+                        color: const Color(0xFF40E0D0),
                       ),
                     ),
                     child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(
+                      padding: const EdgeInsetsDirectional.fromSTEB(
                           28.0, 22.0, 28.0, 22.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 25.0),
                             child: Text(
                               FFLocalizations.of(context).getText(
@@ -287,12 +287,12 @@ class _ScoringMethodWidgetState extends State<ScoringMethodWidget>
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 19.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
-                                Padding(
+                                const Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 17.0, 0.0),
                                   child: Icon(
@@ -328,12 +328,12 @@ class _ScoringMethodWidgetState extends State<ScoringMethodWidget>
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 19.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
-                                Padding(
+                                const Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 17.0, 0.0),
                                   child: Icon(
@@ -369,12 +369,12 @@ class _ScoringMethodWidgetState extends State<ScoringMethodWidget>
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 19.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
-                                Padding(
+                                const Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 17.0, 0.0),
                                   child: Icon(
@@ -410,12 +410,12 @@ class _ScoringMethodWidgetState extends State<ScoringMethodWidget>
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 19.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
-                                Padding(
+                                const Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 17.0, 0.0),
                                   child: Icon(
@@ -456,7 +456,7 @@ class _ScoringMethodWidgetState extends State<ScoringMethodWidget>
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 21.0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 21.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [

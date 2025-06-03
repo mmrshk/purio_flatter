@@ -58,7 +58,7 @@ class HomeScreenModel extends FlutterFlowModel<HomeScreenWidget> {
         generatorVariables: debugGeneratorVariables,
         backendQueries: debugBackendQueries,
         componentStates: {
-          'navbarModel (Navbar)': navbarModel?.toWidgetClassDebugData(),
+          'navbarModel (Navbar)': navbarModel.toWidgetClassDebugData(),
           ...widgetBuilderComponents.map(
             (key, value) => MapEntry(
               key,

@@ -101,9 +101,9 @@ class _DeleteAccountPopUpWidgetState extends State<DeleteAccountPopUpWidget>
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Align(
-            alignment: AlignmentDirectional(0.0, -1.0),
+            alignment: const AlignmentDirectional(0.0, -1.0),
             child: Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0.0, 19.0, 0.0, 19.0),
+              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 19.0, 0.0, 19.0),
               child: Text(
                 FFLocalizations.of(context).getText(
                   'sup7de9p' /* Are You Sure? */,
@@ -125,9 +125,9 @@ class _DeleteAccountPopUpWidgetState extends State<DeleteAccountPopUpWidget>
             ),
           ),
           Align(
-            alignment: AlignmentDirectional(0.0, -1.0),
+            alignment: const AlignmentDirectional(0.0, -1.0),
             child: Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 19.0),
+              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 19.0),
               child: Text(
                 FFLocalizations.of(context).getText(
                   'qp8tp30w' /* All your data will be gone. 
@@ -152,7 +152,7 @@ S... */
             ),
           ),
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
+            padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
             child: FFButtonWidget(
               onPressed: () async {
                 Navigator.pop(context);
@@ -163,9 +163,9 @@ S... */
               options: FFButtonOptions(
                 width: 185.0,
                 height: 45.0,
-                padding: EdgeInsets.all(0.0),
-                iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                color: Color(0xFF40E0D0),
+                padding: const EdgeInsets.all(0.0),
+                iconPadding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                color: const Color(0xFF40E0D0),
                 textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                       font: GoogleFonts.poppins(
                         fontWeight:
@@ -186,7 +186,7 @@ S... */
             ),
           ),
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 19.0),
+            padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 19.0),
             child: Text(
               FFLocalizations.of(context).getText(
                 'h0ea7x3j' /* Delete It Anyway */,
@@ -197,7 +197,7 @@ S... */
                       fontStyle:
                           FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                     ),
-                    color: Color(0xFF6A7F98),
+                    color: const Color(0xFF6A7F98),
                     fontSize: 16.0,
                     letterSpacing: 0.0,
                     fontWeight: FontWeight.w600,

@@ -88,9 +88,9 @@ class _SearchProductWidgetState extends State<SearchProductWidget>
         ?.call(_model);
 
     return Align(
-      alignment: AlignmentDirectional(0.0, 0.0),
+      alignment: const AlignmentDirectional(0.0, 0.0),
       child: Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 17.0),
+        padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 17.0),
         child: Container(
           width: 330.0,
           decoration: BoxDecoration(
@@ -98,7 +98,7 @@ class _SearchProductWidgetState extends State<SearchProductWidget>
             borderRadius: BorderRadius.circular(20.0),
           ),
           child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(10.0, 10.0, 10.0, 10.0),
+            padding: const EdgeInsetsDirectional.fromSTEB(10.0, 10.0, 10.0, 10.0),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -120,7 +120,7 @@ class _SearchProductWidgetState extends State<SearchProductWidget>
                   children: [
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,7 +162,7 @@ class _SearchProductWidgetState extends State<SearchProductWidget>
                                         .bodyMedium
                                         .fontStyle,
                                   ),
-                                  color: Color(0xFF6A7F98),
+                                  color: const Color(0xFF6A7F98),
                                   fontSize: 12.0,
                                   letterSpacing: 0.0,
                                   fontWeight: FlutterFlowTheme.of(context)
@@ -177,7 +177,7 @@ class _SearchProductWidgetState extends State<SearchProductWidget>
                             width: 50.0,
                             height: 21.0,
                             decoration: BoxDecoration(
-                              color: Color(0xFF2ECC71),
+                              color: const Color(0xFF2ECC71),
                               borderRadius: BorderRadius.circular(30.0),
                             ),
                             child: Row(
@@ -212,13 +212,13 @@ class _SearchProductWidgetState extends State<SearchProductWidget>
                                             .fontStyle,
                                       ),
                                 ),
-                              ].divide(SizedBox(width: 1.0)),
+                              ].divide(const SizedBox(width: 1.0)),
                             ),
                           ),
-                        ].divide(SizedBox(height: 4.0)),
+                        ].divide(const SizedBox(height: 4.0)),
                       ),
                     ),
-                    Padding(
+                    const Padding(
                       padding:
                           EdgeInsetsDirectional.fromSTEB(120.0, 10.0, 0.0, 0.0),
                       child: Icon(

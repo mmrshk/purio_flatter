@@ -95,7 +95,7 @@ class _AdditivesWidgetState extends State<AdditivesWidget> with RouteAware {
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(10.0, 10.0, 10.0, 10.0),
+        padding: const EdgeInsetsDirectional.fromSTEB(10.0, 10.0, 10.0, 10.0),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -127,7 +127,7 @@ class _AdditivesWidgetState extends State<AdditivesWidget> with RouteAware {
                     ),
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 0.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 0.0, 0.0),
                       child: Text(
                         FFLocalizations.of(context).getText(
                           'b3x4k9h3' /* Risk Free */,
@@ -141,7 +141,7 @@ class _AdditivesWidgetState extends State<AdditivesWidget> with RouteAware {
                                     .bodyMedium
                                     .fontStyle,
                               ),
-                              color: Color(0xFF2ECC71),
+                              color: const Color(0xFF2ECC71),
                               letterSpacing: 0.0,
                               fontWeight: FlutterFlowTheme.of(context)
                                   .bodyMedium
@@ -155,12 +155,12 @@ class _AdditivesWidgetState extends State<AdditivesWidget> with RouteAware {
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
                   child: Container(
                     width: 127.0,
                     height: 7.0,
                     decoration: BoxDecoration(
-                      color: Color(0xFF2ECC71),
+                      color: const Color(0xFF2ECC71),
                       borderRadius: BorderRadius.circular(30.0),
                     ),
                   ),
@@ -170,7 +170,7 @@ class _AdditivesWidgetState extends State<AdditivesWidget> with RouteAware {
             FlutterFlowIconButton(
               borderRadius: 8.0,
               buttonSize: 40.0,
-              icon: Icon(
+              icon: const Icon(
                 Icons.arrow_forward_ios,
                 color: Color(0xFF40A5A5),
                 size: 24.0,

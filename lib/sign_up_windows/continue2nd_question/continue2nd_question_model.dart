@@ -79,17 +79,17 @@ class Continue2ndQuestionModel
         backendQueries: debugBackendQueries,
         componentStates: {
           'secondQuestionModel1 (SecondQuestion)':
-              secondQuestionModel1?.toWidgetClassDebugData(),
+              secondQuestionModel1.toWidgetClassDebugData(),
           'secondQuestionModel2 (SecondQuestion)':
-              secondQuestionModel2?.toWidgetClassDebugData(),
+              secondQuestionModel2.toWidgetClassDebugData(),
           'secondQuestionModel3 (SecondQuestion)':
-              secondQuestionModel3?.toWidgetClassDebugData(),
+              secondQuestionModel3.toWidgetClassDebugData(),
           'secondQuestionModel4 (SecondQuestion)':
-              secondQuestionModel4?.toWidgetClassDebugData(),
+              secondQuestionModel4.toWidgetClassDebugData(),
           'secondQuestionModel5 (SecondQuestion)':
-              secondQuestionModel5?.toWidgetClassDebugData(),
+              secondQuestionModel5.toWidgetClassDebugData(),
           'secondQuestionModel6 (SecondQuestion)':
-              secondQuestionModel6?.toWidgetClassDebugData(),
+              secondQuestionModel6.toWidgetClassDebugData(),
           ...widgetBuilderComponents.map(
             (key, value) => MapEntry(
               key,

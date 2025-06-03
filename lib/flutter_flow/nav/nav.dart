@@ -131,69 +131,69 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? HomeScreenWidget() : SingUpLogInWidget(),
+          appStateNotifier.loggedIn ? const HomeScreenWidget() : const SingUpLogInWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) => appStateNotifier.loggedIn
-              ? HomeScreenWidget()
-              : SingUpLogInWidget(),
+              ? const HomeScreenWidget()
+              : const SingUpLogInWidget(),
         ),
         FFRoute(
           name: HomeScreenWidget.routeName,
           path: HomeScreenWidget.routePath,
-          builder: (context, params) => HomeScreenWidget(),
+          builder: (context, params) => const HomeScreenWidget(),
         ),
         FFRoute(
           name: ProductDetailsWidget.routeName,
           path: ProductDetailsWidget.routePath,
-          builder: (context, params) => ProductDetailsWidget(),
+          builder: (context, params) => const ProductDetailsWidget(),
         ),
         FFRoute(
           name: HistoryWidget.routeName,
           path: HistoryWidget.routePath,
-          builder: (context, params) => HistoryWidget(),
+          builder: (context, params) => const HistoryWidget(),
         ),
         FFRoute(
           name: ScoringMethodWidget.routeName,
           path: ScoringMethodWidget.routePath,
-          builder: (context, params) => ScoringMethodWidget(),
+          builder: (context, params) => const ScoringMethodWidget(),
         ),
         FFRoute(
           name: ProfileSettingsWidget.routeName,
           path: ProfileSettingsWidget.routePath,
-          builder: (context, params) => ProfileSettingsWidget(),
+          builder: (context, params) => const ProfileSettingsWidget(),
         ),
         FFRoute(
           name: EditProfileWidget.routeName,
           path: EditProfileWidget.routePath,
-          builder: (context, params) => EditProfileWidget(),
+          builder: (context, params) => const EditProfileWidget(),
         ),
         FFRoute(
           name: PrivacyPolicyWidget.routeName,
           path: PrivacyPolicyWidget.routePath,
-          builder: (context, params) => PrivacyPolicyWidget(),
+          builder: (context, params) => const PrivacyPolicyWidget(),
         ),
         FFRoute(
           name: TermsOfUseWidget.routeName,
           path: TermsOfUseWidget.routePath,
-          builder: (context, params) => TermsOfUseWidget(),
+          builder: (context, params) => const TermsOfUseWidget(),
         ),
         FFRoute(
           name: NotificationsWidget.routeName,
           path: NotificationsWidget.routePath,
-          builder: (context, params) => NotificationsWidget(),
+          builder: (context, params) => const NotificationsWidget(),
         ),
         FFRoute(
           name: SingUpLogInWidget.routeName,
           path: SingUpLogInWidget.routePath,
-          builder: (context, params) => SingUpLogInWidget(),
+          builder: (context, params) => const SingUpLogInWidget(),
         ),
         FFRoute(
           name: ContinueEmailWidget.routeName,
           path: ContinueEmailWidget.routePath,
-          builder: (context, params) => ContinueEmailWidget(),
+          builder: (context, params) => const ContinueEmailWidget(),
         ),
         FFRoute(
           name: ContinuePasswordWidget.routeName,
@@ -208,47 +208,47 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: ContinueAccountDetailsWidget.routeName,
           path: ContinueAccountDetailsWidget.routePath,
-          builder: (context, params) => ContinueAccountDetailsWidget(),
+          builder: (context, params) => const ContinueAccountDetailsWidget(),
         ),
         FFRoute(
           name: Continue1stQuestionWidget.routeName,
           path: Continue1stQuestionWidget.routePath,
-          builder: (context, params) => Continue1stQuestionWidget(),
+          builder: (context, params) => const Continue1stQuestionWidget(),
         ),
         FFRoute(
           name: Continue2ndQuestionWidget.routeName,
           path: Continue2ndQuestionWidget.routePath,
-          builder: (context, params) => Continue2ndQuestionWidget(),
+          builder: (context, params) => const Continue2ndQuestionWidget(),
         ),
         FFRoute(
           name: PurioProScreenWidget.routeName,
           path: PurioProScreenWidget.routePath,
-          builder: (context, params) => PurioProScreenWidget(),
+          builder: (context, params) => const PurioProScreenWidget(),
         ),
         FFRoute(
           name: IncorrectPasswordWidget.routeName,
           path: IncorrectPasswordWidget.routePath,
-          builder: (context, params) => IncorrectPasswordWidget(),
+          builder: (context, params) => const IncorrectPasswordWidget(),
         ),
         FFRoute(
           name: PasswordRecoveryWidget.routeName,
           path: PasswordRecoveryWidget.routePath,
-          builder: (context, params) => PasswordRecoveryWidget(),
+          builder: (context, params) => const PasswordRecoveryWidget(),
         ),
         FFRoute(
           name: FeedbackWidget.routeName,
           path: FeedbackWidget.routePath,
-          builder: (context, params) => FeedbackWidget(),
+          builder: (context, params) => const FeedbackWidget(),
         ),
         FFRoute(
           name: LogInWidget.routeName,
           path: LogInWidget.routePath,
-          builder: (context, params) => LogInWidget(),
+          builder: (context, params) => const LogInWidget(),
         ),
         FFRoute(
           name: SearchWidget.routeName,
           path: SearchWidget.routePath,
-          builder: (context, params) => SearchWidget(),
+          builder: (context, params) => const SearchWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
       observers: [routeObserver],
@@ -487,7 +487,7 @@ class TransitionInfo {
   final Duration duration;
   final Alignment? alignment;
 
-  static TransitionInfo appDefault() => TransitionInfo(hasTransition: false);
+  static TransitionInfo appDefault() => const TransitionInfo(hasTransition: false);
 }
 
 class RootPageContext {

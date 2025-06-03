@@ -37,7 +37,7 @@ class ProductDetailsModel extends FlutterFlowModel<ProductDetailsWidget> {
         backendQueries: debugBackendQueries,
         componentStates: {
           'productCardModel (ProductCard)':
-              productCardModel?.toWidgetClassDebugData(),
+              productCardModel.toWidgetClassDebugData(),
           ...widgetBuilderComponents.map(
             (key, value) => MapEntry(
               key,

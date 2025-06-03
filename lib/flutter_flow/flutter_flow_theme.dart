@@ -165,11 +165,11 @@ class LightModeTheme extends FlutterFlowTheme {
   late Color error = const Color(0xFFFF5963);
   late Color info = const Color(0xFFFFFFFF);
 
-  late Color turquoise = Color(0xFF40E0D0);
-  late Color slateGray = Color(0xFF6A7F98);
-  late Color white = Color(0xFFFFFFFF);
-  late Color lemonChiffon = Color(0xFFFFFACD);
-  late Color customColor1 = Color(0xFFA9D1A9);
+  late Color turquoise = const Color(0xFF40E0D0);
+  late Color slateGray = const Color(0xFF6A7F98);
+  late Color white = const Color(0xFFFFFFFF);
+  late Color lemonChiffon = const Color(0xFFFFFACD);
+  late Color customColor1 = const Color(0xFFA9D1A9);
 }
 
 abstract class Typography {
@@ -357,11 +357,11 @@ class DarkModeTheme extends FlutterFlowTheme {
   late Color error = const Color(0xFFFF5963);
   late Color info = const Color(0xFFFFFFFF);
 
-  late Color turquoise = Color(0xFF40E0D0);
-  late Color slateGray = Color(0xFF6A7F98);
-  late Color white = Color(0xFFFFFFFF);
-  late Color lemonChiffon = Color(0xFFFFFACD);
-  late Color customColor1 = Color(0xFFA9D1A9);
+  late Color turquoise = const Color(0xFF40E0D0);
+  late Color slateGray = const Color(0xFF6A7F98);
+  late Color white = const Color(0xFFFFFFFF);
+  late Color lemonChiffon = const Color(0xFFFFFACD);
+  late Color customColor1 = const Color(0xFFA9D1A9);
 }
 
 extension TextStyleHelper on TextStyle {

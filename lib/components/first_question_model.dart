@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 class FirstQuestionModel extends FlutterFlowModel<FirstQuestionWidget> {
   ///  Local state fields for this component.
 
-  Color? _btnColor = Color(4294967295);
+  Color? _btnColor = const Color(0xffffffff);
   set btnColor(Color? value) {
     _btnColor = value;
     debugLogWidgetClass(this);

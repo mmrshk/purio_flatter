@@ -99,7 +99,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> with RouteAware {
         key: scaffoldKey,
         backgroundColor: Colors.white,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60.0),
+          preferredSize: const Size.fromHeight(60.0),
           child: AppBar(
             backgroundColor: Colors.white,
             automaticallyImplyLeading: false,
@@ -112,8 +112,8 @@ class _EditProfileWidgetState extends State<EditProfileWidget> with RouteAware {
                   borderRadius: 100.0,
                   borderWidth: 1.0,
                   buttonSize: 45.0,
-                  fillColor: Color(0xFFFAF9F9),
-                  icon: Icon(
+                  fillColor: const Color(0xFFFAF9F9),
+                  icon: const Icon(
                     Icons.arrow_back_ios_new,
                     color: Color(0xFF40A5A5),
                     size: 24.0,
@@ -123,11 +123,11 @@ class _EditProfileWidgetState extends State<EditProfileWidget> with RouteAware {
                   },
                 ),
                 Align(
-                  alignment: AlignmentDirectional(0.0, 0.0),
+                  alignment: const AlignmentDirectional(0.0, 0.0),
                   child: Container(
                     width: 300.0,
                     height: 60.0,
-                    decoration: BoxDecoration(),
+                    decoration: const BoxDecoration(),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -159,7 +159,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> with RouteAware {
                 ),
               ],
             ),
-            actions: [],
+            actions: const [],
             centerTitle: true,
             elevation: 1.0,
           ),
@@ -170,10 +170,10 @@ class _EditProfileWidgetState extends State<EditProfileWidget> with RouteAware {
             mainAxisSize: MainAxisSize.max,
             children: [
               Align(
-                alignment: AlignmentDirectional(0.0, 0.0),
+                alignment: const AlignmentDirectional(0.0, 0.0),
                 child: Padding(
                   padding:
-                      EdgeInsetsDirectional.fromSTEB(35.0, 38.0, 35.0, 38.0),
+                      const EdgeInsetsDirectional.fromSTEB(35.0, 38.0, 35.0, 38.0),
                   child: Container(
                     height: 30.0,
                     decoration: BoxDecoration(
@@ -202,7 +202,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> with RouteAware {
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 16.0, 0.0),
                                 child: Container(
                                   width: 24.0,
@@ -211,7 +211,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> with RouteAware {
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.logout_sharp,
                                     color: Color(0xFF40A5A5),
                                     size: 24.0,
@@ -247,11 +247,11 @@ class _EditProfileWidgetState extends State<EditProfileWidget> with RouteAware {
                                                   .fontStyle,
                                         ),
                                   ),
-                                ].divide(SizedBox(height: 4.0)),
+                                ].divide(const SizedBox(height: 4.0)),
                               ),
                             ],
                           ),
-                          Row(
+                          const Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -274,9 +274,9 @@ class _EditProfileWidgetState extends State<EditProfileWidget> with RouteAware {
                 ),
               ),
               Align(
-                alignment: AlignmentDirectional(0.0, 0.0),
+                alignment: const AlignmentDirectional(0.0, 0.0),
                 child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(35.0, 0.0, 35.0, 0.0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(35.0, 0.0, 35.0, 0.0),
                   child: Container(
                     height: 30.0,
                     decoration: BoxDecoration(
@@ -291,7 +291,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> with RouteAware {
                         highlightColor: Colors.transparent,
                         onTap: () async {
                           await showDialog(
-                            barrierColor: Color(0x3F525252),
+                            barrierColor: const Color(0x3F525252),
                             barrierDismissible: false,
                             context: context,
                             builder: (dialogContext) {
@@ -299,7 +299,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> with RouteAware {
                                 elevation: 0,
                                 insetPadding: EdgeInsets.zero,
                                 backgroundColor: Colors.transparent,
-                                alignment: AlignmentDirectional(0.0, 0.8)
+                                alignment: const AlignmentDirectional(0.0, 0.8)
                                     .resolve(Directionality.of(context)),
                                 child: GestureDetector(
                                   onTap: () {
@@ -307,10 +307,10 @@ class _EditProfileWidgetState extends State<EditProfileWidget> with RouteAware {
                                     FocusManager.instance.primaryFocus
                                         ?.unfocus();
                                   },
-                                  child: Container(
+                                  child: SizedBox(
                                     height: 225.0,
                                     width: 341.0,
-                                    child: DeleteAccountPopUpWidget(),
+                                    child: const DeleteAccountPopUpWidget(),
                                   ),
                                 ),
                               );
@@ -326,7 +326,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> with RouteAware {
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 16.0, 0.0),
                                   child: Container(
                                     width: 24.0,
@@ -335,7 +335,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> with RouteAware {
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.delete_sweep_outlined,
                                       color: Color(0xFF40A5A5),
                                       size: 24.0,
@@ -371,11 +371,11 @@ class _EditProfileWidgetState extends State<EditProfileWidget> with RouteAware {
                                                     .fontStyle,
                                           ),
                                     ),
-                                  ].divide(SizedBox(height: 4.0)),
+                                  ].divide(const SizedBox(height: 4.0)),
                                 ),
                               ],
                             ),
-                            Row(
+                            const Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,

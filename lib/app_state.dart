@@ -51,12 +51,10 @@ class FFAppState extends ChangeNotifier {
 
   late LoggableList<String> _expectations = LoggableList([]);
   List<String> get expectations =>
-      _expectations?..logger = () => debugLogAppState(this);
+      _expectations..logger = () => debugLogAppState(this);
   set expectations(List<String> value) {
-    if (value != null) {
-      _expectations = LoggableList(value);
-    }
-
+    _expectations = LoggableList(value);
+  
     debugLogAppState(this);
   }
 

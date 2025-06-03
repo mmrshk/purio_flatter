@@ -100,9 +100,9 @@ class _FeedbackWidgetState extends State<FeedbackWidget> with RouteAware {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: Color(0xFFE6F7F5),
+        backgroundColor: const Color(0xFFE6F7F5),
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60.0),
+          preferredSize: const Size.fromHeight(60.0),
           child: AppBar(
             backgroundColor: Colors.white,
             automaticallyImplyLeading: false,
@@ -115,8 +115,8 @@ class _FeedbackWidgetState extends State<FeedbackWidget> with RouteAware {
                   borderRadius: 100.0,
                   borderWidth: 1.0,
                   buttonSize: 45.0,
-                  fillColor: Color(0xFFFAF9F9),
-                  icon: Icon(
+                  fillColor: const Color(0xFFFAF9F9),
+                  icon: const Icon(
                     Icons.arrow_back_ios_new,
                     color: Color(0xFF40A5A5),
                     size: 24.0,
@@ -126,11 +126,11 @@ class _FeedbackWidgetState extends State<FeedbackWidget> with RouteAware {
                   },
                 ),
                 Align(
-                  alignment: AlignmentDirectional(0.0, 0.0),
+                  alignment: const AlignmentDirectional(0.0, 0.0),
                   child: Container(
                     width: 300.0,
                     height: 60.0,
-                    decoration: BoxDecoration(),
+                    decoration: const BoxDecoration(),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -162,7 +162,7 @@ class _FeedbackWidgetState extends State<FeedbackWidget> with RouteAware {
                 ),
               ],
             ),
-            actions: [],
+            actions: const [],
             centerTitle: true,
             elevation: 1.0,
           ),
@@ -170,13 +170,13 @@ class _FeedbackWidgetState extends State<FeedbackWidget> with RouteAware {
         body: SafeArea(
           top: true,
           child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(23.0, 0.0, 23.0, 0.0),
+            padding: const EdgeInsetsDirectional.fromSTEB(23.0, 0.0, 23.0, 0.0),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 65.0, 0.0, 14.0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 65.0, 0.0, 14.0),
                   child: Text(
                     FFLocalizations.of(context).getText(
                       'd96v3xf6' /* ISSUE, QUESTION OR SUGGESTION */,
@@ -196,7 +196,7 @@ class _FeedbackWidgetState extends State<FeedbackWidget> with RouteAware {
                         ),
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: 341.0,
                   child: Form(
                     key: _model.formKey,
@@ -212,7 +212,7 @@ class _FeedbackWidgetState extends State<FeedbackWidget> with RouteAware {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(24.0),
                           ),
-                          child: Container(
+                          child: SizedBox(
                             width: 341.0,
                             child: TextFormField(
                               controller: _model.textController,
@@ -260,14 +260,14 @@ class _FeedbackWidgetState extends State<FeedbackWidget> with RouteAware {
                                           .fontStyle,
                                     ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                     color: Color(0x00000000),
                                     width: 1.0,
                                   ),
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                     color: Color(0x00000000),
                                     width: 1.0,
                                   ),
@@ -319,7 +319,7 @@ class _FeedbackWidgetState extends State<FeedbackWidget> with RouteAware {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 190.0, 0.0, 0.0),
                           child: FFButtonWidget(
                             onPressed: () {
@@ -331,11 +331,11 @@ class _FeedbackWidgetState extends State<FeedbackWidget> with RouteAware {
                             options: FFButtonOptions(
                               width: 148.0,
                               height: 43.0,
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   16.0, 0.0, 16.0, 0.0),
-                              iconPadding: EdgeInsetsDirectional.fromSTEB(
+                              iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 0.0),
-                              color: Color(0xFF40E0D0),
+                              color: const Color(0xFF40E0D0),
                               textStyle: FlutterFlowTheme.of(context)
                                   .titleSmall
                                   .override(

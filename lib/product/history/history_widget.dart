@@ -375,9 +375,9 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                 ],
                               ),
                               Align(
-                                alignment: AlignmentDirectional(0.0, 0.0),
+                                alignment: const AlignmentDirectional(0.0, 0.0),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0.0, 300.0, 0.0, 0.0),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.max,
@@ -386,7 +386,7 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                     children: [
                                       Align(
                                         alignment:
-                                            AlignmentDirectional(0.0, 0.0),
+                                            const AlignmentDirectional(0.0, 0.0),
                                         child: Text(
                                           FFLocalizations.of(context).getText(
                                             '1djzthz8' /* Your scan list is empty. */,

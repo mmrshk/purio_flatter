@@ -277,7 +277,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             0.0, 300.0, 0.0, 10.0),
                         child: Text(
                           FFLocalizations.of(context).getText(

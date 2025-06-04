@@ -3,16 +3,11 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/scan/mock_scanner.dart';
 import '/scan/scan_screen.dart';
-import 'dart:ui';
 import '/index.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'navbar_model.dart';
 import 'dart:io' show Platform, Process;
 import 'dart:async';
-import 'dart:isolate';
 
 export 'navbar_model.dart';
 

@@ -104,7 +104,7 @@ Stack trace: ${filteredStackTrace.join("\n")}''';
 
   runApp(ChangeNotifierProvider(
     create: (context) => appState,
-    child: MyApp(),
+    child: const MyApp(),
   ));
 }
 

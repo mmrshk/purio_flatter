@@ -307,10 +307,10 @@ class _EditProfileWidgetState extends State<EditProfileWidget> with RouteAware {
                                     FocusManager.instance.primaryFocus
                                         ?.unfocus();
                                   },
-                                  child: SizedBox(
+                                  child: const SizedBox(
                                     height: 225.0,
                                     width: 341.0,
-                                    child: const DeleteAccountPopUpWidget(),
+                                    child: DeleteAccountPopUpWidget(),
                                   ),
                                 ),
                               );

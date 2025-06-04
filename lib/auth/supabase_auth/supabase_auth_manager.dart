@@ -7,7 +7,6 @@ import '/flutter_flow/flutter_flow_util.dart';
 import 'email_auth.dart';
 
 import 'supabase_user_provider.dart';
-import '/flutter_flow/flutter_flow_util.dart';
 
 export '/auth/base_auth_user_provider.dart';
 

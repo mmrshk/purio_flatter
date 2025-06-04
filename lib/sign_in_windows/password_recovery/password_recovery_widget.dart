@@ -354,10 +354,10 @@ class _PasswordRecoveryWidgetState extends State<PasswordRecoveryWidget>
                                     FocusManager.instance.primaryFocus
                                         ?.unfocus();
                                   },
-                                  child: SizedBox(
+                                  child: const SizedBox(
                                     height: 225.0,
                                     width: 341.0,
-                                    child: const RecoveryEmailPopupWidget(),
+                                    child: RecoveryEmailPopupWidget(),
                                   ),
                                 ),
                               );

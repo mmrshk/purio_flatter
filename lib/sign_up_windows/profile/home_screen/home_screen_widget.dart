@@ -69,7 +69,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
           .select('id, name, image_front_url, category, created_at, updated_at, barcode, health_score, description, ingredients, supermarket_url, additional_images_urls, specifications, nutritional')
           .limit(5);
       
-      if (result != null && result.isNotEmpty) {
+      if (result.isNotEmpty) {
         _model.randomProducts = await ProductTable().queryRows(
           queryFn: (q) => q.select().limit(5),
         );
@@ -967,7 +967,7 @@ quickly. */
                                             ].divide(const SizedBox(height: 8.0)),
                                           ),
                                         );
-                                      }).toList(),
+                                      }),
                                   ],
                                 ),
                               ),

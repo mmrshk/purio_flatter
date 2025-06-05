@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '/backend/schema/structs/index.dart';
-
+import '/backend/supabase/database/tables/product.dart';
 
 import '/auth/base_auth_user_provider.dart';
 
@@ -141,7 +141,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: ProductDetailsWidget.routeName,
           path: ProductDetailsWidget.routePath,
-          builder: (context, params) => const ProductDetailsWidget(),
+          builder: (context, params) => ProductDetailsWidget(
+            product: params.getParam('product', ParamType.SupabaseRow, isList: false, structBuilder: ProductRow.new),
+          ),
         ),
         FFRoute(
           name: HistoryWidget.routeName,

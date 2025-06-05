@@ -3,14 +3,19 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
+import '/backend/supabase/supabase.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'product_details_model.dart';
 export 'product_details_model.dart';
 
 class ProductDetailsWidget extends StatefulWidget {
-  const ProductDetailsWidget({super.key});
+  const ProductDetailsWidget({
+    super.key,
+    required this.product,
+  });
 
+  final ProductRow product;
   static String routeName = 'ProductDetails';
   static String routePath = '/productDetails';
 
@@ -119,29 +124,34 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                     context.safePop();
                   },
                 ),
-                Text(
-                  FFLocalizations.of(context).getText(
-                    'muer1xqs' /* Product Details */,
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(
+                      widget.product.name ?? 'Product Details',
+                      style: FlutterFlowTheme.of(context).headlineMedium.override(
+                            font: GoogleFonts.roboto(
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .headlineMedium
+                                  .fontStyle,
+                            ),
+                            color: Colors.black,
+                            fontSize: 15.0,
+                            letterSpacing: 0.0,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .headlineMedium
+                                .fontStyle,
+                          ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                  style: FlutterFlowTheme.of(context).headlineMedium.override(
-                        font: GoogleFonts.roboto(
-                          fontWeight: FontWeight.bold,
-                          fontStyle: FlutterFlowTheme.of(context)
-                              .headlineMedium
-                              .fontStyle,
-                        ),
-                        color: Colors.black,
-                        fontSize: 15.0,
-                        letterSpacing: 0.0,
-                        fontWeight: FontWeight.bold,
-                        fontStyle: FlutterFlowTheme.of(context)
-                            .headlineMedium
-                            .fontStyle,
-                      ),
                 ),
                 Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     FlutterFlowIconButton(
                       borderColor: Colors.transparent,
@@ -240,9 +250,9 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                               ClipRRect(
                                                 borderRadius:
                                                     BorderRadius.circular(8.0),
-                                                child: Image.asset(
-                                                  'assets/images/productImage.png',
-                                                  width: 200.0,
+                                                child: Image.network(
+                                                  widget.product.imageFrontUrl ?? 'https://picsum.photos/seed/895/600',
+                                                  width: 185.0,
                                                   height: 125.0,
                                                   fit: BoxFit.cover,
                                                 ),
@@ -250,18 +260,15 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                               Container(
                                                 width: double.infinity,
                                                 height: 50.0,
-                                                decoration: const BoxDecoration(
-                                                  color: Color(0xFFE74C3C),
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                    bottomLeft:
-                                                        Radius.circular(16.0),
-                                                    bottomRight:
-                                                        Radius.circular(16.0),
-                                                    topLeft:
-                                                        Radius.circular(0.0),
-                                                    topRight:
-                                                        Radius.circular(0.0),
+                                                decoration: BoxDecoration(
+                                                  color: widget.product.healthScore != null && widget.product.healthScore! > 70 
+                                                      ? const Color(0xFF2ECC71)
+                                                      : const Color(0xFFE74C3C),
+                                                  borderRadius: const BorderRadius.only(
+                                                    bottomLeft: Radius.circular(16.0),
+                                                    bottomRight: Radius.circular(16.0),
+                                                    topLeft: Radius.circular(0.0),
+                                                    topRight: Radius.circular(0.0),
                                                   ),
                                                 ),
                                                 child: Row(
@@ -271,11 +278,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                                       MainAxisAlignment.center,
                                                   children: [
                                                     Text(
-                                                      FFLocalizations.of(
-                                                              context)
-                                                          .getText(
-                                                        'csb60u23' /* 10/100 */,
-                                                      ),
+                                                      '${widget.product.healthScore ?? 0}/100',
                                                       style: FlutterFlowTheme
                                                               .of(context)
                                                           .bodyMedium
@@ -304,11 +307,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                                           ),
                                                     ),
                                                     Text(
-                                                      FFLocalizations.of(
-                                                              context)
-                                                          .getText(
-                                                        '5w5p2hq1' /* Bad */,
-                                                      ),
+                                                      widget.product.healthScore != null && widget.product.healthScore! > 70 ? 'Good' : 'Bad',
                                                       style: FlutterFlowTheme
                                                               .of(context)
                                                           .bodyMedium
@@ -343,55 +342,65 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                             ],
                                           ),
                                         ),
-                                        Text(
-                                          FFLocalizations.of(context).getText(
-                                            'w7316efl' /* Coca Cola 0.33ml */,
+                                        Container(
+                                          constraints: BoxConstraints(
+                                            maxWidth: MediaQuery.of(context).size.width * 0.8,
                                           ),
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                font: GoogleFonts.roboto(
+                                          child: Text(
+                                            widget.product.name ?? '',
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  font: GoogleFonts.roboto(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
+                                                  color: Colors.black,
+                                                  fontSize: 15.0,
+                                                  letterSpacing: 0.0,
                                                   fontWeight: FontWeight.bold,
                                                   fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
+                                                      FlutterFlowTheme.of(context)
                                                           .bodyMedium
                                                           .fontStyle,
                                                 ),
-                                                color: Colors.black,
-                                                fontSize: 15.0,
-                                                letterSpacing: 0.0,
-                                                fontWeight: FontWeight.bold,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontStyle,
-                                              ),
+                                            textAlign: TextAlign.center,
+                                            softWrap: true,
                                         ),
-                                        Text(
-                                          FFLocalizations.of(context).getText(
-                                            'j1uqflfd' /* Coca Cola  */,
+                                        ),
+                                        Container(
+                                          constraints: BoxConstraints(
+                                            maxWidth: MediaQuery.of(context).size.width * 0.8,
                                           ),
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                font: GoogleFonts.roboto(
+                                          child: Text(
+                                            widget.product.description ?? '',
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  font: GoogleFonts.roboto(
+                                                    fontWeight: FontWeight.normal,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
+                                                  color: const Color(0xFF6A7F98),
+                                                  fontSize: 15.0,
+                                                  letterSpacing: 0.0,
                                                   fontWeight: FontWeight.normal,
                                                   fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
+                                                      FlutterFlowTheme.of(context)
                                                           .bodyMedium
                                                           .fontStyle,
                                                 ),
-                                                color: const Color(0xFF6A7F98),
-                                                fontSize: 15.0,
-                                                letterSpacing: 0.0,
-                                                fontWeight: FontWeight.normal,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontStyle,
-                                              ),
+                                            textAlign: TextAlign.center,
+                                            softWrap: true,
+                                          ),
                                         ),
                                       ].divide(const SizedBox(height: 5.0)),
                                     ),
@@ -407,28 +416,30 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  FFLocalizations.of(context).getText(
-                                    '9bs48st0' /* Ingredients */,
-                                  ),
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        font: GoogleFonts.roboto(
+                                Expanded(
+                                  child: Text(
+                                    FFLocalizations.of(context).getText(
+                                      '9bs48st0' /* Ingredients */,
+                                    ),
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          font: GoogleFonts.roboto(
+                                            fontWeight: FontWeight.bold,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
+                                          color: Colors.black,
+                                          fontSize: 17.0,
+                                          letterSpacing: 0.0,
                                           fontWeight: FontWeight.bold,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontStyle,
+                                          fontStyle: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .fontStyle,
                                         ),
-                                        color: Colors.black,
-                                        fontSize: 17.0,
-                                        letterSpacing: 0.0,
-                                        fontWeight: FontWeight.bold,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontStyle,
-                                      ),
+                                  ),
                                 ),
                                 Text(
                                   FFLocalizations.of(context).getText(
@@ -464,59 +475,61 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      FFLocalizations.of(context).getText(
-                                        'g89e5ay9' /* Sugars 36g */,
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.roboto(
+                                Expanded(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        FFLocalizations.of(context).getText(
+                                          'g89e5ay9' /* Sugars 36g */,
+                                        ),
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              font: GoogleFonts.roboto(
+                                                fontWeight: FontWeight.w600,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
+                                              color: Colors.black,
+                                              fontSize: 15.0,
+                                              letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
                                               fontStyle:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium
                                                       .fontStyle,
                                             ),
-                                            color: Colors.black,
-                                            fontSize: 15.0,
-                                            letterSpacing: 0.0,
-                                            fontWeight: FontWeight.w600,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                    ),
-                                    Text(
-                                      FFLocalizations.of(context).getText(
-                                        'xf9cuelz' /* High Risk */,
                                       ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.roboto(
+                                      Text(
+                                        FFLocalizations.of(context).getText(
+                                          'xf9cuelz' /* High Risk */,
+                                        ),
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              font: GoogleFonts.roboto(
+                                                fontWeight: FontWeight.normal,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
+                                              color: const Color(0xFFE74C3C),
+                                              fontSize: 15.0,
+                                              letterSpacing: 0.0,
                                               fontWeight: FontWeight.normal,
                                               fontStyle:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium
                                                       .fontStyle,
                                             ),
-                                            color: const Color(0xFFE74C3C),
-                                            fontSize: 15.0,
-                                            letterSpacing: 0.0,
-                                            fontWeight: FontWeight.normal,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                    ),
-                                  ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 InkWell(
                                   splashColor: Colors.transparent,

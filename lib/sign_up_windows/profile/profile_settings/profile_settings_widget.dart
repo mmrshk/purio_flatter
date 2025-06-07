@@ -1,4 +1,3 @@
-import '/components/navbar_widget.dart';
 import '/components/settings_card_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -168,21 +167,20 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
             alignment: const AlignmentDirectional(0.0, 1.0),
             child: Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(0.0, 23.0, 0.0, 0.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Stack(
-                    alignment: const AlignmentDirectional(0.0, 0.95),
-                    children: [
-                      Container(
-                        height: MediaQuery.sizeOf(context).height * 1.0,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.rectangle,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 120.0),
-                          child: SingleChildScrollView(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Stack(
+                      alignment: const AlignmentDirectional(0.0, 0.95),
+                      children: [
+                        Container(
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.rectangle,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 0.0),
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
                               children: [
@@ -321,8 +319,6 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                   child: Container(
                                     width:
                                         MediaQuery.sizeOf(context).width * 1.0,
-                                    height:
-                                        MediaQuery.sizeOf(context).height * 1.0,
                                     decoration: BoxDecoration(
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryBackground,
@@ -333,7 +329,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                         Padding(
                                           padding:
                                               const EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 0.0, 0.0, 200.0),
+                                                  0.0, 0.0, 0.0, 0.0),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
@@ -656,10 +652,6 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                   ),
                                                 ],
                                               ),
-                                              const Padding(
-                                                padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 100.0),
-                                                child: SizedBox(),
-                                              ),
                                             ],
                                           ),
                                         ),
@@ -671,20 +663,10 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                             ),
                           ),
                         ),
-                      ),
-                      wrapWithModel(
-                        model: _model.navbarModel,
-                        updateCallback: () => safeSetState(() {}),
-                        child: Builder(builder: (_) {
-                          return DebugFlutterFlowModelContext(
-                            rootModel: _model.rootModel,
-                            child: const NavbarWidget(),
-                          );
-                        }),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

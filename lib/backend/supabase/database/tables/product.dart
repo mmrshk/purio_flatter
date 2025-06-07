@@ -41,9 +41,6 @@ class ProductRow extends SupabaseDataRow {
   String? get description => getField<String>('description');
   set description(String? value) => setField<String>('description', value);
 
-  String? get ingredients => getField<String>('ingredients');
-  set ingredients(String? value) => setField<String>('ingredients', value);
-
   String? get supermarketUrl => getField<String>('supermarket_url');
   set supermarketUrl(String? value) => setField<String>('supermarket_url', value);
 

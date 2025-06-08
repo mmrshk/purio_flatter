@@ -13,9 +13,12 @@ class ProductDetailsWidget extends StatefulWidget {
   const ProductDetailsWidget({
     super.key,
     required this.product,
+    this.fromScan = false,
   });
 
   final ProductRow product;
+  final bool fromScan;
+
   static String routeName = 'ProductDetails';
   static String routePath = '/productDetails';
 
@@ -54,6 +57,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+
     final route = DebugModalRoute.of(context);
     if (route != null) {
       routeObserver.subscribe(this, route);
@@ -122,7 +126,11 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                     size: 24.0,
                   ),
                   onPressed: () async {
-                    context.safePop();
+                    if (widget.fromScan) {
+                      context.goNamed('HomeScreen');
+                    } else {
+                      context.safePop();
+                    }
                   },
                 ),
                 Expanded(

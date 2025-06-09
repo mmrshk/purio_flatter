@@ -526,54 +526,69 @@ quickly. */
                                         ),
                                       ),
                                     ),
-                                    Container(
-                                      width: 160.0,
-                                      height: 160.0,
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFFFFF8D9),
-                                        borderRadius:
-                                            BorderRadius.circular(16.0),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            16.0, 16.0, 0.0, 16.0),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          8.0),
-                                                  child: Image.asset(
-                                                    'assets/images/Search.png',
-                                                    width: 55.0,
-                                                    height: 55.0,
-                                                    fit: BoxFit.cover,
+                                    GestureDetector(
+                                      onTap: () {
+                                        context.pushNamed('Search');
+                                      },
+                                      child: Container(
+                                        width: 160.0,
+                                        height: 160.0,
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xFFFFF8D9),
+                                          borderRadius:
+                                              BorderRadius.circular(16.0),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsetsDirectional.fromSTEB(
+                                              16.0, 16.0, 0.0, 16.0),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                    child: Image.asset(
+                                                      'assets/images/Search.png',
+                                                      width: 55.0,
+                                                      height: 55.0,
+                                                      fit: BoxFit.cover,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Text(
-                                                  FFLocalizations.of(context)
-                                                      .getText(
-                                                    '4dsnt882' /* Search */,
-                                                  ),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        font:
-                                                            GoogleFonts.roboto(
+                                                ],
+                                              ),
+                                              Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Text(
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      '4dsnt882' /* Search */,
+                                                    ),
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          font:
+                                                              GoogleFonts.roboto(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
+                                                          color: Colors.black,
+                                                          fontSize: 18.0,
+                                                          letterSpacing: 0.0,
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           fontStyle:
@@ -582,35 +597,36 @@ quickly. */
                                                                   .bodyMedium
                                                                   .fontStyle,
                                                         ),
-                                                        color: Colors.black,
-                                                        fontSize: 18.0,
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                        .bodyMedium
-                                                                        .fontStyle,
-                                                      ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Text(
-                                                  FFLocalizations.of(context)
-                                                      .getText(
-                                                    '6k9wcww2' /* Find product info fast. */
-                                                    ,
                                                   ),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        font:
-                                                            GoogleFonts.roboto(
+                                                ],
+                                              ),
+                                              Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Text(
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      '6k9wcww2' /* Find product info fast. */
+                                                      ,
+                                                    ),
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          font:
+                                                              GoogleFonts.roboto(
+                                                            fontWeight:
+                                                                FontWeight.normal,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
+                                                          color:
+                                                              const Color(0xFF555555),
+                                                          fontSize: 14.0,
+                                                          letterSpacing: 0.0,
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontStyle:
@@ -619,22 +635,11 @@ quickly. */
                                                                   .bodyMedium
                                                                   .fontStyle,
                                                         ),
-                                                        color:
-                                                            const Color(0xFF555555),
-                                                        fontSize: 14.0,
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                        .bodyMedium
-                                                                        .fontStyle,
-                                                      ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),

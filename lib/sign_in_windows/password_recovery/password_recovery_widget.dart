@@ -100,7 +100,7 @@ class _PasswordRecoveryWidgetState extends State<PasswordRecoveryWidget>
         key: scaffoldKey,
         backgroundColor: Colors.white,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60.0),
+          preferredSize: const Size.fromHeight(60.0),
           child: AppBar(
             backgroundColor: Colors.white,
             automaticallyImplyLeading: false,
@@ -113,8 +113,8 @@ class _PasswordRecoveryWidgetState extends State<PasswordRecoveryWidget>
                   borderRadius: 100.0,
                   borderWidth: 1.0,
                   buttonSize: 45.0,
-                  fillColor: Color(0xFFFAF9F9),
-                  icon: Icon(
+                  fillColor: const Color(0xFFFAF9F9),
+                  icon: const Icon(
                     Icons.arrow_back_ios_new,
                     color: Color(0xFF40A5A5),
                     size: 24.0,
@@ -124,11 +124,11 @@ class _PasswordRecoveryWidgetState extends State<PasswordRecoveryWidget>
                   },
                 ),
                 Align(
-                  alignment: AlignmentDirectional(0.0, 0.0),
+                  alignment: const AlignmentDirectional(0.0, 0.0),
                   child: Container(
                     width: 300.0,
                     height: 60.0,
-                    decoration: BoxDecoration(),
+                    decoration: const BoxDecoration(),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -160,7 +160,7 @@ class _PasswordRecoveryWidgetState extends State<PasswordRecoveryWidget>
                 ),
               ],
             ),
-            actions: [],
+            actions: const [],
             centerTitle: true,
             elevation: 1.0,
           ),
@@ -172,7 +172,7 @@ class _PasswordRecoveryWidgetState extends State<PasswordRecoveryWidget>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(23.0, 31.0, 23.0, 0.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(23.0, 31.0, 23.0, 0.0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
@@ -190,7 +190,7 @@ class _PasswordRecoveryWidgetState extends State<PasswordRecoveryWidget>
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 31.0, 0.0, 0.0),
                           child: Text(
                             FFLocalizations.of(context).getText(
@@ -216,7 +216,7 @@ class _PasswordRecoveryWidgetState extends State<PasswordRecoveryWidget>
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 9.0, 0.0, 0.0),
                           child: RichText(
                             textScaler: MediaQuery.of(context).textScaler,
@@ -270,7 +270,7 @@ class _PasswordRecoveryWidgetState extends State<PasswordRecoveryWidget>
                                   text: FFLocalizations.of(context).getText(
                                     'czibjxvt' /* . */,
                                   ),
-                                  style: TextStyle(),
+                                  style: const TextStyle(),
                                 )
                               ],
                               style: FlutterFlowTheme.of(context)
@@ -293,7 +293,7 @@ class _PasswordRecoveryWidgetState extends State<PasswordRecoveryWidget>
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 27.0, 0.0, 0.0),
                           child: Text(
                             FFLocalizations.of(context).getText(
@@ -323,7 +323,7 @@ class _PasswordRecoveryWidgetState extends State<PasswordRecoveryWidget>
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 32.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 32.0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -336,14 +336,14 @@ class _PasswordRecoveryWidgetState extends State<PasswordRecoveryWidget>
                         highlightColor: Colors.transparent,
                         onTap: () async {
                           await showAlignedDialog(
-                            barrierColor: Color(0x3F525252),
+                            barrierColor: const Color(0x3F525252),
                             barrierDismissible: false,
                             context: context,
                             isGlobal: false,
                             avoidOverflow: false,
-                            targetAnchor: AlignmentDirectional(0.0, 1.0)
+                            targetAnchor: const AlignmentDirectional(0.0, 1.0)
                                 .resolve(Directionality.of(context)),
-                            followerAnchor: AlignmentDirectional(0.0, 1.0)
+                            followerAnchor: const AlignmentDirectional(0.0, 1.0)
                                 .resolve(Directionality.of(context)),
                             builder: (dialogContext) {
                               return Material(
@@ -354,7 +354,7 @@ class _PasswordRecoveryWidgetState extends State<PasswordRecoveryWidget>
                                     FocusManager.instance.primaryFocus
                                         ?.unfocus();
                                   },
-                                  child: Container(
+                                  child: const SizedBox(
                                     height: 225.0,
                                     width: 341.0,
                                     child: RecoveryEmailPopupWidget(),

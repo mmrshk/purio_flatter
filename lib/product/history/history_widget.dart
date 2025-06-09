@@ -99,7 +99,7 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
         key: scaffoldKey,
         backgroundColor: Colors.white,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60.0),
+          preferredSize: const Size.fromHeight(60.0),
           child: AppBar(
             backgroundColor: Colors.white,
             automaticallyImplyLeading: false,
@@ -112,22 +112,22 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                   borderRadius: 100.0,
                   borderWidth: 1.0,
                   buttonSize: 45.0,
-                  fillColor: Color(0xFFFAF9F9),
-                  icon: Icon(
+                  fillColor: const Color(0xFFFAF9F9),
+                  icon: const Icon(
                     Icons.arrow_back_ios_new,
                     color: Color(0xFF40A5A5),
                     size: 24.0,
                   ),
                   onPressed: () {
-                    print('IconButton pressed ...');
+                    Navigator.pop(context);
                   },
                 ),
                 Align(
-                  alignment: AlignmentDirectional(0.0, 0.0),
+                  alignment: const AlignmentDirectional(0.0, 0.0),
                   child: Container(
                     width: 300.0,
                     height: 60.0,
-                    decoration: BoxDecoration(),
+                    decoration: const BoxDecoration(),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -159,7 +159,7 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                 ),
               ],
             ),
-            actions: [],
+            actions: const [],
             centerTitle: true,
             elevation: 1.0,
           ),
@@ -172,16 +172,16 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Align(
-                alignment: AlignmentDirectional(0.0, 0.0),
+                alignment: const AlignmentDirectional(0.0, 0.0),
                 child: Stack(
-                  alignment: AlignmentDirectional(0.0, 0.85),
+                  alignment: const AlignmentDirectional(0.0, 0.85),
                   children: [
                     Container(
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       height: MediaQuery.sizeOf(context).height * 1.0,
-                      decoration: BoxDecoration(),
+                      decoration: const BoxDecoration(),
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             0.0, 0.0, 0.0, 150.0),
                         child: SingleChildScrollView(
                           child: Column(
@@ -194,9 +194,9 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Align(
-                                    alignment: AlignmentDirectional(0.0, 0.0),
+                                    alignment: const AlignmentDirectional(0.0, 0.0),
                                     child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           0.0, 25.0, 0.0, 0.0),
                                       child: Container(
                                         width: 320.0,
@@ -205,11 +205,11 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                           borderRadius:
                                               BorderRadius.circular(30.0),
                                           border: Border.all(
-                                            color: Color(0xFFEBEBEB),
+                                            color: const Color(0xFFEBEBEB),
                                           ),
                                         ),
                                         alignment:
-                                            AlignmentDirectional(0.0, 0.0),
+                                            const AlignmentDirectional(0.0, 0.0),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
                                           mainAxisAlignment:
@@ -218,7 +218,7 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                               CrossAxisAlignment.center,
                                           children: [
                                             Padding(
-                                              padding: EdgeInsetsDirectional
+                                              padding: const EdgeInsetsDirectional
                                                   .fromSTEB(9.0, 9.0, 9.0, 9.0),
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.max,
@@ -228,7 +228,7 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                                 children: [
                                                   Align(
                                                     alignment:
-                                                        AlignmentDirectional(
+                                                        const AlignmentDirectional(
                                                             0.0, 0.0),
                                                     child: FFButtonWidget(
                                                       onPressed: () {
@@ -244,21 +244,21 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                                         width: 145.0,
                                                         height: 73.0,
                                                         padding:
-                                                            EdgeInsetsDirectional
+                                                            const EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     16.0,
                                                                     0.0,
                                                                     16.0,
                                                                     0.0),
                                                         iconPadding:
-                                                            EdgeInsetsDirectional
+                                                            const EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     0.0,
                                                                     0.0,
                                                                     0.0,
                                                                     0.0),
                                                         color:
-                                                            Color(0xFF40E0D0),
+                                                            const Color(0xFF40E0D0),
                                                         textStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -297,7 +297,7 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                                   ),
                                                   Align(
                                                     alignment:
-                                                        AlignmentDirectional(
+                                                        const AlignmentDirectional(
                                                             0.0, 0.0),
                                                     child: FFButtonWidget(
                                                       onPressed: () {
@@ -313,21 +313,21 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                                         width: 145.0,
                                                         height: 73.0,
                                                         padding:
-                                                            EdgeInsetsDirectional
+                                                            const EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     16.0,
                                                                     0.0,
                                                                     16.0,
                                                                     0.0),
                                                         iconPadding:
-                                                            EdgeInsetsDirectional
+                                                            const EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     0.0,
                                                                     0.0,
                                                                     0.0,
                                                                     0.0),
                                                         color:
-                                                            Color(0xFF40E0D0),
+                                                            const Color(0xFF40E0D0),
                                                         textStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -374,37 +374,27 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                   ),
                                 ],
                               ),
-                              if (FFAppState().recent != null)
-                                Align(
-                                  alignment: AlignmentDirectional(0.0, 0.0),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 300.0, 0.0, 0.0),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Align(
-                                          alignment:
-                                              AlignmentDirectional(0.0, 0.0),
-                                          child: Text(
-                                            FFLocalizations.of(context).getText(
-                                              '1djzthz8' /* Your scan list is empty. */,
-                                            ),
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  font: GoogleFonts.roboto(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMedium
-                                                            .fontStyle,
-                                                  ),
-                                                  fontSize: 22.0,
-                                                  letterSpacing: 0.0,
+                              Align(
+                                alignment: const AlignmentDirectional(0.0, 0.0),
+                                child: Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 300.0, 0.0, 0.0),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                    children: [
+                                      Align(
+                                        alignment:
+                                            const AlignmentDirectional(0.0, 0.0),
+                                        child: Text(
+                                          FFLocalizations.of(context).getText(
+                                            '1djzthz8' /* Your scan list is empty. */,
+                                          ),
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                font: GoogleFonts.roboto(
                                                   fontWeight: FontWeight.bold,
                                                   fontStyle:
                                                       FlutterFlowTheme.of(
@@ -412,17 +402,26 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                                           .bodyMedium
                                                           .fontStyle,
                                                 ),
-                                          ),
+                                                fontSize: 22.0,
+                                                letterSpacing: 0.0,
+                                                fontWeight: FontWeight.bold,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
+                              ),
                               if (FFAppState().favourites == '')
                                 Align(
-                                  alignment: AlignmentDirectional(0.0, 0.0),
+                                  alignment: const AlignmentDirectional(0.0, 0.0),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0.0, 300.0, 0.0, 0.0),
                                     child: Column(
                                       mainAxisSize: MainAxisSize.max,
@@ -431,7 +430,7 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                       children: [
                                         Align(
                                           alignment:
-                                              AlignmentDirectional(0.0, 0.0),
+                                              const AlignmentDirectional(0.0, 0.0),
                                           child: Text(
                                             FFLocalizations.of(context).getText(
                                               'rgp2q0f4' /* No Favorites Yet */,
@@ -460,7 +459,7 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                         ),
                                         Padding(
                                           padding:
-                                              EdgeInsetsDirectional.fromSTEB(
+                                              const EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 18.0, 0.0, 0.0),
                                           child: Text(
                                             FFLocalizations.of(context).getText(
@@ -503,7 +502,7 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                   ),
                                 ),
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 40.0, 0.0, 0.0),
                                 child: Wrap(
                                   spacing: 0.0,
@@ -521,7 +520,7 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                       child: Builder(builder: (_) {
                                         return DebugFlutterFlowModelContext(
                                           rootModel: _model.rootModel,
-                                          child: ProductCardWidget(),
+                                          child: const ProductCardWidget(),
                                         );
                                       }),
                                     ),
@@ -531,7 +530,7 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                       child: Builder(builder: (_) {
                                         return DebugFlutterFlowModelContext(
                                           rootModel: _model.rootModel,
-                                          child: ProductCardWidget(),
+                                          child: const ProductCardWidget(),
                                         );
                                       }),
                                     ),
@@ -541,7 +540,7 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                       child: Builder(builder: (_) {
                                         return DebugFlutterFlowModelContext(
                                           rootModel: _model.rootModel,
-                                          child: ProductCardWidget(),
+                                          child: const ProductCardWidget(),
                                         );
                                       }),
                                     ),
@@ -551,7 +550,7 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                       child: Builder(builder: (_) {
                                         return DebugFlutterFlowModelContext(
                                           rootModel: _model.rootModel,
-                                          child: ProductCardWidget(),
+                                          child: const ProductCardWidget(),
                                         );
                                       }),
                                     ),
@@ -561,7 +560,7 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                       child: Builder(builder: (_) {
                                         return DebugFlutterFlowModelContext(
                                           rootModel: _model.rootModel,
-                                          child: ProductCardWidget(),
+                                          child: const ProductCardWidget(),
                                         );
                                       }),
                                     ),
@@ -571,7 +570,7 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                       child: Builder(builder: (_) {
                                         return DebugFlutterFlowModelContext(
                                           rootModel: _model.rootModel,
-                                          child: ProductCardWidget(),
+                                          child: const ProductCardWidget(),
                                         );
                                       }),
                                     ),
@@ -589,7 +588,7 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                       child: Builder(builder: (_) {
                         return DebugFlutterFlowModelContext(
                           rootModel: _model.rootModel,
-                          child: NavbarWidget(),
+                          child: const NavbarWidget(),
                         );
                       }),
                     ),

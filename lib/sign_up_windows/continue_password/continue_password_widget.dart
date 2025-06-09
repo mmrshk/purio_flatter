@@ -3,11 +3,9 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:ui';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'continue_password_model.dart';
 export 'continue_password_model.dart';
 
@@ -118,7 +116,7 @@ class _ContinuePasswordWidgetState extends State<ContinuePasswordWidget>
         key: scaffoldKey,
         backgroundColor: Colors.white,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60.0),
+          preferredSize: const Size.fromHeight(60.0),
           child: AppBar(
             backgroundColor: Colors.white,
             automaticallyImplyLeading: false,
@@ -131,8 +129,8 @@ class _ContinuePasswordWidgetState extends State<ContinuePasswordWidget>
                   borderRadius: 100.0,
                   borderWidth: 1.0,
                   buttonSize: 45.0,
-                  fillColor: Color(0xFFFAF9F9),
-                  icon: Icon(
+                  fillColor: const Color(0xFFFAF9F9),
+                  icon: const Icon(
                     Icons.arrow_back_ios_new,
                     color: Color(0xFF40A5A5),
                     size: 24.0,
@@ -143,7 +141,7 @@ class _ContinuePasswordWidgetState extends State<ContinuePasswordWidget>
                 ),
               ],
             ),
-            actions: [],
+            actions: const [],
             centerTitle: true,
             elevation: 1.0,
           ),
@@ -158,12 +156,12 @@ class _ContinuePasswordWidgetState extends State<ContinuePasswordWidget>
                 decoration: BoxDecoration(
                   color: FlutterFlowTheme.of(context).secondaryBackground,
                 ),
-                alignment: AlignmentDirectional(-1.0, -1.0),
+                alignment: const AlignmentDirectional(-1.0, -1.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(
+                      padding: const EdgeInsetsDirectional.fromSTEB(
                           24.0, 51.0, 24.0, 23.0),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
@@ -174,7 +172,7 @@ class _ContinuePasswordWidgetState extends State<ContinuePasswordWidget>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 15.0),
                                 child: Text(
                                   FFLocalizations.of(context).getText(
@@ -242,7 +240,7 @@ class _ContinuePasswordWidgetState extends State<ContinuePasswordWidget>
                                       ),
                                       Text(
                                         valueOrDefault<String>(
-                                          widget!.userEmail,
+                                          widget.userEmail,
                                           'sample@email.com',
                                         ),
                                         style: FlutterFlowTheme.of(context)
@@ -318,12 +316,12 @@ class _ContinuePasswordWidgetState extends State<ContinuePasswordWidget>
                     ),
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(23.0, 0.0, 0.0, 24.0),
+                          const EdgeInsetsDirectional.fromSTEB(23.0, 0.0, 0.0, 24.0),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Container(
+                          SizedBox(
                             width: 350.0,
                             child: Form(
                               key: _model.formKey2,
@@ -334,7 +332,7 @@ class _ContinuePasswordWidgetState extends State<ContinuePasswordWidget>
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(10.0),
                                   border: Border.all(
-                                    color: Color(0xFF40E0D0),
+                                    color: const Color(0xFF40E0D0),
                                   ),
                                 ),
                                 child: TextFormField(
@@ -391,14 +389,14 @@ class _ContinuePasswordWidgetState extends State<ContinuePasswordWidget>
                                                   .fontStyle,
                                         ),
                                     enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                         color: Color(0x00000000),
                                         width: 1.0,
                                       ),
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                         color: Color(0x00000000),
                                         width: 1.0,
                                       ),
@@ -473,12 +471,12 @@ class _ContinuePasswordWidgetState extends State<ContinuePasswordWidget>
                     ),
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(23.0, 0.0, 0.0, 24.0),
+                          const EdgeInsetsDirectional.fromSTEB(23.0, 0.0, 0.0, 24.0),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Container(
+                          SizedBox(
                             width: 350.0,
                             child: Form(
                               key: _model.formKey1,
@@ -489,7 +487,7 @@ class _ContinuePasswordWidgetState extends State<ContinuePasswordWidget>
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(10.0),
                                   border: Border.all(
-                                    color: Color(0xFF40E0D0),
+                                    color: const Color(0xFF40E0D0),
                                   ),
                                 ),
                                 child: TextFormField(
@@ -547,14 +545,14 @@ class _ContinuePasswordWidgetState extends State<ContinuePasswordWidget>
                                                   .fontStyle,
                                         ),
                                     enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                         color: Color(0x00000000),
                                         width: 1.0,
                                       ),
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                         color: Color(0x00000000),
                                         width: 1.0,
                                       ),
@@ -630,16 +628,16 @@ class _ContinuePasswordWidgetState extends State<ContinuePasswordWidget>
                     ),
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(23.0, 0.0, 23.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(23.0, 0.0, 23.0, 0.0),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
                             width: 220.0,
-                            decoration: BoxDecoration(),
+                            decoration: const BoxDecoration(),
                             child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 1.0, 0.0),
                               child: Wrap(
                                 spacing: 0.0,
@@ -757,9 +755,9 @@ class _ContinuePasswordWidgetState extends State<ContinuePasswordWidget>
                             value: _model.acceptSwitchValue!,
                             onChanged: (newValue) async {
                               safeSetState(
-                                  () => _model.acceptSwitchValue = newValue!);
+                                  () => _model.acceptSwitchValue = newValue);
                             },
-                            activeTrackColor: Color(0xFF40A5A5),
+                            activeTrackColor: const Color(0xFF40A5A5),
                             inactiveTrackColor:
                                 FlutterFlowTheme.of(context).alternate,
                             inactiveThumbColor: Colors.white,
@@ -771,7 +769,7 @@ class _ContinuePasswordWidgetState extends State<ContinuePasswordWidget>
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 16.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 16.0),
                 child: Text(
                   FFLocalizations.of(context).getText(
                     'gnsgggcs' /*  */,
@@ -815,7 +813,7 @@ class _ContinuePasswordWidgetState extends State<ContinuePasswordWidget>
                                         .confirmPasswordTextFieldTextController
                                         .text) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
+                                    const SnackBar(
                                       content: Text(
                                         'Passwords don\'t match!',
                                       ),
@@ -827,7 +825,7 @@ class _ContinuePasswordWidgetState extends State<ContinuePasswordWidget>
                                 final user =
                                     await authManager.createAccountWithEmail(
                                   context,
-                                  widget!.userEmail!,
+                                  widget.userEmail!,
                                   _model.passwordTextFieldTextController.text,
                                 );
                                 if (user == null) {
@@ -844,11 +842,11 @@ class _ContinuePasswordWidgetState extends State<ContinuePasswordWidget>
                         options: FFButtonOptions(
                           width: 305.0,
                           height: 43.0,
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               16.0, 0.0, 16.0, 0.0),
-                          iconPadding: EdgeInsetsDirectional.fromSTEB(
+                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
-                          color: Color(0xFF40E0D0),
+                          color: const Color(0xFF40E0D0),
                           textStyle:
                               FlutterFlowTheme.of(context).titleSmall.override(
                                     font: GoogleFonts.roboto(
@@ -867,7 +865,7 @@ class _ContinuePasswordWidgetState extends State<ContinuePasswordWidget>
                                   ),
                           elevation: 0.0,
                           borderRadius: BorderRadius.circular(30.0),
-                          disabledColor: Color(0xFFE0E3E7),
+                          disabledColor: const Color(0xFFE0E3E7),
                         ),
                       ),
                     ],

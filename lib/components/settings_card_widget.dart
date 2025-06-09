@@ -1,9 +1,7 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'settings_card_model.dart';
 export 'settings_card_model.dart';
 
@@ -95,9 +93,9 @@ class _SettingsCardWidgetState extends State<SettingsCardWidget>
         ?.call(_model);
 
     return Align(
-      alignment: AlignmentDirectional(0.0, 0.0),
+      alignment: const AlignmentDirectional(0.0, 0.0),
       child: Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 17.0),
+        padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 17.0),
         child: Container(
           height: 50.0,
           decoration: BoxDecoration(
@@ -114,15 +112,15 @@ class _SettingsCardWidgetState extends State<SettingsCardWidget>
                 children: [
                   Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 16.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 16.0, 0.0),
                     child: Container(
                       width: 48.0,
                       height: 48.0,
                       decoration: BoxDecoration(
-                        color: Color(0xFFFFFACD),
+                        color: const Color(0xFFFFFACD),
                         borderRadius: BorderRadius.circular(8.0),
                       ),
-                      child: widget!.icon!,
+                      child: widget.icon!,
                     ),
                   ),
                   Column(
@@ -132,7 +130,7 @@ class _SettingsCardWidgetState extends State<SettingsCardWidget>
                     children: [
                       Text(
                         valueOrDefault<String>(
-                          widget!.setting,
+                          widget.setting,
                           'Setting',
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -151,25 +149,30 @@ class _SettingsCardWidgetState extends State<SettingsCardWidget>
                                   .fontStyle,
                             ),
                       ),
-                    ].divide(SizedBox(height: 4.0)),
+                    ].divide(const SizedBox(height: 4.0)),
                   ),
                 ],
               ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(120.0, 0.0, 0.0, 0.0),
-                    child: Icon(
-                      Icons.arrow_forward_ios,
-                      color: Color(0xFF40A5A5),
-                      size: 24.0,
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: const Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(120.0, 0.0, 0.0, 0.0),
+                      child: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Color(0xFF40A5A5),
+                        size: 24.0,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

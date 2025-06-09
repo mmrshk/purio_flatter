@@ -1,14 +1,8 @@
 import '/components/navbar_widget.dart';
 import '/components/product_card_widget.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:ui';
 import 'history_widget.dart' show HistoryWidget;
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 class HistoryModel extends FlutterFlowModel<HistoryWidget> {
   ///  State fields for stateful widgets in this page.
@@ -61,18 +55,18 @@ class HistoryModel extends FlutterFlowModel<HistoryWidget> {
         backendQueries: debugBackendQueries,
         componentStates: {
           'productCardModel1 (ProductCard)':
-              productCardModel1?.toWidgetClassDebugData(),
+              productCardModel1.toWidgetClassDebugData(),
           'productCardModel2 (ProductCard)':
-              productCardModel2?.toWidgetClassDebugData(),
+              productCardModel2.toWidgetClassDebugData(),
           'productCardModel3 (ProductCard)':
-              productCardModel3?.toWidgetClassDebugData(),
+              productCardModel3.toWidgetClassDebugData(),
           'productCardModel4 (ProductCard)':
-              productCardModel4?.toWidgetClassDebugData(),
+              productCardModel4.toWidgetClassDebugData(),
           'productCardModel5 (ProductCard)':
-              productCardModel5?.toWidgetClassDebugData(),
+              productCardModel5.toWidgetClassDebugData(),
           'productCardModel6 (ProductCard)':
-              productCardModel6?.toWidgetClassDebugData(),
-          'navbarModel (Navbar)': navbarModel?.toWidgetClassDebugData(),
+              productCardModel6.toWidgetClassDebugData(),
+          'navbarModel (Navbar)': navbarModel.toWidgetClassDebugData(),
           ...widgetBuilderComponents.map(
             (key, value) => MapEntry(
               key,

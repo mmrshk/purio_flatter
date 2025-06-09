@@ -2,7 +2,6 @@ import '/components/search_product_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -98,7 +97,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60.0),
+          preferredSize: const Size.fromHeight(60.0),
           child: AppBar(
             backgroundColor: Colors.white,
             automaticallyImplyLeading: false,
@@ -111,8 +110,8 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                   borderRadius: 100.0,
                   borderWidth: 1.0,
                   buttonSize: 45.0,
-                  fillColor: Color(0xFFFAF9F9),
-                  icon: Icon(
+                  fillColor: const Color(0xFFFAF9F9),
+                  icon: const Icon(
                     Icons.arrow_back_ios_new,
                     color: Color(0xFF40A5A5),
                     size: 24.0,
@@ -122,14 +121,14 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                   },
                 ),
                 Align(
-                  alignment: AlignmentDirectional(0.0, 0.0),
+                  alignment: const AlignmentDirectional(0.0, 0.0),
                   child: Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 0.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 0.0, 0.0),
                     child: Container(
                       width: 100.0,
                       height: 50.0,
-                      decoration: BoxDecoration(),
+                      decoration: const BoxDecoration(),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -165,7 +164,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                   width: 78.0,
                   height: 30.0,
                   decoration: BoxDecoration(
-                    color: Color(0xFFFFAFAF),
+                    color: const Color(0xFFFFAFAF),
                     borderRadius: BorderRadius.circular(90.0),
                   ),
                   child: Row(
@@ -195,7 +194,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                 ),
               ],
             ),
-            actions: [],
+            actions: const [],
             centerTitle: true,
             elevation: 1.0,
           ),
@@ -203,7 +202,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
         body: SafeArea(
           top: true,
           child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(29.0, 38.0, 29.0, 0.0),
+            padding: const EdgeInsetsDirectional.fromSTEB(29.0, 38.0, 29.0, 0.0),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
@@ -216,7 +215,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                       color: FlutterFlowTheme.of(context).secondaryBackground,
                       borderRadius: BorderRadius.circular(30.0),
                       border: Border.all(
-                        color: Color(0xFFEBEBEB),
+                        color: const Color(0xFFEBEBEB),
                       ),
                     ),
                     child: Column(
@@ -228,7 +227,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   10.0, 0.0, 0.0, 0.0),
                               child: FlutterFlowIconButton(
                                 borderRadius: 8.0,
@@ -243,7 +242,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 8.0),
                               child: Text(
                                 FFLocalizations.of(context).getText(
@@ -258,7 +257,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                                             .bodyMedium
                                             .fontStyle,
                                       ),
-                                      color: Color(0xFF6A7F98),
+                                      color: const Color(0xFF6A7F98),
                                       fontSize: 15.0,
                                       letterSpacing: 0.0,
                                       fontWeight: FontWeight.w300,
@@ -273,62 +272,61 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                       ],
                     ),
                   ),
-                  if (FFAppState().recent != null)
-                    Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 300.0, 0.0, 10.0),
-                          child: Text(
-                            FFLocalizations.of(context).getText(
-                              'p59vvkdz' /* Find Your Product */,
-                            ),
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  font: GoogleFonts.roboto(
-                                    fontWeight: FontWeight.w600,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
-                                  fontSize: 32.0,
-                                  letterSpacing: 0.0,
+                  Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
+                            0.0, 300.0, 0.0, 10.0),
+                        child: Text(
+                          FFLocalizations.of(context).getText(
+                            'p59vvkdz' /* Find Your Product */,
+                          ),
+                          style: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .override(
+                                font: GoogleFonts.roboto(
                                   fontWeight: FontWeight.w600,
                                   fontStyle: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .fontStyle,
                                 ),
-                          ),
+                                fontSize: 32.0,
+                                letterSpacing: 0.0,
+                                fontWeight: FontWeight.w600,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontStyle,
+                              ),
                         ),
-                        Text(
-                          FFLocalizations.of(context).getText(
-                            'orieo052' /* Search by product name or bran... */,
-                          ),
-                          textAlign: TextAlign.center,
-                          style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.roboto(
-                                      fontWeight: FontWeight.w300,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
-                                    ),
-                                    color: Colors.black,
-                                    fontSize: 15.0,
-                                    letterSpacing: 0.0,
+                      ),
+                      Text(
+                        FFLocalizations.of(context).getText(
+                          'orieo052' /* Search by product name or bran... */,
+                        ),
+                        textAlign: TextAlign.center,
+                        style:
+                            FlutterFlowTheme.of(context).bodyMedium.override(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FontWeight.w300,
                                     fontStyle: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .fontStyle,
                                   ),
-                        ),
-                      ],
-                    ),
+                                  color: Colors.black,
+                                  fontSize: 15.0,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FontWeight.w300,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
+                                ),
+                      ),
+                    ],
+                  ),
                   Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 40.0, 0.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(0.0, 40.0, 0.0, 0.0),
                     child: Wrap(
                       spacing: 0.0,
                       runSpacing: 0.0,
@@ -345,7 +343,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                           child: Builder(builder: (_) {
                             return DebugFlutterFlowModelContext(
                               rootModel: _model.rootModel,
-                              child: SearchProductWidget(),
+                              child: const SearchProductWidget(),
                             );
                           }),
                         ),
@@ -355,7 +353,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                           child: Builder(builder: (_) {
                             return DebugFlutterFlowModelContext(
                               rootModel: _model.rootModel,
-                              child: SearchProductWidget(),
+                              child: const SearchProductWidget(),
                             );
                           }),
                         ),
@@ -365,7 +363,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                           child: Builder(builder: (_) {
                             return DebugFlutterFlowModelContext(
                               rootModel: _model.rootModel,
-                              child: SearchProductWidget(),
+                              child: const SearchProductWidget(),
                             );
                           }),
                         ),
@@ -375,7 +373,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                           child: Builder(builder: (_) {
                             return DebugFlutterFlowModelContext(
                               rootModel: _model.rootModel,
-                              child: SearchProductWidget(),
+                              child: const SearchProductWidget(),
                             );
                           }),
                         ),
@@ -385,7 +383,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                           child: Builder(builder: (_) {
                             return DebugFlutterFlowModelContext(
                               rootModel: _model.rootModel,
-                              child: SearchProductWidget(),
+                              child: const SearchProductWidget(),
                             );
                           }),
                         ),
@@ -395,7 +393,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                           child: Builder(builder: (_) {
                             return DebugFlutterFlowModelContext(
                               rootModel: _model.rootModel,
-                              child: SearchProductWidget(),
+                              child: const SearchProductWidget(),
                             );
                           }),
                         ),
@@ -405,7 +403,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                           child: Builder(builder: (_) {
                             return DebugFlutterFlowModelContext(
                               rootModel: _model.rootModel,
-                              child: SearchProductWidget(),
+                              child: const SearchProductWidget(),
                             );
                           }),
                         ),

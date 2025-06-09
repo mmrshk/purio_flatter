@@ -1,11 +1,8 @@
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'notifications_model.dart';
 export 'notifications_model.dart';
 
@@ -99,7 +96,7 @@ class _NotificationsWidgetState extends State<NotificationsWidget>
         key: scaffoldKey,
         backgroundColor: Colors.white,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60.0),
+          preferredSize: const Size.fromHeight(60.0),
           child: AppBar(
             backgroundColor: Colors.white,
             automaticallyImplyLeading: false,
@@ -112,8 +109,8 @@ class _NotificationsWidgetState extends State<NotificationsWidget>
                   borderRadius: 100.0,
                   borderWidth: 1.0,
                   buttonSize: 45.0,
-                  fillColor: Color(0xFFFAF9F9),
-                  icon: Icon(
+                  fillColor: const Color(0xFFFAF9F9),
+                  icon: const Icon(
                     Icons.arrow_back_ios_new,
                     color: Color(0xFF40A5A5),
                     size: 24.0,
@@ -123,11 +120,11 @@ class _NotificationsWidgetState extends State<NotificationsWidget>
                   },
                 ),
                 Align(
-                  alignment: AlignmentDirectional(0.0, 0.0),
+                  alignment: const AlignmentDirectional(0.0, 0.0),
                   child: Container(
                     width: 300.0,
                     height: 60.0,
-                    decoration: BoxDecoration(),
+                    decoration: const BoxDecoration(),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -159,7 +156,7 @@ class _NotificationsWidgetState extends State<NotificationsWidget>
                 ),
               ],
             ),
-            actions: [],
+            actions: const [],
             centerTitle: true,
             elevation: 1.0,
           ),
@@ -170,10 +167,10 @@ class _NotificationsWidgetState extends State<NotificationsWidget>
             mainAxisSize: MainAxisSize.max,
             children: [
               Align(
-                alignment: AlignmentDirectional(0.0, 0.0),
+                alignment: const AlignmentDirectional(0.0, 0.0),
                 child: Padding(
                   padding:
-                      EdgeInsetsDirectional.fromSTEB(35.0, 38.0, 35.0, 38.0),
+                      const EdgeInsetsDirectional.fromSTEB(35.0, 38.0, 35.0, 38.0),
                   child: Container(
                     height: 30.0,
                     decoration: BoxDecoration(
@@ -189,7 +186,7 @@ class _NotificationsWidgetState extends State<NotificationsWidget>
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 16.0, 0.0),
                               child: Container(
                                 width: 24.0,
@@ -198,7 +195,7 @@ class _NotificationsWidgetState extends State<NotificationsWidget>
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
-                                child: Icon(
+                                child: const Icon(
                                   Icons.notifications_outlined,
                                   color: Color(0xFF40A5A5),
                                   size: 24.0,
@@ -233,7 +230,7 @@ class _NotificationsWidgetState extends State<NotificationsWidget>
                                             .fontStyle,
                                       ),
                                 ),
-                              ].divide(SizedBox(height: 4.0)),
+                              ].divide(const SizedBox(height: 4.0)),
                             ),
                           ],
                         ),
@@ -246,9 +243,9 @@ class _NotificationsWidgetState extends State<NotificationsWidget>
                               value: _model.switchValue!,
                               onChanged: (newValue) async {
                                 safeSetState(
-                                    () => _model.switchValue = newValue!);
+                                    () => _model.switchValue = newValue);
                               },
-                              activeTrackColor: Color(0xFF40A5A5),
+                              activeTrackColor: const Color(0xFF40A5A5),
                               inactiveTrackColor:
                                   FlutterFlowTheme.of(context).alternate,
                               inactiveThumbColor: FlutterFlowTheme.of(context)
@@ -262,7 +259,7 @@ class _NotificationsWidgetState extends State<NotificationsWidget>
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 24.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 24.0),
                 child: Text(
                   FFLocalizations.of(context).getText(
                     '34tdq6vv' /* Stay updated with the latest f... */,
@@ -285,38 +282,38 @@ class _NotificationsWidgetState extends State<NotificationsWidget>
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
                 child: Container(
                   width: MediaQuery.sizeOf(context).width * 1.0,
                   height: 132.0,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20.0),
                     border: Border.all(
-                      color: Color(0xFF40E0D0),
+                      color: const Color(0xFF40E0D0),
                     ),
                   ),
                   child: Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 14.0, 0.0, 14.0),
+                        const EdgeInsetsDirectional.fromSTEB(0.0, 14.0, 0.0, 14.0),
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Align(
-                          alignment: AlignmentDirectional(0.0, 0.0),
+                          alignment: const AlignmentDirectional(0.0, 0.0),
                           child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 25.0, 0.0, 0.0, 0.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.settings_outlined,
                                   color: Color(0xFF40E0D0),
                                   size: 24.0,
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       13.0, 0.0, 0.0, 0.0),
                                   child: Text(
                                     FFLocalizations.of(context).getText(
@@ -353,18 +350,18 @@ class _NotificationsWidgetState extends State<NotificationsWidget>
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               25.0, 0.0, 0.0, 0.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.notifications_active_outlined,
                                 color: Color(0xFF40E0D0),
                                 size: 24.0,
                               ),
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     13.0, 0.0, 0.0, 0.0),
                                 child: Text(
                                   FFLocalizations.of(context).getText(
@@ -398,18 +395,18 @@ class _NotificationsWidgetState extends State<NotificationsWidget>
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               25.0, 0.0, 0.0, 0.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.toggle_off_outlined,
                                 color: Color(0xFF40E0D0),
                                 size: 24.0,
                               ),
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     13.0, 0.0, 0.0, 0.0),
                                 child: Text(
                                   FFLocalizations.of(context).getText(

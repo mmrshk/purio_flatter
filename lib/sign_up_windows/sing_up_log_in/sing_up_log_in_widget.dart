@@ -1,12 +1,9 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:ui';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'sing_up_log_in_model.dart';
 export 'sing_up_log_in_model.dart';
 
@@ -102,7 +99,7 @@ class _SingUpLogInWidgetState extends State<SingUpLogInWidget> with RouteAware {
             mainAxisSize: MainAxisSize.max,
             children: [
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0.0, 180.0, 0.0, 100.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 180.0, 0.0, 100.0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -132,7 +129,7 @@ class _SingUpLogInWidgetState extends State<SingUpLogInWidget> with RouteAware {
                                           .bodyMedium
                                           .fontStyle,
                                     ),
-                                    color: Color(0xFF6A7F98),
+                                    color: const Color(0xFF6A7F98),
                                     fontSize: 22.0,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.bold,
@@ -147,7 +144,7 @@ class _SingUpLogInWidgetState extends State<SingUpLogInWidget> with RouteAware {
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -156,7 +153,7 @@ class _SingUpLogInWidgetState extends State<SingUpLogInWidget> with RouteAware {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 18.0),
                           child: InkWell(
                             splashColor: Colors.transparent,
@@ -170,17 +167,17 @@ class _SingUpLogInWidgetState extends State<SingUpLogInWidget> with RouteAware {
                               width: 305.0,
                               height: 43.0,
                               decoration: BoxDecoration(
-                                color: Color(0xFF40E0D0),
+                                color: const Color(0xFF40E0D0),
                                 borderRadius: BorderRadius.circular(30.0),
                               ),
-                              alignment: AlignmentDirectional(0.0, 0.0),
+                              alignment: const AlignmentDirectional(0.0, 0.0),
                               child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     26.0, 0.0, 26.0, 0.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
-                                    Padding(
+                                    const Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 0.0, 35.0, 0.0),
                                       child: Icon(
@@ -220,7 +217,7 @@ class _SingUpLogInWidgetState extends State<SingUpLogInWidget> with RouteAware {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 18.0),
                           child: Container(
                             width: 305.0,
@@ -234,15 +231,15 @@ class _SingUpLogInWidgetState extends State<SingUpLogInWidget> with RouteAware {
                               ),
                             ),
                             child: Align(
-                              alignment: AlignmentDirectional(0.0, 0.0),
+                              alignment: const AlignmentDirectional(0.0, 0.0),
                               child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     26.0, 0.0, 26.0, 0.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           0.0, 0.0, 35.0, 0.0),
                                       child: Icon(
                                         Icons.apple,
@@ -292,13 +289,13 @@ class _SingUpLogInWidgetState extends State<SingUpLogInWidget> with RouteAware {
                             ),
                           ),
                           child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 26.0, 0.0, 26.0, 0.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 35.0, 0.0),
                                   child: FaIcon(
                                     FontAwesomeIcons.google,

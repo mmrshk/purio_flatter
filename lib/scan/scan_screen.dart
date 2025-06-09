@@ -1,25 +1,73 @@
-import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'dart:async';
+import '/product/product_details/product_details_widget.dart';
+import '/backend/supabase/database/tables/product.dart';
 
 class ScanScreen extends StatefulWidget {
+  const ScanScreen({super.key});
+
   @override
   State<ScanScreen> createState() => _ScanScreenState();
 }
 
-class _ScanScreenState extends State<ScanScreen> {
-  bool isBarcodeMode = true;
+class _ScanScreenState extends State<ScanScreen> with WidgetsBindingObserver {
   bool isFlashOn = false;
   CameraController? _cameraController;
   List<CameraDescription>? _cameras;
-  MobileScannerController _barcodeController = MobileScannerController();
+  final MobileScannerController _barcodeController = MobileScannerController(
+    formats: [BarcodeFormat.ean13, BarcodeFormat.ean8, BarcodeFormat.code128, BarcodeFormat.code39, BarcodeFormat.upcA, BarcodeFormat.upcE],
+    autoStart: true,
+  );
+  String? _lastScannedCode;
+  bool isProcessingBarcode = false;
+  StreamSubscription<Object?>? _barcodeSubscription;
+  bool _scannerStarted = false;
 
   @override
   void initState() {
     super.initState();
-    _initCamera();
+    WidgetsBinding.instance.addObserver(this);
+    _startScanner();
+  }
+
+  void _startScanner() {
+    if (!_scannerStarted) {
+      _barcodeSubscription = _barcodeController.barcodes.listen(_onBarcodeDetected);
+      _barcodeController.start();
+      setState(() {
+        _scannerStarted = true;
+      });
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.detached:
+      case AppLifecycleState.hidden:
+      case AppLifecycleState.paused:
+        _barcodeSubscription?.cancel();
+        _barcodeSubscription = null;
+        _barcodeController.stop();
+        break;
+      case AppLifecycleState.resumed:
+        _startScanner();
+        break;
+      case AppLifecycleState.inactive:
+        _barcodeSubscription?.cancel();
+        _barcodeSubscription = null;
+        _barcodeController.stop();
+        break;
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _startScanner();
   }
 
   Future<void> _initCamera() async {
@@ -37,48 +85,66 @@ class _ScanScreenState extends State<ScanScreen> {
 
   @override
   void dispose() {
-    _cameraController?.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+    _barcodeSubscription?.cancel();
+    _barcodeSubscription = null;
     _barcodeController.dispose();
+    _cameraController?.dispose();
     super.dispose();
   }
 
   void _toggleFlash() {
-    if (isBarcodeMode) {
-      _barcodeController.toggleTorch();
-    } else {
-      if (_cameraController != null) {
-        isFlashOn = !isFlashOn;
-        _cameraController!.setFlashMode(
-          isFlashOn ? FlashMode.torch : FlashMode.off,
-        );
-        setState(() {});
-      }
+    if (_cameraController != null) {
+      isFlashOn = !isFlashOn;
+      _cameraController!.setFlashMode(
+        isFlashOn ? FlashMode.torch : FlashMode.off,
+      );
+      setState(() {});
     }
   }
 
-  Future<void> _takePhoto() async {
-    if (_cameraController == null || !_cameraController!.value.isInitialized) return;
-    final XFile file = await _cameraController!.takePicture();
-    // Optionally, save to gallery or temp directory
-    final Directory tempDir = await getTemporaryDirectory();
-    final String tempPath = '${tempDir.path}/${DateTime.now().millisecondsSinceEpoch}.jpg';
-    await file.saveTo(tempPath);
-
-    // TODO: Call your Supabase API with the photo file
-    // final result = await yourSupabaseApiCall(File(tempPath));
-    // if (result != null) {
-    //   Navigator.pushNamed(context, '/productDetails', arguments: result);
-    // }
-  }
-
   void _onBarcodeDetected(BarcodeCapture capture) async {
+    print('Barcode detected: ${capture.barcodes.map((b) => b.rawValue).toList()}');
     final String? code = capture.barcodes.first.rawValue;
-    if (code != null) {
-      // TODO: Call your Supabase API with the barcode
-      // final result = await yourSupabaseApiCall(code);
-      // if (result != null) {
-      //   Navigator.pushNamed(context, '/productDetails', arguments: result);
-      // }
+    
+    if (code != null && code != _lastScannedCode && !isProcessingBarcode) {
+      setState(() {
+        isProcessingBarcode = true;
+        _lastScannedCode = code;
+      });
+
+      //  final result = await Supabase.instance.client
+      //     .from('Products')
+      //     .select()
+      //     .eq('barcode', code)
+      //     .maybeSingle();
+
+      final products = await Supabase.instance.client
+        .from('Products')
+        .select()
+        .order('id', ascending: false)
+        .limit(1);
+
+      print('Products: $products');
+
+      if (products.isNotEmpty) {
+        print('Mounted: ${mounted}');
+        if (mounted) {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (_) => ProductDetailsWidget(
+              product: ProductRow(products.first),
+              fromScan: true,
+            ),
+          ));
+        }
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Product not found')),
+          );
+          setState(() => isProcessingBarcode = false);
+        }
+      }
     }
   }
 
@@ -89,15 +155,20 @@ class _ScanScreenState extends State<ScanScreen> {
       body: Stack(
         children: [
           Positioned.fill(
-            child: isBarcodeMode
+            child: _scannerStarted
                 ? MobileScanner(
                     controller: _barcodeController,
-                    allowDuplicates: false,
-                    onDetect: _onBarcodeDetected,
+                    onDetect: (_) {},
+                    errorBuilder: (context, error, child) {
+                      return Center(
+                        child: Text(
+                          'Camera error: $error',
+                          style: TextStyle(color: Colors.red, fontSize: 18),
+                        ),
+                      );
+                    },
                   )
-                : (_cameraController != null && _cameraController!.value.isInitialized)
-                    ? CameraPreview(_cameraController!)
-                    : Center(child: CircularProgressIndicator()),
+                : const Center(child: CircularProgressIndicator()),
           ),
           // Overlay frame
           Positioned.fill(
@@ -107,7 +178,7 @@ class _ScanScreenState extends State<ScanScreen> {
                   width: 300,
                   height: 300,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white, width: 4),
+                    border: Border.all(color: isProcessingBarcode ? Colors.blue : Colors.white, width: 4),
                     borderRadius: BorderRadius.circular(24),
                   ),
                 ),
@@ -119,7 +190,7 @@ class _ScanScreenState extends State<ScanScreen> {
             top: 60,
             left: 24,
             child: IconButton(
-              icon: Icon(Icons.close, size: 36, color: Colors.teal),
+              icon: const Icon(Icons.close, size: 36, color: Colors.teal),
               onPressed: () => Navigator.pop(context),
             ),
           ),
@@ -134,32 +205,6 @@ class _ScanScreenState extends State<ScanScreen> {
                 color: Colors.teal,
               ),
               onPressed: _toggleFlash,
-            ),
-          ),
-          // Bottom buttons
-          Positioned(
-            bottom: 40,
-            left: 0,
-            right: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _ScanButton(
-                  icon: Icons.camera_alt,
-                  label: 'Photo',
-                  selected: !isBarcodeMode,
-                  onTap: () => setState(() => isBarcodeMode = false),
-                  onAction: _takePhoto,
-                  enabled: !isBarcodeMode,
-                ),
-                _ScanButton(
-                  icon: Icons.qr_code_scanner,
-                  label: 'Barcode',
-                  selected: isBarcodeMode,
-                  onTap: () => setState(() => isBarcodeMode = true),
-                  enabled: isBarcodeMode,
-                ),
-              ],
             ),
           ),
         ],
@@ -200,14 +245,14 @@ class _ScanButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(icon, color: Colors.white, size: 28),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Text(
               label,
-              style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+              style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
             ),
             if (onAction != null && enabled)
               IconButton(
-                icon: Icon(Icons.circle, color: Colors.white, size: 20),
+                icon: const Icon(Icons.circle, color: Colors.white, size: 20),
                 onPressed: onAction,
               ),
           ],

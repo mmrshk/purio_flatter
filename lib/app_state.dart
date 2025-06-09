@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import '/backend/schema/structs/index.dart';
-import '/backend/api_requests/api_manager.dart';
-import 'backend/supabase/supabase.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 
 class FFAppState extends ChangeNotifier {
@@ -51,12 +47,10 @@ class FFAppState extends ChangeNotifier {
 
   late LoggableList<String> _expectations = LoggableList([]);
   List<String> get expectations =>
-      _expectations?..logger = () => debugLogAppState(this);
+      _expectations..logger = () => debugLogAppState(this);
   set expectations(List<String> value) {
-    if (value != null) {
-      _expectations = LoggableList(value);
-    }
-
+    _expectations = LoggableList(value);
+  
     debugLogAppState(this);
   }
 

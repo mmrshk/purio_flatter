@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
-import '../schema/structs/index.dart';
 
 import 'package:flutter/foundation.dart';
 
@@ -17,7 +15,7 @@ class OpenFoodFactsAPICall {
   }) async {
     return ApiManager.instance.makeApiCall(
       callName: 'Open Food Facts API',
-      apiUrl: 'https://world.openfoodfacts.org/api/v0/product/${barCodeValue}',
+      apiUrl: 'https://world.openfoodfacts.org/api/v0/product/$barCodeValue',
       callType: ApiCallType.GET,
       headers: {
         'User-Agent': 'Purio - Android - Version 1.0',
@@ -32,7 +30,7 @@ class OpenFoodFactsAPICall {
     );
   }
 
-  static dynamic? product(dynamic response) => getJsonField(
+  static dynamic product(dynamic response) => getJsonField(
         response,
         r'''$.product''',
       );

@@ -1,14 +1,8 @@
 import '/components/first_question_widget.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:ui';
 import '/index.dart';
 import 'continue1st_question_widget.dart' show Continue1stQuestionWidget;
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 class Continue1stQuestionModel
     extends FlutterFlowModel<Continue1stQuestionWidget> {
@@ -22,7 +16,7 @@ class Continue1stQuestionModel
 
   String? get selectedLevel => _selectedLevel;
 
-  Color _selectedBtnColor = Color(4294967295);
+  Color _selectedBtnColor = const Color(0xffffffff);
   set selectedBtnColor(Color value) {
     _selectedBtnColor = value;
     debugLogWidgetClass(this);
@@ -87,11 +81,11 @@ class Continue1stQuestionModel
         backendQueries: debugBackendQueries,
         componentStates: {
           'firstQuestionModel1 (FirstQuestion)':
-              firstQuestionModel1?.toWidgetClassDebugData(),
+              firstQuestionModel1.toWidgetClassDebugData(),
           'firstQuestionModel2 (FirstQuestion)':
-              firstQuestionModel2?.toWidgetClassDebugData(),
+              firstQuestionModel2.toWidgetClassDebugData(),
           'firstQuestionModel3 (FirstQuestion)':
-              firstQuestionModel3?.toWidgetClassDebugData(),
+              firstQuestionModel3.toWidgetClassDebugData(),
           ...widgetBuilderComponents.map(
             (key, value) => MapEntry(
               key,

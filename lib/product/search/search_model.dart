@@ -1,13 +1,7 @@
 import '/components/search_product_widget.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:ui';
 import 'search_widget.dart' show SearchWidget;
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 class SearchModel extends FlutterFlowModel<SearchWidget> {
   ///  State fields for stateful widgets in this page.
@@ -60,19 +54,19 @@ class SearchModel extends FlutterFlowModel<SearchWidget> {
         backendQueries: debugBackendQueries,
         componentStates: {
           'searchProductModel1 (SearchProduct)':
-              searchProductModel1?.toWidgetClassDebugData(),
+              searchProductModel1.toWidgetClassDebugData(),
           'searchProductModel2 (SearchProduct)':
-              searchProductModel2?.toWidgetClassDebugData(),
+              searchProductModel2.toWidgetClassDebugData(),
           'searchProductModel3 (SearchProduct)':
-              searchProductModel3?.toWidgetClassDebugData(),
+              searchProductModel3.toWidgetClassDebugData(),
           'searchProductModel4 (SearchProduct)':
-              searchProductModel4?.toWidgetClassDebugData(),
+              searchProductModel4.toWidgetClassDebugData(),
           'searchProductModel5 (SearchProduct)':
-              searchProductModel5?.toWidgetClassDebugData(),
+              searchProductModel5.toWidgetClassDebugData(),
           'searchProductModel6 (SearchProduct)':
-              searchProductModel6?.toWidgetClassDebugData(),
+              searchProductModel6.toWidgetClassDebugData(),
           'searchProductModel7 (SearchProduct)':
-              searchProductModel7?.toWidgetClassDebugData(),
+              searchProductModel7.toWidgetClassDebugData(),
           ...widgetBuilderComponents.map(
             (key, value) => MapEntry(
               key,

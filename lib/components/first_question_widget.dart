@@ -1,7 +1,6 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -99,14 +98,14 @@ class _FirstQuestionWidgetState extends State<FirstQuestionWidget>
     context.watch<FFAppState>();
 
     return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 25.0),
+      padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 25.0),
       child: InkWell(
         splashColor: Colors.transparent,
         focusColor: Colors.transparent,
         hoverColor: Colors.transparent,
         highlightColor: Colors.transparent,
         onTap: () async {
-          FFAppState().level = widget!.level!;
+          FFAppState().level = widget.level!;
           _model.updatePage(() {});
         },
         child: Container(
@@ -116,17 +115,17 @@ class _FirstQuestionWidgetState extends State<FirstQuestionWidget>
             color: Colors.white,
             borderRadius: BorderRadius.circular(10.0),
             border: Border.all(
-              color: Color(0xFF40E0D0),
+              color: const Color(0xFF40E0D0),
             ),
           ),
           child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 19.0, 0.0),
+            padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 19.0, 0.0),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(50.0, 0.0, 0.0, 0.0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(50.0, 0.0, 0.0, 0.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -134,7 +133,7 @@ class _FirstQuestionWidgetState extends State<FirstQuestionWidget>
                     children: [
                       Text(
                         valueOrDefault<String>(
-                          widget!.level,
+                          widget.level,
                           'level',
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -155,10 +154,10 @@ class _FirstQuestionWidgetState extends State<FirstQuestionWidget>
                       ),
                       Padding(
                         padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
                         child: Text(
                           valueOrDefault<String>(
-                            widget!.description,
+                            widget.description,
                             'description',
                           ),
                           style:
@@ -169,7 +168,7 @@ class _FirstQuestionWidgetState extends State<FirstQuestionWidget>
                                           .bodyMedium
                                           .fontStyle,
                                     ),
-                                    color: Color(0xFF6A7F98),
+                                    color: const Color(0xFF6A7F98),
                                     fontSize: 14.0,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.normal,
@@ -183,13 +182,13 @@ class _FirstQuestionWidgetState extends State<FirstQuestionWidget>
                   ),
                 ),
                 Align(
-                  alignment: AlignmentDirectional(0.0, 0.0),
+                  alignment: const AlignmentDirectional(0.0, 0.0),
                   child: Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(30.0, 0.0, 0.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(30.0, 0.0, 0.0, 0.0),
                     child: FFButtonWidget(
                       onPressed: () {
-                        print('Button pressed ...');
+                        Navigator.pop(context);
                       },
                       text: FFLocalizations.of(context).getText(
                         '4nrmy9zk' /*  */,
@@ -198,11 +197,11 @@ class _FirstQuestionWidgetState extends State<FirstQuestionWidget>
                         width: 37.0,
                         height: 37.0,
                         padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                         iconAlignment: IconAlignment.start,
                         iconPadding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                        color: FFAppState().level == widget!.level
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                        color: FFAppState().level == widget.level
                             ? FlutterFlowTheme.of(context).secondary
                             : Colors.white,
                         textStyle:
@@ -220,7 +219,7 @@ class _FirstQuestionWidgetState extends State<FirstQuestionWidget>
                                       .titleSmall
                                       .fontStyle,
                                 ),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Color(0xFF6A7F98),
                           width: 2.0,
                         ),

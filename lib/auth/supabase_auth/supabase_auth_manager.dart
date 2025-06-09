@@ -7,7 +7,6 @@ import '/flutter_flow/flutter_flow_util.dart';
 import 'email_auth.dart';
 
 import 'supabase_user_provider.dart';
-import '/flutter_flow/flutter_flow_util.dart';
 
 export '/auth/base_auth_user_provider.dart';
 
@@ -33,7 +32,7 @@ class SupabaseAuthManager extends AuthManager with EmailSignInManager {
                 .getText(
                   'sgr8p66f' /* Authentication Error: [error] */,
                 )
-                .replaceAll('[error]', e.message!))),
+                .replaceAll('[error]', e.message))),
       );
     }
   }
@@ -57,12 +56,12 @@ class SupabaseAuthManager extends AuthManager with EmailSignInManager {
                 .getText(
                   'sgr8p66f' /* Authentication Error: [error] */,
                 )
-                .replaceAll('[error]', e.message!))),
+                .replaceAll('[error]', e.message))),
       );
       return;
     }
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Email change confirmation email sent')),
+      const SnackBar(content: Text('Email change confirmation email sent')),
     );
   }
 
@@ -85,12 +84,12 @@ class SupabaseAuthManager extends AuthManager with EmailSignInManager {
                 .getText(
                   'sgr8p66f' /* Authentication Error: [error] */,
                 )
-                .replaceAll('[error]', e.message!))),
+                .replaceAll('[error]', e.message))),
       );
       return;
     }
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Password updated successfully')),
+      const SnackBar(content: Text('Password updated successfully')),
     );
   }
 
@@ -111,12 +110,12 @@ class SupabaseAuthManager extends AuthManager with EmailSignInManager {
                 .getText(
                   'sgr8p66f' /* Authentication Error: [error] */,
                 )
-                .replaceAll('[error]', e.message!))),
+                .replaceAll('[error]', e.message))),
       );
       return null;
     }
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Password reset email sent')),
+      const SnackBar(content: Text('Password reset email sent')),
     );
   }
 
@@ -170,7 +169,7 @@ class SupabaseAuthManager extends AuthManager with EmailSignInManager {
               .getText(
                 'sgr8p66f' /* Authentication Error: [error] */,
               )
-              .replaceAll('[error]', e.message!);
+              .replaceAll('[error]', e.message);
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(errorMsg)),

@@ -2,11 +2,9 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:ui';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'continue_account_details_model.dart';
 export 'continue_account_details_model.dart';
 
@@ -111,7 +109,7 @@ class _ContinueAccountDetailsWidgetState
         key: scaffoldKey,
         backgroundColor: Colors.white,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60.0),
+          preferredSize: const Size.fromHeight(60.0),
           child: AppBar(
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
             automaticallyImplyLeading: false,
@@ -122,8 +120,8 @@ class _ContinueAccountDetailsWidgetState
                   borderColor: Colors.transparent,
                   borderRadius: 100.0,
                   buttonSize: 45.0,
-                  fillColor: Color(0xFFFAF9F9),
-                  icon: Icon(
+                  fillColor: const Color(0xFFFAF9F9),
+                  icon: const Icon(
                     Icons.arrow_back_ios_new,
                     color: Color(0xFF40A5A5),
                     size: 24.0,
@@ -134,7 +132,7 @@ class _ContinueAccountDetailsWidgetState
                 ),
               ],
             ),
-            actions: [],
+            actions: const [],
             centerTitle: true,
             elevation: 1.0,
           ),
@@ -146,37 +144,37 @@ class _ContinueAccountDetailsWidgetState
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Align(
-                alignment: AlignmentDirectional(0.0, 0.0),
+                alignment: const AlignmentDirectional(0.0, 0.0),
                 child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 66.0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 66.0),
                   child: Container(
                     decoration: BoxDecoration(
                       color: FlutterFlowTheme.of(context).secondaryBackground,
                       borderRadius: BorderRadius.circular(0.0),
                     ),
-                    alignment: AlignmentDirectional(-1.0, -1.0),
+                    alignment: const AlignmentDirectional(-1.0, -1.0),
                     child: Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 66.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 66.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 0.0, 51.0, 0.0, 23.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       23.0, 0.0, 0.0, 0.0),
                                   child: Container(
                                     width:
                                         MediaQuery.sizeOf(context).width * 0.8,
-                                    decoration: BoxDecoration(),
+                                    decoration: const BoxDecoration(),
                                     child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           0.0, 0.0, 0.0, 16.0),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,
@@ -185,7 +183,7 @@ class _ContinueAccountDetailsWidgetState
                                         children: [
                                           Padding(
                                             padding:
-                                                EdgeInsetsDirectional.fromSTEB(
+                                                const EdgeInsetsDirectional.fromSTEB(
                                                     0.0, 0.0, 0.0, 15.0),
                                             child: Text(
                                               FFLocalizations.of(context)
@@ -252,13 +250,13 @@ class _ContinueAccountDetailsWidgetState
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 23.0, 0.0, 0.0, 0.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Container(
+                                SizedBox(
                                   width: 350.0,
                                   child: Form(
                                     key: _model.formKey,
@@ -268,7 +266,7 @@ class _ContinueAccountDetailsWidgetState
                                       children: [
                                         Padding(
                                           padding:
-                                              EdgeInsetsDirectional.fromSTEB(
+                                              const EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 0.0, 0.0, 25.0),
                                           child: Container(
                                             width: 350.0,
@@ -278,10 +276,10 @@ class _ContinueAccountDetailsWidgetState
                                               borderRadius:
                                                   BorderRadius.circular(10.0),
                                               border: Border.all(
-                                                color: Color(0xFF40E0D0),
+                                                color: const Color(0xFF40E0D0),
                                               ),
                                             ),
-                                            child: Container(
+                                            child: SizedBox(
                                               width: MediaQuery.sizeOf(context)
                                                       .width *
                                                   1.0,
@@ -360,7 +358,7 @@ class _ContinueAccountDetailsWidgetState
                                                       ),
                                                   enabledBorder:
                                                       OutlineInputBorder(
-                                                    borderSide: BorderSide(
+                                                    borderSide: const BorderSide(
                                                       color: Color(0x00000000),
                                                       width: 1.0,
                                                     ),
@@ -370,7 +368,7 @@ class _ContinueAccountDetailsWidgetState
                                                   ),
                                                   focusedBorder:
                                                       OutlineInputBorder(
-                                                    borderSide: BorderSide(
+                                                    borderSide: const BorderSide(
                                                       color: Color(0x00000000),
                                                       width: 1.0,
                                                     ),
@@ -450,7 +448,7 @@ class _ContinueAccountDetailsWidgetState
                                         ),
                                         Padding(
                                           padding:
-                                              EdgeInsetsDirectional.fromSTEB(
+                                              const EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 0.0, 0.0, 25.0),
                                           child: Container(
                                             width: 350.0,
@@ -460,13 +458,13 @@ class _ContinueAccountDetailsWidgetState
                                               borderRadius:
                                                   BorderRadius.circular(10.0),
                                               border: Border.all(
-                                                color: Color(0xFF40E0D0),
+                                                color: const Color(0xFF40E0D0),
                                               ),
                                             ),
                                             child: Padding(
-                                              padding: EdgeInsetsDirectional
+                                              padding: const EdgeInsetsDirectional
                                                   .fromSTEB(0.0, 0.0, 0.0, 3.0),
-                                              child: Container(
+                                              child: SizedBox(
                                                 width:
                                                     MediaQuery.sizeOf(context)
                                                             .width *
@@ -547,7 +545,7 @@ class _ContinueAccountDetailsWidgetState
                                                             ),
                                                     enabledBorder:
                                                         OutlineInputBorder(
-                                                      borderSide: BorderSide(
+                                                      borderSide: const BorderSide(
                                                         color:
                                                             Color(0x00000000),
                                                         width: 1.0,
@@ -558,7 +556,7 @@ class _ContinueAccountDetailsWidgetState
                                                     ),
                                                     focusedBorder:
                                                         OutlineInputBorder(
-                                                      borderSide: BorderSide(
+                                                      borderSide: const BorderSide(
                                                         color:
                                                             Color(0x00000000),
                                                         width: 1.0,
@@ -661,15 +659,15 @@ class _ContinueAccountDetailsWidgetState
                     children: [
                       Padding(
                         padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 80.0),
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 80.0),
                         child: Container(
                           width: 305.0,
                           height: 43.0,
                           decoration: BoxDecoration(
-                            color: Color(0xFF40E0D0),
+                            color: const Color(0xFF40E0D0),
                             borderRadius: BorderRadius.circular(30.0),
                           ),
-                          alignment: AlignmentDirectional(0.0, 0.0),
+                          alignment: const AlignmentDirectional(0.0, 0.0),
                           child: FFButtonWidget(
                             onPressed: () async {
                               FFAppState().firstName =
@@ -686,11 +684,11 @@ class _ContinueAccountDetailsWidgetState
                             options: FFButtonOptions(
                               width: 305.0,
                               height: 43.0,
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   16.0, 0.0, 16.0, 0.0),
-                              iconPadding: EdgeInsetsDirectional.fromSTEB(
+                              iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 0.0),
-                              color: Color(0xFF40E0D0),
+                              color: const Color(0xFF40E0D0),
                               textStyle: FlutterFlowTheme.of(context)
                                   .titleSmall
                                   .override(

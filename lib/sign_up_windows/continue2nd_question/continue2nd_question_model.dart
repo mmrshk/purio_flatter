@@ -1,16 +1,9 @@
-import '/auth/supabase_auth/auth_util.dart';
 import '/backend/supabase/supabase.dart';
 import '/components/second_question_widget.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:ui';
 import '/index.dart';
 import 'continue2nd_question_widget.dart' show Continue2ndQuestionWidget;
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 class Continue2ndQuestionModel
     extends FlutterFlowModel<Continue2ndQuestionWidget> {
@@ -79,17 +72,17 @@ class Continue2ndQuestionModel
         backendQueries: debugBackendQueries,
         componentStates: {
           'secondQuestionModel1 (SecondQuestion)':
-              secondQuestionModel1?.toWidgetClassDebugData(),
+              secondQuestionModel1.toWidgetClassDebugData(),
           'secondQuestionModel2 (SecondQuestion)':
-              secondQuestionModel2?.toWidgetClassDebugData(),
+              secondQuestionModel2.toWidgetClassDebugData(),
           'secondQuestionModel3 (SecondQuestion)':
-              secondQuestionModel3?.toWidgetClassDebugData(),
+              secondQuestionModel3.toWidgetClassDebugData(),
           'secondQuestionModel4 (SecondQuestion)':
-              secondQuestionModel4?.toWidgetClassDebugData(),
+              secondQuestionModel4.toWidgetClassDebugData(),
           'secondQuestionModel5 (SecondQuestion)':
-              secondQuestionModel5?.toWidgetClassDebugData(),
+              secondQuestionModel5.toWidgetClassDebugData(),
           'secondQuestionModel6 (SecondQuestion)':
-              secondQuestionModel6?.toWidgetClassDebugData(),
+              secondQuestionModel6.toWidgetClassDebugData(),
           ...widgetBuilderComponents.map(
             (key, value) => MapEntry(
               key,

@@ -2,13 +2,10 @@ import '/auth/supabase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:ui';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'log_in_model.dart';
 export 'log_in_model.dart';
 
@@ -111,7 +108,7 @@ class _LogInWidgetState extends State<LogInWidget> with RouteAware {
         key: scaffoldKey,
         backgroundColor: Colors.white,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60.0),
+          preferredSize: const Size.fromHeight(60.0),
           child: AppBar(
             backgroundColor: Colors.white,
             automaticallyImplyLeading: false,
@@ -124,8 +121,8 @@ class _LogInWidgetState extends State<LogInWidget> with RouteAware {
                   borderRadius: 100.0,
                   borderWidth: 1.0,
                   buttonSize: 45.0,
-                  fillColor: Color(0xFFFAF9F9),
-                  icon: Icon(
+                  fillColor: const Color(0xFFFAF9F9),
+                  icon: const Icon(
                     Icons.arrow_back_ios_new,
                     color: Color(0xFF40A5A5),
                     size: 24.0,
@@ -135,11 +132,11 @@ class _LogInWidgetState extends State<LogInWidget> with RouteAware {
                   },
                 ),
                 Align(
-                  alignment: AlignmentDirectional(0.0, 0.0),
+                  alignment: const AlignmentDirectional(0.0, 0.0),
                   child: Container(
                     width: 300.0,
                     height: 60.0,
-                    decoration: BoxDecoration(),
+                    decoration: const BoxDecoration(),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -171,7 +168,7 @@ class _LogInWidgetState extends State<LogInWidget> with RouteAware {
                 ),
               ],
             ),
-            actions: [],
+            actions: const [],
             centerTitle: true,
             elevation: 1.0,
           ),
@@ -186,7 +183,7 @@ class _LogInWidgetState extends State<LogInWidget> with RouteAware {
                 decoration: BoxDecoration(
                   color: FlutterFlowTheme.of(context).secondaryBackground,
                 ),
-                alignment: AlignmentDirectional(-1.0, -1.0),
+                alignment: const AlignmentDirectional(-1.0, -1.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
@@ -194,17 +191,17 @@ class _LogInWidgetState extends State<LogInWidget> with RouteAware {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 34.0, 0.0, 29.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     23.0, 0.0, 0.0, 0.0),
                                 child: Container(
-                                  decoration: BoxDecoration(),
+                                  decoration: const BoxDecoration(),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.max,
                                     crossAxisAlignment:
@@ -244,13 +241,13 @@ to yo... */
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               23.0, 0.0, 0.0, 0.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Container(
+                              SizedBox(
                                 width: 350.0,
                                 child: Form(
                                   key: _model.formKey,
@@ -259,7 +256,7 @@ to yo... */
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
                                       Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
                                             0.0, 0.0, 0.0, 18.0),
                                         child: Container(
                                           width: 350.0,
@@ -269,10 +266,10 @@ to yo... */
                                             borderRadius:
                                                 BorderRadius.circular(10.0),
                                             border: Border.all(
-                                              color: Color(0xFF40E0D0),
+                                              color: const Color(0xFF40E0D0),
                                             ),
                                           ),
-                                          child: Container(
+                                          child: SizedBox(
                                             width: MediaQuery.sizeOf(context)
                                                     .width *
                                                 1.0,
@@ -349,7 +346,7 @@ to yo... */
                                                     ),
                                                 enabledBorder:
                                                     OutlineInputBorder(
-                                                  borderSide: BorderSide(
+                                                  borderSide: const BorderSide(
                                                     color: Color(0x00000000),
                                                     width: 1.0,
                                                   ),
@@ -359,7 +356,7 @@ to yo... */
                                                 ),
                                                 focusedBorder:
                                                     OutlineInputBorder(
-                                                  borderSide: BorderSide(
+                                                  borderSide: const BorderSide(
                                                     color: Color(0x00000000),
                                                     width: 1.0,
                                                   ),
@@ -442,14 +439,14 @@ to yo... */
                                           borderRadius:
                                               BorderRadius.circular(10.0),
                                           border: Border.all(
-                                            color: Color(0xFF40E0D0),
+                                            color: const Color(0xFF40E0D0),
                                           ),
                                         ),
                                         child: Padding(
                                           padding:
-                                              EdgeInsetsDirectional.fromSTEB(
+                                              const EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 0.0, 0.0, 3.0),
-                                          child: Container(
+                                          child: SizedBox(
                                             width: MediaQuery.sizeOf(context)
                                                     .width *
                                                 1.0,
@@ -527,7 +524,7 @@ to yo... */
                                                     ),
                                                 enabledBorder:
                                                     OutlineInputBorder(
-                                                  borderSide: BorderSide(
+                                                  borderSide: const BorderSide(
                                                     color: Color(0x00000000),
                                                     width: 1.0,
                                                   ),
@@ -537,7 +534,7 @@ to yo... */
                                                 ),
                                                 focusedBorder:
                                                     OutlineInputBorder(
-                                                  borderSide: BorderSide(
+                                                  borderSide: const BorderSide(
                                                     color: Color(0x00000000),
                                                     width: 1.0,
                                                   ),
@@ -639,7 +636,7 @@ to yo... */
                         ),
                         Container(
                           height: 45.0,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             color: Colors.white,
                           ),
                         ),
@@ -667,19 +664,19 @@ to yo... */
                             width: 305.0,
                             height: 43.0,
                             decoration: BoxDecoration(
-                              color: Color(0xFF40E0D0),
+                              color: const Color(0xFF40E0D0),
                               borderRadius: BorderRadius.circular(30.0),
                             ),
-                            alignment: AlignmentDirectional(0.0, 0.0),
+                            alignment: const AlignmentDirectional(0.0, 0.0),
                             child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   26.0, 0.0, 26.0, 0.0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Align(
-                                    alignment: AlignmentDirectional(0.0, 0.0),
+                                    alignment: const AlignmentDirectional(0.0, 0.0),
                                     child: Text(
                                       FFLocalizations.of(context).getText(
                                         'bd1tkpa2' /* Log In */,
@@ -714,7 +711,7 @@ to yo... */
                     ),
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 25.0, 0.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 25.0, 0.0, 0.0),
                       child: Container(
                         width: 200.0,
                         height: 25.0,
@@ -748,16 +745,16 @@ to yo... */
                     ),
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 35.0, 0.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 35.0, 0.0, 0.0),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 20.0, 0.0, 20.0, 0.0),
                             child: Container(
                               width: 140.0,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 color: Color(0xFFDBD8D8),
                                 borderRadius: BorderRadius.only(
                                   bottomLeft: Radius.circular(0.0),
@@ -782,7 +779,7 @@ to yo... */
                                         .bodyMedium
                                         .fontStyle,
                                   ),
-                                  color: Color(0xFFDBD8D8),
+                                  color: const Color(0xFFDBD8D8),
                                   fontSize: 17.0,
                                   letterSpacing: 0.0,
                                   fontWeight: FontWeight.w500,
@@ -793,12 +790,12 @@ to yo... */
                                 ),
                           ),
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 20.0, 0.0, 20.0, 0.0),
                             child: Container(
                               width: 140.0,
                               height: 1.0,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 color: Color(0xFFDBD8D8),
                               ),
                             ),
@@ -808,7 +805,7 @@ to yo... */
                     ),
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 25.0, 0.0, 18.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 25.0, 0.0, 18.0),
                       child: Container(
                         width: 305.0,
                         height: 43.0,
@@ -819,13 +816,13 @@ to yo... */
                           ),
                         ),
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               26.0, 0.0, 26.0, 0.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 35.0, 0.0),
                                 child: Icon(
                                   Icons.apple,
@@ -870,13 +867,13 @@ to yo... */
                         ),
                       ),
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             26.0, 0.0, 26.0, 0.0),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 35.0, 0.0),
                               child: FaIcon(
                                 FontAwesomeIcons.google,

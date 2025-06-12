@@ -10,7 +10,160 @@ import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'home_screen_model.dart';
+import '/scan/scan_screen.dart';
 export 'home_screen_model.dart';
+
+class ExploreCard extends StatelessWidget {
+  final Color color;
+  final String imagePath;
+  final String title;
+  final String subtitle;
+  final VoidCallback onTap;
+
+  const ExploreCard({
+    super.key,
+    required this.color,
+    required this.imagePath,
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(24),
+      child: Container(
+        width: 160,
+        height: 170,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.08),
+              blurRadius: 16,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.asset(
+              imagePath,
+              width: 40,
+              height: 40,
+              fit: BoxFit.contain,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              title,
+              style: GoogleFonts.roboto(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: Colors.black,
+              ),
+              textAlign: TextAlign.left,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+            const SizedBox(height: 2),
+            Text(
+              subtitle,
+              style: GoogleFonts.roboto(
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
+                color: const Color(0xFF555555),
+              ),
+              textAlign: TextAlign.left,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ProductCard extends StatelessWidget {
+  final String imageUrl;
+  final String name;
+  final VoidCallback onTap;
+  final bool isLoading;
+  final ImageLoadingBuilder loadingBuilder;
+
+  const ProductCard({
+    super.key,
+    required this.imageUrl,
+    required this.name,
+    required this.onTap,
+    required this.isLoading,
+    required this.loadingBuilder,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        width: 140,
+        height: 190,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.07),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Shimmer(
+              linearGradient: _shimmerGradient,
+              child: ShimmerLoading(
+                isLoading: isLoading,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16.0),
+                  child: Image.network(
+                    imageUrl,
+                    width: 116,
+                    height: 116,
+                    fit: BoxFit.cover,
+                    loadingBuilder: loadingBuilder,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              name,
+              style: GoogleFonts.roboto(
+                fontWeight: FontWeight.w600,
+                fontSize: 15,
+                color: Colors.black,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.left,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 class HomeScreenWidget extends StatefulWidget {
   const HomeScreenWidget({super.key});
@@ -403,469 +556,59 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
                               ),
                               Align(
                                 alignment: const AlignmentDirectional(0.0, 0.0),
-                                child: Wrap(
-                                  spacing: 18.0,
-                                  runSpacing: 18.0,
-                                  alignment: WrapAlignment.spaceBetween,
-                                  crossAxisAlignment: WrapCrossAlignment.center,
-                                  direction: Axis.horizontal,
-                                  runAlignment: WrapAlignment.spaceBetween,
-                                  verticalDirection: VerticalDirection.down,
-                                  clipBehavior: Clip.none,
-                                  children: [
-                                    Container(
-                                      width: 160.0,
-                                      height: 160.0,
-                                      decoration: BoxDecoration(
+                                child: Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(23.0, 0.0, 23.0, 0.0),
+                                  child: Wrap(
+                                    spacing: 18.0,
+                                    runSpacing: 18.0,
+                                    alignment: WrapAlignment.spaceBetween,
+                                    crossAxisAlignment: WrapCrossAlignment.center,
+                                    direction: Axis.horizontal,
+                                    runAlignment: WrapAlignment.spaceBetween,
+                                    verticalDirection: VerticalDirection.down,
+                                    clipBehavior: Clip.none,
+                                    children: [
+                                      ExploreCard(
                                         color: const Color(0xFFE0F8F6),
-                                        borderRadius:
-                                            BorderRadius.circular(16.0),
+                                        imagePath: 'assets/images/Scan.png',
+                                        title: FFLocalizations.of(context).getText('ujegbdrr' /* Scan */),
+                                        subtitle: FFLocalizations.of(context).getText('8woh7s4n' /* Analyze products quickly. */),
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => const ScanScreen()),
+                                          );
+                                        },
                                       ),
-                                      child: Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            16.0, 16.0, 0.0, 16.0),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          16.0),
-                                                  child: Image.asset(
-                                                    'assets/images/Scan.png',
-                                                    width: 55.0,
-                                                    height: 55.0,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Text(
-                                                  FFLocalizations.of(context)
-                                                      .getText(
-                                                    'ujegbdrr' /* Scan */,
-                                                  ),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        font:
-                                                            GoogleFonts.roboto(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMedium
-                                                                  .fontStyle,
-                                                        ),
-                                                        color: Colors.black,
-                                                        fontSize: 18.0,
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                        .bodyMedium
-                                                                        .fontStyle,
-                                                      ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Text(
-                                                  FFLocalizations.of(context)
-                                                      .getText(
-                                                    '8woh7s4n' /* Analyze products 
-quickly. */
-                                                    ,
-                                                  ),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        font:
-                                                            GoogleFonts.roboto(
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMedium
-                                                                  .fontStyle,
-                                                        ),
-                                                        color:
-                                                            const Color(0xFF555555),
-                                                        fontSize: 14.0,
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                        .bodyMedium
-                                                                        .fontStyle,
-                                                      ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
+                                      ExploreCard(
+                                        color: const Color(0xFFFFF8D9),
+                                        imagePath: 'assets/images/Search.png',
+                                        title: FFLocalizations.of(context).getText('4dsnt882' /* Search */),
+                                        subtitle: FFLocalizations.of(context).getText('6k9wcww2' /* Find product info fast. */),
+                                        onTap: () {
+                                          context.pushNamed('Search');
+                                        },
                                       ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        context.pushNamed('Search');
-                                      },
-                                      child: Container(
-                                        width: 160.0,
-                                        height: 160.0,
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFFFFF8D9),
-                                          borderRadius:
-                                              BorderRadius.circular(16.0),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsetsDirectional.fromSTEB(
-                                              16.0, 16.0, 0.0, 16.0),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.0),
-                                                    child: Image.asset(
-                                                      'assets/images/Search.png',
-                                                      width: 55.0,
-                                                      height: 55.0,
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: [
-                                                  Text(
-                                                    FFLocalizations.of(context)
-                                                        .getText(
-                                                      '4dsnt882' /* Search */,
-                                                    ),
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          font:
-                                                              GoogleFonts.roboto(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontStyle:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .fontStyle,
-                                                          ),
-                                                          color: Colors.black,
-                                                          fontSize: 18.0,
-                                                          letterSpacing: 0.0,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMedium
-                                                                  .fontStyle,
-                                                        ),
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: [
-                                                  Text(
-                                                    FFLocalizations.of(context)
-                                                        .getText(
-                                                      '6k9wcww2' /* Find product info fast. */
-                                                      ,
-                                                    ),
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          font:
-                                                              GoogleFonts.roboto(
-                                                            fontWeight:
-                                                                FontWeight.normal,
-                                                            fontStyle:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .fontStyle,
-                                                          ),
-                                                          color:
-                                                              const Color(0xFF555555),
-                                                          fontSize: 14.0,
-                                                          letterSpacing: 0.0,
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMedium
-                                                                  .fontStyle,
-                                                        ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 160.0,
-                                      height: 160.0,
-                                      decoration: BoxDecoration(
+                                      ExploreCard(
                                         color: const Color(0xFFE6EDF8),
-                                        borderRadius:
-                                            BorderRadius.circular(16.0),
+                                        imagePath: 'assets/images/Additivies.png',
+                                        title: FFLocalizations.of(context).getText('ba1vcuow' /* Additives */),
+                                        subtitle: FFLocalizations.of(context).getText('nsdcps41' /* Learn what's inside. */),
+                                        onTap: () {
+                                          // TODO: Add navigation for Additives
+                                        },
                                       ),
-                                      child: Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            16.0, 16.0, 0.0, 16.0),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          8.0),
-                                                  child: Image.asset(
-                                                    'assets/images/Additivies.png',
-                                                    width: 55.0,
-                                                    height: 55.0,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Text(
-                                                  FFLocalizations.of(context)
-                                                      .getText(
-                                                    'ba1vcuow' /* Additives */,
-                                                  ),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        font:
-                                                            GoogleFonts.roboto(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMedium
-                                                                  .fontStyle,
-                                                        ),
-                                                        color: Colors.black,
-                                                        fontSize: 18.0,
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                        .bodyMedium
-                                                                        .fontStyle,
-                                                      ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Text(
-                                                  FFLocalizations.of(context)
-                                                      .getText(
-                                                    'nsdcps41' /* Learn what's inside. */,
-                                                  ),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        font:
-                                                            GoogleFonts.roboto(
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMedium
-                                                                  .fontStyle,
-                                                        ),
-                                                        color:
-                                                            const Color(0xFF555555),
-                                                        fontSize: 14.0,
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                        .bodyMedium
-                                                                        .fontStyle,
-                                                      ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 160.0,
-                                      height: 160.0,
-                                      decoration: BoxDecoration(
+                                      ExploreCard(
                                         color: const Color(0xFFFFE6E8),
-                                        borderRadius:
-                                            BorderRadius.circular(16.0),
+                                        imagePath: 'assets/images/Bad_Ingredients.png',
+                                        title: FFLocalizations.of(context).getText('sg8ho7tf' /* Bad Ingredients */),
+                                        subtitle: FFLocalizations.of(context).getText('ga6umnbw' /* Spot harmful items. */),
+                                        onTap: () {
+                                          // TODO: Add navigation for Bad Ingredients
+                                        },
                                       ),
-                                      child: Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            16.0, 16.0, 0.0, 16.0),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          8.0),
-                                                  child: Image.asset(
-                                                    'assets/images/Bad_Ingredients.png',
-                                                    width: 55.0,
-                                                    height: 55.0,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Text(
-                                                  FFLocalizations.of(context)
-                                                      .getText(
-                                                    'sg8ho7tf' /* Bad Ingredients */,
-                                                  ),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        font:
-                                                            GoogleFonts.roboto(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMedium
-                                                                  .fontStyle,
-                                                        ),
-                                                        color: Colors.black,
-                                                        fontSize: 18.0,
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                        .bodyMedium
-                                                                        .fontStyle,
-                                                      ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Text(
-                                                  FFLocalizations.of(context)
-                                                      .getText(
-                                                    'ga6umnbw' /* Spot harmful items. */,
-                                                  ),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        font:
-                                                            GoogleFonts.roboto(
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMedium
-                                                                  .fontStyle,
-                                                        ),
-                                                        color:
-                                                            const Color(0xFF555555),
-                                                        fontSize: 14.0,
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                        .bodyMedium
-                                                                        .fontStyle,
-                                                      ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                               Padding(
@@ -906,108 +649,67 @@ quickly. */
                                     23.0, 0.0, 0.0, 0.0),
                                 child: SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      if (_model.randomProducts != null)
-                                        ..._model.randomProducts!.asMap().entries.map((entry) {
-                                          final index = entry.key;
-                                          final product = entry.value;
-                                          return GestureDetector(
-                                            onTap: () {
-                                              context.pushNamed(
-                                                ProductDetailsWidget.routeName,
-                                                extra: <String, dynamic>{
-                                                  'product': product,
-                                                },
-                                              );
-                                            },
-                                            child: Padding(
-                                              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 16.0, 0.0),
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.max,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Shimmer(
-                                                    linearGradient: _shimmerGradient,
-                                                    child: ShimmerLoading(
-                                                      isLoading: !_loadedImageIndexes.contains(index),
-                                                      child: ClipRRect(
-                                                        borderRadius: BorderRadius.circular(16.0),
-                                                        child: Image.network(
-                                                          product.imageFrontUrl ?? 'https://picsum.photos/seed/895/600',
-                                                          width: 120.0,
-                                                          height: 120.0,
-                                                          fit: BoxFit.cover,
-                                                          loadingBuilder: (context, child, loadingProgress) {
-                                                            if (!_imageLoadStartTimes.containsKey(index)) {
-                                                              _imageLoadStartTimes[index] = DateTime.now();
-                                                            }
-                                                            if (loadingProgress == null) {
-                                                              final loadStart = _imageLoadStartTimes[index]!;
-                                                              final elapsed = DateTime.now().difference(loadStart).inMilliseconds;
-                                                              if (elapsed < _minSkeletonMillis) {
-                                                                Future.delayed(Duration(milliseconds: _minSkeletonMillis - elapsed), () {
-                                                                  if (mounted) setState(() {
-                                                                    _loadedImageIndexes.add(index);
-                                                                  });
-                                                                });
-                                                                return productImageSkeleton();
-                                                              } else {
-                                                                WidgetsBinding.instance.addPostFrameCallback((_) {
-                                                                  if (mounted) setState(() {
-                                                                    _loadedImageIndexes.add(index);
-                                                                  });
-                                                                });
-                                                                return child;
-                                                              }
-                                                            } else {
-                                                              return productImageSkeleton();
-                                                            }
-                                                          },
-                                                        ),
-                                                      ),
-                                                    ),
+                                  clipBehavior: Clip.none,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 12, right: 23, bottom: 23),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        if (_model.randomProducts != null)
+                                          ..._model.randomProducts!.asMap().entries.map((entry) {
+                                            final index = entry.key;
+                                            final product = entry.value;
+                                            return Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.only(bottom: 12),
+                                                  child: ProductCard(
+                                                    imageUrl: product.imageFrontUrl ?? 'https://picsum.photos/seed/895/600',
+                                                    name: product.name ?? '',
+                                                    isLoading: !_loadedImageIndexes.contains(index),
+                                                    onTap: () {
+                                                      context.pushNamed(
+                                                        ProductDetailsWidget.routeName,
+                                                        extra: <String, dynamic>{
+                                                          'product': product,
+                                                        },
+                                                      );
+                                                    },
+                                                    loadingBuilder: (context, child, loadingProgress) {
+                                                      if (!_imageLoadStartTimes.containsKey(index)) {
+                                                        _imageLoadStartTimes[index] = DateTime.now();
+                                                      }
+                                                      if (loadingProgress == null) {
+                                                        final loadStart = _imageLoadStartTimes[index]!;
+                                                        final elapsed = DateTime.now().difference(loadStart).inMilliseconds;
+                                                        if (elapsed < _minSkeletonMillis) {
+                                                          Future.delayed(Duration(milliseconds: _minSkeletonMillis - elapsed), () {
+                                                            if (mounted) setState(() {
+                                                              _loadedImageIndexes.add(index);
+                                                            });
+                                                          });
+                                                          return productImageSkeleton();
+                                                        } else {
+                                                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                                                            if (mounted) setState(() {
+                                                              _loadedImageIndexes.add(index);
+                                                            });
+                                                          });
+                                                          return child;
+                                                        }
+                                                      } else {
+                                                        return productImageSkeleton();
+                                                      }
+                                                    },
                                                   ),
-                                                  SizedBox(
-                                                    width: 120.0,
-                                                    height: 40.0,
-                                                    child: _loadedImageIndexes.contains(index)
-                                                        ? Text(
-                                                            product.name ?? '',
-                                                            style:
-                                                                FlutterFlowTheme.of(context)
-                                                                    .bodySmall
-                                                                    .override(
-                                                                      font:
-                                                                          GoogleFonts.roboto(
-                                                                            fontWeight: FlutterFlowTheme.of(
-                                                                                    context)
-                                                                                .bodySmall
-                                                                                .fontWeight,
-                                                                            fontStyle: FlutterFlowTheme.of(
-                                                                                    context)
-                                                                                .bodySmall
-                                                                                .fontStyle,
-                                                                          ),
-                                                                      letterSpacing: 0.0,
-                                                                      fontWeight: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodySmall
-                                                                        .fontWeight,
-                                                                    ),
-                                                          )
-                                                        : productNameSkeleton(),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          );
-                                        }).toList(),
-                                    ],
+                                                ),
+                                                const SizedBox(width: 12),
+                                              ],
+                                            );
+                                          }).toList(),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

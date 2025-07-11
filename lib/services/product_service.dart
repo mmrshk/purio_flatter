@@ -87,12 +87,12 @@ class ProductService {
       }
 
       // Update database
-      final updateData = {'health_score': healthScore};
+      final updateData = {'final_score': healthScore};
       
       // First, check if the product exists
       final existingProduct = await SupaFlow.client
-          .from('Products')
-          .select('id, health_score')
+          .from('products')
+          .select('id, final_score')
           .eq('id', product.id)
           .maybeSingle();
       
@@ -103,14 +103,14 @@ class ProductService {
       // Perform the update
       try {
         await SupaFlow.client
-            .from('Products')
+            .from('products')
             .update(updateData)
             .eq('id', product.id);
         
         // Fetch the updated data
         final updatedData = await SupaFlow.client
-            .from('Products')
-            .select('id, health_score')
+            .from('products')
+            .select('id, final_score')
             .eq('id', product.id)
             .maybeSingle();
         

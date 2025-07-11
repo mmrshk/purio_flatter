@@ -54,7 +54,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
         // Update the local product data
         if (mounted) {
           setState(() {
-            widget.product.healthScore = updateResponse['health_score'] as int?;
+            widget.product.healthScore = updateResponse['final_score'] as int?;
           });
         }
       }
@@ -723,7 +723,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                           'id': 1,
                                           'name': 'Sample Product',
                                           'category': 'Food',
-                                          'health_score': 75,
+                                          'final_score': 75,
                                           'specifications': {
                                             'ingredients': 'water, salt, sugar',
                                             'nutritional': {

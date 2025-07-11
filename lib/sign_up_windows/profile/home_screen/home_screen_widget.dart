@@ -220,8 +220,8 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
   Future<void> _fetchProducts() async {
     try {
       final result = await SupaFlow.client
-          .from('Products')
-          .select('id, name, image_front_url, category, created_at, updated_at, barcode, health_score, description, ingredients, supermarket_url, additional_images_urls, specifications, nutritional')
+          .from('products')
+          .select('id, name, image_front_url, category, created_at, updated_at, barcode, final_score, description, ingredients, supermarket_url, additional_images_urls, specifications, nutritional')
           .limit(20); // Fetch more than 5
 
       if (result.isNotEmpty) {
@@ -230,9 +230,12 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
         );
         allProducts.shuffle();
         _model.randomProducts = allProducts.take(5).toList();
+      } else {
+        _model.randomProducts = [];
       }
     } catch (e) {
-      // Handle error silently
+      print('Error fetching products: $e');
+      _model.randomProducts = [];
     }
     safeSetState(() {});
   }
@@ -380,20 +383,33 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
                                             child: Container(
                                               width: 47.0,
                                               height: 47.0,
-                                              clipBehavior: Clip.antiAlias,
-                                              decoration: const BoxDecoration(
+                                              decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
+                                                gradient: const LinearGradient(
+                                                  colors: [
+                                                    Color(0xFF50B2B2),
+                                                    Color(0xFF40A5A5),
+                                                  ],
+                                                  begin: Alignment.topLeft,
+                                                  end: Alignment.bottomRight,
+                                                ),
                                               ),
-                                              child: Image.asset(
-                                                'assets/images/UserImage.png',
-                                                fit: BoxFit.cover,
+                                              child: Center(
+                                                child: Text(
+                                                  '${FFAppState().firstName.isNotEmpty ? FFAppState().firstName[0].toUpperCase() : ''}${FFAppState().lastName.isNotEmpty ? FFAppState().lastName[0].toUpperCase() : ''}',
+                                                  style: GoogleFonts.roboto(
+                                                    fontSize: 18.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ),
                                           Padding(
                                             padding:
                                                 const EdgeInsetsDirectional.fromSTEB(
-                                                    30.0, 0.0, 0.0, 0.0),
+                                                    20.0, 0.0, 0.0, 0.0),
                                             child: Wrap(
                                               spacing: 0.0,
                                               runSpacing: 0.0,

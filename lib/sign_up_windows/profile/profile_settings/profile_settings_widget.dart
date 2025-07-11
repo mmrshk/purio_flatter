@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
+import '/auth/supabase_auth/auth_util.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -131,15 +132,13 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          FFLocalizations.of(context).getText(
-                            'pjqxy9ew' /* Profile Settings */,
-                          ),
+                          '${FFAppState().firstName.isNotEmpty ? FFAppState().firstName : ''} ${FFAppState().lastName.isNotEmpty ? FFAppState().lastName : ''}',
                           style: FlutterFlowTheme.of(context).bodyMedium.override(
                                 font: GoogleFonts.roboto(
                                   fontWeight: FontWeight.bold,
                                   fontStyle: FlutterFlowTheme.of(context)
                                       .bodyMedium
-                                      .fontStyle,
+                                      .fontStyle
                                 ),
                                 color: Colors.black,
                                 fontSize: 15.0,
@@ -205,16 +204,25 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                 Container(
                                                   width: 140.0,
                                                   height: 140.0,
-                                                  decoration: const BoxDecoration(),
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            100.0),
-                                                    child: Image.asset(
-                                                      'assets/images/ProfileImage.png',
-                                                      width: 140.0,
-                                                      height: 140.0,
-                                                      fit: BoxFit.cover,
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    gradient: const LinearGradient(
+                                                      colors: [
+                                                        Color(0xFF50B2B2),
+                                                        Color(0xFF40A5A5),
+                                                      ],
+                                                      begin: Alignment.topLeft,
+                                                      end: Alignment.bottomRight,
+                                                    ),
+                                                  ),
+                                                  child: Center(
+                                                    child: Text(
+                                                      '${FFAppState().firstName.isNotEmpty ? FFAppState().firstName[0].toUpperCase() : ''}${FFAppState().lastName.isNotEmpty ? FFAppState().lastName[0].toUpperCase() : ''}',
+                                                      style: GoogleFonts.roboto(
+                                                        fontSize: 48.0,
+                                                        fontWeight: FontWeight.bold,
+                                                        color: Colors.white,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -237,10 +245,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                 const EdgeInsetsDirectional.fromSTEB(
                                                     0.0, 0.0, 0.0, 9.0),
                                             child: Text(
-                                              FFLocalizations.of(context)
-                                                  .getText(
-                                                'pjqxy9ew' /* Shambhavi Mishra */,
-                                              ),
+                                              '${FFAppState().firstName} ${FFAppState().lastName}',
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium
@@ -275,9 +280,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                             ),
                                           ),
                                           Text(
-                                            FFLocalizations.of(context).getText(
-                                              'gt9wxaso' /* mishra@gmail.com */,
-                                            ),
+                                            currentUserEmail,
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(

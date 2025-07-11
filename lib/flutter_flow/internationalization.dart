@@ -348,14 +348,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   },
   // ProfileSettings
   {
-    'pjqxy9ew': {
-      'en': 'Shambhavi Mishra',
-      'ro': '',
-    },
-    'gt9wxaso': {
-      'en': 'mishra@gmail.com',
-      'ro': '',
-    },
     'y2pb74w6': {
       'en': 'Follow Us',
       'ro': '',

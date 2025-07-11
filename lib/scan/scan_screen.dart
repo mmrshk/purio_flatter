@@ -120,7 +120,7 @@ class _ScanScreenState extends State<ScanScreen> with WidgetsBindingObserver {
       //     .maybeSingle();
 
       final products = await Supabase.instance.client
-        .from('Products')
+        .from('products')
         .select()
         .order('id', ascending: false)
         .limit(1);

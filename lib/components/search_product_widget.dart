@@ -117,7 +117,7 @@ class _SearchProductWidgetState extends State<SearchProductWidget>
     setState(() => _isSearching = true);
     final query = widget.query.trim();
     final results = await Supabase.instance.client
-        .from('Products')
+        .from('products')
         .select()
         .ilike('name', '%$query%')
         .range(_offset, _offset + _pageSize - 1);

@@ -116,7 +116,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
     setState(() => _isSearching = true);
     final query = _searchController.text.trim();
     final results = await Supabase.instance.client
-        .from('Products')
+        .from('products')
         .select()
         .ilike('name', '%$query%')
         .range(_offset, _offset + _pageSize - 1);

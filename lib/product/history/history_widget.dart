@@ -4,6 +4,7 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/backend/supabase/supabase.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -30,6 +31,26 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
   void initState() {
     super.initState();
     _model = createModel(context, () => HistoryModel());
+    _loadHistoryProducts();
+  }
+
+  Future<void> _loadHistoryProducts() async {
+    try {
+      // Get the last 6 products from history
+      final products = await ProductTable().queryRows(
+        queryFn: (q) => q
+            .order('created_at', ascending: false)
+            .limit(6),
+      );
+      
+      if (mounted) {
+        setState(() {
+          _model.historyProducts = products;
+        });
+      }
+    } catch (e) {
+      print('Error loading history products: $e');
+    }
   }
 
   @override
@@ -514,66 +535,84 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                   verticalDirection: VerticalDirection.down,
                                   clipBehavior: Clip.none,
                                   children: [
-                                    wrapWithModel(
-                                      model: _model.productCardModel1,
-                                      updateCallback: () => safeSetState(() {}),
-                                      child: Builder(builder: (_) {
-                                        return DebugFlutterFlowModelContext(
-                                          rootModel: _model.rootModel,
-                                          child: const ProductCardWidget(),
-                                        );
-                                      }),
-                                    ),
-                                    wrapWithModel(
-                                      model: _model.productCardModel2,
-                                      updateCallback: () => safeSetState(() {}),
-                                      child: Builder(builder: (_) {
-                                        return DebugFlutterFlowModelContext(
-                                          rootModel: _model.rootModel,
-                                          child: const ProductCardWidget(),
-                                        );
-                                      }),
-                                    ),
-                                    wrapWithModel(
-                                      model: _model.productCardModel3,
-                                      updateCallback: () => safeSetState(() {}),
-                                      child: Builder(builder: (_) {
-                                        return DebugFlutterFlowModelContext(
-                                          rootModel: _model.rootModel,
-                                          child: const ProductCardWidget(),
-                                        );
-                                      }),
-                                    ),
-                                    wrapWithModel(
-                                      model: _model.productCardModel4,
-                                      updateCallback: () => safeSetState(() {}),
-                                      child: Builder(builder: (_) {
-                                        return DebugFlutterFlowModelContext(
-                                          rootModel: _model.rootModel,
-                                          child: const ProductCardWidget(),
-                                        );
-                                      }),
-                                    ),
-                                    wrapWithModel(
-                                      model: _model.productCardModel5,
-                                      updateCallback: () => safeSetState(() {}),
-                                      child: Builder(builder: (_) {
-                                        return DebugFlutterFlowModelContext(
-                                          rootModel: _model.rootModel,
-                                          child: const ProductCardWidget(),
-                                        );
-                                      }),
-                                    ),
-                                    wrapWithModel(
-                                      model: _model.productCardModel6,
-                                      updateCallback: () => safeSetState(() {}),
-                                      child: Builder(builder: (_) {
-                                        return DebugFlutterFlowModelContext(
-                                          rootModel: _model.rootModel,
-                                          child: const ProductCardWidget(),
-                                        );
-                                      }),
-                                    ),
+                                    if (_model.historyProducts.length > 0)
+                                      wrapWithModel(
+                                        model: _model.productCardModel1,
+                                        updateCallback: () => safeSetState(() {}),
+                                        child: Builder(builder: (_) {
+                                          return DebugFlutterFlowModelContext(
+                                            rootModel: _model.rootModel,
+                                            child: ProductCardWidget(
+                                              product: _model.historyProducts[0],
+                                            ),
+                                          );
+                                        }),
+                                      ),
+                                    if (_model.historyProducts.length > 1)
+                                      wrapWithModel(
+                                        model: _model.productCardModel2,
+                                        updateCallback: () => safeSetState(() {}),
+                                        child: Builder(builder: (_) {
+                                          return DebugFlutterFlowModelContext(
+                                            rootModel: _model.rootModel,
+                                            child: ProductCardWidget(
+                                              product: _model.historyProducts[1],
+                                            ),
+                                          );
+                                        }),
+                                      ),
+                                    if (_model.historyProducts.length > 2)
+                                      wrapWithModel(
+                                        model: _model.productCardModel3,
+                                        updateCallback: () => safeSetState(() {}),
+                                        child: Builder(builder: (_) {
+                                          return DebugFlutterFlowModelContext(
+                                            rootModel: _model.rootModel,
+                                            child: ProductCardWidget(
+                                              product: _model.historyProducts[2],
+                                            ),
+                                          );
+                                        }),
+                                      ),
+                                    if (_model.historyProducts.length > 3)
+                                      wrapWithModel(
+                                        model: _model.productCardModel4,
+                                        updateCallback: () => safeSetState(() {}),
+                                        child: Builder(builder: (_) {
+                                          return DebugFlutterFlowModelContext(
+                                            rootModel: _model.rootModel,
+                                            child: ProductCardWidget(
+                                              product: _model.historyProducts[3],
+                                            ),
+                                          );
+                                        }),
+                                      ),
+                                    if (_model.historyProducts.length > 4)
+                                      wrapWithModel(
+                                        model: _model.productCardModel5,
+                                        updateCallback: () => safeSetState(() {}),
+                                        child: Builder(builder: (_) {
+                                          return DebugFlutterFlowModelContext(
+                                            rootModel: _model.rootModel,
+                                            child: ProductCardWidget(
+                                              product: _model.historyProducts[4],
+                                            ),
+                                          );
+                                        }),
+                                      ),
+                                    if (_model.historyProducts.length > 5)
+                                      wrapWithModel(
+                                        model: _model.productCardModel6,
+                                        updateCallback: () => safeSetState(() {}),
+                                        child: Builder(builder: (_) {
+                                          return DebugFlutterFlowModelContext(
+                                            rootModel: _model.rootModel,
+                                            child: ProductCardWidget(
+                                              product: _model.historyProducts[5],
+                                            ),
+                                          );
+                                        }),
+                                      ),
                                   ],
                                 ),
                               ),

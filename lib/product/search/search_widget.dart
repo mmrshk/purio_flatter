@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'search_model.dart';
+import '/backend/supabase/database/tables/product.dart';
+import '/backend/supabase/supabase.dart';
 export 'search_model.dart';
 
 class SearchWidget extends StatefulWidget {
@@ -21,22 +23,44 @@ class SearchWidget extends StatefulWidget {
 
 class _SearchWidgetState extends State<SearchWidget> with RouteAware {
   late SearchModel _model;
-
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  TextEditingController _searchController = TextEditingController();
+  List<ProductRow> _searchResults = [];
+  bool _isSearching = false;
+  Set<int> _loadedImageIndexes = {};
+  final Map<int, DateTime> _imageLoadStartTimes = {};
+  final int _minSkeletonMillis = 1200;
+  final ScrollController _scrollController = ScrollController();
+  bool _hasMore = true;
+  final int _pageSize = 5;
+  int _offset = 0;
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => SearchModel());
+    _searchController.addListener(_onSearchChanged);
   }
 
   @override
   void dispose() {
     routeObserver.unsubscribe(this);
-
     _model.dispose();
-
+    _searchController.dispose();
+    _scrollController.dispose();
     super.dispose();
+  }
+
+  void _onSearchChanged() {
+    if (_searchController.text.trim().isNotEmpty) {
+      _fetchProducts(loadMore: false);
+    } else {
+      setState(() {
+        _searchResults.clear();
+        _isSearching = false;
+      });
+    }
   }
 
   @override
@@ -79,6 +103,36 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
   @override
   void didPushNext() {
     _model.isRouteVisible = false;
+  }
+
+  Future<void> _fetchProducts({bool loadMore = false}) async {
+    if (!loadMore) {
+      _offset = 0;
+      _searchResults.clear();
+      _hasMore = true;
+      _loadedImageIndexes.clear();
+      _imageLoadStartTimes.clear();
+    }
+    setState(() => _isSearching = true);
+    final query = _searchController.text.trim();
+    final results = await Supabase.instance.client
+        .from('Products')
+        .select()
+        .ilike('name', '%$query%')
+        .range(_offset, _offset + _pageSize - 1);
+    final products = (results as List)
+        .map((e) => ProductRow(e as Map<String, dynamic>))
+        .toList();
+    setState(() {
+      if (loadMore) {
+        _searchResults.addAll(products);
+      } else {
+        _searchResults = products;
+      }
+      _isSearching = false;
+      _hasMore = products.length == _pageSize;
+      _offset += products.length;
+    });
   }
 
   @override
@@ -125,10 +179,9 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                   child: Padding(
                     padding:
                         const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 0.0, 0.0),
-                    child: Container(
+                    child: SizedBox(
                       width: 100.0,
                       height: 50.0,
-                      decoration: const BoxDecoration(),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -202,216 +255,141 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
         body: SafeArea(
           top: true,
           child: Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(29.0, 38.0, 29.0, 0.0),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 330.0,
-                    height: 36.0,
-                    decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
-                      borderRadius: BorderRadius.circular(30.0),
-                      border: Border.all(
-                        color: const Color(0xFFEBEBEB),
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  10.0, 0.0, 0.0, 0.0),
-                              child: FlutterFlowIconButton(
-                                borderRadius: 8.0,
-                                icon: Icon(
-                                  Icons.search,
-                                  color: FlutterFlowTheme.of(context).primary,
-                                  size: 24.0,
-                                ),
-                                onPressed: () {
-                                  print('IconButton pressed ...');
-                                },
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 0.0, 0.0, 8.0),
-                              child: Text(
-                                FFLocalizations.of(context).getText(
-                                  '7iabb8r4' /* e.g. Paine Vel Pitar  */,
-                                ),
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      font: GoogleFonts.roboto(
-                                        fontWeight: FontWeight.w300,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontStyle,
-                                      ),
-                                      color: const Color(0xFF6A7F98),
-                                      fontSize: 15.0,
-                                      letterSpacing: 0.0,
+            padding: const EdgeInsetsDirectional.fromSTEB(29.0, 38.0, 29.0, 16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                // Search bar
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        height: 48.0,
+                        decoration: BoxDecoration(
+                          color: FlutterFlowTheme.of(context).secondaryBackground,
+                          borderRadius: BorderRadius.circular(30.0),
+                          border: Border.all(
+                            color: const Color(0xFFEBEBEB),
+                          ),
+                        ),
+                        child: Center(
+                          child: TextField(
+                            controller: _searchController,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'e.g. Paine Vel Pitar',
+                              hintStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FontWeight.w300,
                                       fontStyle: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .fontStyle,
                                     ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
-                            0.0, 300.0, 0.0, 10.0),
-                        child: Text(
-                          FFLocalizations.of(context).getText(
-                            'p59vvkdz' /* Find Your Product */,
-                          ),
-                          style: FlutterFlowTheme.of(context)
-                              .bodyMedium
-                              .override(
-                                font: GoogleFonts.roboto(
-                                  fontWeight: FontWeight.w600,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontStyle,
-                                ),
-                                fontSize: 32.0,
-                                letterSpacing: 0.0,
-                                fontWeight: FontWeight.w600,
-                                fontStyle: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .fontStyle,
-                              ),
-                        ),
-                      ),
-                      Text(
-                        FFLocalizations.of(context).getText(
-                          'orieo052' /* Search by product name or bran... */,
-                        ),
-                        textAlign: TextAlign.center,
-                        style:
-                            FlutterFlowTheme.of(context).bodyMedium.override(
-                                  font: GoogleFonts.roboto(
+                                    color: const Color(0xFF6A7F98),
+                                    fontSize: 15.0,
+                                    letterSpacing: 0.0,
                                     fontWeight: FontWeight.w300,
                                     fontStyle: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .fontStyle,
                                   ),
-                                  color: Colors.black,
-                                  fontSize: 15.0,
-                                  letterSpacing: 0.0,
-                                  fontWeight: FontWeight.w300,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontStyle,
-                                ),
+                              prefixIcon: Icon(
+                                Icons.search,
+                                color: FlutterFlowTheme.of(context).primary,
+                                size: 24.0,
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(vertical: 12.0),
+                            ),
+                            style: FlutterFlowTheme.of(context).bodyMedium,
+                          ),
+                        ),
                       ),
-                    ],
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(0.0, 40.0, 0.0, 0.0),
-                    child: Wrap(
-                      spacing: 0.0,
-                      runSpacing: 0.0,
-                      alignment: WrapAlignment.spaceBetween,
-                      crossAxisAlignment: WrapCrossAlignment.start,
-                      direction: Axis.vertical,
-                      runAlignment: WrapAlignment.start,
-                      verticalDirection: VerticalDirection.down,
-                      clipBehavior: Clip.none,
-                      children: [
-                        wrapWithModel(
-                          model: _model.searchProductModel1,
-                          updateCallback: () => safeSetState(() {}),
-                          child: Builder(builder: (_) {
-                            return DebugFlutterFlowModelContext(
-                              rootModel: _model.rootModel,
-                              child: const SearchProductWidget(),
-                            );
-                          }),
-                        ),
-                        wrapWithModel(
-                          model: _model.searchProductModel2,
-                          updateCallback: () => safeSetState(() {}),
-                          child: Builder(builder: (_) {
-                            return DebugFlutterFlowModelContext(
-                              rootModel: _model.rootModel,
-                              child: const SearchProductWidget(),
-                            );
-                          }),
-                        ),
-                        wrapWithModel(
-                          model: _model.searchProductModel3,
-                          updateCallback: () => safeSetState(() {}),
-                          child: Builder(builder: (_) {
-                            return DebugFlutterFlowModelContext(
-                              rootModel: _model.rootModel,
-                              child: const SearchProductWidget(),
-                            );
-                          }),
-                        ),
-                        wrapWithModel(
-                          model: _model.searchProductModel4,
-                          updateCallback: () => safeSetState(() {}),
-                          child: Builder(builder: (_) {
-                            return DebugFlutterFlowModelContext(
-                              rootModel: _model.rootModel,
-                              child: const SearchProductWidget(),
-                            );
-                          }),
-                        ),
-                        wrapWithModel(
-                          model: _model.searchProductModel5,
-                          updateCallback: () => safeSetState(() {}),
-                          child: Builder(builder: (_) {
-                            return DebugFlutterFlowModelContext(
-                              rootModel: _model.rootModel,
-                              child: const SearchProductWidget(),
-                            );
-                          }),
-                        ),
-                        wrapWithModel(
-                          model: _model.searchProductModel6,
-                          updateCallback: () => safeSetState(() {}),
-                          child: Builder(builder: (_) {
-                            return DebugFlutterFlowModelContext(
-                              rootModel: _model.rootModel,
-                              child: const SearchProductWidget(),
-                            );
-                          }),
-                        ),
-                        wrapWithModel(
-                          model: _model.searchProductModel7,
-                          updateCallback: () => safeSetState(() {}),
-                          child: Builder(builder: (_) {
-                            return DebugFlutterFlowModelContext(
-                              rootModel: _model.rootModel,
-                              child: const SearchProductWidget(),
-                            );
-                          }),
-                        ),
-                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+                if (_searchController.text.trim().isEmpty)
+                  Expanded(
+                    child: Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Find Your Product',
+                            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            'Search by product name or brand and discover detailed insights instantly. 🛒',
+                            style: TextStyle(fontSize: 16, color: Colors.black54),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ],
-              ),
+                if (_isSearching)
+                  const Padding(
+                    padding: EdgeInsets.only(top: 24.0),
+                    child: CircularProgressIndicator(),
+                  ),
+                if (_searchController.text.trim().isNotEmpty && !_isSearching)
+                  Expanded(
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount: _searchResults.length + (_hasMore ? 1 : 0),
+                      itemBuilder: (context, index) {
+                        if (index < _searchResults.length) {
+                          final product = _searchResults[index];
+                          if (!_imageLoadStartTimes.containsKey(index)) {
+                            _imageLoadStartTimes[index] = DateTime.now();
+                          }
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 2.0),
+                            child: SearchProductWidget(
+                              product: product,
+                              query: _searchController.text,
+                              isLoaded: _loadedImageIndexes.contains(index),
+                              onImageLoaded: () {
+                                if (!_loadedImageIndexes.contains(index)) {
+                                  final loadStart = _imageLoadStartTimes[index]!;
+                                  final elapsed = DateTime.now().difference(loadStart).inMilliseconds;
+                                  if (elapsed < _minSkeletonMillis) {
+                                    Future.delayed(Duration(milliseconds: _minSkeletonMillis - elapsed), () {
+                                      if (mounted) setState(() {
+                                        _loadedImageIndexes.add(index);
+                                      });
+                                    });
+                                  } else {
+                                    setState(() {
+                                      _loadedImageIndexes.add(index);
+                                    });
+                                  }
+                                }
+                              },
+                            ),
+                          );
+                        } else {
+                          // Load more button at the bottom
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            child: Center(
+                              child: ElevatedButton(
+                                onPressed: _isSearching ? null : () => _fetchProducts(loadMore: true),
+                                child: _isSearching ? CircularProgressIndicator() : Text('Load more'),
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+              ],
             ),
           ),
         ),

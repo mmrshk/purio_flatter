@@ -14,6 +14,7 @@ class UserDataRow extends SupabaseDataRow {
   @override
   SupabaseTable get table => UserDataTable();
 
+  // TODO: change to uuid 
   int get id => getField<int>('id')!;
   set id(int value) => setField<int>('id', value);
 

@@ -1,4 +1,5 @@
 import '../database.dart';
+import 'dart:convert';
 
 class ProductTable extends SupabaseTable<ProductRow> {
   @override
@@ -14,8 +15,8 @@ class ProductRow extends SupabaseDataRow {
   @override
   SupabaseTable get table => ProductTable();
 
-  int get id => getField<int>('id')!;
-  set id(int value) => setField<int>('id', value);
+  String get id => getField<String>('id') ?? '';
+  set id(String value) => setField<String>('id', value);
 
   String? get name => getField<String>('name');
   set name(String? value) => setField<String>('name', value);
@@ -26,8 +27,13 @@ class ProductRow extends SupabaseDataRow {
   String? get barcode => getField<String>('barcode');
   set barcode(String? value) => setField<String>('barcode', value);
 
-  int? get healthScore => getField<int>('health_score');
-  set healthScore(int? value) => setField<int>('health_score', value);
+  int? get healthScore {
+    final dynamic value = getField<dynamic>('health_score');
+    if (value is int) return value;
+
+    return null;
+  }
+  set healthScore(int? value) => setField<int?>('health_score', value);
 
   String? get imageFrontUrl => getField<String>('image_front_url');
   set imageFrontUrl(String? value) => setField<String>('image_front_url', value);
@@ -50,6 +56,21 @@ class ProductRow extends SupabaseDataRow {
   Map<String, dynamic>? get specifications => getField<Map<String, dynamic>>('specifications');
   set specifications(Map<String, dynamic>? value) => setField<Map<String, dynamic>>('specifications', value);
 
-  Map<String, dynamic>? get nutritional => getField<Map<String, dynamic>>('nutritional');
+  Map<String, dynamic>? get nutritional {
+    final dynamic value = getField<dynamic>('nutritional');
+    if (value == null) return null;
+    if (value is Map<String, dynamic>) return value;
+    if (value is Map) return Map<String, dynamic>.from(value);
+    if (value is String) {
+      try {
+        final decoded = json.decode(value);
+        if (decoded is Map<String, dynamic>) return decoded;
+        if (decoded is Map) return Map<String, dynamic>.from(decoded);
+      } catch (e) {
+        print('Error decoding nutritional JSON: $e');
+      }
+    }
+    return null;
+  }
   set nutritional(Map<String, dynamic>? value) => setField<Map<String, dynamic>>('nutritional', value);
 }

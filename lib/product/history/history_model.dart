@@ -1,6 +1,7 @@
 import '/components/navbar_widget.dart';
 import '/components/product_card_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/backend/supabase/supabase.dart';
 import 'history_widget.dart' show HistoryWidget;
 import 'package:flutter/material.dart';
 
@@ -21,6 +22,9 @@ class HistoryModel extends FlutterFlowModel<HistoryWidget> {
   late ProductCardModel productCardModel6;
   // Model for Navbar component.
   late NavbarModel navbarModel;
+
+  // List of products in history
+  List<ProductRow> historyProducts = [];
 
   final Map<String, DebugDataField> debugGeneratorVariables = {};
   final Map<String, DebugDataField> debugBackendQueries = {};
@@ -76,7 +80,8 @@ class HistoryModel extends FlutterFlowModel<HistoryWidget> {
         }.withoutNulls,
         link:
             'https://app.flutterflow.io/project/scan-app-dkuknp/tab=uiBuilder&page=History',
-        searchReference: 'reference=OgdIaXN0b3J5UAFaB0hpc3Rvcnk=',
+        searchReference:
+            'reference=OgxIaGlzdG9yeVABWgxIaXN0b3J5UGFnZQ==',
         widgetClassName: 'History',
       );
 }

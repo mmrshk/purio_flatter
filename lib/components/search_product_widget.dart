@@ -170,9 +170,9 @@ class _SearchProductWidgetState extends State<SearchProductWidget>
                         isLoading: !widget.isLoaded,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(16.0),
-                          child: (product.imageFrontUrl != null && product.imageFrontUrl!.isNotEmpty)
+                          child: (product.imageFrontUrl?.isNotEmpty == true)
                               ? Image.network(
-                                  product.imageFrontUrl!,
+                                  product.imageFrontUrl ?? '',
                                   width: 66.0,
                                   height: 66.0,
                                   fit: BoxFit.cover,
@@ -276,7 +276,7 @@ class _SearchProductWidgetState extends State<SearchProductWidget>
                                     borderRadius: BorderRadius.circular(30.0),
                                   ),
                                   child: Text(
-                                    'Health Score: ${product.healthScore}',
+                                    'Safety: ${product.healthScore ?? 0}',
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(

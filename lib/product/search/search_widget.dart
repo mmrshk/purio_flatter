@@ -378,49 +378,11 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                           // Load more button at the bottom
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 16.0),
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: _isSearching
-                                  ? Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        SizedBox(
-                                          width: 20,
-                                          height: 20,
-                                          child: CircularProgressIndicator(
-                                            strokeWidth: 2,
-                                            color: Color(0xFF40A5A5),
-                                          ),
-                                        ),
-                                        SizedBox(width: 12),
-                                        Text(
-                                          'Loading...',
-                                          style: TextStyle(
-                                            color: Color(0xFF40A5A5),
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  : OutlinedButton.icon(
-                                      onPressed: () => _fetchProducts(loadMore: true),
-                                      icon: Icon(Icons.expand_more, color: Color(0xFF40A5A5)),
-                                      label: Text(
-                                        'Load More',
-                                        style: TextStyle(
-                                          color: Color(0xFF40A5A5),
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                      style: OutlinedButton.styleFrom(
-                                        side: BorderSide(color: Color(0xFF40A5A5)),
-                                        shape: StadiumBorder(),
-                                        padding: EdgeInsets.symmetric(horizontal: 32, vertical: 14),
-                                        backgroundColor: Colors.white,
-                                        elevation: 2,
-                                      ),
-                                    ),
+                            child: Center(
+                              child: ElevatedButton(
+                                onPressed: _isSearching ? null : () => _fetchProducts(loadMore: true),
+                                child: _isSearching ? CircularProgressIndicator() : Text('Load more'),
+                              ),
                             ),
                           );
                         }

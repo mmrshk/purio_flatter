@@ -1,12 +1,19 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/backend/supabase/supabase.dart';
+import '/services/scoring_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'product_card_model.dart';
 export 'product_card_model.dart';
 
 class ProductCardWidget extends StatefulWidget {
-  const ProductCardWidget({super.key});
+  const ProductCardWidget({
+    super.key,
+    required this.product,
+  });
+
+  final ProductRow product;
 
   @override
   State<ProductCardWidget> createState() => _ProductCardWidgetState();
@@ -84,183 +91,92 @@ class _ProductCardWidgetState extends State<ProductCardWidget> with RouteAware {
         ?.parentModelCallback
         ?.call(_model);
 
-    return Align(
-      alignment: const AlignmentDirectional(0.0, 0.0),
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 5),
+          ),
+        ],
+        gradient: const LinearGradient(
+          colors: [Color(0xFFE0F7FA), Color(0xFFE8F5E9)], // Light blue to light green
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
       child: Padding(
-        padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 17.0),
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFFE6F7F5), Colors.white],
-              stops: [0.0, 1.0],
-              begin: AlignmentDirectional(1.0, 0.0),
-              end: AlignmentDirectional(-1.0, 0),
+        padding: const EdgeInsets.all(12.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.network(
+                widget.product.imageFrontUrl ?? 'https://picsum.photos/seed/895/600',
+                width: 80.0,
+                height: 80.0,
+                fit: BoxFit.cover,
+              ),
             ),
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          child: Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(10.0, 10.0, 10.0, 10.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(16.0),
-                  child: Image.asset(
-                    'assets/images/otherRecom.png',
-                    width: 66.0,
-                    height: 66.0,
-                    fit: BoxFit.fitHeight,
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    widget.product.category ?? 'Lorem',
+                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                          font: GoogleFonts.roboto(fontWeight: FontWeight.w500),
+                          color: const Color(0xFF6A7F98),
+                          fontSize: 14.0,
+                        ),
                   ),
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            FFLocalizations.of(context).getText(
-                              'y3i8j1fq' /* Lorem */,
+                  Text(
+                    widget.product.name ?? 'Orange Juice 1L',
+                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                          font: GoogleFonts.roboto(fontWeight: FontWeight.bold),
+                          color: Colors.black,
+                          fontSize: 18.0,
+                        ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 4),
+                  if (widget.product.healthScore != null)
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: (widget.product.healthScore ?? 0) > 70
+                            ? const Color(0xFF2ECC71)
+                            : const Color(0xFFE74C3C),
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: Text(
+                        'Safety: ${widget.product.healthScore}/100',
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              font: GoogleFonts.roboto(fontWeight: FontWeight.bold),
+                              color: Colors.white,
+                              fontSize: 12.0,
                             ),
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  font: GoogleFonts.roboto(
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
-                                  color: const Color(0xFF6A7F98),
-                                  fontSize: 12.0,
-                                  letterSpacing: 0.0,
-                                  fontWeight: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontWeight,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontStyle,
-                                ),
-                          ),
-                          Text(
-                            FFLocalizations.of(context).getText(
-                              'b17hfra4' /* Orange Juice 1l */,
-                            ),
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  font: GoogleFonts.roboto(
-                                    fontWeight: FontWeight.bold,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
-                                  color: Colors.black,
-                                  fontSize: 12.0,
-                                  letterSpacing: 0.0,
-                                  fontWeight: FontWeight.bold,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontStyle,
-                                ),
-                          ),
-                          Container(
-                            width: 100.0,
-                            height: 25.0,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF2ECC71),
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  FFLocalizations.of(context).getText(
-                                    '32gmewo5' /* Safety: */,
-                                  ),
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        font: GoogleFonts.roboto(
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontWeight,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontStyle,
-                                        ),
-                                        color: Colors.white,
-                                        fontSize: 12.0,
-                                        letterSpacing: 0.0,
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontStyle,
-                                      ),
-                                ),
-                                Text(
-                                  FFLocalizations.of(context).getText(
-                                    '43xscjca' /* 100/100 */,
-                                  ),
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        font: GoogleFonts.roboto(
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontWeight,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontStyle,
-                                        ),
-                                        color: Colors.white,
-                                        fontSize: 12.0,
-                                        letterSpacing: 0.0,
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontStyle,
-                                      ),
-                                ),
-                              ].divide(const SizedBox(width: 3.0)),
-                            ),
-                          ),
-                        ].divide(const SizedBox(height: 4.0)),
                       ),
                     ),
-                    const Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(120.0, 0.0, 0.0, 0.0),
-                      child: Icon(
-                        Icons.favorite_border,
-                        color: Color(0xFF40A5A5),
-                        size: 24.0,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.only(left: 12.0),
+              child: Icon(
+                Icons.favorite_border,
+                color: FlutterFlowTheme.of(context).primaryColor,
+                size: 24.0,
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -203,13 +203,10 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
           currentUserUid,
         ),
       );
-      if ((_model.userDataResponse != null &&
-              (_model.userDataResponse)!.isNotEmpty) ==
-          true) {
-        FFAppState().firstName =
-            _model.userDataResponse!.firstOrNull!.firstName!;
+      if ((_model.userDataResponse?.isNotEmpty ?? false) == true) {
+        FFAppState().firstName = _model.userDataResponse?.firstOrNull?.firstName ?? '';
         safeSetState(() {});
-        FFAppState().lastName = _model.userDataResponse!.firstOrNull!.lastName!;
+        FFAppState().lastName = _model.userDataResponse?.firstOrNull?.lastName ?? '';
         safeSetState(() {});
       } else {
         context.goNamed(ContinueAccountDetailsWidget.routeName);
@@ -656,7 +653,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
                                         if (_model.randomProducts != null)
-                                          ..._model.randomProducts!.asMap().entries.map((entry) {
+                                          ...(_model.randomProducts ?? []).asMap().entries.map((entry) {
                                             final index = entry.key;
                                             final product = entry.value;
                                             return Row(

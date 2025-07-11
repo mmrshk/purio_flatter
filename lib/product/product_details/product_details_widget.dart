@@ -4,6 +4,8 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import '/backend/supabase/supabase.dart';
+import '/services/scoring_service.dart';
+import '/services/product_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'product_details_model.dart';
@@ -37,6 +39,41 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
     super.initState();
     _model = createModel(context, () => ProductDetailsModel());
     _model.loadIngredients(widget.product.specifications?['ingredients'] as String?);
+    
+    // Calculate and update health score if not already set
+    if (widget.product.healthScore == null) {
+      _updateHealthScore();
+    }
+  }
+
+  Future<void> _updateHealthScore() async {
+    try {
+      final updateResponse = await ProductService.updateHealthScore(widget.product);
+      
+      if (updateResponse != null) {
+        // Update the local product data
+        if (mounted) {
+          setState(() {
+            widget.product.healthScore = updateResponse['health_score'] as int?;
+          });
+        }
+      }
+      
+      // Also fetch the product again to double-check
+      await Future.delayed(const Duration(milliseconds: 500));
+      
+      final updatedProduct = await ProductTable().queryRows(
+        queryFn: (q) => q.eq('id', widget.product.id),
+      ).then((rows) => rows.firstOrNull);
+      
+      if (updatedProduct != null && mounted) {
+        setState(() {
+          widget.product.healthScore = updatedProduct.healthScore;
+        });
+      }
+    } catch (e) {
+      // Error updating health score
+    }
   }
 
   @override
@@ -271,7 +308,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                                     width: double.infinity,
                                                     height: 50.0,
                                                     decoration: BoxDecoration(
-                                                      color: widget.product.healthScore != null && widget.product.healthScore! > 70 
+                                                      color: (widget.product.healthScore ?? 0) > 70 
                                                           ? const Color(0xFF2ECC71)
                                                           : const Color(0xFFE74C3C),
                                                       borderRadius: const BorderRadius.only(
@@ -288,36 +325,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                                           MainAxisAlignment.center,
                                                       children: [
                                                         Text(
-                                                          '${widget.product.healthScore ?? 0}/100',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                font: GoogleFonts
-                                                                    .roboto(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontStyle:
-                                                                      FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .fontStyle,
-                                                                ),
-                                                                color: Colors.white,
-                                                                fontSize: 15.0,
-                                                                letterSpacing: 0.0,
-                                                                fontWeight:
-                                                                    FontWeight.w600,
-                                                                fontStyle:
-                                                                    FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .fontStyle,
-                                                              ),
-                                                        ),
-                                                        Text(
-                                                          widget.product.healthScore != null && widget.product.healthScore! > 70 ? 'Good' : 'Bad',
+                                                          'Safety: ${widget.product.healthScore ?? 0}/100',
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .bodyMedium
@@ -710,7 +718,25 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                   child: Builder(builder: (_) {
                                     return DebugFlutterFlowModelContext(
                                       rootModel: _model.rootModel,
-                                      child: const ProductCardWidget(),
+                                      child: ProductCardWidget(
+                                        product: ProductRow({
+                                          'id': 1,
+                                          'name': 'Sample Product',
+                                          'category': 'Food',
+                                          'health_score': 75,
+                                          'specifications': {
+                                            'ingredients': 'water, salt, sugar',
+                                            'nutritional': {
+                                              'calories_per_100g_or_100ml': '100',
+                                              'sugar': '5',
+                                              'saturated_fat': '2',
+                                              'salt': '0.5',
+                                              'protein': '3',
+                                              'fiber': '2'
+                                            }
+                                          }
+                                        })
+                                      ),
                                     );
                                   }),
                                 ),
@@ -825,6 +851,72 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildDetailedScores() {
+    final nutriScore = ScoringService.calculateNutriScore(widget.product.nutritional ?? {});
+    final additivesScore = ScoringService.calculateAdditivesScore(
+      widget.product.specifications?['ingredients'] as String?
+    );
+    final novaScore = ScoringService.calculateNovaScore(
+      widget.product.specifications?['ingredients'] as String?
+    );
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Detailed Scores',
+          style: FlutterFlowTheme.of(context).bodyMedium.override(
+                font: GoogleFonts.roboto(
+                  fontWeight: FontWeight.bold,
+                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                ),
+                color: Colors.black,
+                fontSize: 16.0,
+                letterSpacing: 0.0,
+                fontWeight: FontWeight.bold,
+              ),
+        ),
+        const SizedBox(height: 8),
+        _buildScoreRow('NutriScore', nutriScore),
+        _buildScoreRow('Additives Score', additivesScore),
+        _buildScoreRow('NOVA Score', novaScore),
+      ],
+    );
+  }
+
+  Widget _buildScoreRow(String label, int score) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                  font: GoogleFonts.roboto(
+                    fontWeight: FontWeight.w500,
+                    fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                  ),
+                  color: Colors.black,
+                  fontSize: 14.0,
+                ),
+          ),
+          Text(
+            '$score/100',
+            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                  font: GoogleFonts.roboto(
+                    fontWeight: FontWeight.w500,
+                    fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                  ),
+                  color: score > 70 ? const Color(0xFF2ECC71) : const Color(0xFFE74C3C),
+                  fontSize: 14.0,
+                ),
+          ),
+        ],
       ),
     );
   }

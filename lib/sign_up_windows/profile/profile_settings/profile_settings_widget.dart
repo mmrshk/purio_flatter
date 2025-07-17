@@ -104,7 +104,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
             automaticallyImplyLeading: false,
             title: Row(
               mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 FlutterFlowIconButton(
                   borderColor: Colors.transparent,
@@ -121,38 +121,30 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                     context.pop();
                   },
                 ),
-                Align(
-                  alignment: const AlignmentDirectional(0.0, 0.0),
-                  child: Container(
-                    width: 300.0,
-                    height: 60.0,
-                    decoration: const BoxDecoration(),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '${FFAppState().firstName.isNotEmpty ? FFAppState().firstName : ''} ${FFAppState().lastName.isNotEmpty ? FFAppState().lastName : ''}',
-                          style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                font: GoogleFonts.roboto(
-                                  fontWeight: FontWeight.bold,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontStyle
-                                ),
-                                color: Colors.black,
-                                fontSize: 15.0,
-                                letterSpacing: 0.0,
-                                fontWeight: FontWeight.bold,
-                                fontStyle: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .fontStyle,
-                              ),
-                        ),
-                      ],
+                Expanded(
+                  child: Align(
+                    alignment: const AlignmentDirectional(0.0, 0.0),
+                    child: Text(
+                      '${FFAppState().firstName.isNotEmpty ? FFAppState().firstName : ''} ${FFAppState().lastName.isNotEmpty ? FFAppState().lastName : ''}',
+                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                            font: GoogleFonts.roboto(
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle
+                            ),
+                            color: Colors.black,
+                            fontSize: 15.0,
+                            letterSpacing: 0.0,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
+                          ),
                     ),
                   ),
                 ),
+                const SizedBox(width: 45.0), // Balance the back button
               ],
             ),
             actions: const [],
@@ -402,28 +394,28 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                   }),
                                                 ),
                                               ),
-                                              wrapWithModel(
-                                                model:
-                                                    _model.settingsCardModel3,
-                                                updateCallback: () =>
-                                                    safeSetState(() {}),
-                                                child: Builder(builder: (_) {
-                                                  return DebugFlutterFlowModelContext(
-                                                    rootModel: _model.rootModel,
-                                                    child: const SettingsCardWidget(
-                                                      icon: Icon(
-                                                        Icons
-                                                            .handshake_outlined,
-                                                        color:
-                                                            Color(0xFF40A5A5),
-                                                        size: 28.0,
-                                                      ),
-                                                      setting:
-                                                          'Invite a friend',
-                                                    ),
-                                                  );
-                                                }),
-                                              ),
+                                              // wrapWithModel(
+                                              //   model:
+                                              //       _model.settingsCardModel3,
+                                              //   updateCallback: () =>
+                                              //       safeSetState(() {}),
+                                              //   child: Builder(builder: (_) {
+                                              //     return DebugFlutterFlowModelContext(
+                                              //       rootModel: _model.rootModel,
+                                              //       child: const SettingsCardWidget(
+                                              //         icon: Icon(
+                                              //           Icons
+                                              //               .handshake_outlined,
+                                              //           color:
+                                              //               Color(0xFF40A5A5),
+                                              //           size: 28.0,
+                                              //         ),
+                                              //         setting:
+                                              //             'Invite a friend',
+                                              //       ),
+                                              //     );
+                                              //   }),
+                                              // ),
                                               InkWell(
                                                 splashColor: Colors.transparent,
                                                 focusColor: Colors.transparent,

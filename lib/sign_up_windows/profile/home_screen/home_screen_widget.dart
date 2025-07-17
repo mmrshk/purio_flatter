@@ -207,17 +207,35 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
         ),
       );
       if ((_model.userDataResponse?.isNotEmpty ?? false) == true) {
-        FFAppState().firstName = _model.userDataResponse?.firstOrNull?.firstName ?? '';
-        safeSetState(() {});
-        FFAppState().lastName = _model.userDataResponse?.firstOrNull?.lastName ?? '';
-        safeSetState(() {});
+        final userData = _model.userDataResponse!.first;
+        
+        // Check if user has complete profile (has type and expectations)
+        if (userData.type?.isNotEmpty == true && userData.expectations?.isNotEmpty == true) {
+          // User has complete profile, proceed to home screen
+          FFAppState().firstName = userData.firstName ?? '';
+          safeSetState(() {});
+          FFAppState().lastName = userData.lastName ?? '';
+          safeSetState(() {});
+        } else {
+          // User data exists but is incomplete, redirect to onboarding
+          print('User data incomplete - redirecting to onboarding');
+          _redirectToOnboarding();
+        }
       } else {
-        context.goNamed(ContinueAccountDetailsWidget.routeName);
+        // No user data found, redirect to onboarding
+        print('No user data found - redirecting to onboarding');
+        _redirectToOnboarding();
       }
     } finally {
       _model.isLoading = false;
       safeSetState(() {});
     }
+  }
+
+  void _redirectToOnboarding() {
+    // Always go to account details first, but Google users will have pre-filled data
+    print('Redirecting to account details');
+    context.goNamed(ContinueAccountDetailsWidget.routeName);
   }
 
   Future<void> _fetchProducts() async {

@@ -3,12 +3,9 @@ import '/components/delete_account_pop_up_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:ui';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'edit_profile_model.dart';
 export 'edit_profile_model.dart';
 
@@ -292,7 +289,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> with RouteAware {
                         onTap: () async {
                           await showDialog(
                             barrierColor: const Color(0x3F525252),
-                            barrierDismissible: false,
+                            barrierDismissible: true,
                             context: context,
                             builder: (dialogContext) {
                               return Dialog(
@@ -303,14 +300,24 @@ class _EditProfileWidgetState extends State<EditProfileWidget> with RouteAware {
                                     .resolve(Directionality.of(context)),
                                 child: GestureDetector(
                                   onTap: () {
-                                    FocusScope.of(dialogContext).unfocus();
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
+                                    Navigator.of(dialogContext).pop();
                                   },
-                                  child: const SizedBox(
-                                    height: 225.0,
-                                    width: 341.0,
-                                    child: DeleteAccountPopUpWidget(),
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    color: Colors.transparent,
+                                    child: Center(
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          // Prevent closing when tapping on the popup content
+                                        },
+                                        child: const SizedBox(
+                                          height: 250.0,
+                                          width: 341.0,
+                                          child: DeleteAccountPopUpWidget(),
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               );

@@ -1,3 +1,4 @@
+import '/app_state.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -41,6 +42,18 @@ class _ContinueAccountDetailsWidgetState
         debugLogWidgetClass(_model);
       });
     _model.textFieldFocusNode2 ??= FocusNode();
+
+    // Prefill with Google user data if available
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (FFAppState().firstName.isNotEmpty) {
+        _model.textController1?.text = FFAppState().firstName;
+        print('Prefilled first name: ${FFAppState().firstName}');
+      }
+      if (FFAppState().lastName.isNotEmpty) {
+        _model.textController2?.text = FFAppState().lastName;
+        print('Prefilled last name: ${FFAppState().lastName}');
+      }
+    });
   }
 
   @override

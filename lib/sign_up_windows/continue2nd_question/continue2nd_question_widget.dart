@@ -413,7 +413,7 @@ class _Continue2ndQuestionWidgetState extends State<Continue2ndQuestionWidget>
                                                                 .userDataAddResponse !=
                                                             null) {
                                                           context.goNamed(
-                                                              PurioProScreenWidget
+                                                              HomeScreenWidget
                                                                   .routeName);
                                                         }
 

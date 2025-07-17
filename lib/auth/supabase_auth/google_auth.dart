@@ -1,4 +1,5 @@
 import '/backend/supabase/supabase.dart';
+import '/app_state.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 Future<User?> googleSignInFunc() async {
@@ -71,25 +72,30 @@ Future<void> _saveGoogleUserData(User supabaseUser, GoogleSignInAccount googleUs
     
     print('Google user name: $firstName $lastName');
     
-    // Check if user data already exists
+    // Store the Google user's name in app state for later use
+    FFAppState().firstName = firstName;
+    FFAppState().lastName = lastName;
+    
+    // Check if user data already exists with complete profile (has type and expectations)
     final existingUserData = await UserDataTable().queryRows(
       queryFn: (q) => q.eq('user_id', supabaseUser.id),
     );
     
     if (existingUserData.isEmpty) {
-      // Insert new user data
-      await UserDataTable().insert({
-        'user_id': supabaseUser.id,
-        'first_name': firstName,
-        'last_name': lastName,
-        'type': '', // Will be filled in later
-        'expectations': '', // Will be filled in later
-      });
-      print('Google user data saved successfully');
+      // Only create user data if this is a completely new user
+      // Don't create user data for returning users who deleted their account
+      // This will allow the 2 questions flow to trigger
+      print('No existing user data found - user will go through onboarding flow');
     } else {
-      print('User data already exists, skipping save');
+      // Check if the existing user data has complete profile
+      final userData = existingUserData.first;
+      if (userData.type?.isNotEmpty == true && userData.expectations?.isNotEmpty == true) {
+        print('User data already exists with complete profile, skipping save');
+      } else {
+        print('User data exists but incomplete - user will go through onboarding flow');
+      }
     }
   } catch (e) {
-    print('Error saving Google user data: $e');
+    print('Error checking Google user data: $e');
   }
 }

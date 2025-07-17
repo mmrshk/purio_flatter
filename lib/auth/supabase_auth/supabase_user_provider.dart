@@ -19,8 +19,21 @@ class PurioSupabaseUser extends BaseAuthUser {
       );
 
   @override
-  Future? delete() =>
-      throw UnsupportedError('The delete user operation is not yet supported.');
+  Future? delete() async {
+    if (user != null) {
+      // Delete user data from database first
+      try {
+        await SupaFlow.client
+            .from('users')
+            .delete()
+            .eq('user_id', user!.id);
+      } catch (e) {
+        print('Error deleting user data: $e');
+      }
+
+      await SupaFlow.client.auth.signOut();
+    }
+  }
 
   @override
   Future? updateEmail(String email) async {

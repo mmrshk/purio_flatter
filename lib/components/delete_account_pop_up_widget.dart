@@ -1,6 +1,9 @@
+import '/auth/supabase_auth/auth_util.dart';
+import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'delete_account_pop_up_model.dart';
@@ -81,6 +84,56 @@ class _DeleteAccountPopUpWidgetState extends State<DeleteAccountPopUpWidget>
     _model.isRouteVisible = false;
   }
 
+  Future<void> _deleteUserAccount() async {
+    try {
+      // Show loading indicator
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      );
+
+      // Delete user data from database first
+      try {
+        await SupaFlow.client
+            .from('users')
+            .delete()
+            .eq('user_id', currentUserUid);
+        print('User data deleted successfully');
+      } catch (e) {
+        print('Error deleting user data: $e');
+      }
+
+      // Sign out the user (this is the closest we can get to "deleting" from client side)
+      await authManager.deleteUser(context);
+      
+      // Close loading dialog
+      Navigator.of(context).pop();
+      
+      // Close the delete account popup
+      Navigator.of(context).pop();
+      
+      // Navigate to login screen
+      context.goNamed(SingUpLogInWidget.routeName);
+      
+    } catch (e) {
+      // Close loading dialog
+      Navigator.of(context).pop();
+      
+      // Show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to delete account: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     DebugFlutterFlowModelContext.maybeOf(context)
@@ -89,7 +142,7 @@ class _DeleteAccountPopUpWidgetState extends State<DeleteAccountPopUpWidget>
 
     return Container(
       width: 341.0,
-      height: 225.0,
+      height: 250.0,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20.0),
@@ -128,8 +181,7 @@ class _DeleteAccountPopUpWidgetState extends State<DeleteAccountPopUpWidget>
               padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 19.0),
               child: Text(
                 FFLocalizations.of(context).getText(
-                  'qp8tp30w' /* All your data will be gone. 
-S... */
+                  'qp8tp30w' /* All your data will be gone. S... */
                   ,
                 ),
                 textAlign: TextAlign.center,
@@ -185,24 +237,27 @@ S... */
           ),
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 19.0),
-            child: Text(
-              FFLocalizations.of(context).getText(
-                'h0ea7x3j' /* Delete It Anyway */,
-              ),
-              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                    font: GoogleFonts.poppins(
+            child: InkWell(
+              onTap: _deleteUserAccount,
+              child: Text(
+                FFLocalizations.of(context).getText(
+                  'h0ea7x3j' /* Delete It Anyway */,
+                ),
+                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                      font: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w600,
+                        fontStyle:
+                            FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                      ),
+                      color: const Color(0xFF6A7F98),
+                      fontSize: 16.0,
+                      letterSpacing: 0.0,
                       fontWeight: FontWeight.w600,
                       fontStyle:
                           FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                      decoration: TextDecoration.underline,
                     ),
-                    color: const Color(0xFF6A7F98),
-                    fontSize: 16.0,
-                    letterSpacing: 0.0,
-                    fontWeight: FontWeight.w600,
-                    fontStyle:
-                        FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                    decoration: TextDecoration.underline,
-                  ),
+              ),
             ),
           ),
         ],

@@ -129,6 +129,7 @@ class ProductCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Shimmer(
               linearGradient: _shimmerGradient,
@@ -139,24 +140,26 @@ class ProductCard extends StatelessWidget {
                   child: Image.network(
                     imageUrl,
                     width: 116,
-                    height: 116,
+                    height: 100,
                     fit: BoxFit.cover,
                     loadingBuilder: loadingBuilder,
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 10),
-            Text(
-              name,
-              style: GoogleFonts.roboto(
-                fontWeight: FontWeight.w600,
-                fontSize: 15,
-                color: Colors.black,
+            const SizedBox(height: 8),
+            Expanded(
+              child: Text(
+                name,
+                style: GoogleFonts.roboto(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                  color: Colors.black,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.left,
               ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.left,
             ),
           ],
         ),

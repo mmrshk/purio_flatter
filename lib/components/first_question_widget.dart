@@ -124,61 +124,65 @@ class _FirstQuestionWidgetState extends State<FirstQuestionWidget>
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(50.0, 0.0, 0.0, 0.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        valueOrDefault<String>(
-                          widget.level,
-                          'level',
-                        ),
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.roboto(
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsetsDirectional.fromSTEB(50.0, 0.0, 0.0, 0.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          valueOrDefault<String>(
+                            widget.level,
+                            'level',
+                          ),
+                          style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                font: GoogleFonts.roboto(
+                                  fontWeight: FontWeight.w500,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
+                                ),
+                                color: Colors.black,
+                                fontSize: 15.0,
+                                letterSpacing: 0.0,
                                 fontWeight: FontWeight.w500,
                                 fontStyle: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontStyle,
                               ),
-                              color: Colors.black,
-                              fontSize: 15.0,
-                              letterSpacing: 0.0,
-                              fontWeight: FontWeight.w500,
-                              fontStyle: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .fontStyle,
+                        ),
+                        Padding(
+                          padding:
+                              const EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
+                          child: Text(
+                            valueOrDefault<String>(
+                              widget.description,
+                              'description',
                             ),
-                      ),
-                      Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
-                        child: Text(
-                          valueOrDefault<String>(
-                            widget.description,
-                            'description',
-                          ),
-                          style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.roboto(
+                            style:
+                                FlutterFlowTheme.of(context).bodyMedium.override(
+                                      font: GoogleFonts.roboto(
+                                        fontWeight: FontWeight.normal,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
+                                      color: const Color(0xFF6A7F98),
+                                      fontSize: 14.0,
+                                      letterSpacing: 0.0,
                                       fontWeight: FontWeight.normal,
                                       fontStyle: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .fontStyle,
                                     ),
-                                    color: const Color(0xFF6A7F98),
-                                    fontSize: 14.0,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FontWeight.normal,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
+                            softWrap: true,
+                            overflow: TextOverflow.visible,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 Align(
@@ -186,45 +190,26 @@ class _FirstQuestionWidgetState extends State<FirstQuestionWidget>
                   child: Padding(
                     padding:
                         const EdgeInsetsDirectional.fromSTEB(30.0, 0.0, 0.0, 0.0),
-                    child: FFButtonWidget(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      text: FFLocalizations.of(context).getText(
-                        '4nrmy9zk' /*  */,
-                      ),
-                      options: FFButtonOptions(
-                        width: 37.0,
-                        height: 37.0,
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                        iconAlignment: IconAlignment.start,
-                        iconPadding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                    child: Container(
+                      width: 37.0,
+                      height: 37.0,
+                      decoration: BoxDecoration(
                         color: FFAppState().level == widget.level
                             ? FlutterFlowTheme.of(context).secondary
                             : Colors.white,
-                        textStyle:
-                            FlutterFlowTheme.of(context).titleSmall.override(
-                                  font: GoogleFonts.roboto(
-                                    fontWeight: FontWeight.normal,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .titleSmall
-                                        .fontStyle,
-                                  ),
-                                  color: Colors.white,
-                                  letterSpacing: 0.0,
-                                  fontWeight: FontWeight.normal,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .titleSmall
-                                      .fontStyle,
-                                ),
-                        borderSide: const BorderSide(
-                          color: Color(0xFF6A7F98),
+                        border: Border.all(
+                          color: const Color(0xFF6A7F98),
                           width: 2.0,
                         ),
                         borderRadius: BorderRadius.circular(100.0),
                       ),
+                      child: FFAppState().level == widget.level
+                          ? const Icon(
+                              Icons.check,
+                              color: Colors.white,
+                              size: 20.0,
+                            )
+                          : null,
                     ),
                   ),
                 ),

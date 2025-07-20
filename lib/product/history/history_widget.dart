@@ -4,8 +4,9 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/shimmer_util.dart';
 import '/backend/supabase/supabase.dart';
-import 'dart:ui';
+import '/services/history_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +27,8 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
   late HistoryModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  
+  bool _isRecentTab = true;
 
   @override
   void initState() {
@@ -36,12 +39,7 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
 
   Future<void> _loadHistoryProducts() async {
     try {
-      // Get the last 6 products from history
-      final products = await ProductTable().queryRows(
-        queryFn: (q) => q
-            .order('created_at', ascending: false)
-            .limit(6),
-      );
+      final products = await HistoryService.getUserHistory(limit: 10);
       
       if (mounted) {
         setState(() {
@@ -188,450 +186,290 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
         body: SafeArea(
           top: true,
           child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Align(
-                alignment: const AlignmentDirectional(0.0, 0.0),
-                child: Stack(
-                  alignment: const AlignmentDirectional(0.0, 0.85),
+              // Tab Buttons
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
                   children: [
-                    Container(
-                      width: MediaQuery.sizeOf(context).width * 1.0,
-                      height: MediaQuery.sizeOf(context).height * 1.0,
-                      decoration: const BoxDecoration(),
-                      child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
-                            0.0, 0.0, 0.0, 150.0),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Align(
-                                    alignment: const AlignmentDirectional(0.0, 0.0),
-                                    child: Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 25.0, 0.0, 0.0),
-                                      child: Container(
-                                        width: 320.0,
-                                        height: 90.0,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(30.0),
-                                          border: Border.all(
-                                            color: const Color(0xFFEBEBEB),
-                                          ),
-                                        ),
-                                        alignment:
-                                            const AlignmentDirectional(0.0, 0.0),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsetsDirectional
-                                                  .fromSTEB(9.0, 9.0, 9.0, 9.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Align(
-                                                    alignment:
-                                                        const AlignmentDirectional(
-                                                            0.0, 0.0),
-                                                    child: FFButtonWidget(
-                                                      onPressed: () {
-                                                        print(
-                                                            'Button pressed ...');
-                                                      },
-                                                      text: FFLocalizations.of(
-                                                              context)
-                                                          .getText(
-                                                        'rjf2e2ze' /* Recent */,
-                                                      ),
-                                                      options: FFButtonOptions(
-                                                        width: 145.0,
-                                                        height: 73.0,
-                                                        padding:
-                                                            const EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    16.0,
-                                                                    0.0,
-                                                                    16.0,
-                                                                    0.0),
-                                                        iconPadding:
-                                                            const EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0),
-                                                        color:
-                                                            const Color(0xFF40E0D0),
-                                                        textStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .titleSmall
-                                                                .override(
-                                                                  font: GoogleFonts
-                                                                      .roboto(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleSmall
-                                                                        .fontStyle,
-                                                                  ),
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize:
-                                                                      22.0,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .titleSmall
-                                                                      .fontStyle,
-                                                                ),
-                                                        elevation: 0.0,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(30.0),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        const AlignmentDirectional(
-                                                            0.0, 0.0),
-                                                    child: FFButtonWidget(
-                                                      onPressed: () {
-                                                        print(
-                                                            'Button pressed ...');
-                                                      },
-                                                      text: FFLocalizations.of(
-                                                              context)
-                                                          .getText(
-                                                        'lmr83e28' /* Favourites */,
-                                                      ),
-                                                      options: FFButtonOptions(
-                                                        width: 145.0,
-                                                        height: 73.0,
-                                                        padding:
-                                                            const EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    16.0,
-                                                                    0.0,
-                                                                    16.0,
-                                                                    0.0),
-                                                        iconPadding:
-                                                            const EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0),
-                                                        color:
-                                                            const Color(0xFF40E0D0),
-                                                        textStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .titleSmall
-                                                                .override(
-                                                                  font: GoogleFonts
-                                                                      .roboto(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleSmall
-                                                                        .fontStyle,
-                                                                  ),
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize:
-                                                                      22.0,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .titleSmall
-                                                                      .fontStyle,
-                                                                ),
-                                                        elevation: 0.0,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(30.0),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isRecentTab = true;
+                          });
+                        },
+                        child: Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: _isRecentTab ? const Color(0xFF40E0D0) : Colors.white,
+                            borderRadius: BorderRadius.circular(25),
+                            border: Border.all(
+                              color: const Color(0xFF40E0D0),
+                              width: 2,
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Recent',
+                              style: TextStyle(
+                                color: _isRecentTab ? Colors.white : const Color(0xFF40E0D0),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
                               ),
-                              Align(
-                                alignment: const AlignmentDirectional(0.0, 0.0),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 300.0, 0.0, 0.0),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                    children: [
-                                      Align(
-                                        alignment:
-                                            const AlignmentDirectional(0.0, 0.0),
-                                        child: Text(
-                                          FFLocalizations.of(context).getText(
-                                            '1djzthz8' /* Your scan list is empty. */,
-                                          ),
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                font: GoogleFonts.roboto(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontStyle,
-                                                ),
-                                                fontSize: 22.0,
-                                                letterSpacing: 0.0,
-                                                fontWeight: FontWeight.bold,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyMedium
-                                                        .fontStyle,
-                                              ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              if (FFAppState().favourites == '')
-                                Align(
-                                  alignment: const AlignmentDirectional(0.0, 0.0),
-                                  child: Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 300.0, 0.0, 0.0),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Align(
-                                          alignment:
-                                              const AlignmentDirectional(0.0, 0.0),
-                                          child: Text(
-                                            FFLocalizations.of(context).getText(
-                                              'rgp2q0f4' /* No Favorites Yet */,
-                                            ),
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  font: GoogleFonts.roboto(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMedium
-                                                            .fontStyle,
-                                                  ),
-                                                  fontSize: 22.0,
-                                                  letterSpacing: 0.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontStyle,
-                                                ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 18.0, 0.0, 0.0),
-                                          child: Text(
-                                            FFLocalizations.of(context).getText(
-                                              'eweoeg3t' /* Save your favorite items to fi... */,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  font: GoogleFonts.roboto(
-                                                    fontWeight:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMedium
-                                                            .fontWeight,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMedium
-                                                            .fontStyle,
-                                                  ),
-                                                  color: Colors.black,
-                                                  fontSize: 15.0,
-                                                  letterSpacing: 0.0,
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontStyle,
-                                                ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 40.0, 0.0, 0.0),
-                                child: Wrap(
-                                  spacing: 0.0,
-                                  runSpacing: 0.0,
-                                  alignment: WrapAlignment.spaceBetween,
-                                  crossAxisAlignment: WrapCrossAlignment.start,
-                                  direction: Axis.vertical,
-                                  runAlignment: WrapAlignment.start,
-                                  verticalDirection: VerticalDirection.down,
-                                  clipBehavior: Clip.none,
-                                  children: [
-                                    if (_model.historyProducts.length > 0)
-                                      wrapWithModel(
-                                        model: _model.productCardModel1,
-                                        updateCallback: () => safeSetState(() {}),
-                                        child: Builder(builder: (_) {
-                                          return DebugFlutterFlowModelContext(
-                                            rootModel: _model.rootModel,
-                                            child: ProductCardWidget(
-                                              product: _model.historyProducts[0],
-                                            ),
-                                          );
-                                        }),
-                                      ),
-                                    if (_model.historyProducts.length > 1)
-                                      wrapWithModel(
-                                        model: _model.productCardModel2,
-                                        updateCallback: () => safeSetState(() {}),
-                                        child: Builder(builder: (_) {
-                                          return DebugFlutterFlowModelContext(
-                                            rootModel: _model.rootModel,
-                                            child: ProductCardWidget(
-                                              product: _model.historyProducts[1],
-                                            ),
-                                          );
-                                        }),
-                                      ),
-                                    if (_model.historyProducts.length > 2)
-                                      wrapWithModel(
-                                        model: _model.productCardModel3,
-                                        updateCallback: () => safeSetState(() {}),
-                                        child: Builder(builder: (_) {
-                                          return DebugFlutterFlowModelContext(
-                                            rootModel: _model.rootModel,
-                                            child: ProductCardWidget(
-                                              product: _model.historyProducts[2],
-                                            ),
-                                          );
-                                        }),
-                                      ),
-                                    if (_model.historyProducts.length > 3)
-                                      wrapWithModel(
-                                        model: _model.productCardModel4,
-                                        updateCallback: () => safeSetState(() {}),
-                                        child: Builder(builder: (_) {
-                                          return DebugFlutterFlowModelContext(
-                                            rootModel: _model.rootModel,
-                                            child: ProductCardWidget(
-                                              product: _model.historyProducts[3],
-                                            ),
-                                          );
-                                        }),
-                                      ),
-                                    if (_model.historyProducts.length > 4)
-                                      wrapWithModel(
-                                        model: _model.productCardModel5,
-                                        updateCallback: () => safeSetState(() {}),
-                                        child: Builder(builder: (_) {
-                                          return DebugFlutterFlowModelContext(
-                                            rootModel: _model.rootModel,
-                                            child: ProductCardWidget(
-                                              product: _model.historyProducts[4],
-                                            ),
-                                          );
-                                        }),
-                                      ),
-                                    if (_model.historyProducts.length > 5)
-                                      wrapWithModel(
-                                        model: _model.productCardModel6,
-                                        updateCallback: () => safeSetState(() {}),
-                                        child: Builder(builder: (_) {
-                                          return DebugFlutterFlowModelContext(
-                                            rootModel: _model.rootModel,
-                                            child: ProductCardWidget(
-                                              product: _model.historyProducts[5],
-                                            ),
-                                          );
-                                        }),
-                                      ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                    wrapWithModel(
-                      model: _model.navbarModel,
-                      updateCallback: () => safeSetState(() {}),
-                      child: Builder(builder: (_) {
-                        return DebugFlutterFlowModelContext(
-                          rootModel: _model.rootModel,
-                          child: const NavbarWidget(),
-                        );
-                      }),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isRecentTab = false;
+                          });
+                        },
+                        child: Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: !_isRecentTab ? const Color(0xFF40E0D0) : Colors.white,
+                            borderRadius: BorderRadius.circular(25),
+                            border: Border.all(
+                              color: const Color(0xFF40E0D0),
+                              width: 2,
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Favorites',
+                              style: TextStyle(
+                                color: !_isRecentTab ? Colors.white : const Color(0xFF40E0D0),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ],
+                ),
+              ),
+              // Content Area
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // Recent Tab Content
+                      if (_isRecentTab) ...[
+                        if (_model.historyProducts.isEmpty) ...[
+                          Text(
+                            'No recents yet',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            'Your recently viewed products will appear here',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey[600],
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ] else ...[
+                          Shimmer(
+                            linearGradient: shimmerGradient,
+                            child: Expanded(
+                              child: ListView.builder(
+                                itemCount: _model.historyProducts.length,
+                                itemBuilder: (context, index) {
+                                  final product = _model.historyProducts[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.only(bottom: 10.0),
+                                    child: InkWell(
+                                      onTap: () {
+                                        context.pushNamed(
+                                          'ProductDetails',
+                                          extra: <String, dynamic>{
+                                            'product': product,
+                                          },
+                                        );
+                                      },
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      child: Container(
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          color: FlutterFlowTheme.of(context).secondaryBackground,
+                                          borderRadius: BorderRadius.circular(20.0),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              ShimmerLoading(
+                                                isLoading: false,
+                                                child: ClipRRect(
+                                                  borderRadius: BorderRadius.circular(16.0),
+                                                  child: (product.imageFrontUrl?.isNotEmpty == true)
+                                                      ? Image.network(
+                                                          product.imageFrontUrl ?? '',
+                                                          width: 66.0,
+                                                          height: 66.0,
+                                                          fit: BoxFit.cover,
+                                                          loadingBuilder: (context, child, loadingProgress) {
+                                                            if (loadingProgress == null) {
+                                                              return child;
+                                                            } else {
+                                                              return Container(
+                                                                width: 66.0,
+                                                                height: 66.0,
+                                                                color: Colors.grey[300],
+                                                              );
+                                                            }
+                                                          },
+                                                          errorBuilder: (context, error, stackTrace) {
+                                                            return Container(
+                                                              width: 66.0,
+                                                              height: 66.0,
+                                                              color: Colors.grey[300],
+                                                            );
+                                                          },
+                                                        )
+                                                      : Container(
+                                                          width: 66.0,
+                                                          height: 66.0,
+                                                          color: Colors.grey[300],
+                                                        ),
+                                                ),
+                                              ),
+                                              const SizedBox(width: 12),
+                                              Expanded(
+                                                child: ShimmerLoading(
+                                                  isLoading: false,
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        product.name ?? '',
+                                                        style: FlutterFlowTheme.of(context)
+                                                            .bodyMedium
+                                                            .override(
+                                                              font: GoogleFonts.roboto(
+                                                                fontWeight: FontWeight.bold,
+                                                                fontStyle: FlutterFlowTheme.of(context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                              color: Colors.black,
+                                                              fontSize: 16.0,
+                                                              letterSpacing: 0.0,
+                                                              fontWeight: FontWeight.bold,
+                                                              fontStyle: FlutterFlowTheme.of(context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                            ),
+                                                        maxLines: 1,
+                                                        overflow: TextOverflow.ellipsis,
+                                                      ),
+                                                      const SizedBox(height: 4),
+                                                      Text(
+                                                        product.description ?? '',
+                                                        style: FlutterFlowTheme.of(context)
+                                                            .bodyMedium
+                                                            .override(
+                                                              font: GoogleFonts.roboto(
+                                                                fontWeight: FontWeight.normal,
+                                                                fontStyle: FlutterFlowTheme.of(context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                              color: Colors.black54,
+                                                              fontSize: 13.0,
+                                                              letterSpacing: 0.0,
+                                                              fontWeight: FontWeight.normal,
+                                                              fontStyle: FlutterFlowTheme.of(context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                            ),
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow.ellipsis,
+                                                      ),
+                                                      const SizedBox(height: 6),
+                                                      if (product.healthScore != null)
+                                                        Container(
+                                                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                                          decoration: BoxDecoration(
+                                                            color: const Color(0xFF2ECC71),
+                                                            borderRadius: BorderRadius.circular(30.0),
+                                                          ),
+                                                          child: Text(
+                                                            'Safety: ${product.healthScore ?? 0}',
+                                                            style: FlutterFlowTheme.of(context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  font: GoogleFonts.roboto(
+                                                                    fontWeight: FontWeight.bold,
+                                                                    fontStyle: FlutterFlowTheme.of(context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  color: Colors.white,
+                                                                  fontSize: 12.0,
+                                                                  letterSpacing: 0.0,
+                                                                  fontWeight: FontWeight.bold,
+                                                                  fontStyle: FlutterFlowTheme.of(context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                          ),
+                                                        ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
+                      // Favorites Tab Content
+                      if (!_isRecentTab) ...[
+                        Text(
+                          'No favorites yet',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Your favorite products will appear here',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey[600],
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ],
+                  ),
                 ),
               ),
             ],

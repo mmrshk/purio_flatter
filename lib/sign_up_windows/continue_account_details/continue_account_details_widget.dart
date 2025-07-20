@@ -140,7 +140,7 @@ class _ContinueAccountDetailsWidgetState
                     size: 24.0,
                   ),
                   onPressed: () {
-                    print('IconButton pressed ...');
+                    context.pop();
                   },
                 ),
               ],

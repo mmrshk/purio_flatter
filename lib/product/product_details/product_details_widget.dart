@@ -6,6 +6,7 @@ import '/index.dart';
 import '/backend/supabase/supabase.dart';
 import '/services/scoring_service.dart';
 import '/services/product_service.dart';
+import '/services/history_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'product_details_model.dart';
@@ -39,6 +40,9 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
     super.initState();
     _model = createModel(context, () => ProductDetailsModel());
     _model.loadIngredients(widget.product.specifications?['ingredients'] as String?);
+    
+    // Add product to user's history
+    HistoryService.addToHistory(widget.product.id);
     
     // Calculate and update health score if not already set
     if (widget.product.healthScore == null) {

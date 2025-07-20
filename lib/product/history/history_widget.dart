@@ -1,11 +1,7 @@
-import '/components/navbar_widget.dart';
-import '/components/product_card_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/shimmer_util.dart';
-import '/backend/supabase/supabase.dart';
 import '/services/history_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,6 +25,11 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   
   bool _isRecentTab = true;
+  Set<int> _loadedImageIndexes = {};
+  final Map<int, DateTime> _imageLoadStartTimes = {};
+  final int _minShimmerMillis = 300;
+  final int _minSkeletonMillis = 300;
+  bool _isLoadingHistory = true;
 
   @override
   void initState() {
@@ -38,16 +39,47 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
   }
 
   Future<void> _loadHistoryProducts() async {
+    setState(() {
+      _isLoadingHistory = true;
+    });
+    
+    // Record start time for minimum loading duration
+    final startTime = DateTime.now();
+    
     try {
       final products = await HistoryService.getUserHistory(limit: 10);
       
       if (mounted) {
+        // Calculate elapsed time
+        final elapsed = DateTime.now().difference(startTime).inMilliseconds;
+        final minLoadingTime = 2000; // 2 seconds minimum loading time
+        
+        if (elapsed < minLoadingTime) {
+          // Wait for remaining time to complete minimum loading duration
+          await Future.delayed(Duration(milliseconds: minLoadingTime - elapsed));
+        }
+        
         setState(() {
           _model.historyProducts = products;
+          _isLoadingHistory = false;
         });
       }
     } catch (e) {
       print('Error loading history products: $e');
+      
+      if (mounted) {
+        // Even on error, ensure minimum loading time
+        final elapsed = DateTime.now().difference(startTime).inMilliseconds;
+        final minLoadingTime = 500;
+        
+        if (elapsed < minLoadingTime) {
+          await Future.delayed(Duration(milliseconds: minLoadingTime - elapsed));
+        }
+        
+        setState(() {
+          _isLoadingHistory = false;
+        });
+      }
     }
   }
 
@@ -116,67 +148,42 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xFFF8F9FA),
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(60.0),
           child: AppBar(
             backgroundColor: Colors.white,
             automaticallyImplyLeading: false,
-            title: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                FlutterFlowIconButton(
-                  borderColor: Colors.transparent,
-                  borderRadius: 100.0,
-                  borderWidth: 1.0,
-                  buttonSize: 45.0,
-                  fillColor: const Color(0xFFFAF9F9),
-                  icon: const Icon(
-                    Icons.arrow_back_ios_new,
-                    color: Color(0xFF40A5A5),
-                    size: 24.0,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+            title: Text(
+              FFLocalizations.of(context).getText(
+                'ymharo6a' /* History */,
+              ),
+              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                font: GoogleFonts.roboto(
+                  fontWeight: FontWeight.bold,
+                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                 ),
-                Align(
-                  alignment: const AlignmentDirectional(0.0, 0.0),
-                  child: Container(
-                    width: 300.0,
-                    height: 60.0,
-                    decoration: const BoxDecoration(),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          FFLocalizations.of(context).getText(
-                            'ymharo6a' /* History */,
-                          ),
-                          style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.roboto(
-                                      fontWeight: FontWeight.bold,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
-                                    ),
-                                    color: Colors.black,
-                                    fontSize: 15.0,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FontWeight.bold,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+                color: Colors.black,
+                fontSize: 15.0,
+                letterSpacing: 0.0,
+                fontWeight: FontWeight.bold,
+                fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+              ),
+            ),
+            leading: FlutterFlowIconButton(
+              borderColor: Colors.transparent,
+              borderRadius: 100.0,
+              borderWidth: 1.0,
+              buttonSize: 45.0,
+              fillColor: const Color(0xFFFAF9F9),
+              icon: const Icon(
+                Icons.arrow_back_ios_new,
+                color: Color(0xFF40A5A5),
+                size: 24.0,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
             actions: const [],
             centerTitle: true,
@@ -265,7 +272,44 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                     children: [
                       // Recent Tab Content
                       if (_isRecentTab) ...[
-                        if (_model.historyProducts.isEmpty) ...[
+                        if (_isLoadingHistory) ...[
+                          // Show loading state with skeletons
+                          Expanded(
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  // Show skeleton placeholders while loading
+                                  ...List.generate(3, (index) => historyProductSkeleton()),
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        width: 20,
+                                        height: 20,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          valueColor: AlwaysStoppedAnimation<Color>(
+                                            const Color(0xFF40E0D0),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 12),
+                                      Text(
+                                        'Loading your history...',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.grey[600],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ] else if (_model.historyProducts.isEmpty) ...[
                           Text(
                             'No recents yet',
                             style: TextStyle(
@@ -292,154 +336,205 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                 itemBuilder: (context, index) {
                                   final product = _model.historyProducts[index];
                                   return Padding(
-                                    padding: const EdgeInsets.only(bottom: 10.0),
-                                    child: InkWell(
-                                      onTap: () {
-                                        context.pushNamed(
-                                          'ProductDetails',
-                                          extra: <String, dynamic>{
-                                            'product': product,
-                                          },
-                                        );
-                                      },
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      child: Container(
-                                        width: double.infinity,
-                                        decoration: BoxDecoration(
-                                          color: FlutterFlowTheme.of(context).secondaryBackground,
-                                          borderRadius: BorderRadius.circular(20.0),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(10.0),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              ShimmerLoading(
-                                                isLoading: false,
-                                                child: ClipRRect(
-                                                  borderRadius: BorderRadius.circular(16.0),
-                                                  child: (product.imageFrontUrl?.isNotEmpty == true)
-                                                      ? Image.network(
-                                                          product.imageFrontUrl ?? '',
-                                                          width: 66.0,
-                                                          height: 66.0,
-                                                          fit: BoxFit.cover,
-                                                          loadingBuilder: (context, child, loadingProgress) {
-                                                            if (loadingProgress == null) {
-                                                              return child;
-                                                            } else {
+                                    padding: const EdgeInsets.only(bottom: 12.0),
+                                    child: Column(
+                                      children: [
+                                        InkWell(
+                                        onTap: () {
+                                          context.pushNamed(
+                                            'ProductDetails',
+                                            extra: <String, dynamic>{
+                                              'product': product,
+                                            },
+                                          );
+                                        },
+                                        borderRadius: BorderRadius.circular(20.0),
+                                        child: Container(
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                            color: FlutterFlowTheme.of(context).secondaryBackground,
+                                            borderRadius: BorderRadius.circular(20.0),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black.withOpacity(0.05),
+                                                blurRadius: 4,
+                                                offset: const Offset(0, 2),
+                                              ),
+                                            ],
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                ShimmerLoading(
+                                                  isLoading: !_loadedImageIndexes.contains(index),
+                                                  child: ClipRRect(
+                                                    borderRadius: BorderRadius.circular(16.0),
+                                                    child: (product.imageFrontUrl?.isNotEmpty == true)
+                                                        ? Image.network(
+                                                            product.imageFrontUrl ?? '',
+                                                            width: 66.0,
+                                                            height: 66.0,
+                                                            fit: BoxFit.cover,
+                                                            loadingBuilder: (context, child, loadingProgress) {
+                                                              if (!_imageLoadStartTimes.containsKey(index)) {
+                                                                _imageLoadStartTimes[index] = DateTime.now();
+                                                              }
+                                                              if (loadingProgress == null) {
+                                                                final loadStart = _imageLoadStartTimes[index]!;
+                                                                final elapsed = DateTime.now().difference(loadStart).inMilliseconds;
+                                                                if (elapsed < _minSkeletonMillis) {
+                                                                  Future.delayed(Duration(milliseconds: _minSkeletonMillis - elapsed), () {
+                                                                    if (mounted) setState(() {
+                                                                      _loadedImageIndexes.add(index);
+                                                                    });
+                                                                  });
+                                                                  return Container(
+                                                                    width: 66.0,
+                                                                    height: 66.0,
+                                                                    decoration: BoxDecoration(
+                                                                      color: Colors.grey[300],
+                                                                      borderRadius: BorderRadius.circular(16.0),
+                                                                    ),
+                                                                  );
+                                                                } else {
+                                                                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                                                                    if (mounted) setState(() {
+                                                                      _loadedImageIndexes.add(index);
+                                                                    });
+                                                                  });
+                                                                  return child;
+                                                                }
+                                                              } else {
+                                                                return Container(
+                                                                  width: 66.0,
+                                                                  height: 66.0,
+                                                                  decoration: BoxDecoration(
+                                                                    color: Colors.grey[300],
+                                                                    borderRadius: BorderRadius.circular(16.0),
+                                                                  ),
+                                                                );
+                                                              }
+                                                            },
+                                                            errorBuilder: (context, error, stackTrace) {
+                                                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                                                if (mounted) setState(() {
+                                                                  _loadedImageIndexes.add(index);
+                                                                });
+                                                              });
                                                               return Container(
                                                                 width: 66.0,
                                                                 height: 66.0,
-                                                                color: Colors.grey[300],
+                                                                decoration: BoxDecoration(
+                                                                  color: Colors.grey[300],
+                                                                  borderRadius: BorderRadius.circular(16.0),
+                                                                ),
                                                               );
-                                                            }
-                                                          },
-                                                          errorBuilder: (context, error, stackTrace) {
-                                                            return Container(
-                                                              width: 66.0,
-                                                              height: 66.0,
+                                                            },
+                                                          )
+                                                        : Container(
+                                                            width: 66.0,
+                                                            height: 66.0,
+                                                            decoration: BoxDecoration(
                                                               color: Colors.grey[300],
-                                                            );
-                                                          },
-                                                        )
-                                                      : Container(
-                                                          width: 66.0,
-                                                          height: 66.0,
-                                                          color: Colors.grey[300],
-                                                        ),
-                                                ),
-                                              ),
-                                              const SizedBox(width: 12),
-                                              Expanded(
-                                                child: ShimmerLoading(
-                                                  isLoading: false,
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      Text(
-                                                        product.name ?? '',
-                                                        style: FlutterFlowTheme.of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              font: GoogleFonts.roboto(
-                                                                fontWeight: FontWeight.bold,
-                                                                fontStyle: FlutterFlowTheme.of(context)
-                                                                    .bodyMedium
-                                                                    .fontStyle,
-                                                              ),
-                                                              color: Colors.black,
-                                                              fontSize: 16.0,
-                                                              letterSpacing: 0.0,
-                                                              fontWeight: FontWeight.bold,
-                                                              fontStyle: FlutterFlowTheme.of(context)
-                                                                  .bodyMedium
-                                                                  .fontStyle,
+                                                              borderRadius: BorderRadius.circular(16.0),
                                                             ),
-                                                        maxLines: 1,
-                                                        overflow: TextOverflow.ellipsis,
-                                                      ),
-                                                      const SizedBox(height: 4),
-                                                      Text(
-                                                        product.description ?? '',
-                                                        style: FlutterFlowTheme.of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              font: GoogleFonts.roboto(
-                                                                fontWeight: FontWeight.normal,
-                                                                fontStyle: FlutterFlowTheme.of(context)
-                                                                    .bodyMedium
-                                                                    .fontStyle,
-                                                              ),
-                                                              color: Colors.black54,
-                                                              fontSize: 13.0,
-                                                              letterSpacing: 0.0,
-                                                              fontWeight: FontWeight.normal,
-                                                              fontStyle: FlutterFlowTheme.of(context)
-                                                                  .bodyMedium
-                                                                  .fontStyle,
-                                                            ),
-                                                        maxLines: 2,
-                                                        overflow: TextOverflow.ellipsis,
-                                                      ),
-                                                      const SizedBox(height: 6),
-                                                      if (product.healthScore != null)
-                                                        Container(
-                                                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                                          decoration: BoxDecoration(
-                                                            color: const Color(0xFF2ECC71),
-                                                            borderRadius: BorderRadius.circular(30.0),
                                                           ),
-                                                          child: Text(
-                                                            'Safety: ${product.healthScore ?? 0}',
-                                                            style: FlutterFlowTheme.of(context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  font: GoogleFonts.roboto(
-                                                                    fontWeight: FontWeight.bold,
-                                                                    fontStyle: FlutterFlowTheme.of(context)
-                                                                        .bodyMedium
-                                                                        .fontStyle,
-                                                                  ),
-                                                                  color: Colors.white,
-                                                                  fontSize: 12.0,
-                                                                  letterSpacing: 0.0,
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 12),
+                                                Expanded(
+                                                  child: ShimmerLoading(
+                                                    isLoading: !_loadedImageIndexes.contains(index),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(
+                                                          product.name ?? '',
+                                                          style: FlutterFlowTheme.of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                font: GoogleFonts.roboto(
                                                                   fontWeight: FontWeight.bold,
                                                                   fontStyle: FlutterFlowTheme.of(context)
                                                                       .bodyMedium
                                                                       .fontStyle,
                                                                 ),
-                                                          ),
+                                                                color: Colors.black,
+                                                                fontSize: 16.0,
+                                                                letterSpacing: 0.0,
+                                                                fontWeight: FontWeight.bold,
+                                                                fontStyle: FlutterFlowTheme.of(context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                          maxLines: 1,
+                                                          overflow: TextOverflow.ellipsis,
                                                         ),
-                                                    ],
+                                                        const SizedBox(height: 4),
+                                                        Text(
+                                                          product.description ?? '',
+                                                          style: FlutterFlowTheme.of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                font: GoogleFonts.roboto(
+                                                                  fontWeight: FontWeight.normal,
+                                                                  fontStyle: FlutterFlowTheme.of(context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                                color: Colors.black54,
+                                                                fontSize: 13.0,
+                                                                letterSpacing: 0.0,
+                                                                fontWeight: FontWeight.normal,
+                                                                fontStyle: FlutterFlowTheme.of(context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                          maxLines: 2,
+                                                          overflow: TextOverflow.ellipsis,
+                                                        ),
+                                                        const SizedBox(height: 6),
+                                                        if (product.healthScore != null)
+                                                          Container(
+                                                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                                            decoration: BoxDecoration(
+                                                              color: const Color(0xFF2ECC71),
+                                                              borderRadius: BorderRadius.circular(30.0),
+                                                            ),
+                                                            child: Text(
+                                                              'Safety: ${product.healthScore ?? 0}',
+                                                              style: FlutterFlowTheme.of(context)
+                                                                  .bodyMedium
+                                                                  .override(
+                                                                    font: GoogleFonts.roboto(
+                                                                      fontWeight: FontWeight.bold,
+                                                                      fontStyle: FlutterFlowTheme.of(context)
+                                                                          .bodyMedium
+                                                                          .fontStyle,
+                                                                    ),
+                                                                    color: Colors.white,
+                                                                    fontSize: 12.0,
+                                                                    letterSpacing: 0.0,
+                                                                    fontWeight: FontWeight.bold,
+                                                                    fontStyle: FlutterFlowTheme.of(context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                            ),
+                                                          ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
+                                                                              ),
+                                      ],
                                     ),
                                   );
                                 },
@@ -478,4 +573,86 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
       ),
     );
   }
+}
+
+Widget historyProductSkeleton() {
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 12.0),
+    child: Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Image skeleton
+            Container(
+              width: 66.0,
+              height: 66.0,
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+            ),
+            const SizedBox(width: 12),
+            // Text skeletons
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: 16,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Container(
+                    width: double.infinity,
+                    height: 12,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Container(
+                    width: 100,
+                    height: 12,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Container(
+                    width: 80,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }

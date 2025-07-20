@@ -12,7 +12,12 @@ import 'dart:async';
 export 'navbar_model.dart';
 
 class NavbarWidget extends StatefulWidget {
-  const NavbarWidget({super.key});
+  final Color backgroundColor;
+  
+  const NavbarWidget({
+    super.key,
+    this.backgroundColor = Colors.white,
+  });
 
   @override
   State<NavbarWidget> createState() => _NavbarWidgetState();
@@ -20,6 +25,7 @@ class NavbarWidget extends StatefulWidget {
 
 class _NavbarWidgetState extends State<NavbarWidget> with RouteAware {
   late NavbarModel _model;
+  int _selectedIndex = 0; // 0 = Home, 1 = Scan, 2 = History
 
   @override
   void setState(VoidCallback callback) {
@@ -36,9 +42,7 @@ class _NavbarWidgetState extends State<NavbarWidget> with RouteAware {
   @override
   void dispose() {
     routeObserver.unsubscribe(this);
-
     _model.maybeDispose();
-
     super.dispose();
   }
 
@@ -84,313 +88,206 @@ class _NavbarWidgetState extends State<NavbarWidget> with RouteAware {
     _model.isRouteVisible = false;
   }
 
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    switch (index) {
+      case 0: // Home
+        context.pushNamed(HomeScreenWidget.routeName);
+        break;
+      case 1: // Scan
+        _handleScanTap();
+        break;
+      case 2: // History
+        context.pushNamed(HistoryWidget.routeName);
+        break;
+    }
+  }
+
+  Future<void> _handleScanTap() async {
+    if (Platform.isIOS && !Platform.environment.containsKey('FLUTTER_TEST')) {
+      // Check if we're running in a simulator
+      final isSimulator = await _isSimulator();
+      if (isSimulator) {
+        // Show mock scanner in simulator
+        final result = await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MockScanner(
+              onScan: (String barcode) {
+                Navigator.pop(context, barcode);
+              },
+            ),
+          ),
+        );
+        
+        if (result != null) {
+          _model.barcodeValue = result;
+          _model.apiResultOpenFoods = await OpenFoodFactsAPICall.call(
+            barCodeValue: _model.barcodeValue,
+          );
+
+          if ((_model.apiResultOpenFoods?.succeeded ?? true)) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  'Found',
+                  style: TextStyle(
+                    color: FlutterFlowTheme.of(context).primaryText,
+                  ),
+                ),
+                duration: const Duration(milliseconds: 4000),
+                backgroundColor: FlutterFlowTheme.of(context).secondary,
+              ),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  'Not found',
+                  style: TextStyle(
+                    color: FlutterFlowTheme.of(context).primaryText,
+                  ),
+                ),
+                duration: const Duration(milliseconds: 4000),
+                backgroundColor: FlutterFlowTheme.of(context).error,
+              ),
+            );
+          }
+        }
+      } else {
+        // Use ScanScreen on physical devices
+        final result = await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const ScanScreen(),
+          ),
+        );
+        
+        if (result != null) {
+          _model.barcodeValue = result;
+          _model.apiResultOpenFoods = await OpenFoodFactsAPICall.call(
+            barCodeValue: _model.barcodeValue,
+          );
+
+          if ((_model.apiResultOpenFoods?.succeeded ?? true)) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  'Found',
+                  style: TextStyle(
+                    color: FlutterFlowTheme.of(context).primaryText,
+                  ),
+                ),
+                duration: const Duration(milliseconds: 4000),
+                backgroundColor: FlutterFlowTheme.of(context).secondary,
+              ),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  'Not found',
+                  style: TextStyle(
+                    color: FlutterFlowTheme.of(context).primaryText,
+                  ),
+                ),
+                duration: const Duration(milliseconds: 4000),
+                backgroundColor: FlutterFlowTheme.of(context).error,
+              ),
+            );
+          }
+        }
+      }
+    } else {
+      // Use ScanScreen on Android and web
+      final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const ScanScreen(),
+        ),
+      );
+      
+      if (result != null) {
+        _model.barcodeValue = result;
+        _model.apiResultOpenFoods = await OpenFoodFactsAPICall.call(
+          barCodeValue: _model.barcodeValue,
+        );
+
+        if ((_model.apiResultOpenFoods?.succeeded ?? true)) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Found',
+                style: TextStyle(
+                  color: FlutterFlowTheme.of(context).primaryText,
+                ),
+              ),
+              duration: const Duration(milliseconds: 4000),
+              backgroundColor: FlutterFlowTheme.of(context).secondary,
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Not found',
+                style: TextStyle(
+                  color: FlutterFlowTheme.of(context).primaryText,
+                ),
+              ),
+              duration: const Duration(milliseconds: 4000),
+              backgroundColor: FlutterFlowTheme.of(context).error,
+            ),
+          );
+        }
+      }
+    }
+
+    safeSetState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     DebugFlutterFlowModelContext.maybeOf(context)
         ?.parentModelCallback
         ?.call(_model);
 
-    return Align(
-      alignment: const AlignmentDirectional(0.0, -1.0),
-      child: SizedBox(
-        height: 100.0,
-        child: Stack(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(0.0),
-              child: Image.asset(
-                'assets/images/NavbarBackground.png',
-                width: double.infinity,
-                height: 100.0,
-                fit: BoxFit.fill,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
-              child: Container(
-                width: double.infinity,
-                height: 100.0,
-                constraints: const BoxConstraints(
-                  minHeight: 100.0,
-                ),
-                decoration: const BoxDecoration(
-                  color: Color(0xFFEAF5EE),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(0.0),
-                    bottomRight: Radius.circular(0.0),
-                    topLeft: Radius.circular(32.0),
-                    topRight: Radius.circular(32.0),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(60.0, 0.0, 60.0, 0.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 42.0,
-                            height: 50.0,
-                            decoration: const BoxDecoration(),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: Image.asset(
-                                'assets/images/HomeIccon.png',
-                                width: 42.0,
-                                height: 50.0,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const Spacer(flex: 5),
-                      Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 51.0,
-                            height: 50.0,
-                            decoration: const BoxDecoration(),
-                            child: InkWell(
-                              splashColor: Colors.transparent,
-                              focusColor: Colors.transparent,
-                              hoverColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onTap: () async {
-                                context.pushNamed(
-                                  HistoryWidget.routeName,
-                                  extra: <String, dynamic>{
-                                    kTransitionInfoKey: const TransitionInfo(
-                                      hasTransition: true,
-                                      transitionType: PageTransitionType.fade,
-                                      duration: Duration(milliseconds: 0),
-                                    ),
-                                  },
-                                );
-                              },
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8.0),
-                                child: Image.asset(
-                                  'assets/images/HistoryIcon.png',
-                                  width: 51.0,
-                                  height: 50.0,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+    return Container(
+      decoration: BoxDecoration(
+        color: widget.backgroundColor,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            height: 60, // Compact height like the example
+            decoration: BoxDecoration(
+              color: widget.backgroundColor,
+              border: Border(
+                top: BorderSide(
+                  color: Colors.grey.withOpacity(0.2),
+                  width: 0.5,
                 ),
               ),
             ),
-            Align(
-              alignment: const AlignmentDirectional(0.0, -1.0),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 100),
-                curve: Curves.easeIn,
-                width: 96.0,
-                height: 96.0,
-                decoration: const BoxDecoration(
-                  color: Color(0xFFEAF5EE),
-                  shape: BoxShape.circle,
-                ),
-                child: Align(
-                  alignment: const AlignmentDirectional(0.0, 0.0),
-                  child: InkWell(
-                    splashColor: Colors.transparent,
-                    focusColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    onTap: () async {
-                      if (Platform.isIOS && !Platform.environment.containsKey('FLUTTER_TEST')) {
-                        // Check if we're running in a simulator
-                        final isSimulator = await _isSimulator();
-                        if (isSimulator) {
-                          // Show mock scanner in simulator
-                          final result = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MockScanner(
-                                onScan: (String barcode) {
-                                  Navigator.pop(context, barcode);
-                                },
-                              ),
-                            ),
-                          );
-                          
-                          if (result != null) {
-                            _model.barcodeValue = result;
-                            _model.apiResultOpenFoods =
-                                await OpenFoodFactsAPICall.call(
-                              barCodeValue: _model.barcodeValue,
-                            );
-
-                            if ((_model.apiResultOpenFoods?.succeeded ?? true)) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Found',
-                                    style: TextStyle(
-                                      color: FlutterFlowTheme.of(context).primaryText,
-                                    ),
-                                  ),
-                                  duration: const Duration(milliseconds: 4000),
-                                  backgroundColor:
-                                      FlutterFlowTheme.of(context).secondary,
-                                ),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Not found',
-                                    style: TextStyle(
-                                      color: FlutterFlowTheme.of(context).primaryText,
-                                    ),
-                                  ),
-                                  duration: const Duration(milliseconds: 4000),
-                                  backgroundColor: FlutterFlowTheme.of(context).error,
-                                ),
-                              );
-                            }
-                          }
-                        } else {
-                          // Use ScanScreen on physical devices
-                          final result = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const ScanScreen(),
-                            ),
-                          );
-                          
-                          if (result != null) {
-                            _model.barcodeValue = result;
-                            _model.apiResultOpenFoods =
-                                await OpenFoodFactsAPICall.call(
-                              barCodeValue: _model.barcodeValue,
-                            );
-
-                            if ((_model.apiResultOpenFoods?.succeeded ?? true)) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Found',
-                                    style: TextStyle(
-                                      color: FlutterFlowTheme.of(context).primaryText,
-                                    ),
-                                  ),
-                                  duration: const Duration(milliseconds: 4000),
-                                  backgroundColor:
-                                      FlutterFlowTheme.of(context).secondary,
-                                ),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Not found',
-                                    style: TextStyle(
-                                      color: FlutterFlowTheme.of(context).primaryText,
-                                    ),
-                                  ),
-                                  duration: const Duration(milliseconds: 4000),
-                                  backgroundColor: FlutterFlowTheme.of(context).error,
-                                ),
-                              );
-                            }
-                          }
-                        }
-                      } else {
-                        // Use ScanScreen on Android and web
-                        final result = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ScanScreen(),
-                          ),
-                        );
-                        
-                        if (result != null) {
-                          _model.barcodeValue = result;
-                          _model.apiResultOpenFoods =
-                              await OpenFoodFactsAPICall.call(
-                            barCodeValue: _model.barcodeValue,
-                          );
-
-                          if ((_model.apiResultOpenFoods?.succeeded ?? true)) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'Found',
-                                  style: TextStyle(
-                                    color: FlutterFlowTheme.of(context).primaryText,
-                                  ),
-                                ),
-                                duration: const Duration(milliseconds: 4000),
-                                backgroundColor:
-                                    FlutterFlowTheme.of(context).secondary,
-                              ),
-                            );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'Not found',
-                                  style: TextStyle(
-                                    color: FlutterFlowTheme.of(context).primaryText,
-                                  ),
-                                ),
-                                duration: const Duration(milliseconds: 4000),
-                                backgroundColor: FlutterFlowTheme.of(context).error,
-                              ),
-                            );
-                          }
-                        }
-                      }
-
-                      safeSetState(() {});
-                    },
-                    child: Container(
-                      width: 66.0,
-                      height: 66.0,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFEAF5EE),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Align(
-                        alignment: const AlignmentDirectional(0.0, -1.0),
-                        child: Container(
-                          width: 60.0,
-                          height: 60.0,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.asset(
-                              'assets/images/ScanIcon.png',
-                              width: 50.0,
-                              height: 50.0,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildNavItem(0, Icons.home_outlined, Icons.home, 'Home'),
+                _buildNavItem(1, Icons.photo_camera, Icons.qr_code_scanner, 'Scan'),
+                _buildNavItem(2, Icons.history_outlined, Icons.history, 'History'),
+              ],
             ),
-          ],
-        ),
+          ),
+          // Background extending to bottom of screen
+          Container(
+            height: MediaQuery.of(context).padding.bottom,
+            color: widget.backgroundColor,
+          ),
+        ],
       ),
     );
   }
@@ -405,5 +302,34 @@ class _NavbarWidgetState extends State<NavbarWidget> with RouteAware {
       }
     }
     return false;
+  }
+
+  Widget _buildNavItem(int index, IconData icon, IconData activeIcon, String label) {
+    final isSelected = _selectedIndex == index;
+    return GestureDetector(
+      onTap: () => _onItemTapped(index),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              isSelected ? activeIcon : icon,
+              size: 24,
+              color: isSelected ? const Color(0xFF40A5A5) : Colors.grey[600],
+            ),
+            const SizedBox(height: 2),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 10,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                color: isSelected ? const Color(0xFF40A5A5) : Colors.grey[600],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

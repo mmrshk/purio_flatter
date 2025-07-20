@@ -768,19 +768,15 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
                     left: 0,
                     right: 0,
                     bottom: 0,
-                    child: SafeArea(
-                      top: false,
-                      bottom: true,
-                      child: wrapWithModel(
-                        model: _model.navbarModel,
-                        updateCallback: () => safeSetState(() {}),
-                        child: Builder(builder: (_) {
-                          return DebugFlutterFlowModelContext(
-                            rootModel: _model.rootModel,
-                            child: const NavbarWidget(),
-                          );
-                        }),
-                      ),
+                    child: wrapWithModel(
+                      model: _model.navbarModel,
+                      updateCallback: () => safeSetState(() {}),
+                      child: Builder(builder: (_) {
+                        return DebugFlutterFlowModelContext(
+                          rootModel: _model.rootModel,
+                          child: const NavbarWidget(),
+                        );
+                      }),
                     ),
                   ),
                 ],

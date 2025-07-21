@@ -183,6 +183,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
   late HomeScreenModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final ScrollController _scrollController = ScrollController();
   Set<int> _loadedImageIndexes = {};
   final Map<int, DateTime> _imageLoadStartTimes = {};
   final int _minShimmerMillis = 1200;
@@ -265,7 +266,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
   @override
   void dispose() {
     routeObserver.unsubscribe(this);
-
+    _scrollController.dispose();
     _model.dispose();
 
     super.dispose();
@@ -370,6 +371,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
                         await _fetchProducts();
                       },
                       child: SingleChildScrollView(
+                        controller: _scrollController,
                         physics: const AlwaysScrollableScrollPhysics(),
                         child: Padding(
                           padding: const EdgeInsetsDirectional.fromSTEB(
@@ -774,7 +776,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
                       child: Builder(builder: (_) {
                         return DebugFlutterFlowModelContext(
                           rootModel: _model.rootModel,
-                          child: const NavbarWidget(),
+                          child: NavbarWidget(scrollController: _scrollController),
                         );
                       }),
                     ),

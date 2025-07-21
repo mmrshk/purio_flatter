@@ -51,7 +51,7 @@ class HistoryService {
         
         // Get user's history with product details
         final history = await SupaFlow.client
-            .from('users_history')
+            .from('user_history')
             .select('''
               product_id,
               created_at,

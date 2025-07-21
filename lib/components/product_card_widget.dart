@@ -2,6 +2,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/backend/supabase/supabase.dart';
 import '/services/scoring_service.dart';
+import '/services/favorites_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'product_card_model.dart';
@@ -32,6 +33,62 @@ class _ProductCardWidgetState extends State<ProductCardWidget> with RouteAware {
   void initState() {
     super.initState();
     _model = createModel(context, () => ProductCardModel());
+    _checkFavoriteStatus();
+  }
+
+  Future<void> _checkFavoriteStatus() async {
+    try {
+      _model.isLoadingFavorite = true;
+      if (mounted) setState(() {});
+      
+      final isFavorite = await FavoritesService.isFavorite(widget.product.id);
+      
+      if (mounted) {
+        setState(() {
+          _model.isFavorite = isFavorite;
+          _model.isLoadingFavorite = false;
+        });
+      }
+    } catch (e) {
+      print('Error checking favorite status: $e');
+      if (mounted) {
+        setState(() {
+          _model.isLoadingFavorite = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _toggleFavorite() async {
+    try {
+      _model.isLoadingFavorite = true;
+      if (mounted) setState(() {});
+      
+      if (_model.isFavorite) {
+        await FavoritesService.removeFromFavorites(widget.product.id);
+        if (mounted) {
+          setState(() {
+            _model.isFavorite = false;
+            _model.isLoadingFavorite = false;
+          });
+        }
+      } else {
+        await FavoritesService.addToFavorites(widget.product.id);
+        if (mounted) {
+          setState(() {
+            _model.isFavorite = true;
+            _model.isLoadingFavorite = false;
+          });
+        }
+      }
+    } catch (e) {
+      print('Error toggling favorite: $e');
+      if (mounted) {
+        setState(() {
+          _model.isLoadingFavorite = false;
+        });
+      }
+    }
   }
 
   @override
@@ -170,10 +227,26 @@ class _ProductCardWidgetState extends State<ProductCardWidget> with RouteAware {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 12.0),
-              child: Icon(
-                Icons.favorite_border,
-                color: FlutterFlowTheme.of(context).primaryColor,
-                size: 24.0,
+              child: GestureDetector(
+                onTap: _model.isLoadingFavorite ? null : _toggleFavorite,
+                child: _model.isLoadingFavorite
+                    ? SizedBox(
+                        width: 20.0,
+                        height: 20.0,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2.0,
+                          color: FlutterFlowTheme.of(context).primaryColor,
+                        ),
+                      )
+                    : Icon(
+                        _model.isFavorite
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        color: _model.isFavorite
+                            ? Colors.red
+                            : FlutterFlowTheme.of(context).primaryColor,
+                        size: 24.0,
+                      ),
               ),
             ),
           ],

@@ -14,6 +14,10 @@ class ProductDetailsModel extends FlutterFlowModel<ProductDetailsWidget> {
   int visibleIngredientsCount = 1;
   List<String> ingredients = [];
   bool hasMoreIngredients = false;
+  
+  // State for favorites
+  bool isFavorite = false;
+  bool isLoadingFavorite = false;
 
   final Map<String, DebugDataField> debugGeneratorVariables = {};
   final Map<String, DebugDataField> debugBackendQueries = {};

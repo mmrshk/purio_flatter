@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/shimmer_util.dart';
 import '/services/history_service.dart';
+import '/services/favorites_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -83,6 +84,31 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
     }
   }
 
+  Future<void> _loadFavoriteProducts() async {
+    setState(() {
+      _model.isLoadingFavorites = true;
+    });
+    
+    try {
+      final products = await FavoritesService.getUserFavorites(limit: 10);
+      
+      if (mounted) {
+        setState(() {
+          _model.favoriteProducts = products;
+          _model.isLoadingFavorites = false;
+        });
+      }
+    } catch (e) {
+      print('Error loading favorite products: $e');
+      
+      if (mounted) {
+        setState(() {
+          _model.isLoadingFavorites = false;
+        });
+      }
+    }
+  }
+
   @override
   void dispose() {
     routeObserver.unsubscribe(this);
@@ -113,6 +139,11 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
     if (mounted && DebugFlutterFlowModelContext.maybeOf(context) == null) {
       setState(() => _model.isRouteVisible = true);
       debugLogWidgetClass(_model);
+      
+      // Refresh favorites when returning to this page
+      if (!_isRecentTab && !_model.isLoadingFavorites) {
+        _loadFavoriteProducts();
+      }
     }
   }
 
@@ -236,6 +267,10 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                           setState(() {
                             _isRecentTab = false;
                           });
+                          // Load favorites when switching to favorites tab
+                          if (_model.favoriteProducts.isEmpty && !_model.isLoadingFavorites) {
+                            _loadFavoriteProducts();
+                          }
                         },
                         child: Container(
                           height: 50,
@@ -545,23 +580,204 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                       ],
                       // Favorites Tab Content
                       if (!_isRecentTab) ...[
-                        Text(
-                          'No favorites yet',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black87,
+                        if (_model.isLoadingFavorites) ...[
+                          // Show loading state with skeletons
+                          Expanded(
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  // Show skeleton placeholders while loading
+                                  ...List.generate(3, (index) => historyProductSkeleton()),
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        width: 20,
+                                        height: 20,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          valueColor: AlwaysStoppedAnimation<Color>(
+                                            const Color(0xFF40E0D0),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 12),
+                                      Text(
+                                        'Loading favorites...',
+                                        style: TextStyle(
+                                          color: Colors.grey[600],
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          'Your favorite products will appear here',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey[600],
+                        ] else if (_model.favoriteProducts.isEmpty) ...[
+                          Text(
+                            'No favorites yet',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87,
+                            ),
                           ),
-                          textAlign: TextAlign.center,
-                        ),
+                          SizedBox(height: 10),
+                          Text(
+                            'Your favorite products will appear here',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey[600],
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ] else ...[
+                          // Show favorites list
+                          Expanded(
+                            child: ListView.builder(
+                              itemCount: _model.favoriteProducts.length,
+                              itemBuilder: (context, index) {
+                                final product = _model.favoriteProducts[index];
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 12.0),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      context.pushNamed(
+                                        'ProductDetails',
+                                        extra: <String, dynamic>{
+                                          'product': product,
+                                        },
+                                      );
+                                    },
+                                    child: Container(
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(20.0),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black.withOpacity(0.05),
+                                            blurRadius: 4,
+                                            offset: const Offset(0, 2),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            // Product image
+                                            Container(
+                                              width: 66.0,
+                                              height: 66.0,
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey[200],
+                                                borderRadius: BorderRadius.circular(16.0),
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius: BorderRadius.circular(16.0),
+                                                child: product.imageFrontUrl != null
+                                                    ? Image.network(
+                                                        product.imageFrontUrl!,
+                                                        fit: BoxFit.cover,
+                                                        errorBuilder: (context, error, stackTrace) {
+                                                          return Container(
+                                                            color: Colors.grey[300],
+                                                            child: const Icon(
+                                                              Icons.image_not_supported,
+                                                              color: Colors.grey,
+                                                            ),
+                                                          );
+                                                        },
+                                                      )
+                                                    : Container(
+                                                        color: Colors.grey[300],
+                                                        child: const Icon(
+                                                          Icons.image_not_supported,
+                                                          color: Colors.grey,
+                                                        ),
+                                                      ),
+                                              ),
+                                            ),
+                                            const SizedBox(width: 12),
+                                            // Product details
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    product.name ?? 'Unknown Product',
+                                                    style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Colors.black87,
+                                                    ),
+                                                    maxLines: 2,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                  const SizedBox(height: 4),
+                                                  Text(
+                                                    product.category ?? 'No category',
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.grey[600],
+                                                    ),
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                  const SizedBox(height: 8),
+                                                  Row(
+                                                    children: [
+                                                      if (product.healthScore != null)
+                                                        Container(
+                                                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                                          decoration: BoxDecoration(
+                                                            color: (product.healthScore ?? 0) > 70
+                                                                ? const Color(0xFF2ECC71)
+                                                                : const Color(0xFFE74C3C),
+                                                            borderRadius: BorderRadius.circular(30.0),
+                                                          ),
+                                                          child: Text(
+                                                            'Safety: ${product.healthScore ?? 0}',
+                                                            style: FlutterFlowTheme.of(context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  font: GoogleFonts.roboto(
+                                                                    fontWeight: FontWeight.bold,
+                                                                    fontStyle: FlutterFlowTheme.of(context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  color: Colors.white,
+                                                                  fontSize: 12.0,
+                                                                  letterSpacing: 0.0,
+                                                                  fontWeight: FontWeight.bold,
+                                                                  fontStyle: FlutterFlowTheme.of(context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                          ),
+                                                        ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                       ],
                     ],
                   ),

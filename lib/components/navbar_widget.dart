@@ -13,10 +13,12 @@ export 'navbar_model.dart';
 
 class NavbarWidget extends StatefulWidget {
   final Color backgroundColor;
+  final ScrollController? scrollController;
   
   const NavbarWidget({
     super.key,
     this.backgroundColor = Colors.white,
+    this.scrollController,
   });
 
   @override
@@ -25,7 +27,7 @@ class NavbarWidget extends StatefulWidget {
 
 class _NavbarWidgetState extends State<NavbarWidget> with RouteAware {
   late NavbarModel _model;
-  int _selectedIndex = 0; // 0 = Home, 1 = Scan, 2 = History
+  int _selectedIndex = 0; // 0 = Top, 1 = Scan, 2 = History
 
   @override
   void setState(VoidCallback callback) {
@@ -94,8 +96,8 @@ class _NavbarWidgetState extends State<NavbarWidget> with RouteAware {
     });
 
     switch (index) {
-      case 0: // Home
-        context.pushNamed(HomeScreenWidget.routeName);
+      case 0: // Scroll to top
+        _scrollToTop();
         break;
       case 1: // Scan
         _handleScanTap();
@@ -103,6 +105,16 @@ class _NavbarWidgetState extends State<NavbarWidget> with RouteAware {
       case 2: // History
         context.pushNamed(HistoryWidget.routeName);
         break;
+    }
+  }
+
+  void _scrollToTop() {
+    if (widget.scrollController != null && widget.scrollController!.hasClients) {
+      widget.scrollController!.animateTo(
+        0,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
     }
   }
 

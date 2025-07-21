@@ -1,18 +1,18 @@
 import '../database.dart';
 
-class UserHistoryTable extends SupabaseTable<UserHistoryRow> {
+class UserFavoritesTable extends SupabaseTable<UserFavoritesRow> {
   @override
-  String get tableName => 'user_history';
+  String get tableName => 'user_favorites';
 
   @override
-  UserHistoryRow createRow(Map<String, dynamic> data) => UserHistoryRow(data);
+  UserFavoritesRow createRow(Map<String, dynamic> data) => UserFavoritesRow(data);
 }
 
-class UserHistoryRow extends SupabaseDataRow {
-  UserHistoryRow(super.data);
+class UserFavoritesRow extends SupabaseDataRow {
+  UserFavoritesRow(super.data);
 
   @override
-  SupabaseTable get table => UserHistoryTable();
+  SupabaseTable get table => UserFavoritesTable();
 
   int get id => getField<int>('id')!;
   set id(int value) => setField<int>('id', value);

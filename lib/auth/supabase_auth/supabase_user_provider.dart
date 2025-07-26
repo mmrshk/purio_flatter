@@ -28,7 +28,7 @@ class PurioSupabaseUser extends BaseAuthUser {
             .delete()
             .eq('user_id', user!.id);
       } catch (e) {
-        print('Error deleting user data: $e');
+        // Error deleting user data
       }
 
       await SupaFlow.client.auth.signOut();

@@ -12,6 +12,7 @@ class FavoritesService {
 
       if (userData.isNotEmpty) {
         final userId = userData.first.id;
+        print('Using user ID: $userId (type: ${userId.runtimeType})');
         
         // Check if this product is already in user's favorites
         final existingFavorite = await UserFavoritesTable().queryRows(
@@ -35,6 +36,7 @@ class FavoritesService {
       }
     } catch (e) {
       print('Error adding to favorites: $e');
+      print('Error details: ${e.toString()}');
     }
   }
 

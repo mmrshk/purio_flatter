@@ -20,6 +20,18 @@ String get currentJwtToken => _currentJwtToken ?? '';
 
 bool get currentUserEmailVerified => currentUser?.emailVerified ?? false;
 
+/// Check if a user exists in the database by email
+Future<bool> userExistsByEmail(String email) async {
+  try {
+    final userData = await UserDataTable().queryRows(
+      queryFn: (q) => q.eq('email', email.toLowerCase()),
+    );
+    return userData.isNotEmpty;
+  } catch (e) {
+    return false;
+  }
+}
+
 /// Create a Stream that listens to the current user's JWT Token.
 String? _currentJwtToken;
 final jwtTokenStream = SupaFlow.client.auth.onAuthStateChange

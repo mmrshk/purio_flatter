@@ -1,4 +1,5 @@
 import '/app_state.dart';
+import '/auth/supabase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -126,24 +127,9 @@ class _ContinueAccountDetailsWidgetState
           child: AppBar(
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
             automaticallyImplyLeading: false,
-            title: Row(
+            title: const Row(
               mainAxisSize: MainAxisSize.max,
-              children: [
-                FlutterFlowIconButton(
-                  borderColor: Colors.transparent,
-                  borderRadius: 100.0,
-                  buttonSize: 45.0,
-                  fillColor: const Color(0xFFFAF9F9),
-                  icon: const Icon(
-                    Icons.arrow_back_ios_new,
-                    color: Color(0xFF40A5A5),
-                    size: 24.0,
-                  ),
-                  onPressed: () {
-                    context.pop();
-                  },
-                ),
-              ],
+              children: [],
             ),
             actions: const [],
             centerTitle: true,

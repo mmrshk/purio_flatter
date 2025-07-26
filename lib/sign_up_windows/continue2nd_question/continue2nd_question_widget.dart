@@ -404,6 +404,7 @@ class _Continue2ndQuestionWidgetState extends State<Continue2ndQuestionWidget>
                                                               FFAppState().firstName,
                                                           'last_name':
                                                               FFAppState().lastName,
+                                                          'email': currentUserEmail,
                                                           'type': FFAppState().level,
                                                           'expectations':
                                                               '${FFAppState().expectations.elementAtOrNull(0)} , ${FFAppState().expectations.elementAtOrNull(1)} , ${FFAppState().expectations.elementAtOrNull(2)} , ${FFAppState().expectations.elementAtOrNull(3)} , ${FFAppState().expectations.elementAtOrNull(4)} , ${FFAppState().expectations.elementAtOrNull(5)}',

@@ -21,7 +21,6 @@ class SupabaseAuthManager extends AuthManager with EmailSignInManager, GoogleSig
   Future deleteUser(BuildContext context) async {
     try {
       if (!loggedIn) {
-        print('Error: delete user attempted with no logged in user!');
         return;
       }
       await currentUser?.delete();
@@ -45,7 +44,6 @@ class SupabaseAuthManager extends AuthManager with EmailSignInManager, GoogleSig
   }) async {
     try {
       if (!loggedIn) {
-        print('Error: update email attempted with no logged in user!');
         return;
       }
       await currentUser?.updateEmail(email);
@@ -73,7 +71,6 @@ class SupabaseAuthManager extends AuthManager with EmailSignInManager, GoogleSig
   }) async {
     try {
       if (!loggedIn) {
-        print('Error: update password attempted with no logged in user!');
         return;
       }
       await currentUser?.updatePassword(newPassword);
@@ -144,17 +141,25 @@ class SupabaseAuthManager extends AuthManager with EmailSignInManager, GoogleSig
 
   @override
   Future<BaseAuthUser?> signInWithGoogle(BuildContext context) {
-    print('AuthManager: Starting Google Sign-In...');
     return _signInOrCreateAccount(
       context,
       () async {
-        print('AuthManager: Calling googleSignInFunc...');
         final result = await googleSignInFunc();
-        print('AuthManager: googleSignInFunc result: ${result?.email ?? 'null'}');
         return result;
       },
     );
   }
+
+  // @override
+  // Future<BaseAuthUser?> signInWithApple(BuildContext context) {
+  //   return _signInOrCreateAccount(
+  //     context,
+  //     () async {
+  //       final result = await appleSignInFunc();
+  //       return result;
+  //     },
+  //   );
+  // }
 
   /// Tries to sign in or create an account using Supabase Auth.
   /// Returns the User object if sign in was successful.

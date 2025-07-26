@@ -203,11 +203,12 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
   Future<void> _fetchUserData() async {
     try {
       _model.userDataResponse = await UserDataTable().queryRows(
-        queryFn: (q) => q.eqOrNull(
+        queryFn: (q) => q.eq(
           'user_id',
           currentUserUid,
         ),
       );
+      
       if ((_model.userDataResponse?.isNotEmpty ?? false) == true) {
         final userData = _model.userDataResponse!.first;
         
@@ -220,14 +221,15 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
           safeSetState(() {});
         } else {
           // User data exists but is incomplete, redirect to onboarding
-          print('User data incomplete - redirecting to onboarding');
           _redirectToOnboarding();
         }
       } else {
-        // No user data found, redirect to onboarding
-        print('No user data found - redirecting to onboarding');
+        // No user data found - this could be a new user or an existing user without profile data
+        // Redirect to onboarding to complete the profile
         _redirectToOnboarding();
       }
+    } catch (e) {
+      // Error fetching user data
     } finally {
       _model.isLoading = false;
       safeSetState(() {});
@@ -236,7 +238,6 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
 
   void _redirectToOnboarding() {
     // Always go to account details first, but Google users will have pre-filled data
-    print('Redirecting to account details');
     context.goNamed(ContinueAccountDetailsWidget.routeName);
   }
 

@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
+import '/auth/supabase_auth/auth_util.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -103,7 +104,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
             automaticallyImplyLeading: false,
             title: Row(
               mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 FlutterFlowIconButton(
                   borderColor: Colors.transparent,
@@ -120,40 +121,30 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                     context.pop();
                   },
                 ),
-                Align(
-                  alignment: const AlignmentDirectional(0.0, 0.0),
-                  child: Container(
-                    width: 300.0,
-                    height: 60.0,
-                    decoration: const BoxDecoration(),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          FFLocalizations.of(context).getText(
-                            'pjqxy9ew' /* Profile Settings */,
+                Expanded(
+                  child: Align(
+                    alignment: const AlignmentDirectional(0.0, 0.0),
+                    child: Text(
+                      '${FFAppState().firstName.isNotEmpty ? FFAppState().firstName : ''} ${FFAppState().lastName.isNotEmpty ? FFAppState().lastName : ''}',
+                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                            font: GoogleFonts.roboto(
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle
+                            ),
+                            color: Colors.black,
+                            fontSize: 15.0,
+                            letterSpacing: 0.0,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
                           ),
-                          style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                font: GoogleFonts.roboto(
-                                  fontWeight: FontWeight.bold,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontStyle,
-                                ),
-                                color: Colors.black,
-                                fontSize: 15.0,
-                                letterSpacing: 0.0,
-                                fontWeight: FontWeight.bold,
-                                fontStyle: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .fontStyle,
-                              ),
-                        ),
-                      ],
                     ),
                   ),
                 ),
+                const SizedBox(width: 45.0), // Balance the back button
               ],
             ),
             actions: const [],
@@ -205,16 +196,25 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                 Container(
                                                   width: 140.0,
                                                   height: 140.0,
-                                                  decoration: const BoxDecoration(),
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            100.0),
-                                                    child: Image.asset(
-                                                      'assets/images/ProfileImage.png',
-                                                      width: 140.0,
-                                                      height: 140.0,
-                                                      fit: BoxFit.cover,
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    gradient: const LinearGradient(
+                                                      colors: [
+                                                        Color(0xFF50B2B2),
+                                                        Color(0xFF40A5A5),
+                                                      ],
+                                                      begin: Alignment.topLeft,
+                                                      end: Alignment.bottomRight,
+                                                    ),
+                                                  ),
+                                                  child: Center(
+                                                    child: Text(
+                                                      '${FFAppState().firstName.isNotEmpty ? FFAppState().firstName[0].toUpperCase() : ''}${FFAppState().lastName.isNotEmpty ? FFAppState().lastName[0].toUpperCase() : ''}',
+                                                      style: GoogleFonts.roboto(
+                                                        fontSize: 48.0,
+                                                        fontWeight: FontWeight.bold,
+                                                        color: Colors.white,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -237,10 +237,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                 const EdgeInsetsDirectional.fromSTEB(
                                                     0.0, 0.0, 0.0, 9.0),
                                             child: Text(
-                                              FFLocalizations.of(context)
-                                                  .getText(
-                                                'pjqxy9ew' /* Shambhavi Mishra */,
-                                              ),
+                                              '${FFAppState().firstName} ${FFAppState().lastName}',
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium
@@ -275,9 +272,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                             ),
                                           ),
                                           Text(
-                                            FFLocalizations.of(context).getText(
-                                              'gt9wxaso' /* mishra@gmail.com */,
-                                            ),
+                                            currentUserEmail,
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
@@ -399,28 +394,28 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                   }),
                                                 ),
                                               ),
-                                              wrapWithModel(
-                                                model:
-                                                    _model.settingsCardModel3,
-                                                updateCallback: () =>
-                                                    safeSetState(() {}),
-                                                child: Builder(builder: (_) {
-                                                  return DebugFlutterFlowModelContext(
-                                                    rootModel: _model.rootModel,
-                                                    child: const SettingsCardWidget(
-                                                      icon: Icon(
-                                                        Icons
-                                                            .handshake_outlined,
-                                                        color:
-                                                            Color(0xFF40A5A5),
-                                                        size: 28.0,
-                                                      ),
-                                                      setting:
-                                                          'Invite a friend',
-                                                    ),
-                                                  );
-                                                }),
-                                              ),
+                                              // wrapWithModel(
+                                              //   model:
+                                              //       _model.settingsCardModel3,
+                                              //   updateCallback: () =>
+                                              //       safeSetState(() {}),
+                                              //   child: Builder(builder: (_) {
+                                              //     return DebugFlutterFlowModelContext(
+                                              //       rootModel: _model.rootModel,
+                                              //       child: const SettingsCardWidget(
+                                              //         icon: Icon(
+                                              //           Icons
+                                              //               .handshake_outlined,
+                                              //           color:
+                                              //               Color(0xFF40A5A5),
+                                              //           size: 28.0,
+                                              //         ),
+                                              //         setting:
+                                              //             'Invite a friend',
+                                              //       ),
+                                              //     );
+                                              //   }),
+                                              // ),
                                               InkWell(
                                                 splashColor: Colors.transparent,
                                                 focusColor: Colors.transparent,

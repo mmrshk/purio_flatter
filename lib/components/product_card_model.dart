@@ -3,6 +3,10 @@ import 'product_card_widget.dart' show ProductCardWidget;
 import 'package:flutter/material.dart';
 
 class ProductCardModel extends FlutterFlowModel<ProductCardWidget> {
+  // State for favorites
+  bool isFavorite = false;
+  bool isLoadingFavorite = false;
+  
   final Map<String, DebugDataField> debugGeneratorVariables = {};
   final Map<String, DebugDataField> debugBackendQueries = {};
   final Map<String, FlutterFlowModel> widgetBuilderComponents = {};

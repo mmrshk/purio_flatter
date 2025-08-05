@@ -5,12 +5,13 @@ import '/auth/auth_manager.dart';
 import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'email_auth.dart';
+import 'google_auth.dart';
 
 import 'supabase_user_provider.dart';
 
 export '/auth/base_auth_user_provider.dart';
 
-class SupabaseAuthManager extends AuthManager with EmailSignInManager {
+class SupabaseAuthManager extends AuthManager with EmailSignInManager, GoogleSignInManager {
   @override
   Future signOut() {
     return SupaFlow.client.auth.signOut();
@@ -20,7 +21,6 @@ class SupabaseAuthManager extends AuthManager with EmailSignInManager {
   Future deleteUser(BuildContext context) async {
     try {
       if (!loggedIn) {
-        print('Error: delete user attempted with no logged in user!');
         return;
       }
       await currentUser?.delete();
@@ -44,7 +44,6 @@ class SupabaseAuthManager extends AuthManager with EmailSignInManager {
   }) async {
     try {
       if (!loggedIn) {
-        print('Error: update email attempted with no logged in user!');
         return;
       }
       await currentUser?.updateEmail(email);
@@ -72,7 +71,6 @@ class SupabaseAuthManager extends AuthManager with EmailSignInManager {
   }) async {
     try {
       if (!loggedIn) {
-        print('Error: update password attempted with no logged in user!');
         return;
       }
       await currentUser?.updatePassword(newPassword);
@@ -141,6 +139,28 @@ class SupabaseAuthManager extends AuthManager with EmailSignInManager {
         () => emailCreateAccountFunc(email, password),
       );
 
+  @override
+  Future<BaseAuthUser?> signInWithGoogle(BuildContext context) {
+    return _signInOrCreateAccount(
+      context,
+      () async {
+        final result = await googleSignInFunc();
+        return result;
+      },
+    );
+  }
+
+  // @override
+  // Future<BaseAuthUser?> signInWithApple(BuildContext context) {
+  //   return _signInOrCreateAccount(
+  //     context,
+  //     () async {
+  //       final result = await appleSignInFunc();
+  //       return result;
+  //     },
+  //   );
+  // }
+
   /// Tries to sign in or create an account using Supabase Auth.
   /// Returns the User object if sign in was successful.
   Future<BaseAuthUser?> _signInOrCreateAccount(
@@ -173,6 +193,12 @@ class SupabaseAuthManager extends AuthManager with EmailSignInManager {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(errorMsg)),
+      );
+      return null;
+    } catch (e) {
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Sign in failed: ${e.toString()}')),
       );
       return null;
     }

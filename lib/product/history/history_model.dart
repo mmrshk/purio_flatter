@@ -25,6 +25,13 @@ class HistoryModel extends FlutterFlowModel<HistoryWidget> {
 
   // List of products in history
   List<ProductRow> historyProducts = [];
+  
+  // List of favorite products
+  List<ProductRow> favoriteProducts = [];
+  
+  // Loading states
+  bool isLoadingHistory = false;
+  bool isLoadingFavorites = false;
 
   final Map<String, DebugDataField> debugGeneratorVariables = {};
   final Map<String, DebugDataField> debugBackendQueries = {};

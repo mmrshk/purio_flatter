@@ -10,7 +10,12 @@ import 'log_in_model.dart';
 export 'log_in_model.dart';
 
 class LogInWidget extends StatefulWidget {
-  const LogInWidget({super.key});
+  const LogInWidget({
+    super.key,
+    this.userEmail,
+  });
+
+  final String? userEmail;
 
   static String routeName = 'LogIn';
   static String routePath = '/logIn';
@@ -29,8 +34,9 @@ class _LogInWidgetState extends State<LogInWidget> with RouteAware {
     super.initState();
     _model = createModel(context, () => LogInModel());
 
-    _model.emailTextController ??= TextEditingController()
-      ..addListener(() {
+    _model.emailTextController ??= TextEditingController(
+      text: widget.userEmail ?? '',
+    )..addListener(() {
         debugLogWidgetClass(_model);
       });
     _model.textFieldFocusNode1 ??= FocusNode();
@@ -719,27 +725,35 @@ to yo... */
                           color:
                               FlutterFlowTheme.of(context).secondaryBackground,
                         ),
-                        child: Text(
-                          FFLocalizations.of(context).getText(
-                            '4cnlg5zd' /* Email me a link to log in */,
+                        child: InkWell(
+                          onTap: () {
+                            authManager.resetPassword(
+                              email: _model.emailTextController.text,
+                              context: context,
+                            );
+                          },
+                          child: Text(
+                              FFLocalizations.of(context).getText(
+                                '4cnlg5zd' /* Email me a link to log in */,
+                              ),
+                              textAlign: TextAlign.center,
+                              style:
+                                  FlutterFlowTheme.of(context).bodyMedium.override(
+                                        font: GoogleFonts.roboto(
+                                          fontWeight: FontWeight.w500,
+                                          fontStyle: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .fontStyle,
+                                        ),
+                                        fontSize: 17.0,
+                                        letterSpacing: 0.0,
+                                        fontWeight: FontWeight.w500,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                        decoration: TextDecoration.underline,
+                                      ),
                           ),
-                          textAlign: TextAlign.center,
-                          style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.roboto(
-                                      fontWeight: FontWeight.w500,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
-                                    ),
-                                    fontSize: 17.0,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FontWeight.w500,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                    decoration: TextDecoration.underline,
-                                  ),
                         ),
                       ),
                     ),
@@ -803,9 +817,22 @@ to yo... */
                         ],
                       ),
                     ),
-                    Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 25.0, 0.0, 18.0),
+                    InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        GoRouter.of(context).prepareAuthEvent();
+
+                        final user = await authManager.signInWithGoogle(context);
+                        if (user == null) {
+                          return;
+                        }
+
+                        context.goNamedAuth(
+                            HomeScreenWidget.routeName, context.mounted);
+                      },
                       child: Container(
                         width: 305.0,
                         height: 43.0,
@@ -824,16 +851,15 @@ to yo... */
                               Padding(
                                 padding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 35.0, 0.0),
-                                child: Icon(
-                                  Icons.apple,
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                  size: 24.0,
+                                child: FaIcon(
+                                  FontAwesomeIcons.google,
+                                  color: FlutterFlowTheme.of(context).primaryText,
+                                  size: 20.0,
                                 ),
                               ),
                               Text(
                                 FFLocalizations.of(context).getText(
-                                  'gbe4649w' /* Continue with Apple */,
+                                  'tyg9wgvo' /* Continue with Google */,
                                 ),
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
@@ -854,55 +880,6 @@ to yo... */
                               ),
                             ],
                           ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 305.0,
-                      height: 43.0,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30.0),
-                        border: Border.all(
-                          color: FlutterFlowTheme.of(context).primary,
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
-                            26.0, 0.0, 26.0, 0.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 0.0, 35.0, 0.0),
-                              child: FaIcon(
-                                FontAwesomeIcons.google,
-                                color: FlutterFlowTheme.of(context).primaryText,
-                                size: 20.0,
-                              ),
-                            ),
-                            Text(
-                              FFLocalizations.of(context).getText(
-                                'tyg9wgvo' /* Continue with Google */,
-                              ),
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    font: GoogleFonts.roboto(
-                                      fontWeight: FontWeight.w500,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
-                                    ),
-                                    fontSize: 17.0,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FontWeight.w500,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
-                            ),
-                          ],
                         ),
                       ),
                     ),

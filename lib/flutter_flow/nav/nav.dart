@@ -238,7 +238,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: LogInWidget.routeName,
           path: LogInWidget.routePath,
-          builder: (context, params) => const LogInWidget(),
+          builder: (context, params) => LogInWidget(
+            userEmail: params.getParam(
+              'userEmail',
+              ParamType.String,
+            ),
+          ),
         ),
         FFRoute(
           name: SearchWidget.routeName,

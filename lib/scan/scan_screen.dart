@@ -1,6 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:async';
 import '/product/product_details/product_details_widget.dart';
@@ -17,13 +17,10 @@ class _ScanScreenState extends State<ScanScreen> with WidgetsBindingObserver {
   bool isFlashOn = false;
   CameraController? _cameraController;
   List<CameraDescription>? _cameras;
-  final MobileScannerController _barcodeController = MobileScannerController(
-    formats: [BarcodeFormat.ean13, BarcodeFormat.ean8, BarcodeFormat.code128, BarcodeFormat.code39, BarcodeFormat.upcA, BarcodeFormat.upcE],
-    autoStart: true,
-  );
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  QRViewController? _qrViewController;
   String? _lastScannedCode;
   bool isProcessingBarcode = false;
-  StreamSubscription<Object?>? _barcodeSubscription;
   bool _scannerStarted = false;
 
   @override
@@ -35,8 +32,6 @@ class _ScanScreenState extends State<ScanScreen> with WidgetsBindingObserver {
 
   void _startScanner() {
     if (!_scannerStarted) {
-      _barcodeSubscription = _barcodeController.barcodes.listen(_onBarcodeDetected);
-      _barcodeController.start();
       setState(() {
         _scannerStarted = true;
       });
@@ -49,17 +44,13 @@ class _ScanScreenState extends State<ScanScreen> with WidgetsBindingObserver {
       case AppLifecycleState.detached:
       case AppLifecycleState.hidden:
       case AppLifecycleState.paused:
-        _barcodeSubscription?.cancel();
-        _barcodeSubscription = null;
-        _barcodeController.stop();
+        _qrViewController?.pauseCamera();
         break;
       case AppLifecycleState.resumed:
-        _startScanner();
+        _qrViewController?.resumeCamera();
         break;
       case AppLifecycleState.inactive:
-        _barcodeSubscription?.cancel();
-        _barcodeSubscription = null;
-        _barcodeController.stop();
+        _qrViewController?.pauseCamera();
         break;
     }
   }
@@ -86,26 +77,29 @@ class _ScanScreenState extends State<ScanScreen> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _barcodeSubscription?.cancel();
-    _barcodeSubscription = null;
-    _barcodeController.dispose();
+    _qrViewController?.dispose();
     _cameraController?.dispose();
     super.dispose();
   }
 
   void _toggleFlash() {
-    if (_cameraController != null) {
+    if (_qrViewController != null) {
       isFlashOn = !isFlashOn;
-      _cameraController!.setFlashMode(
-        isFlashOn ? FlashMode.torch : FlashMode.off,
-      );
+      _qrViewController!.toggleFlash();
       setState(() {});
     }
   }
 
-  void _onBarcodeDetected(BarcodeCapture capture) async {
-    print('Barcode detected: ${capture.barcodes.map((b) => b.rawValue).toList()}');
-    final String? code = capture.barcodes.first.rawValue;
+  void _onQRViewCreated(QRViewController controller) {
+    _qrViewController = controller;
+    controller.scannedDataStream.listen((scanData) {
+      _onBarcodeDetected(scanData);
+    });
+  }
+
+  void _onBarcodeDetected(Barcode scanData) async {
+    print('Barcode detected: ${scanData.code}');
+    final String? code = scanData.code;
     
     if (code != null && code != _lastScannedCode && !isProcessingBarcode) {
       setState(() {
@@ -120,7 +114,7 @@ class _ScanScreenState extends State<ScanScreen> with WidgetsBindingObserver {
       //     .maybeSingle();
 
       final products = await Supabase.instance.client
-        .from('Products')
+        .from('products')
         .select()
         .order('id', ascending: false)
         .limit(1);
@@ -156,34 +150,18 @@ class _ScanScreenState extends State<ScanScreen> with WidgetsBindingObserver {
         children: [
           Positioned.fill(
             child: _scannerStarted
-                ? MobileScanner(
-                    controller: _barcodeController,
-                    onDetect: (_) {},
-                    errorBuilder: (context, error, child) {
-                      return Center(
-                        child: Text(
-                          'Camera error: $error',
-                          style: TextStyle(color: Colors.red, fontSize: 18),
-                        ),
-                      );
-                    },
+                ? QRView(
+                    key: qrKey,
+                    onQRViewCreated: _onQRViewCreated,
+                    overlay: QrScannerOverlayShape(
+                      borderColor: isProcessingBarcode ? Colors.blue : Colors.white,
+                      borderRadius: 24,
+                      borderLength: 30,
+                      borderWidth: 4,
+                      cutOutSize: 300,
+                    ),
                   )
                 : const Center(child: CircularProgressIndicator()),
-          ),
-          // Overlay frame
-          Positioned.fill(
-            child: IgnorePointer(
-              child: Center(
-                child: Container(
-                  width: 300,
-                  height: 300,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: isProcessingBarcode ? Colors.blue : Colors.white, width: 4),
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                ),
-              ),
-            ),
           ),
           // Close button
           Positioned(

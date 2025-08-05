@@ -100,7 +100,7 @@ class _PrivacyPolicyWidgetState extends State<PrivacyPolicyWidget>
             automaticallyImplyLeading: false,
             title: Row(
               mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 FlutterFlowIconButton(
                   borderColor: Colors.transparent,
@@ -117,41 +117,33 @@ class _PrivacyPolicyWidgetState extends State<PrivacyPolicyWidget>
                     context.safePop();
                   },
                 ),
-                Align(
-                  alignment: const AlignmentDirectional(0.0, 0.0),
-                  child: Container(
-                    width: 300.0,
-                    height: 60.0,
-                    decoration: const BoxDecoration(),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          FFLocalizations.of(context).getText(
-                            'hi6tahx5' /* Privacy Policy */,
-                          ),
-                          style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.roboto(
-                                      fontWeight: FontWeight.bold,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
-                                    ),
-                                    color: Colors.black,
-                                    fontSize: 15.0,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FontWeight.bold,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
-                        ),
-                      ],
+                Expanded(
+                  child: Align(
+                    alignment: const AlignmentDirectional(0.0, 0.0),
+                    child: Text(
+                      FFLocalizations.of(context).getText(
+                        'hi6tahx5' /* Privacy Policy */,
+                      ),
+                      style:
+                          FlutterFlowTheme.of(context).bodyMedium.override(
+                                font: GoogleFonts.roboto(
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
+                                ),
+                                color: Colors.black,
+                                fontSize: 15.0,
+                                letterSpacing: 0.0,
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontStyle,
+                              ),
                     ),
                   ),
                 ),
+                const SizedBox(width: 45.0), // Balance the back button
               ],
             ),
             actions: const [],
@@ -161,48 +153,30 @@ class _PrivacyPolicyWidgetState extends State<PrivacyPolicyWidget>
         ),
         body: SafeArea(
           top: true,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Flexible(
-                child: Padding(
-                  padding:
-                      const EdgeInsetsDirectional.fromSTEB(27.0, 27.0, 27.0, 0.0),
-                  child: Wrap(
-                    spacing: 0.0,
-                    runSpacing: 0.0,
-                    alignment: WrapAlignment.start,
-                    crossAxisAlignment: WrapCrossAlignment.start,
-                    direction: Axis.horizontal,
-                    runAlignment: WrapAlignment.start,
-                    verticalDirection: VerticalDirection.down,
-                    clipBehavior: Clip.none,
-                    children: [
-                      Text(
-                        FFLocalizations.of(context).getText(
-                          'knioxvpt' /* Lorem ipsum dolor sit amet, co... */,
-                        ),
-                        textAlign: TextAlign.justify,
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w300,
-                                fontStyle: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .fontStyle,
-                              ),
-                              fontSize: 12.0,
-                              letterSpacing: 0.0,
-                              fontWeight: FontWeight.w300,
-                              fontStyle: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .fontStyle,
-                            ),
-                      ),
-                    ],
-                  ),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(27.0, 27.0, 27.0, 27.0),
+              child: Text(
+                FFLocalizations.of(context).getText(
+                  'knioxvpt' /* Lorem ipsum dolor sit amet, co... */,
                 ),
+                textAlign: TextAlign.justify,
+                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                      font: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w300,
+                        fontStyle: FlutterFlowTheme.of(context)
+                            .bodyMedium
+                            .fontStyle,
+                      ),
+                      fontSize: 12.0,
+                      letterSpacing: 0.0,
+                      fontWeight: FontWeight.w300,
+                      fontStyle: FlutterFlowTheme.of(context)
+                          .bodyMedium
+                          .fontStyle,
+                    ),
               ),
-            ],
+            ),
           ),
         ),
       ),

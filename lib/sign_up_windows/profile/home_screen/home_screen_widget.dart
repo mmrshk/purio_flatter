@@ -4,6 +4,7 @@ import '/backend/supabase/supabase.dart';
 import '/components/navbar_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/shimmer_util.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -129,9 +130,10 @@ class ProductCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Shimmer(
-              linearGradient: _shimmerGradient,
+              linearGradient: shimmerGradient,
               child: ShimmerLoading(
                 isLoading: isLoading,
                 child: ClipRRect(
@@ -139,24 +141,26 @@ class ProductCard extends StatelessWidget {
                   child: Image.network(
                     imageUrl,
                     width: 116,
-                    height: 116,
+                    height: 100,
                     fit: BoxFit.cover,
                     loadingBuilder: loadingBuilder,
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 10),
-            Text(
-              name,
-              style: GoogleFonts.roboto(
-                fontWeight: FontWeight.w600,
-                fontSize: 15,
-                color: Colors.black,
+            const SizedBox(height: 8),
+            Expanded(
+              child: Text(
+                name,
+                style: GoogleFonts.roboto(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                  color: Colors.black,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.left,
               ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.left,
             ),
           ],
         ),
@@ -179,6 +183,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
   late HomeScreenModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final ScrollController _scrollController = ScrollController();
   Set<int> _loadedImageIndexes = {};
   final Map<int, DateTime> _imageLoadStartTimes = {};
   final int _minShimmerMillis = 1200;
@@ -198,30 +203,49 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
   Future<void> _fetchUserData() async {
     try {
       _model.userDataResponse = await UserDataTable().queryRows(
-        queryFn: (q) => q.eqOrNull(
+        queryFn: (q) => q.eq(
           'user_id',
           currentUserUid,
         ),
       );
+      
       if ((_model.userDataResponse?.isNotEmpty ?? false) == true) {
-        FFAppState().firstName = _model.userDataResponse?.firstOrNull?.firstName ?? '';
-        safeSetState(() {});
-        FFAppState().lastName = _model.userDataResponse?.firstOrNull?.lastName ?? '';
-        safeSetState(() {});
+        final userData = _model.userDataResponse!.first;
+        
+        // Check if user has complete profile (has type and expectations)
+        if (userData.type?.isNotEmpty == true && userData.expectations?.isNotEmpty == true) {
+          // User has complete profile, proceed to home screen
+          FFAppState().firstName = userData.firstName ?? '';
+          safeSetState(() {});
+          FFAppState().lastName = userData.lastName ?? '';
+          safeSetState(() {});
+        } else {
+          // User data exists but is incomplete, redirect to onboarding
+          _redirectToOnboarding();
+        }
       } else {
-        context.goNamed(ContinueAccountDetailsWidget.routeName);
+        // No user data found - this could be a new user or an existing user without profile data
+        // Redirect to onboarding to complete the profile
+        _redirectToOnboarding();
       }
+    } catch (e) {
+      // Error fetching user data
     } finally {
       _model.isLoading = false;
       safeSetState(() {});
     }
   }
 
+  void _redirectToOnboarding() {
+    // Always go to account details first, but Google users will have pre-filled data
+    context.goNamed(ContinueAccountDetailsWidget.routeName);
+  }
+
   Future<void> _fetchProducts() async {
     try {
       final result = await SupaFlow.client
-          .from('Products')
-          .select('id, name, image_front_url, category, created_at, updated_at, barcode, health_score, description, ingredients, supermarket_url, additional_images_urls, specifications, nutritional')
+          .from('products')
+          .select('id, name, image_front_url, category, created_at, updated_at, barcode, final_score, description, ingredients, supermarket_url, additional_images_urls, specifications, nutritional')
           .limit(20); // Fetch more than 5
 
       if (result.isNotEmpty) {
@@ -230,9 +254,12 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
         );
         allProducts.shuffle();
         _model.randomProducts = allProducts.take(5).toList();
+      } else {
+        _model.randomProducts = [];
       }
     } catch (e) {
-      // Handle error silently
+      print('Error fetching products: $e');
+      _model.randomProducts = [];
     }
     safeSetState(() {});
   }
@@ -240,7 +267,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
   @override
   void dispose() {
     routeObserver.unsubscribe(this);
-
+    _scrollController.dispose();
     _model.dispose();
 
     super.dispose();
@@ -345,6 +372,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
                         await _fetchProducts();
                       },
                       child: SingleChildScrollView(
+                        controller: _scrollController,
                         physics: const AlwaysScrollableScrollPhysics(),
                         child: Padding(
                           padding: const EdgeInsetsDirectional.fromSTEB(
@@ -380,43 +408,77 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
                                             child: Container(
                                               width: 47.0,
                                               height: 47.0,
-                                              clipBehavior: Clip.antiAlias,
-                                              decoration: const BoxDecoration(
+                                              decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
+                                                gradient: const LinearGradient(
+                                                  colors: [
+                                                    Color(0xFF50B2B2),
+                                                    Color(0xFF40A5A5),
+                                                  ],
+                                                  begin: Alignment.topLeft,
+                                                  end: Alignment.bottomRight,
+                                                ),
                                               ),
-                                              child: Image.asset(
-                                                'assets/images/UserImage.png',
-                                                fit: BoxFit.cover,
+                                              child: Center(
+                                                child: Text(
+                                                  '${FFAppState().firstName.isNotEmpty ? FFAppState().firstName[0].toUpperCase() : ''}${FFAppState().lastName.isNotEmpty ? FFAppState().lastName[0].toUpperCase() : ''}',
+                                                  style: GoogleFonts.roboto(
+                                                    fontSize: 18.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
-                                                    30.0, 0.0, 0.0, 0.0),
-                                            child: Wrap(
-                                              spacing: 0.0,
-                                              runSpacing: 0.0,
-                                              alignment: WrapAlignment.start,
-                                              crossAxisAlignment:
-                                                  WrapCrossAlignment.start,
-                                              direction: Axis.vertical,
-                                              runAlignment: WrapAlignment.start,
-                                              verticalDirection:
-                                                  VerticalDirection.down,
-                                              clipBehavior: Clip.none,
-                                              children: [
-                                                Text(
-                                                  FFLocalizations.of(context)
-                                                      .getText(
-                                                    'x9q2m7nf' /* Hello 👋🏻 */,
-                                                  ),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        font:
-                                                            GoogleFonts.roboto(
+                                          InkWell(
+                                            splashColor: Colors.transparent,
+                                            focusColor: Colors.transparent,
+                                            hoverColor: Colors.transparent,
+                                            highlightColor: Colors.transparent,
+                                            onTap: () async {
+                                              context.pushNamed(
+                                                  ProfileSettingsWidget.routeName);
+                                            },
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsetsDirectional.fromSTEB(
+                                                      20.0, 0.0, 0.0, 0.0),
+                                              child: Wrap(
+                                                spacing: 0.0,
+                                                runSpacing: 0.0,
+                                                alignment: WrapAlignment.start,
+                                                crossAxisAlignment:
+                                                    WrapCrossAlignment.start,
+                                                direction: Axis.vertical,
+                                                runAlignment: WrapAlignment.start,
+                                                verticalDirection:
+                                                    VerticalDirection.down,
+                                                clipBehavior: Clip.none,
+                                                children: [
+                                                  Text(
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      'x9q2m7nf' /* Hello 👋🏻 */,
+                                                    ),
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          font:
+                                                              GoogleFonts.roboto(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
+                                                          color:
+                                                              const Color(0xFF40A5A5),
+                                                          fontSize: 22.0,
+                                                          letterSpacing: 0.0,
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           fontStyle:
@@ -425,55 +487,44 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
                                                                   .bodyMedium
                                                                   .fontStyle,
                                                         ),
-                                                        color:
-                                                            const Color(0xFF40A5A5),
-                                                        fontSize: 22.0,
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .fontStyle,
-                                                      ),
-                                                ),
-                                                Text(
-                                                  '${FFAppState().firstName} ${FFAppState().lastName}',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        font:
-                                                            GoogleFonts.roboto(
+                                                  ),
+                                                  Text(
+                                                    '${FFAppState().firstName} ${FFAppState().lastName}',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          font:
+                                                              GoogleFonts.roboto(
+                                                            fontWeight:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontWeight,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
+                                                          color:
+                                                              const Color(0xFF6A7F98),
+                                                          fontSize: 16.0,
+                                                          letterSpacing: 0.0,
                                                           fontWeight:
                                                               FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMedium
-                                                                  .fontWeight,
+                                                                    context)
+                                                                        .bodyMedium
+                                                                        .fontWeight,
                                                           fontStyle:
                                                               FlutterFlowTheme.of(
                                                                       context)
-                                                                  .bodyMedium
-                                                                  .fontStyle,
+                                                                          .bodyMedium
+                                                                          .fontStyle,
                                                         ),
-                                                        color:
-                                                            const Color(0xFF6A7F98),
-                                                        fontSize: 16.0,
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FlutterFlowTheme.of(
-                                                                  context)
-                                                                      .bodyMedium
-                                                                      .fontWeight,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                        .bodyMedium
-                                                                        .fontStyle,
-                                                      ),
-                                                ),
-                                              ],
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -720,19 +771,15 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
                     left: 0,
                     right: 0,
                     bottom: 0,
-                    child: SafeArea(
-                      top: false,
-                      bottom: true,
-                      child: wrapWithModel(
-                        model: _model.navbarModel,
-                        updateCallback: () => safeSetState(() {}),
-                        child: Builder(builder: (_) {
-                          return DebugFlutterFlowModelContext(
-                            rootModel: _model.rootModel,
-                            child: const NavbarWidget(),
-                          );
-                        }),
-                      ),
+                    child: wrapWithModel(
+                      model: _model.navbarModel,
+                      updateCallback: () => safeSetState(() {}),
+                      child: Builder(builder: (_) {
+                        return DebugFlutterFlowModelContext(
+                          rootModel: _model.rootModel,
+                          child: NavbarWidget(scrollController: _scrollController),
+                        );
+                      }),
                     ),
                   ),
                 ],
@@ -741,147 +788,6 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
           ],
         ),
       ),
-    );
-  }
-}
-
-// --- Shimmer classes from Flutter docs ---
-const _shimmerGradient = LinearGradient(
-  colors: [Color(0xFFEBEBF4), Color(0xFFF4F4F4), Color(0xFFEBEBF4)],
-  stops: [0.1, 0.3, 0.4],
-  begin: Alignment(-1.0, -0.3),
-  end: Alignment(1.0, 0.3),
-  tileMode: TileMode.clamp,
-);
-
-class Shimmer extends StatefulWidget {
-  static ShimmerState? of(BuildContext context) {
-    return context.findAncestorStateOfType<ShimmerState>();
-  }
-
-  const Shimmer({super.key, required this.linearGradient, this.child});
-
-  final LinearGradient linearGradient;
-  final Widget? child;
-
-  @override
-  ShimmerState createState() => ShimmerState();
-}
-
-class ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
-  late AnimationController _shimmerController;
-
-  @override
-  void initState() {
-    super.initState();
-    _shimmerController = AnimationController.unbounded(vsync: this)
-      ..repeat(min: -0.5, max: 1.5, period: const Duration(milliseconds: 1000));
-  }
-
-  @override
-  void dispose() {
-    _shimmerController.dispose();
-    super.dispose();
-  }
-
-  LinearGradient get gradient => LinearGradient(
-    colors: widget.linearGradient.colors,
-    stops: widget.linearGradient.stops,
-    begin: widget.linearGradient.begin,
-    end: widget.linearGradient.end,
-    transform: _SlidingGradientTransform(
-      slidePercent: _shimmerController.value,
-    ),
-  );
-
-  bool get isSized =>
-      (context.findRenderObject() as RenderBox?)?.hasSize ?? false;
-
-  Size get size => (context.findRenderObject() as RenderBox).size;
-
-  Offset getDescendantOffset({
-    required RenderBox descendant,
-    Offset offset = Offset.zero,
-  }) {
-    final shimmerBox = context.findRenderObject() as RenderBox?;
-    return descendant.localToGlobal(offset, ancestor: shimmerBox);
-  }
-
-  Listenable get shimmerChanges => _shimmerController;
-
-  @override
-  Widget build(BuildContext context) {
-    return widget.child ?? const SizedBox();
-  }
-}
-
-class _SlidingGradientTransform extends GradientTransform {
-  const _SlidingGradientTransform({required this.slidePercent});
-  final double slidePercent;
-  @override
-  Matrix4? transform(Rect bounds, {ui.TextDirection? textDirection}) {
-    return Matrix4.translationValues(bounds.width * slidePercent, 0.0, 0.0);
-  }
-}
-
-class ShimmerLoading extends StatefulWidget {
-  const ShimmerLoading({super.key, required this.isLoading, required this.child});
-  final bool isLoading;
-  final Widget child;
-  @override
-  State<ShimmerLoading> createState() => _ShimmerLoadingState();
-}
-
-class _ShimmerLoadingState extends State<ShimmerLoading> {
-  Listenable? _shimmerChanges;
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (_shimmerChanges != null) {
-      _shimmerChanges!.removeListener(_onShimmerChange);
-    }
-    _shimmerChanges = Shimmer.of(context)?.shimmerChanges;
-    if (_shimmerChanges != null) {
-      _shimmerChanges!.addListener(_onShimmerChange);
-    }
-  }
-  @override
-  void dispose() {
-    _shimmerChanges?.removeListener(_onShimmerChange);
-    super.dispose();
-  }
-  void _onShimmerChange() {
-    if (widget.isLoading) {
-      setState(() {});
-    }
-  }
-  @override
-  Widget build(BuildContext context) {
-    if (!widget.isLoading) {
-      return widget.child;
-    }
-    final shimmer = Shimmer.of(context)!;
-    if (!shimmer.isSized) {
-      return const SizedBox();
-    }
-    final shimmerSize = shimmer.size;
-    final gradient = shimmer.gradient;
-    final offsetWithinShimmer = shimmer.getDescendantOffset(
-      descendant: context.findRenderObject() as RenderBox,
-    );
-    return ShaderMask(
-      blendMode: BlendMode.srcATop,
-      shaderCallback: (bounds) {
-        return gradient.createShader(
-          Rect.fromLTWH(
-            -offsetWithinShimmer.dx,
-            -offsetWithinShimmer.dy,
-            shimmerSize.width,
-            shimmerSize.height,
-          ),
-        );
-      },
-      child: widget.child,
     );
   }
 }

@@ -1,3 +1,4 @@
+import '/auth/supabase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -84,6 +85,52 @@ class _ContinueEmailWidgetState extends State<ContinueEmailWidget>
   @override
   void didPushNext() {
     _model.isRouteVisible = false;
+  }
+
+  /// Handles email submission by checking if user exists and navigating accordingly
+  Future<void> _handleEmailSubmission(String email) async {
+    print('Checking if user exists for email: $email');
+    
+    try {
+      // Check if user exists in our database by email
+      final userExists = await userExistsByEmail(email);
+      
+      if (userExists) {
+        print('User exists in database - redirecting to login page');
+        context.pushNamed(
+          LogInWidget.routeName,
+          queryParameters: {
+            'userEmail': serializeParam(
+              email,
+              ParamType.String,
+            ),
+          }.withoutNulls,
+        );
+      } else {
+        print('User does not exist in database - redirecting to password creation page');
+        context.pushNamed(
+          ContinuePasswordWidget.routeName,
+          queryParameters: {
+            'userEmail': serializeParam(
+              email,
+              ParamType.String,
+            ),
+          }.withoutNulls,
+        );
+      }
+    } catch (e) {
+      print('Error checking user existence: $e');
+      // If there's an error, assume user doesn't exist and go to password creation
+      context.pushNamed(
+        ContinuePasswordWidget.routeName,
+        queryParameters: {
+          'userEmail': serializeParam(
+            email,
+            ParamType.String,
+          ),
+        }.withoutNulls,
+      );
+    }
   }
 
   @override
@@ -344,15 +391,8 @@ class _ContinueEmailWidgetState extends State<ContinueEmailWidget>
                         return;
                       }
 
-                      context.pushNamed(
-                        ContinuePasswordWidget.routeName,
-                        queryParameters: {
-                          'userEmail': serializeParam(
-                            _model.emailTextFieldTextController.text,
-                            ParamType.String,
-                          ),
-                        }.withoutNulls,
-                      );
+                      final email = _model.emailTextFieldTextController.text;
+                      await _handleEmailSubmission(email);
                     },
                     child: Container(
                       width: 305.0,

@@ -1,11 +1,9 @@
-import '/components/navbar_widget.dart';
-import '/components/product_card_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
-import '/backend/supabase/supabase.dart';
-import 'dart:ui';
+import '/flutter_flow/shimmer_util.dart';
+import '/services/history_service.dart';
+import '/services/favorites_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +24,13 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
   late HistoryModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  
+  bool _isRecentTab = true;
+  Set<int> _loadedImageIndexes = {};
+  final Map<int, DateTime> _imageLoadStartTimes = {};
+  final int _minShimmerMillis = 300;
+  final int _minSkeletonMillis = 300;
+  bool _isLoadingHistory = true;
 
   @override
   void initState() {
@@ -35,21 +40,72 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
   }
 
   Future<void> _loadHistoryProducts() async {
+    setState(() {
+      _isLoadingHistory = true;
+    });
+    
+    // Record start time for minimum loading duration
+    final startTime = DateTime.now();
+    
     try {
-      // Get the last 6 products from history
-      final products = await ProductTable().queryRows(
-        queryFn: (q) => q
-            .order('created_at', ascending: false)
-            .limit(6),
-      );
+      final products = await HistoryService.getUserHistory(limit: 10);
       
       if (mounted) {
+        // Calculate elapsed time
+        final elapsed = DateTime.now().difference(startTime).inMilliseconds;
+        final minLoadingTime = 2000; // 2 seconds minimum loading time
+        
+        if (elapsed < minLoadingTime) {
+          // Wait for remaining time to complete minimum loading duration
+          await Future.delayed(Duration(milliseconds: minLoadingTime - elapsed));
+        }
+        
         setState(() {
           _model.historyProducts = products;
+          _isLoadingHistory = false;
         });
       }
     } catch (e) {
       print('Error loading history products: $e');
+      
+      if (mounted) {
+        // Even on error, ensure minimum loading time
+        final elapsed = DateTime.now().difference(startTime).inMilliseconds;
+        final minLoadingTime = 500;
+        
+        if (elapsed < minLoadingTime) {
+          await Future.delayed(Duration(milliseconds: minLoadingTime - elapsed));
+        }
+        
+        setState(() {
+          _isLoadingHistory = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _loadFavoriteProducts() async {
+    setState(() {
+      _model.isLoadingFavorites = true;
+    });
+    
+    try {
+      final products = await FavoritesService.getUserFavorites(limit: 10);
+      
+      if (mounted) {
+        setState(() {
+          _model.favoriteProducts = products;
+          _model.isLoadingFavorites = false;
+        });
+      }
+    } catch (e) {
+      print('Error loading favorite products: $e');
+      
+      if (mounted) {
+        setState(() {
+          _model.isLoadingFavorites = false;
+        });
+      }
     }
   }
 
@@ -83,6 +139,11 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
     if (mounted && DebugFlutterFlowModelContext.maybeOf(context) == null) {
       setState(() => _model.isRouteVisible = true);
       debugLogWidgetClass(_model);
+      
+      // Refresh favorites when returning to this page
+      if (!_isRecentTab && !_model.isLoadingFavorites) {
+        _loadFavoriteProducts();
+      }
     }
   }
 
@@ -118,67 +179,42 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xFFF8F9FA),
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(60.0),
           child: AppBar(
             backgroundColor: Colors.white,
             automaticallyImplyLeading: false,
-            title: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                FlutterFlowIconButton(
-                  borderColor: Colors.transparent,
-                  borderRadius: 100.0,
-                  borderWidth: 1.0,
-                  buttonSize: 45.0,
-                  fillColor: const Color(0xFFFAF9F9),
-                  icon: const Icon(
-                    Icons.arrow_back_ios_new,
-                    color: Color(0xFF40A5A5),
-                    size: 24.0,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+            title: Text(
+              FFLocalizations.of(context).getText(
+                'ymharo6a' /* History */,
+              ),
+              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                font: GoogleFonts.roboto(
+                  fontWeight: FontWeight.bold,
+                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                 ),
-                Align(
-                  alignment: const AlignmentDirectional(0.0, 0.0),
-                  child: Container(
-                    width: 300.0,
-                    height: 60.0,
-                    decoration: const BoxDecoration(),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          FFLocalizations.of(context).getText(
-                            'ymharo6a' /* History */,
-                          ),
-                          style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.roboto(
-                                      fontWeight: FontWeight.bold,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
-                                    ),
-                                    color: Colors.black,
-                                    fontSize: 15.0,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FontWeight.bold,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+                color: Colors.black,
+                fontSize: 15.0,
+                letterSpacing: 0.0,
+                fontWeight: FontWeight.bold,
+                fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+              ),
+            ),
+            leading: FlutterFlowIconButton(
+              borderColor: Colors.transparent,
+              borderRadius: 100.0,
+              borderWidth: 1.0,
+              buttonSize: 45.0,
+              fillColor: const Color(0xFFFAF9F9),
+              icon: const Icon(
+                Icons.arrow_back_ios_new,
+                color: Color(0xFF40A5A5),
+                size: 24.0,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
             actions: const [],
             centerTitle: true,
@@ -188,202 +224,546 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
         body: SafeArea(
           top: true,
           child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Align(
-                alignment: const AlignmentDirectional(0.0, 0.0),
-                child: Stack(
-                  alignment: const AlignmentDirectional(0.0, 0.85),
+              // Tab Buttons
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
                   children: [
-                    Container(
-                      width: MediaQuery.sizeOf(context).width * 1.0,
-                      height: MediaQuery.sizeOf(context).height * 1.0,
-                      decoration: const BoxDecoration(),
-                      child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
-                            0.0, 0.0, 0.0, 150.0),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isRecentTab = true;
+                          });
+                        },
+                        child: Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: _isRecentTab ? const Color(0xFF40E0D0) : Colors.white,
+                            borderRadius: BorderRadius.circular(25),
+                            border: Border.all(
+                              color: const Color(0xFF40E0D0),
+                              width: 2,
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Recent',
+                              style: TextStyle(
+                                color: _isRecentTab ? Colors.white : const Color(0xFF40E0D0),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isRecentTab = false;
+                          });
+                          // Load favorites when switching to favorites tab
+                          if (_model.favoriteProducts.isEmpty && !_model.isLoadingFavorites) {
+                            _loadFavoriteProducts();
+                          }
+                        },
+                        child: Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: !_isRecentTab ? const Color(0xFF40E0D0) : Colors.white,
+                            borderRadius: BorderRadius.circular(25),
+                            border: Border.all(
+                              color: const Color(0xFF40E0D0),
+                              width: 2,
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Favorites',
+                              style: TextStyle(
+                                color: !_isRecentTab ? Colors.white : const Color(0xFF40E0D0),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // Content Area
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // Recent Tab Content
+                      if (_isRecentTab) ...[
+                        if (_isLoadingHistory) ...[
+                          // Show loading state with skeletons
+                          Expanded(
+                            child: SingleChildScrollView(
+                              child: Column(
                                 children: [
-                                  Align(
-                                    alignment: const AlignmentDirectional(0.0, 0.0),
-                                    child: Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 25.0, 0.0, 0.0),
-                                      child: Container(
-                                        width: 320.0,
-                                        height: 90.0,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(30.0),
-                                          border: Border.all(
-                                            color: const Color(0xFFEBEBEB),
+                                  // Show skeleton placeholders while loading
+                                  ...List.generate(3, (index) => historyProductSkeleton()),
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        width: 20,
+                                        height: 20,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          valueColor: AlwaysStoppedAnimation<Color>(
+                                            const Color(0xFF40E0D0),
                                           ),
                                         ),
-                                        alignment:
-                                            const AlignmentDirectional(0.0, 0.0),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsetsDirectional
-                                                  .fromSTEB(9.0, 9.0, 9.0, 9.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Align(
-                                                    alignment:
-                                                        const AlignmentDirectional(
-                                                            0.0, 0.0),
-                                                    child: FFButtonWidget(
-                                                      onPressed: () {
-                                                        print(
-                                                            'Button pressed ...');
-                                                      },
-                                                      text: FFLocalizations.of(
-                                                              context)
-                                                          .getText(
-                                                        'rjf2e2ze' /* Recent */,
-                                                      ),
-                                                      options: FFButtonOptions(
-                                                        width: 145.0,
-                                                        height: 73.0,
-                                                        padding:
-                                                            const EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    16.0,
-                                                                    0.0,
-                                                                    16.0,
-                                                                    0.0),
-                                                        iconPadding:
-                                                            const EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0),
-                                                        color:
-                                                            const Color(0xFF40E0D0),
-                                                        textStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .titleSmall
-                                                                .override(
-                                                                  font: GoogleFonts
-                                                                      .roboto(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleSmall
-                                                                        .fontStyle,
+                                      ),
+                                      const SizedBox(width: 12),
+                                      Text(
+                                        'Loading your history...',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.grey[600],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ] else if (_model.historyProducts.isEmpty) ...[
+                          Text(
+                            'No recents yet',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            'Your recently viewed products will appear here',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey[600],
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ] else ...[
+                          Shimmer(
+                            linearGradient: shimmerGradient,
+                            child: Expanded(
+                              child: ListView.builder(
+                                itemCount: _model.historyProducts.length,
+                                itemBuilder: (context, index) {
+                                  final product = _model.historyProducts[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.only(bottom: 12.0),
+                                    child: Column(
+                                      children: [
+                                        InkWell(
+                                        onTap: () {
+                                          context.pushNamed(
+                                            'ProductDetails',
+                                            extra: <String, dynamic>{
+                                              'product': product,
+                                            },
+                                          );
+                                        },
+                                        borderRadius: BorderRadius.circular(20.0),
+                                        child: Container(
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                            color: FlutterFlowTheme.of(context).secondaryBackground,
+                                            borderRadius: BorderRadius.circular(20.0),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black.withOpacity(0.05),
+                                                blurRadius: 4,
+                                                offset: const Offset(0, 2),
+                                              ),
+                                            ],
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                ShimmerLoading(
+                                                  isLoading: !_loadedImageIndexes.contains(index),
+                                                  child: ClipRRect(
+                                                    borderRadius: BorderRadius.circular(16.0),
+                                                    child: (product.imageFrontUrl?.isNotEmpty == true)
+                                                        ? Image.network(
+                                                            product.imageFrontUrl ?? '',
+                                                            width: 66.0,
+                                                            height: 66.0,
+                                                            fit: BoxFit.cover,
+                                                            loadingBuilder: (context, child, loadingProgress) {
+                                                              if (!_imageLoadStartTimes.containsKey(index)) {
+                                                                _imageLoadStartTimes[index] = DateTime.now();
+                                                              }
+                                                              if (loadingProgress == null) {
+                                                                final loadStart = _imageLoadStartTimes[index]!;
+                                                                final elapsed = DateTime.now().difference(loadStart).inMilliseconds;
+                                                                if (elapsed < _minSkeletonMillis) {
+                                                                  Future.delayed(Duration(milliseconds: _minSkeletonMillis - elapsed), () {
+                                                                    if (mounted) setState(() {
+                                                                      _loadedImageIndexes.add(index);
+                                                                    });
+                                                                  });
+                                                                  return Container(
+                                                                    width: 66.0,
+                                                                    height: 66.0,
+                                                                    decoration: BoxDecoration(
+                                                                      color: Colors.grey[300],
+                                                                      borderRadius: BorderRadius.circular(16.0),
+                                                                    ),
+                                                                  );
+                                                                } else {
+                                                                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                                                                    if (mounted) setState(() {
+                                                                      _loadedImageIndexes.add(index);
+                                                                    });
+                                                                  });
+                                                                  return child;
+                                                                }
+                                                              } else {
+                                                                return Container(
+                                                                  width: 66.0,
+                                                                  height: 66.0,
+                                                                  decoration: BoxDecoration(
+                                                                    color: Colors.grey[300],
+                                                                    borderRadius: BorderRadius.circular(16.0),
                                                                   ),
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize:
-                                                                      22.0,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .titleSmall
+                                                                );
+                                                              }
+                                                            },
+                                                            errorBuilder: (context, error, stackTrace) {
+                                                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                                                if (mounted) setState(() {
+                                                                  _loadedImageIndexes.add(index);
+                                                                });
+                                                              });
+                                                              return Container(
+                                                                width: 66.0,
+                                                                height: 66.0,
+                                                                decoration: BoxDecoration(
+                                                                  color: Colors.grey[300],
+                                                                  borderRadius: BorderRadius.circular(16.0),
+                                                                ),
+                                                              );
+                                                            },
+                                                          )
+                                                        : Container(
+                                                            width: 66.0,
+                                                            height: 66.0,
+                                                            decoration: BoxDecoration(
+                                                              color: Colors.grey[300],
+                                                              borderRadius: BorderRadius.circular(16.0),
+                                                            ),
+                                                          ),
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 12),
+                                                Expanded(
+                                                  child: ShimmerLoading(
+                                                    isLoading: !_loadedImageIndexes.contains(index),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(
+                                                          product.name ?? '',
+                                                          style: FlutterFlowTheme.of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                font: GoogleFonts.roboto(
+                                                                  fontWeight: FontWeight.bold,
+                                                                  fontStyle: FlutterFlowTheme.of(context)
+                                                                      .bodyMedium
                                                                       .fontStyle,
                                                                 ),
-                                                        elevation: 0.0,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(30.0),
-                                                      ),
+                                                                color: Colors.black,
+                                                                fontSize: 16.0,
+                                                                letterSpacing: 0.0,
+                                                                fontWeight: FontWeight.bold,
+                                                                fontStyle: FlutterFlowTheme.of(context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                          maxLines: 1,
+                                                          overflow: TextOverflow.ellipsis,
+                                                        ),
+                                                        const SizedBox(height: 4),
+                                                        Text(
+                                                          product.description ?? '',
+                                                          style: FlutterFlowTheme.of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                font: GoogleFonts.roboto(
+                                                                  fontWeight: FontWeight.normal,
+                                                                  fontStyle: FlutterFlowTheme.of(context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                                color: Colors.black54,
+                                                                fontSize: 13.0,
+                                                                letterSpacing: 0.0,
+                                                                fontWeight: FontWeight.normal,
+                                                                fontStyle: FlutterFlowTheme.of(context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                          maxLines: 2,
+                                                          overflow: TextOverflow.ellipsis,
+                                                        ),
+                                                        const SizedBox(height: 6),
+                                                        if (product.healthScore != null)
+                                                          Container(
+                                                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                                            decoration: BoxDecoration(
+                                                              color: const Color(0xFF2ECC71),
+                                                              borderRadius: BorderRadius.circular(30.0),
+                                                            ),
+                                                            child: Text(
+                                                              'Safety: ${product.healthScore ?? 0}',
+                                                              style: FlutterFlowTheme.of(context)
+                                                                  .bodyMedium
+                                                                  .override(
+                                                                    font: GoogleFonts.roboto(
+                                                                      fontWeight: FontWeight.bold,
+                                                                      fontStyle: FlutterFlowTheme.of(context)
+                                                                          .bodyMedium
+                                                                          .fontStyle,
+                                                                    ),
+                                                                    color: Colors.white,
+                                                                    fontSize: 12.0,
+                                                                    letterSpacing: 0.0,
+                                                                    fontWeight: FontWeight.bold,
+                                                                    fontStyle: FlutterFlowTheme.of(context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                            ),
+                                                          ),
+                                                      ],
                                                     ),
                                                   ),
-                                                  Align(
-                                                    alignment:
-                                                        const AlignmentDirectional(
-                                                            0.0, 0.0),
-                                                    child: FFButtonWidget(
-                                                      onPressed: () {
-                                                        print(
-                                                            'Button pressed ...');
-                                                      },
-                                                      text: FFLocalizations.of(
-                                                              context)
-                                                          .getText(
-                                                        'lmr83e28' /* Favourites */,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                                                              ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
+                      // Favorites Tab Content
+                      if (!_isRecentTab) ...[
+                        if (_model.isLoadingFavorites) ...[
+                          // Show loading state with skeletons
+                          Expanded(
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  // Show skeleton placeholders while loading
+                                  ...List.generate(3, (index) => historyProductSkeleton()),
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        width: 20,
+                                        height: 20,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          valueColor: AlwaysStoppedAnimation<Color>(
+                                            const Color(0xFF40E0D0),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 12),
+                                      Text(
+                                        'Loading favorites...',
+                                        style: TextStyle(
+                                          color: Colors.grey[600],
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ] else if (_model.favoriteProducts.isEmpty) ...[
+                          Text(
+                            'No favorites yet',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            'Your favorite products will appear here',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey[600],
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ] else ...[
+                          // Show favorites list
+                          Expanded(
+                            child: ListView.builder(
+                              itemCount: _model.favoriteProducts.length,
+                              itemBuilder: (context, index) {
+                                final product = _model.favoriteProducts[index];
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 12.0),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      context.pushNamed(
+                                        'ProductDetails',
+                                        extra: <String, dynamic>{
+                                          'product': product,
+                                        },
+                                      );
+                                    },
+                                    child: Container(
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(20.0),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black.withOpacity(0.05),
+                                            blurRadius: 4,
+                                            offset: const Offset(0, 2),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            // Product image
+                                            Container(
+                                              width: 66.0,
+                                              height: 66.0,
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey[200],
+                                                borderRadius: BorderRadius.circular(16.0),
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius: BorderRadius.circular(16.0),
+                                                child: product.imageFrontUrl != null
+                                                    ? Image.network(
+                                                        product.imageFrontUrl!,
+                                                        fit: BoxFit.cover,
+                                                        errorBuilder: (context, error, stackTrace) {
+                                                          return Container(
+                                                            color: Colors.grey[300],
+                                                            child: const Icon(
+                                                              Icons.image_not_supported,
+                                                              color: Colors.grey,
+                                                            ),
+                                                          );
+                                                        },
+                                                      )
+                                                    : Container(
+                                                        color: Colors.grey[300],
+                                                        child: const Icon(
+                                                          Icons.image_not_supported,
+                                                          color: Colors.grey,
+                                                        ),
                                                       ),
-                                                      options: FFButtonOptions(
-                                                        width: 145.0,
-                                                        height: 73.0,
-                                                        padding:
-                                                            const EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    16.0,
-                                                                    0.0,
-                                                                    16.0,
-                                                                    0.0),
-                                                        iconPadding:
-                                                            const EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0),
-                                                        color:
-                                                            const Color(0xFF40E0D0),
-                                                        textStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .titleSmall
+                                              ),
+                                            ),
+                                            const SizedBox(width: 12),
+                                            // Product details
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    product.name ?? 'Unknown Product',
+                                                    style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Colors.black87,
+                                                    ),
+                                                    maxLines: 2,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                  const SizedBox(height: 4),
+                                                  Text(
+                                                    product.category ?? 'No category',
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.grey[600],
+                                                    ),
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                  const SizedBox(height: 8),
+                                                  Row(
+                                                    children: [
+                                                      if (product.healthScore != null)
+                                                        Container(
+                                                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                                          decoration: BoxDecoration(
+                                                            color: (product.healthScore ?? 0) > 70
+                                                                ? const Color(0xFF2ECC71)
+                                                                : const Color(0xFFE74C3C),
+                                                            borderRadius: BorderRadius.circular(30.0),
+                                                          ),
+                                                          child: Text(
+                                                            'Safety: ${product.healthScore ?? 0}',
+                                                            style: FlutterFlowTheme.of(context)
+                                                                .bodyMedium
                                                                 .override(
-                                                                  font: GoogleFonts
-                                                                      .roboto(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleSmall
+                                                                  font: GoogleFonts.roboto(
+                                                                    fontWeight: FontWeight.bold,
+                                                                    fontStyle: FlutterFlowTheme.of(context)
+                                                                        .bodyMedium
                                                                         .fontStyle,
                                                                   ),
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize:
-                                                                      22.0,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .titleSmall
+                                                                  color: Colors.white,
+                                                                  fontSize: 12.0,
+                                                                  letterSpacing: 0.0,
+                                                                  fontWeight: FontWeight.bold,
+                                                                  fontStyle: FlutterFlowTheme.of(context)
+                                                                      .bodyMedium
                                                                       .fontStyle,
                                                                 ),
-                                                        elevation: 0.0,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(30.0),
-                                                      ),
-                                                    ),
+                                                          ),
+                                                        ),
+                                                    ],
                                                   ),
                                                 ],
                                               ),
@@ -393,245 +773,14 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                       ),
                                     ),
                                   ),
-                                ],
-                              ),
-                              Align(
-                                alignment: const AlignmentDirectional(0.0, 0.0),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 300.0, 0.0, 0.0),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                    children: [
-                                      Align(
-                                        alignment:
-                                            const AlignmentDirectional(0.0, 0.0),
-                                        child: Text(
-                                          FFLocalizations.of(context).getText(
-                                            '1djzthz8' /* Your scan list is empty. */,
-                                          ),
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                font: GoogleFonts.roboto(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontStyle,
-                                                ),
-                                                fontSize: 22.0,
-                                                letterSpacing: 0.0,
-                                                fontWeight: FontWeight.bold,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyMedium
-                                                        .fontStyle,
-                                              ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              if (FFAppState().favourites == '')
-                                Align(
-                                  alignment: const AlignmentDirectional(0.0, 0.0),
-                                  child: Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 300.0, 0.0, 0.0),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Align(
-                                          alignment:
-                                              const AlignmentDirectional(0.0, 0.0),
-                                          child: Text(
-                                            FFLocalizations.of(context).getText(
-                                              'rgp2q0f4' /* No Favorites Yet */,
-                                            ),
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  font: GoogleFonts.roboto(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMedium
-                                                            .fontStyle,
-                                                  ),
-                                                  fontSize: 22.0,
-                                                  letterSpacing: 0.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontStyle,
-                                                ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 18.0, 0.0, 0.0),
-                                          child: Text(
-                                            FFLocalizations.of(context).getText(
-                                              'eweoeg3t' /* Save your favorite items to fi... */,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  font: GoogleFonts.roboto(
-                                                    fontWeight:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMedium
-                                                            .fontWeight,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMedium
-                                                            .fontStyle,
-                                                  ),
-                                                  color: Colors.black,
-                                                  fontSize: 15.0,
-                                                  letterSpacing: 0.0,
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontStyle,
-                                                ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 40.0, 0.0, 0.0),
-                                child: Wrap(
-                                  spacing: 0.0,
-                                  runSpacing: 0.0,
-                                  alignment: WrapAlignment.spaceBetween,
-                                  crossAxisAlignment: WrapCrossAlignment.start,
-                                  direction: Axis.vertical,
-                                  runAlignment: WrapAlignment.start,
-                                  verticalDirection: VerticalDirection.down,
-                                  clipBehavior: Clip.none,
-                                  children: [
-                                    if (_model.historyProducts.length > 0)
-                                      wrapWithModel(
-                                        model: _model.productCardModel1,
-                                        updateCallback: () => safeSetState(() {}),
-                                        child: Builder(builder: (_) {
-                                          return DebugFlutterFlowModelContext(
-                                            rootModel: _model.rootModel,
-                                            child: ProductCardWidget(
-                                              product: _model.historyProducts[0],
-                                            ),
-                                          );
-                                        }),
-                                      ),
-                                    if (_model.historyProducts.length > 1)
-                                      wrapWithModel(
-                                        model: _model.productCardModel2,
-                                        updateCallback: () => safeSetState(() {}),
-                                        child: Builder(builder: (_) {
-                                          return DebugFlutterFlowModelContext(
-                                            rootModel: _model.rootModel,
-                                            child: ProductCardWidget(
-                                              product: _model.historyProducts[1],
-                                            ),
-                                          );
-                                        }),
-                                      ),
-                                    if (_model.historyProducts.length > 2)
-                                      wrapWithModel(
-                                        model: _model.productCardModel3,
-                                        updateCallback: () => safeSetState(() {}),
-                                        child: Builder(builder: (_) {
-                                          return DebugFlutterFlowModelContext(
-                                            rootModel: _model.rootModel,
-                                            child: ProductCardWidget(
-                                              product: _model.historyProducts[2],
-                                            ),
-                                          );
-                                        }),
-                                      ),
-                                    if (_model.historyProducts.length > 3)
-                                      wrapWithModel(
-                                        model: _model.productCardModel4,
-                                        updateCallback: () => safeSetState(() {}),
-                                        child: Builder(builder: (_) {
-                                          return DebugFlutterFlowModelContext(
-                                            rootModel: _model.rootModel,
-                                            child: ProductCardWidget(
-                                              product: _model.historyProducts[3],
-                                            ),
-                                          );
-                                        }),
-                                      ),
-                                    if (_model.historyProducts.length > 4)
-                                      wrapWithModel(
-                                        model: _model.productCardModel5,
-                                        updateCallback: () => safeSetState(() {}),
-                                        child: Builder(builder: (_) {
-                                          return DebugFlutterFlowModelContext(
-                                            rootModel: _model.rootModel,
-                                            child: ProductCardWidget(
-                                              product: _model.historyProducts[4],
-                                            ),
-                                          );
-                                        }),
-                                      ),
-                                    if (_model.historyProducts.length > 5)
-                                      wrapWithModel(
-                                        model: _model.productCardModel6,
-                                        updateCallback: () => safeSetState(() {}),
-                                        child: Builder(builder: (_) {
-                                          return DebugFlutterFlowModelContext(
-                                            rootModel: _model.rootModel,
-                                            child: ProductCardWidget(
-                                              product: _model.historyProducts[5],
-                                            ),
-                                          );
-                                        }),
-                                      ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                                );
+                              },
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                    wrapWithModel(
-                      model: _model.navbarModel,
-                      updateCallback: () => safeSetState(() {}),
-                      child: Builder(builder: (_) {
-                        return DebugFlutterFlowModelContext(
-                          rootModel: _model.rootModel,
-                          child: const NavbarWidget(),
-                        );
-                      }),
-                    ),
-                  ],
+                        ],
+                      ],
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -640,4 +789,86 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
       ),
     );
   }
+}
+
+Widget historyProductSkeleton() {
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 12.0),
+    child: Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Image skeleton
+            Container(
+              width: 66.0,
+              height: 66.0,
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+            ),
+            const SizedBox(width: 12),
+            // Text skeletons
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: 16,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Container(
+                    width: double.infinity,
+                    height: 12,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Container(
+                    width: 100,
+                    height: 12,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Container(
+                    width: 80,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }

@@ -131,173 +131,171 @@ class _Continue1stQuestionWidgetState extends State<Continue1stQuestionWidget>
           top: true,
           child: Column(
             mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                ),
-                alignment: const AlignmentDirectional(-1.0, -1.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 51.0, 0.0, 23.0),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                23.0, 0.0, 0.0, 0.0),
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 0.0, 0.0, 16.0),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 0.0, 0.0, 15.0),
-                                      child: Text(
-                                        FFLocalizations.of(context).getText(
-                                          '6c55y8ef' /* 2 quick questions */,
-                                        ),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              font: GoogleFonts.roboto(
-                                                fontWeight: FontWeight.w600,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontStyle,
-                                              ),
-                                              color: Colors.black,
-                                              fontSize: 25.0,
-                                              letterSpacing: 0.0,
-                                              fontWeight: FontWeight.w600,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                      ),
-                                    ),
-                                    Text(
-                                      FFLocalizations.of(context).getText(
-                                        'mgmbqkym' /* *1: How do you choose your pro... */,
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.roboto(
-                                              fontWeight: FontWeight.w300,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                            color: Colors.black,
-                                            fontSize: 15.0,
-                                            letterSpacing: 0.0,
-                                            fontWeight: FontWeight.w300,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(23.0, 0.0, 0.0, 0.0),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: 350.0,
-                            child: Form(
-                              key: _model.formKey,
-                              autovalidateMode: AutovalidateMode.disabled,
-                              child: Column(
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                        ),
+                        alignment: const AlignmentDirectional(-1.0, -1.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsetsDirectional.fromSTEB(0.0, 51.0, 0.0, 23.0),
+                              child: Row(
                                 mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  InkWell(
-                                    splashColor: Colors.transparent,
-                                    focusColor: Colors.transparent,
-                                    hoverColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    onTap: () async {
-                                      _model.selectedBtnColor =
-                                          const Color(0xFF40E0D0);
-                                    },
-                                    child: wrapWithModel(
-                                      model: _model.firstQuestionModel1,
-                                      updateCallback: () => safeSetState(() {}),
-                                      child: Builder(builder: (_) {
-                                        return DebugFlutterFlowModelContext(
-                                          rootModel: _model.rootModel,
-                                          child: FirstQuestionWidget(
-                                            level: 'Explorer',
-                                            description:
-                                                'I pick what looks good or feels \nfamiliar.',
-                                            btnColor: _model.selectedBtnColor,
-                                          ),
-                                        );
-                                      }),
+                                  Padding(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                        23.0, 0.0, 0.0, 0.0),
+                                    child: Container(
+                                      decoration: const BoxDecoration(
+                                        color: Colors.white,
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 0.0, 0.0, 16.0),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 0.0, 0.0, 15.0),
+                                              child: Text(
+                                                FFLocalizations.of(context).getText(
+                                                  '6c55y8ef' /* 2 quick questions */,
+                                                ),
+                                                style: FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .override(
+                                                      font: GoogleFonts.roboto(
+                                                        fontWeight: FontWeight.w600,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                      ),
+                                                      color: Colors.black,
+                                                      fontSize: 25.0,
+                                                      letterSpacing: 0.0,
+                                                      fontWeight: FontWeight.w600,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(context)
+                                                              .bodyMedium
+                                                              .fontStyle,
+                                                    ),
+                                              ),
+                                            ),
+                                            Text(
+                                              FFLocalizations.of(context).getText(
+                                                'mgmbqkym' /* *1: How do you choose your pro... */,
+                                              ),
+                                              style: FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    font: GoogleFonts.roboto(
+                                                      fontWeight: FontWeight.w300,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(context)
+                                                              .bodyMedium
+                                                              .fontStyle,
+                                                    ),
+                                                    color: Colors.black,
+                                                    fontSize: 15.0,
+                                                    letterSpacing: 0.0,
+                                                    fontWeight: FontWeight.w300,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                  wrapWithModel(
-                                    model: _model.firstQuestionModel2,
-                                    updateCallback: () => safeSetState(() {}),
-                                    child: Builder(builder: (_) {
-                                      return DebugFlutterFlowModelContext(
-                                        rootModel: _model.rootModel,
-                                        child: const FirstQuestionWidget(
-                                          level: 'Label Curios',
-                                          description:
-                                              'I sometimes check labels for \nhealthier choices.',
-                                        ),
-                                      );
-                                    }),
-                                  ),
-                                  wrapWithModel(
-                                    model: _model.firstQuestionModel3,
-                                    updateCallback: () => safeSetState(() {}),
-                                    child: Builder(builder: (_) {
-                                      return DebugFlutterFlowModelContext(
-                                        rootModel: _model.rootModel,
-                                        child: const FirstQuestionWidget(
-                                          level: 'Label Pro',
-                                          description:
-                                              'I analyze ingredients to choose \nthe best products.',
-                                        ),
-                                      );
-                                    }),
                                   ),
                                 ],
                               ),
                             ),
-                          ),
-                        ],
+                            Padding(
+                              padding:
+                                  const EdgeInsetsDirectional.fromSTEB(23.0, 0.0, 0.0, 0.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: 350.0,
+                                    child: Form(
+                                      key: _model.formKey,
+                                      autovalidateMode: AutovalidateMode.disabled,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          wrapWithModel(
+                                            model: _model.firstQuestionModel1,
+                                            updateCallback: () => safeSetState(() {}),
+                                            child: Builder(builder: (_) {
+                                              return DebugFlutterFlowModelContext(
+                                                rootModel: _model.rootModel,
+                                                child: FirstQuestionWidget(
+                                                  level: 'Explorer',
+                                                  description:
+                                                      'I pick what looks good or feels \nfamiliar.',
+                                                  btnColor: _model.selectedBtnColor,
+                                                ),
+                                              );
+                                            }),
+                                          ),
+                                          wrapWithModel(
+                                            model: _model.firstQuestionModel2,
+                                            updateCallback: () => safeSetState(() {}),
+                                            child: Builder(builder: (_) {
+                                              return DebugFlutterFlowModelContext(
+                                                rootModel: _model.rootModel,
+                                                child: FirstQuestionWidget(
+                                                  level: 'Label Curios',
+                                                  description:
+                                                      'I sometimes check labels for \nhealthier choices.',
+                                                ),
+                                              );
+                                            }),
+                                          ),
+                                          wrapWithModel(
+                                            model: _model.firstQuestionModel3,
+                                            updateCallback: () => safeSetState(() {}),
+                                            child: Builder(builder: (_) {
+                                              return DebugFlutterFlowModelContext(
+                                                rootModel: _model.rootModel,
+                                                child: FirstQuestionWidget(
+                                                  level: 'Label Pro',
+                                                  description:
+                                                      'I analyze ingredients to choose \nthe best products.',
+                                                ),
+                                              );
+                                            }),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               Stack(

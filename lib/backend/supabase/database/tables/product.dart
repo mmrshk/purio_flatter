@@ -3,7 +3,7 @@ import 'dart:convert';
 
 class ProductTable extends SupabaseTable<ProductRow> {
   @override
-  String get tableName => 'Products';
+  String get tableName => 'products';
 
   @override
   ProductRow createRow(Map<String, dynamic> data) => ProductRow(data);
@@ -28,12 +28,12 @@ class ProductRow extends SupabaseDataRow {
   set barcode(String? value) => setField<String>('barcode', value);
 
   int? get healthScore {
-    final dynamic value = getField<dynamic>('health_score');
+    final dynamic value = getField<dynamic>('final_score');
     if (value is int) return value;
 
     return null;
   }
-  set healthScore(int? value) => setField<int?>('health_score', value);
+  set healthScore(int? value) => setField<int?>('final_score', value);
 
   String? get imageFrontUrl => getField<String>('image_front_url');
   set imageFrontUrl(String? value) => setField<String>('image_front_url', value);

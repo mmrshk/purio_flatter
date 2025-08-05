@@ -6,6 +6,8 @@ import '/index.dart';
 import '/backend/supabase/supabase.dart';
 import '/services/scoring_service.dart';
 import '/services/product_service.dart';
+import '/services/history_service.dart';
+import '/services/favorites_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'product_details_model.dart';
@@ -40,6 +42,12 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
     _model = createModel(context, () => ProductDetailsModel());
     _model.loadIngredients(widget.product.specifications?['ingredients'] as String?);
     
+    // Add product to user's history
+    HistoryService.addToHistory(widget.product.id);
+    
+    // Check if product is in favorites
+    _checkFavoriteStatus();
+    
     // Calculate and update health score if not already set
     if (widget.product.healthScore == null) {
       _updateHealthScore();
@@ -54,7 +62,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
         // Update the local product data
         if (mounted) {
           setState(() {
-            widget.product.healthScore = updateResponse['health_score'] as int?;
+            widget.product.healthScore = updateResponse['final_score'] as int?;
           });
         }
       }
@@ -73,6 +81,61 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
       }
     } catch (e) {
       // Error updating health score
+    }
+  }
+
+  Future<void> _checkFavoriteStatus() async {
+    try {
+      _model.isLoadingFavorite = true;
+      if (mounted) setState(() {});
+      
+      final isFavorite = await FavoritesService.isFavorite(widget.product.id);
+      
+      if (mounted) {
+        setState(() {
+          _model.isFavorite = isFavorite;
+          _model.isLoadingFavorite = false;
+        });
+      }
+    } catch (e) {
+      print('Error checking favorite status: $e');
+      if (mounted) {
+        setState(() {
+          _model.isLoadingFavorite = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _toggleFavorite() async {
+    try {
+      _model.isLoadingFavorite = true;
+      if (mounted) setState(() {});
+      
+      if (_model.isFavorite) {
+        await FavoritesService.removeFromFavorites(widget.product.id);
+        if (mounted) {
+          setState(() {
+            _model.isFavorite = false;
+            _model.isLoadingFavorite = false;
+          });
+        }
+      } else {
+        await FavoritesService.addToFavorites(widget.product.id);
+        if (mounted) {
+          setState(() {
+            _model.isFavorite = true;
+            _model.isLoadingFavorite = false;
+          });
+        }
+      }
+    } catch (e) {
+      print('Error toggling favorite: $e');
+      if (mounted) {
+        setState(() {
+          _model.isLoadingFavorite = false;
+        });
+      }
     }
   }
 
@@ -199,20 +262,40 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    FlutterFlowIconButton(
-                      borderColor: Colors.transparent,
-                      borderRadius: 100.0,
-                      borderWidth: 1.0,
-                      buttonSize: 45.0,
-                      fillColor: const Color(0xFFFAF9F9),
-                      icon: const Icon(
-                        Icons.favorite_border_sharp,
-                        color: Color(0xFF40A5A5),
-                        size: 24.0,
+                    Container(
+                      width: 45.0,
+                      height: 45.0,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFAF9F9),
+                        borderRadius: BorderRadius.circular(100.0),
                       ),
-                      onPressed: () {
-                        print('IconButton pressed ...');
-                      },
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(100.0),
+                          onTap: _model.isLoadingFavorite ? null : _toggleFavorite,
+                          child: Center(
+                            child: _model.isLoadingFavorite
+                                ? const SizedBox(
+                                    width: 20.0,
+                                    height: 20.0,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2.0,
+                                      color: Color(0xFF40A5A5),
+                                    ),
+                                  )
+                                : Icon(
+                                    _model.isFavorite
+                                        ? Icons.favorite
+                                        : Icons.favorite_border_sharp,
+                                    color: _model.isFavorite
+                                        ? Colors.red
+                                        : const Color(0xFF40A5A5),
+                                    size: 24.0,
+                                  ),
+                          ),
+                        ),
+                      ),
                     ),
                     FlutterFlowIconButton(
                       borderRadius: 100.0,
@@ -723,7 +806,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                           'id': 1,
                                           'name': 'Sample Product',
                                           'category': 'Food',
-                                          'health_score': 75,
+                                          'final_score': 75,
                                           'specifications': {
                                             'ingredients': 'water, salt, sugar',
                                             'nutritional': {

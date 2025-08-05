@@ -832,6 +832,19 @@ class _ContinuePasswordWidgetState extends State<ContinuePasswordWidget>
                                   return;
                                 }
 
+                                // Create basic user record with email
+                                // try {
+                                //   await UserDataTable().insert({
+                                //     'user_id': currentUserUid,
+                                //     'email': widget.userEmail!,
+                                //     'created_at': DateTime.now().toIso8601String(),
+                                //   });
+                                //   print('Basic user record created with email: ${widget.userEmail}');
+                                // } catch (e) {
+                                //   print('Error creating basic user record: $e');
+                                //   // Continue anyway, user data will be created later in onboarding
+                                // }
+
                                 context.goNamedAuth(
                                     ContinueAccountDetailsWidget.routeName,
                                     context.mounted);

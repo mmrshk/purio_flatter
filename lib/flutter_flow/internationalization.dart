@@ -379,9 +379,98 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   // PrivacyPolicy
   {
     'knioxvpt': {
-      'en':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea ',
-      'ro': '',
+      'en': '''Privacy Policy – Purio App (Beta Version)
+Last updated: [01.09.2025]
+
+1. What data do we collect?
+In the beta version of the app, we collect the following personal data:
+
+- Email address – for account creation and app-related communications;
+- First name and last name – to personalize the experience and for identification during feedback/testing.
+
+2. How do we use this data?
+Your data is used exclusively to:
+- Provide access to the app;
+- Improve the user experience;
+- Offer technical support or communications related to beta testing;
+- Understand general usage behavior (anonymized or pseudonymized) to optimize the product.
+
+3. Who has access to this data?
+Access to your data is limited to the Purio team members directly involved in app development.
+
+- We do not share, sell, or disclose your data to third parties;
+- We may use external services (e.g., cloud storage) to securely process the data.
+
+4. Where and how long do we store the data?
+- Data is stored in secure environments (e.g., databases managed via Supabase);
+- This data will be retained after the beta phase to ensure continuity in the official release of the app;
+- You may request deletion of your account and personal data at any time, according to the rights described below.
+
+5. What are your rights?
+Under applicable laws (e.g., GDPR), you have the following rights:
+- Right to access your data;
+- Right to correct inaccurate data;
+- Right to deletion ("right to be forgotten");
+- Right to withdraw your consent at any time;
+- Right to data portability.
+
+For any of these requests, you can contact us at hello@purio.io.
+
+6. Data Security
+We implement technical and organizational measures to protect your data from unauthorized access, loss, or destruction. While we strive to ensure data security, no system is 100% secure.
+
+7. Policy Updates
+We reserve the right to modify this policy. Any relevant updates will be announced in the app or by email. Continued use of the app implies acceptance of the updated policy.
+
+8. Contact
+For questions related to data protection, you can reach us at:
+hello@purio.io''',
+      'ro': '''Politica de Confidențialitate – Aplicația Purio (versiune Beta)
+Ultima actualizare: [01.09.2025]
+
+1. Ce date colectăm?
+În versiunea beta a aplicației colectăm următoarele date:
+
+- Adresa de email – pentru crearea contului și comunicări legate de aplicație;
+- Prenume și nume – pentru personalizarea experienței și identificarea în feedback/testare.
+
+2. Cum folosim aceste date?
+Datele tale sunt utilizate exclusiv în scopul de a:
+- Permite accesul la aplicație;
+- Îmbunătăți experiența utilizatorului;
+- Oferi suport tehnic sau comunicări legate de testarea aplicației;
+- Înțelege comportamentul general de utilizare (anonim/pseudonimizat) pentru a optimiza produsul.
+
+3. Cine are acces la aceste date?
+Accesul la datele tale este limitat la membrii echipei Purio implicați direct în dezvoltarea aplicației.
+
+- Nu partajăm, vindem sau cedăm datele tale către terți;
+- Putem folosi servicii externe (ex: stocare în cloud) pentru procesarea securizată a datelor.
+
+4. Unde și cât timp stocăm datele?
+- Datele sunt stocate în medii securizate (ex: baze de date gestionate prin Supabase);
+- Acestea vor fi păstrate și după finalul versiunii beta, pentru a asigura continuitatea experienței în versiunea oficială a aplicației;
+- Poți solicita oricând ștergerea contului și a datelor tale, conform drepturilor descrise mai jos.
+
+5. Ce drepturi ai?
+Conform legislației în vigoare (ex. GDPR), ai următoarele drepturi:
+- Dreptul de acces la datele tale;
+- Dreptul de rectificare a datelor incorecte;
+- Dreptul de ștergere ("dreptul de a fi uitat");
+- Dreptul de a-ți retrage consimțământul în orice moment;
+- Dreptul de a solicita portarea datelor.
+
+Pentru oricare dintre aceste solicitări, ne poți contacta la hello@purio.io.
+
+6. Securitatea datelor
+Luăm măsuri tehnice și organizatorice pentru a proteja datele tale împotriva accesului neautorizat, pierderii sau distrugerii. Deși facem tot posibilul pentru protecția informațiilor, reține că niciun sistem nu este 100% sigur.
+
+7. Actualizări ale politicii
+Ne rezervăm dreptul de a modifica această politică. Vom anunța în aplicație sau prin email orice modificare relevantă. Continuarea utilizării aplicației implică acceptarea versiunii actualizate.
+
+8. Contact
+Pentru întrebări legate de protecția datelor, ne poți scrie la:
+hello@purio.io''',
     },
     'hi6tahx5': {
       'en': 'Privacy Policy',
@@ -395,9 +484,162 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   // TermsOfUse
   {
     'spyekk13': {
-      'en':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea ',
-      'ro': '',
+      'en': '''Terms and Conditions – Purio App (Beta Version)
+Last updated: [01.09.2025]
+
+1. About the Beta Version
+The Purio app is currently in its beta testing phase. This version is made available to a limited number of users selected to help test and validate core functionalities.
+
+- The main goal is to improve the app based on user feedback;
+- Occasional bugs, errors, or incomplete data may occur;
+- The team makes every effort to provide accurate information, but some inaccuracies or omissions may be present during this stage of development.
+
+2. No Legal Entity
+The app is developed by an independent team in the early stages of product validation, and no legal entity is associated with the project at this time.
+
+- No commercial or contractual services are provided;
+- The app is offered free of charge and strictly for testing purposes.
+
+3. Purpose of the App
+Purio is an informational tool designed to help users better understand the composition of supermarket food products. Products are analyzed and displayed based on a custom scoring formula that incorporates:
+- Nutri-Score
+- Additives Score
+- Ultra-Processed Score
+
+The final score is automatically generated using a proprietary formula, which is explained in the app.
+
+The app does not provide medical, nutritional, or dietary advice and should not be used as a substitute for consulting a professional.
+
+4. Account Creation and Data Collection
+To use the app, you must create an account. During the beta version, we collect the following personal data:
+- Email address
+- First name
+- Last name
+
+Data collection and processing is carried out in accordance with the Privacy Policy available from the beta stage.
+
+5. User Contributions
+Users may submit food products not already present in the database. To ensure data accuracy:
+- Submitted products do not appear automatically in the app;
+- All user-submitted data is manually reviewed by the Purio team before being published;
+- Users are responsible for the accuracy of the submitted information.
+
+The team reserves the right to correct, modify, or reject any submitted content.
+
+6. Information Quality and Accuracy
+The Purio team makes every effort to ensure that displayed information is:
+- Accurate
+- Up-to-date
+- Relevant
+
+However, due to the use of external sources, automated data processing, and potential changes in product composition, some information may be incomplete or inaccurate. Users are encouraged to refer to the product label for final decision-making.
+
+7. Limitation of Liability
+By using the app, you acknowledge and agree that:
+- The Purio team is not responsible for your dietary or purchasing decisions;
+- The information provided is for reference only and does not guarantee any health outcome;
+- You use the app at your own risk.
+
+8. Intellectual Property
+All rights to the app's design, scoring logic, interface, editorial content, and proprietary formula belong to the Purio team.
+
+- Reproduction, redistribution, or use of this content without written permission is prohibited.
+
+9. Feedback
+By using the beta version of the app, you agree that we may collect and analyze:
+- Suggestions, feedback, or comments submitted by you;
+- App usage behavior (anonymized or pseudonymized) to improve the product experience.
+
+10. Changes to Terms
+These terms may be updated at any time during the beta phase. Changes will be communicated in-app, and continued use implies acceptance of the updated terms.
+
+11. Contact
+For any questions, suggestions, or issues regarding the app, contact us at:
+hello@purio.io
+
+12. Acceptance
+By using the Purio app, you confirm that:
+- You have read, understood, and accepted these terms;
+- You agree to the collection and use of the personal data mentioned above;
+- You understand that this is a beta version and that functionalities and data may change.''',
+      'ro': '''Termeni și Condiții – Aplicația Purio (versiune Beta)
+Ultima actualizare: [01.09.2025]
+
+1. Despre versiunea Beta
+Aplicația Purio se află în faza de testare beta. Această versiune este disponibilă unui număr limitat de utilizatori, selectați pentru a contribui la testarea și validarea funcționalităților.
+
+- Scopul principal este de a îmbunătăți aplicația pe baza feedbackului primit;
+- Pot apărea ocazional erori, disfuncționalități sau date incomplete;
+- Echipa depune toate eforturile pentru a oferi informații corecte, dar pot exista și unele erori sau omisiuni inerente acestui stadiu de dezvoltare.
+
+2. Lipsa entității juridice
+Aplicația este dezvoltată de o echipă independentă, aflată într-o etapă incipientă, fără existența unei entități juridice în spate în acest moment.
+
+- Nu sunt furnizate servicii comerciale sau contractuale;
+- Aplicația este disponibilă gratuit și exclusiv în scop de testare.
+
+3. Scopul aplicației
+Purio este o aplicație informativă care te ajută să înțelegi mai bine compoziția produselor alimentare din supermarketuri. Produsele sunt analizate și afișate pe baza unui scor propriu calculat pornind de la:
+- Nutri-Score
+- Additives Score
+- Ultra-Processed Score
+
+Scorul final este generat automat folosind o formulă proprie, care este explicată în aplicație.
+
+Aplicația nu oferă sfaturi medicale sau nutriționale și nu înlocuiește consultul unui specialist.
+
+4. Crearea unui cont și colectarea datelor
+Pentru a folosi aplicația, este necesară crearea unui cont. În versiunea beta, colectăm următoarele date personale:
+- Adresă de email
+- Prenume
+- Nume
+
+Colectarea și prelucrarea acestor date se face în conformitate cu Politica de Confidențialitate disponibilă încă din versiunea beta.
+
+5. Contribuția utilizatorilor
+Utilizatorii pot adăuga produse care nu există deja în baza de date. Pentru a asigura acuratețea informațiilor:
+- Produsele introduse nu apar automat în aplicație;
+- Toate datele sunt verificate manual de echipa Purio înainte de publicare;
+- Utilizatorii sunt responsabili pentru corectitudinea informațiilor introduse.
+
+Echipa își rezervă dreptul de a corecta, completa sau respinge conținutul adăugat de utilizatori.
+
+6. Calitatea și acuratețea informațiilor
+Echipa Purio își dă tot interesul ca informațiile afișate să fie:
+- Corecte,
+- Actualizate,
+- Relevante.
+
+Totuși, având în vedere sursele multiple, volumul mare de date și procesarea automată, este posibil ca unele informații să fie incomplete sau eronate. Utilizatorii trebuie să consulte și eticheta fizică a produselor pentru decizii informate.
+
+7. Limitări de responsabilitate
+Prin folosirea aplicației, înțelegi și ești de acord că:
+- Echipa Purio nu este responsabilă pentru deciziile tale alimentare;
+- Informațiile afișate sunt orientative și nu garantează un anumit rezultat asupra sănătății;
+- Folosești aplicația pe propria răspundere.
+
+8. Drepturi de autor
+Toate drepturile asupra aplicației, designului, logicii de calcul, interfeței, conținutului editorial și a formulei de scor aparțin echipei Purio.
+
+- Nu este permisă copierea, redistribuirea sau utilizarea conținutului fără acord scris.
+
+9. Feedback
+Folosirea aplicației în versiunea beta presupune că putem colecta și analiza:
+- Opinii, sugestii și observații trimise de tine;
+- Comportamentul în aplicație (în mod anonim sau pseudonimizat) pentru îmbunătățirea experienței.
+
+10. Modificări ale termenilor
+Acești termeni pot fi modificați oricând pe durata versiunii beta. Modificările vor fi afișate în aplicație, iar utilizarea continuă reprezintă acceptarea noilor termeni.
+
+11. Contact
+Pentru orice întrebare, sugestie sau problemă legată de aplicație, ne poți scrie la:
+hello@purio.io
+
+12. Acceptare
+Prin utilizarea aplicației Purio, confirmi că:
+- Ai citit, înțeles și acceptat acești termeni;
+- Accepți prelucrarea datelor personale menționate mai sus;
+- Înțelegi că aplicația este în versiune beta și că anumite funcționalități și informații pot fi supuse modificărilor.''',
     },
     '7m87t0no': {
       'en': 'Terms of Use',

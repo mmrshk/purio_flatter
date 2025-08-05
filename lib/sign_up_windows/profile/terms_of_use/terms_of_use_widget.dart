@@ -161,48 +161,30 @@ class _TermsOfUseWidgetState extends State<TermsOfUseWidget> with RouteAware {
         ),
         body: SafeArea(
           top: true,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Flexible(
-                child: Padding(
-                  padding:
-                      const EdgeInsetsDirectional.fromSTEB(27.0, 27.0, 27.0, 0.0),
-                  child: Wrap(
-                    spacing: 0.0,
-                    runSpacing: 0.0,
-                    alignment: WrapAlignment.start,
-                    crossAxisAlignment: WrapCrossAlignment.start,
-                    direction: Axis.horizontal,
-                    runAlignment: WrapAlignment.start,
-                    verticalDirection: VerticalDirection.down,
-                    clipBehavior: Clip.none,
-                    children: [
-                      Text(
-                        FFLocalizations.of(context).getText(
-                          'spyekk13' /* Lorem ipsum dolor sit amet, co... */,
-                        ),
-                        textAlign: TextAlign.justify,
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w300,
-                                fontStyle: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .fontStyle,
-                              ),
-                              fontSize: 12.0,
-                              letterSpacing: 0.0,
-                              fontWeight: FontWeight.w300,
-                              fontStyle: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .fontStyle,
-                            ),
-                      ),
-                    ],
-                  ),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(27.0, 27.0, 27.0, 27.0),
+              child: Text(
+                FFLocalizations.of(context).getText(
+                  'spyekk13' /* Lorem ipsum dolor sit amet, co... */,
                 ),
+                textAlign: TextAlign.justify,
+                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                      font: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w300,
+                        fontStyle: FlutterFlowTheme.of(context)
+                            .bodyMedium
+                            .fontStyle,
+                      ),
+                      fontSize: 12.0,
+                      letterSpacing: 0.0,
+                      fontWeight: FontWeight.w300,
+                      fontStyle: FlutterFlowTheme.of(context)
+                          .bodyMedium
+                          .fontStyle,
+                    ),
               ),
-            ],
+            ),
           ),
         ),
       ),

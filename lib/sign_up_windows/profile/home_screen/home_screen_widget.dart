@@ -144,6 +144,14 @@ class ProductCard extends StatelessWidget {
                     height: 100,
                     fit: BoxFit.cover,
                     loadingBuilder: loadingBuilder,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Image.asset(
+                        'assets/images/ImagePlaceholderIcon.png',
+                        width: 116,
+                        height: 100,
+                        fit: BoxFit.cover,
+                      );
+                    },
                   ),
                 ),
               ),

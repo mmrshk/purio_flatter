@@ -1,13 +1,14 @@
-import '/components/product_card_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/index.dart';
 import '/backend/supabase/supabase.dart';
-import '/services/scoring_service.dart';
 import '/services/product_service.dart';
 import '/services/history_service.dart';
 import '/services/favorites_service.dart';
+import '/services/additives_service.dart';
+import '/components/recommendations_widget.dart';
+import '/components/additives_section_widget.dart';
+import '/components/ingredients_section_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'product_details_model.dart';
@@ -41,6 +42,12 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
     super.initState();
     _model = createModel(context, () => ProductDetailsModel());
     _model.loadIngredients(widget.product.specifications?['ingredients'] as String?);
+    
+    // Load additives for the product
+    _loadAdditives();
+    
+    // Load recommendations
+    _loadRecommendations();
     
     // Add product to user's history
     HistoryService.addToHistory(widget.product.id);
@@ -102,6 +109,46 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
       if (mounted) {
         setState(() {
           _model.isLoadingFavorite = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _loadAdditives() async {
+    try {
+      _model.isLoadingAdditives = true;
+      if (mounted) setState(() {});
+      
+      await _model.loadAdditives(widget.product.id, context);
+      
+      if (mounted) {
+        setState(() {});
+      }
+    } catch (e) {
+      print('Error loading additives: $e');
+      if (mounted) {
+        setState(() {
+          _model.isLoadingAdditives = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _loadRecommendations() async {
+    try {
+      _model.isLoadingRecommendations = true;
+      if (mounted) setState(() {});
+      
+      await _model.loadRecommendations(widget.product.id, widget.product.category ?? '');
+      
+      if (mounted) {
+        setState(() {});
+      }
+    } catch (e) {
+      print('Error loading recommendations: $e');
+      if (mounted) {
+        setState(() {
+          _model.isLoadingRecommendations = false;
         });
       }
     }
@@ -297,20 +344,20 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                         ),
                       ),
                     ),
-                    FlutterFlowIconButton(
-                      borderRadius: 100.0,
-                      borderWidth: 0.0,
-                      buttonSize: 45.0,
-                      fillColor: const Color(0xFFFAF9F9),
-                      icon: const Icon(
-                        Icons.ios_share,
-                        color: Color(0xFF40A5A5),
-                        size: 24.0,
-                      ),
-                      onPressed: () {
-                        print('IconButton pressed ...');
-                      },
-                    ),
+                    // FlutterFlowIconButton(
+                    //   borderRadius: 100.0,
+                    //   borderWidth: 0.0,
+                    //   buttonSize: 45.0,
+                    //   fillColor: const Color(0xFFFAF9F9),
+                    //   icon: const Icon(
+                    //     Icons.ios_share,
+                    //     color: Color(0xFF40A5A5),
+                    //     size: 24.0,
+                    //   ),
+                    //   onPressed: () {
+                    //     print('IconButton pressed ...');
+                    //   },
+                    // ),
                   ].divide(const SizedBox(width: 5.0)),
                 ),
               ],
@@ -381,10 +428,21 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                                     borderRadius:
                                                         BorderRadius.circular(8.0),
                                                     child: Image.network(
-                                                      widget.product.imageFrontUrl ?? 'https://picsum.photos/seed/895/600',
+                                                      widget.product.imageFrontUrl!,
                                                       width: 185.0,
                                                       height: 125.0,
-                                                      fit: BoxFit.cover,
+                                                      fit: BoxFit.contain,
+                                                        errorBuilder: (context, error, stackTrace) {
+                                                          return Padding(
+                                                            padding: const EdgeInsets.only(top: 12.0),
+                                                            child: Image.asset(
+                                                              'assets/images/ImagePlaceholderIcon.png',
+                                                              width: 120.0,
+                                                              height: 100.0,
+                                                              fit: BoxFit.contain,
+                                                            ),
+                                                          );
+                                                        },
                                                     ),
                                                   ),
                                                   Container(
@@ -478,26 +536,19 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                                 maxWidth: MediaQuery.of(context).size.width * 0.8,
                                               ),
                                               child: Text(
-                                                widget.product.description ?? '',
+                                                widget.product.specifications?['origin_country'] ?? '',
                                                 style: FlutterFlowTheme.of(context)
                                                     .bodyMedium
                                                     .override(
                                                       font: GoogleFonts.roboto(
                                                         fontWeight: FontWeight.normal,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .fontStyle,
+                                                        fontStyle:FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                       ),
                                                       color: const Color(0xFF6A7F98),
                                                       fontSize: 15.0,
                                                       letterSpacing: 0.0,
                                                       fontWeight: FontWeight.normal,
-                                                      fontStyle:
-                                                          FlutterFlowTheme.of(context)
-                                                              .bodyMedium
-                                                              .fontStyle,
+                                                      fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                     ),
                                                 textAlign: TextAlign.center,
                                                 softWrap: true,
@@ -510,96 +561,84 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                   ),
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 0.0, 0.0, 17.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        FFLocalizations.of(context).getText(
-                                          '9bs48st0' /* Ingredients */,
-                                        ),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              font: GoogleFonts.roboto(
-                                                fontWeight: FontWeight.bold,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontStyle,
-                                              ),
-                                              color: Colors.black,
-                                              fontSize: 17.0,
-                                              letterSpacing: 0.0,
-                                              fontWeight: FontWeight.bold,
-                                              fontStyle: FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontStyle,
-                                            ),
-                                      ),
-                                    ),
-                                    Text(
-                                      FFLocalizations.of(context).getText(
-                                        '6mn4fkqn' /* See All */,
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.roboto(
-                                              fontWeight: FontWeight.bold,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                            color: Colors.black,
-                                            fontSize: 15.0,
-                                            letterSpacing: 0.0,
-                                            fontWeight: FontWeight.bold,
-                                            fontStyle: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .fontStyle,
-                                          ),
-                                    ),
-                                  ],
-                                ),
+                              // Additives Section
+                              AdditivesSectionWidget(
+                                additives: _model.additives,
+                                isLoading: _model.isLoadingAdditives,
+                                onAdditiveTap: (additive) => AdditivesService.showAdditiveInfoDialog(additive, context),
                               ),
-                              if (_model.ingredients.isNotEmpty) ...[
-                                ...List.generate(
-                                  _model.visibleIngredientsCount,
-                                  (index) => Padding(
+                              // Ingredients Section
+                              IngredientsSectionWidget(
+                                ingredients: _model.ingredients,
+                                visibleIngredientsCount: _model.visibleIngredientsCount,
+                                hasMoreIngredients: _model.hasMoreIngredients,
+                                onShowMore: () {
+                                  setState(() {
+                                    _model.showMoreIngredients();
+                                  });
+                                },
+                              ),
+                              // Recommendations Section
+                              RecommendationsWidget(
+                                recommendedProduct: _model.recommendedProduct,
+                                isLoading: _model.isLoadingRecommendations,
+                                currentProduct: widget.product,
+                              ),
+                             
+                              InkWell(
+                                onTap: () {
+                                  context.pushNamed('ScoringMethod');
+                                },
+                                borderRadius: BorderRadius.circular(10.0),
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 60.0,
+                                  decoration: BoxDecoration(
+                                    gradient: const LinearGradient(
+                                      colors: [Color(0xFFF5F5F5), Colors.white],
+                                      stops: [0.0, 1.0],
+                                      begin: AlignmentDirectional(1.0, 0.0),
+                                      end: AlignmentDirectional(-1.0, 0),
+                                    ),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: Padding(
                                     padding: const EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 0.0, 23.0),
+                                        10.0, 10.0, 10.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Expanded(
+                                        Padding(
+                                          padding: const EdgeInsetsDirectional.fromSTEB(
+                                              15.0, 0.0, 0.0, 0.0),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                _model.ingredients[index],
+                                                FFLocalizations.of(context).getText(
+                                                  't0jrl3ay' /* Scoring Method */,
+                                                ),
                                                 style: FlutterFlowTheme.of(context)
                                                     .bodyMedium
                                                     .override(
                                                       font: GoogleFonts.roboto(
-                                                        fontWeight: FontWeight.w600,
+                                                        fontWeight: FontWeight.bold,
                                                         fontStyle:
-                                                            FlutterFlowTheme.of(context)
+                                                            FlutterFlowTheme.of(
+                                                                    context)
                                                                 .bodyMedium
                                                                 .fontStyle,
                                                       ),
                                                       color: Colors.black,
                                                       fontSize: 15.0,
                                                       letterSpacing: 0.0,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight: FontWeight.bold,
                                                       fontStyle:
                                                           FlutterFlowTheme.of(context)
                                                               .bodyMedium
@@ -607,21 +646,31 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                                     ),
                                               ),
                                               Text(
-                                                'Low Risk',
+                                                FFLocalizations.of(context).getText(
+                                                  'pus9jfji' /* Learn how products are rated */,
+                                                ),
                                                 style: FlutterFlowTheme.of(context)
                                                     .bodyMedium
                                                     .override(
                                                       font: GoogleFonts.roboto(
-                                                        fontWeight: FontWeight.normal,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontWeight,
                                                         fontStyle:
-                                                            FlutterFlowTheme.of(context)
+                                                            FlutterFlowTheme.of(
+                                                                    context)
                                                                 .bodyMedium
                                                                 .fontStyle,
                                                       ),
-                                                      color: const Color(0xFF2ECC71),
+                                                      color: const Color(0xFF6A7F98),
                                                       fontSize: 15.0,
                                                       letterSpacing: 0.0,
-                                                      fontWeight: FontWeight.normal,
+                                                      fontWeight:
+                                                          FlutterFlowTheme.of(context)
+                                                              .bodyMedium
+                                                              .fontWeight,
                                                       fontStyle:
                                                           FlutterFlowTheme.of(context)
                                                               .bodyMedium
@@ -632,294 +681,12 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                           ),
                                         ),
                                         const Icon(
-                                          Icons.info_outlined,
+                                          Icons.arrow_forward_ios_sharp,
                                           color: Color(0xFF40A5A5),
-                                          size: 19.5,
+                                          size: 24.0,
                                         ),
                                       ],
                                     ),
-                                  ),
-                                ),
-                                if (_model.hasMoreIngredients)
-                                  Align(
-                                    alignment: const AlignmentDirectional(0.0, 0.0),
-                                    child: Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 0.0, 0.0, 29.0),
-                                      child: InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            _model.showMoreIngredients();
-                                          });
-                                        },
-                                        child: Container(
-                                          width: double.infinity,
-                                          height: 31.0,
-                                          decoration: BoxDecoration(
-                                            gradient: const LinearGradient(
-                                              colors: [
-                                                Color(0xFF40E0D0),
-                                                Color(0xFFA8F0E4)
-                                              ],
-                                              stops: [0.0, 1.0],
-                                              begin: AlignmentDirectional(1.0, 0.0),
-                                              end: AlignmentDirectional(-1.0, 0),
-                                            ),
-                                            borderRadius: BorderRadius.circular(30.0),
-                                          ),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                '10 more ingredients',
-                                                style: FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .override(
-                                                      font: GoogleFonts.roboto(
-                                                        fontWeight: FontWeight.bold,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(context)
-                                                                .bodyMedium
-                                                                .fontStyle,
-                                                      ),
-                                                      color: Colors.white,
-                                                      fontSize: 15.0,
-                                                      letterSpacing: 0.0,
-                                                      fontWeight: FontWeight.bold,
-                                                      fontStyle:
-                                                          FlutterFlowTheme.of(context)
-                                                              .bodyMedium
-                                                              .fontStyle,
-                                                    ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                              ],
-                              Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 0.0, 0.0, 10.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      FFLocalizations.of(context).getText(
-                                        'xme295my' /* Recommendations */,
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.roboto(
-                                              fontWeight: FontWeight.bold,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                            color: Colors.black,
-                                            fontSize: 15.0,
-                                            letterSpacing: 0.0,
-                                            fontWeight: FontWeight.bold,
-                                            fontStyle: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .fontStyle,
-                                          ),
-                                    ),
-                                    Text(
-                                      FFLocalizations.of(context).getText(
-                                        '4h3ql1fs' /* See All */,
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.roboto(
-                                              fontWeight: FontWeight.bold,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                            color: const Color(0xFF40A5A5),
-                                            fontSize: 12.0,
-                                            letterSpacing: 0.0,
-                                            fontWeight: FontWeight.bold,
-                                            fontStyle: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .fontStyle,
-                                          ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 0.0, 0.0, 18.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Text(
-                                      FFLocalizations.of(context).getText(
-                                        'whclgaz0' /* Looking for a healthier altern... */,
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.roboto(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                            color: Colors.black,
-                                            fontSize: 12.0,
-                                            letterSpacing: 0.0,
-                                            fontWeight: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .fontWeight,
-                                            fontStyle: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .fontStyle,
-                                          ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Align(
-                                alignment: const AlignmentDirectional(0.0, 0.0),
-                                child: wrapWithModel(
-                                  model: _model.productCardModel,
-                                  updateCallback: () => safeSetState(() {}),
-                                  child: Builder(builder: (_) {
-                                    return DebugFlutterFlowModelContext(
-                                      rootModel: _model.rootModel,
-                                      child: ProductCardWidget(
-                                        product: ProductRow({
-                                          'id': 1,
-                                          'name': 'Sample Product',
-                                          'category': 'Food',
-                                          'final_score': 75,
-                                          'specifications': {
-                                            'ingredients': 'water, salt, sugar',
-                                            'nutritional': {
-                                              'calories_per_100g_or_100ml': '100',
-                                              'sugar': '5',
-                                              'saturated_fat': '2',
-                                              'salt': '0.5',
-                                              'protein': '3',
-                                              'fiber': '2'
-                                            }
-                                          }
-                                        })
-                                      ),
-                                    );
-                                  }),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                height: 60.0,
-                                decoration: BoxDecoration(
-                                  gradient: const LinearGradient(
-                                    colors: [Color(0xFFF5F5F5), Colors.white],
-                                    stops: [0.0, 1.0],
-                                    begin: AlignmentDirectional(1.0, 0.0),
-                                    end: AlignmentDirectional(-1.0, 0),
-                                  ),
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      10.0, 10.0, 10.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            15.0, 0.0, 0.0, 0.0),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              FFLocalizations.of(context).getText(
-                                                't0jrl3ay' /* Scoring Method */,
-                                              ),
-                                              style: FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    font: GoogleFonts.roboto(
-                                                      fontWeight: FontWeight.bold,
-                                                      fontStyle:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium
-                                                              .fontStyle,
-                                                    ),
-                                                    color: Colors.black,
-                                                    fontSize: 15.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(context)
-                                                            .bodyMedium
-                                                            .fontStyle,
-                                                  ),
-                                            ),
-                                            Text(
-                                              FFLocalizations.of(context).getText(
-                                                'pus9jfji' /* Learn how products are rated */,
-                                              ),
-                                              style: FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    font: GoogleFonts.roboto(
-                                                      fontWeight:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium
-                                                              .fontWeight,
-                                                      fontStyle:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium
-                                                              .fontStyle,
-                                                    ),
-                                                    color: const Color(0xFF6A7F98),
-                                                    fontSize: 15.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight:
-                                                        FlutterFlowTheme.of(context)
-                                                            .bodyMedium
-                                                            .fontWeight,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(context)
-                                                            .bodyMedium
-                                                            .fontStyle,
-                                                  ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      const Icon(
-                                        Icons.arrow_forward_ios_sharp,
-                                        color: Color(0xFF40A5A5),
-                                        size: 24.0,
-                                      ),
-                                    ],
                                   ),
                                 ),
                               ),
@@ -934,72 +701,6 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildDetailedScores() {
-    final nutriScore = ScoringService.calculateNutriScore(widget.product.nutritional ?? {});
-    final additivesScore = ScoringService.calculateAdditivesScore(
-      widget.product.specifications?['ingredients'] as String?
-    );
-    final novaScore = ScoringService.calculateNovaScore(
-      widget.product.specifications?['ingredients'] as String?
-    );
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Detailed Scores',
-          style: FlutterFlowTheme.of(context).bodyMedium.override(
-                font: GoogleFonts.roboto(
-                  fontWeight: FontWeight.bold,
-                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                ),
-                color: Colors.black,
-                fontSize: 16.0,
-                letterSpacing: 0.0,
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-        const SizedBox(height: 8),
-        _buildScoreRow('NutriScore', nutriScore),
-        _buildScoreRow('Additives Score', additivesScore),
-        _buildScoreRow('NOVA Score', novaScore),
-      ],
-    );
-  }
-
-  Widget _buildScoreRow(String label, int score) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            label,
-            style: FlutterFlowTheme.of(context).bodyMedium.override(
-                  font: GoogleFonts.roboto(
-                    fontWeight: FontWeight.w500,
-                    fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                  ),
-                  color: Colors.black,
-                  fontSize: 14.0,
-                ),
-          ),
-          Text(
-            '$score/100',
-            style: FlutterFlowTheme.of(context).bodyMedium.override(
-                  font: GoogleFonts.roboto(
-                    fontWeight: FontWeight.w500,
-                    fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                  ),
-                  color: score > 70 ? const Color(0xFF2ECC71) : const Color(0xFFE74C3C),
-                  fontSize: 14.0,
-                ),
-          ),
-        ],
       ),
     );
   }

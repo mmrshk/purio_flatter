@@ -249,7 +249,9 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                           ),
                           child: Center(
                             child: Text(
-                              'Recent',
+                              FFLocalizations.of(context).getText(
+                                'recent' /* Recent */,
+                              ),
                               style: TextStyle(
                                 color: _isRecentTab ? Colors.white : const Color(0xFF40E0D0),
                                 fontSize: 18,
@@ -284,7 +286,9 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                           ),
                           child: Center(
                             child: Text(
-                              'Favorites',
+                              FFLocalizations.of(context).getText(
+                                'favorites' /* Favorites */,
+                              ),
                               style: TextStyle(
                                 color: !_isRecentTab ? Colors.white : const Color(0xFF40E0D0),
                                 fontSize: 18,
@@ -331,7 +335,9 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                       ),
                                       const SizedBox(width: 12),
                                       Text(
-                                        'Loading your history...',
+                                        FFLocalizations.of(context).getText(
+                                          'loading_history' /* Loading your history... */
+                                        ),
                                         style: TextStyle(
                                           fontSize: 16,
                                           color: Colors.grey[600],
@@ -346,7 +352,9 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                           ),
                         ] else if (_model.historyProducts.isEmpty) ...[
                           Text(
-                            'No recents yet',
+                            FFLocalizations.of(context).getText(
+                              'no_history' /* No history yet */
+                            ),
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
@@ -355,7 +363,9 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                           ),
                           SizedBox(height: 10),
                           Text(
-                            'Your recently viewed products will appear here',
+                            FFLocalizations.of(context).getText(
+                              'your_recently_viewed_products_will_appear_here' /* Your recently viewed products will appear here */
+                            ),
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.grey[600],
@@ -459,13 +469,11 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                                                   _loadedImageIndexes.add(index);
                                                                 });
                                                               });
-                                                              return Container(
+                                                              return Image.asset(
+                                                                'assets/images/ImagePlaceholderIcon.png',
                                                                 width: 66.0,
                                                                 height: 66.0,
-                                                                decoration: BoxDecoration(
-                                                                  color: Colors.grey[300],
-                                                                  borderRadius: BorderRadius.circular(16.0),
-                                                                ),
+                                                                fit: BoxFit.contain,
                                                               );
                                                             },
                                                           )
@@ -618,7 +626,9 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                           ),
                         ] else if (_model.favoriteProducts.isEmpty) ...[
                           Text(
-                            'No favorites yet',
+                            FFLocalizations.of(context).getText(
+                              'no_favorites' /* No favorites yet */
+                            ),
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
@@ -627,7 +637,9 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                           ),
                           SizedBox(height: 10),
                           Text(
-                            'Your favorite products will appear here',
+                            FFLocalizations.of(context).getText(
+                              'your_favorite_products_will_appear_here' /* Your favorite products will appear here */
+                            ),
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.grey[600],
@@ -686,12 +698,9 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                                         product.imageFrontUrl!,
                                                         fit: BoxFit.cover,
                                                         errorBuilder: (context, error, stackTrace) {
-                                                          return Container(
-                                                            color: Colors.grey[300],
-                                                            child: const Icon(
-                                                              Icons.image_not_supported,
-                                                              color: Colors.grey,
-                                                            ),
+                                                          return Image.asset(
+                                                            'assets/images/ImagePlaceholderIcon.png',
+                                                            fit: BoxFit.contain,
                                                           );
                                                         },
                                                       )

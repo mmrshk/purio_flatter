@@ -149,7 +149,7 @@ class _LogInWidgetState extends State<LogInWidget> with RouteAware {
                       children: [
                         Text(
                           FFLocalizations.of(context).getText(
-                            'md54mxa9' /* Log in */,
+                            'bd1tkpa2' /* Log in */,
                           ),
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(

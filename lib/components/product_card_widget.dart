@@ -173,10 +173,18 @@ class _ProductCardWidgetState extends State<ProductCardWidget> with RouteAware {
             ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
               child: Image.network(
-                widget.product.imageFrontUrl ?? 'https://picsum.photos/seed/895/600',
+                widget.product.imageFrontUrl ?? '',
                 width: 80.0,
                 height: 80.0,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Image.asset(
+                    'assets/images/ImagePlaceholderIcon.png',
+                    width: 80.0,
+                    height: 80.0,
+                    fit: BoxFit.cover,
+                  );
+                },
               ),
             ),
             const SizedBox(width: 12),

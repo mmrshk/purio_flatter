@@ -9,3 +9,5 @@ export 'tables/user_data.dart';
 export 'tables/product.dart';
 export 'tables/user_history.dart';
 export 'tables/user_favorites.dart';
+export 'tables/product_additives.dart';
+export 'tables/additives.dart';

@@ -158,7 +158,7 @@ class _PrivacyPolicyWidgetState extends State<PrivacyPolicyWidget>
               padding: const EdgeInsetsDirectional.fromSTEB(27.0, 27.0, 27.0, 27.0),
               child: Text(
                 FFLocalizations.of(context).getText(
-                  'knioxvpt' /* Lorem ipsum dolor sit amet, co... */,
+                  'knioxvpt' /* Privacy Policy – Purio App (Beta Version)... */,
                 ),
                 textAlign: TextAlign.justify,
                 style: FlutterFlowTheme.of(context).bodyMedium.override(

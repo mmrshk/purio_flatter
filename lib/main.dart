@@ -117,7 +117,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Locale? _locale;
+  Locale? _locale = const Locale('en');
   Locale? get locale => _locale;
   ThemeMode _themeMode = ThemeMode.light;
 

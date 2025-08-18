@@ -319,13 +319,17 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            'Find Your Product',
+                            FFLocalizations.of(context).getText(
+                              'orieo052' /* Find Your Product */,
+                            ),
                             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 12),
                           Text(
-                            'Search by product name or brand and discover detailed insights instantly. 🛒',
+                            FFLocalizations.of(context).getText(
+                              'search_by_product_name_or_brand' /* Search by product name or brand and discover detailed insights instantly.  */,
+                            ),
                             style: TextStyle(fontSize: 16, color: Colors.black54),
                             textAlign: TextAlign.center,
                           ),

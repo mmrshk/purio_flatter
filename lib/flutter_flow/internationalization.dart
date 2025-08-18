@@ -68,7 +68,6 @@ class FFLocalizations {
     'no',
     'pt',
     'ro',
-    'ru',
     'rw',
     'sv',
     'th',
@@ -148,232 +147,164 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   {
     'x9q2m7nf': {
       'en': 'Hello 👋🏻',
-      'ro': '',
+      'ro': 'Salut 👋🏻',
     },
     'nhf9yk6j': {
       'en': 'Explore',
-      'ro': '',
+      'ro': 'Explorează',
     },
     'ujegbdrr': {
       'en': 'Scan',
-      'ro': '',
+      'ro': 'Scanează',
     },
     '8woh7s4n': {
       'en': 'Analyze products \nquickly.',
-      'ro': '',
+      'ro': 'Analizează produsele \nrapid.',
     },
     '4dsnt882': {
       'en': 'Search',
-      'ro': '',
+      'ro': 'Caută',
     },
     '6k9wcww2': {
       'en': 'Find product info\nfast.',
-      'ro': '',
+      'ro': 'Găsește informații despre produse\nrapid.',
     },
     'ba1vcuow': {
       'en': 'Additives',
-      'ro': '',
+      'ro': 'Aditivi',
+    },
+    'no_additives': {
+      'en': 'No additives',
+      'ro': 'Fără aditivi',
     },
     'nsdcps41': {
       'en': 'Learn what’s inside.',
-      'ro': '',
+      'ro': 'Află ce este înăuntru.',
     },
     'sg8ho7tf': {
       'en': 'Bad Ingredients',
-      'ro': '',
+      'ro': 'Ingrediente Dăunătoare',
     },
     'ga6umnbw': {
       'en': 'Spot harmful items.',
-      'ro': '',
+      'ro': 'Identifică produse dăunătoare.',
     },
     'hine2wdn': {
       'en': 'Popular scans',
-      'ro': '',
-    },
-    'o9egt2id': {
-      'en': 'Apa plata minerala',
-      'ro': '',
-    },
-    'qr0pztpu': {
-      'en': 'Apa plata minerala San Benedetto, 1.5 l',
-      'ro': '',
-    },
-    'xxm73s21': {
-      'en': 'Home',
-      'ro': '',
+      'ro': 'Scanări populare',
     },
   },
   // ProductDetails
   {
-    'csb60u23': {
-      'en': '10/100',
-      'ro': '',
-    },
-    '5w5p2hq1': {
-      'en': 'Bad',
-      'ro': '',
-    },
-    'w7316efl': {
-      'en': 'Coca Cola 0.33ml',
-      'ro': '',
-    },
-    'j1uqflfd': {
-      'en': 'Coca Cola ',
-      'ro': '',
-    },
     '9bs48st0': {
       'en': 'Ingredients',
-      'ro': '',
+      'ro': 'Ingrediente',
     },
     '6mn4fkqn': {
       'en': 'See All',
-      'ro': '',
-    },
-    'g89e5ay9': {
-      'en': 'Sugars 36g',
-      'ro': '',
-    },
-    'xf9cuelz': {
-      'en': 'High Risk',
-      'ro': '',
-    },
-    '6twifr03': {
-      'en': '10 more no risk ingredients',
-      'ro': '',
+      'ro': 'Vezi Tot',
     },
     'xme295my': {
       'en': 'Recommendations',
-      'ro': '',
+      'ro': 'Recomandări',
     },
     '4h3ql1fs': {
       'en': 'See All',
-      'ro': '',
+      'ro': 'Vezi Tot',
     },
     'whclgaz0': {
       'en': 'Looking for a healthier alternative?',
-      'ro': '',
+      'ro': 'Cauți o alternativă mai sănătoasă?',
     },
     't0jrl3ay': {
       'en': 'Scoring Method',
-      'ro': '',
+      'ro': 'Metoda de Evaluare',
     },
     'pus9jfji': {
       'en': 'Learn how products are rated',
-      'ro': '',
+      'ro': 'Află cum sunt evaluate produsele',
     },
     'muer1xqs': {
       'en': 'Product Details',
-      'ro': '',
-    },
-    'y2phi0yl': {
-      'en': 'Home',
-      'ro': '',
+      'ro': 'Detalii Produs',
     },
   },
   // History
   {
-    'rjf2e2ze': {
-      'en': 'Recent',
-      'ro': '',
-    },
-    'lmr83e28': {
-      'en': 'Favourites',
-      'ro': '',
-    },
-    '1djzthz8': {
-      'en': 'Your scan list is empty.',
-      'ro': '',
-    },
     'rgp2q0f4': {
       'en': 'No Favorites Yet',
-      'ro': '',
+      'ro': 'Încă Nu Ai Favorite',
     },
     'eweoeg3t': {
       'en': 'Save your favorite items to find them here \neasily next time!',
-      'ro': '',
+      'ro': 'Salvează-ți produsele favorite pentru a le găsi aici \ncu ușurință data viitoare!',
     },
     'ymharo6a': {
       'en': 'History',
-      'ro': '',
+      'ro': 'Istoric',
     },
-    '2eh5zqds': {
-      'en': 'Home',
-      'ro': '',
+    'loading_history': {
+      'en': 'Loading your history...',
+      'ro': 'Se încarcă istoricul...',
     },
-  },
-  // ScoringMethod
-  {
-    'phlmlqxs': {
-      'en': 'How we rate products',
-      'ro': '',
+    'no_history': {
+      'en': 'No history yet',
+      'ro': 'Încă nu ai istoric',
     },
-    'gesjt8gj': {
-      'en':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat ',
-      'ro': '',
+    'no_favorites': {
+      'en': 'No favorites yet',
+      'ro': 'Încă Nu Ai Favorite',
     },
-    '0v9l0jca': {
-      'en': 'Your Guide to Health Scores',
-      'ro': '',
+    'your_favorite_products_will_appear_here': {
+      'en': 'Your favorite products will appear here',
+      'ro': 'Produsele tale favorite vor apărea aici',
     },
-    'dhiqoov1': {
-      'en': 'Healthy choice(76-100)  ',
-      'ro': '',
+    'your_recently_viewed_products_will_appear_here': {
+      'en': 'Your recently viewed products will appear here',
+      'ro': 'Produsele tale vizionate recent vor apărea aici',
     },
-    '7gdp9rht': {
-      'en': 'Caution(51-75)  ',
-      'ro': '',
+    'recent': {
+      'en': 'Recent',
+      'ro': 'Recent',
     },
-    'ope4bahm': {
-      'en': 'Think twice (26-50)  ',
-      'ro': '',
+    'favorites': {
+      'en': 'Favorites',
+      'ro': 'Favorite',
     },
-    'l8mpi7mm': {
-      'en': 'High risk (0-26)  ',
-      'ro': '',
-    },
-    'cqbbguuu': {
-      'en':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat ',
-      'ro': '',
-    },
-    'yrfua5cu': {
-      'en': 'Scoring Method',
-      'ro': '',
-    },
-    'jyz6u2dm': {
-      'en': 'Home',
-      'ro': '',
-    },
+
   },
   // ProfileSettings
   {
     'y2pb74w6': {
       'en': 'Follow Us',
-      'ro': '',
+      'ro': 'Urmărește-ne',
     },
-    'rtu0e8fr': {
-      'en': 'Home',
-      'ro': '',
+    'faq_key': {
+      'en': 'FAQ',
+      'ro': 'Întrebări Frecvente',
+    },
+    'subscription_key': {
+      'en': 'Subscription',
+      'ro': 'Abonament',
     },
   },
   // EditProfile
   {
     'c4vorr30': {
       'en': 'Sign Out',
-      'ro': '',
+      'ro': 'Deconectare',
     },
     't9wjo91d': {
       'en': 'Delete Account',
-      'ro': '',
+      'ro': 'Șterge Cont',
     },
     'fh8utk4t': {
       'en': 'Edit Profile',
-      'ro': '',
+      'ro': 'Editează Profilul',
     },
-    'z2p5qx00': {
-      'en': 'Home',
-      'ro': '',
+    'feedback': {
+      'en': 'Feedback',
+      'ro': 'Feedback'
     },
   },
   // PrivacyPolicy
@@ -474,11 +405,7 @@ hello@purio.io''',
     },
     'hi6tahx5': {
       'en': 'Privacy Policy',
-      'ro': '',
-    },
-    'j2qs7d34': {
-      'en': 'Home',
-      'ro': '',
+      'ro': 'Politica de Confidențialitate',
     },
   },
   // TermsOfUse
@@ -643,160 +570,116 @@ Prin utilizarea aplicației Purio, confirmi că:
     },
     '7m87t0no': {
       'en': 'Terms of Use',
-      'ro': '',
-    },
-    '0hkv4ddf': {
-      'en': 'Home',
-      'ro': '',
+      'ro': 'Termeni și Condiții',
     },
   },
   // Notifications
   {
     'slf2ttsv': {
       'en': 'Allow Notifications',
-      'ro': '',
+      'ro': 'Permite Notificări',
     },
     '34tdq6vv': {
       'en':
           'Stay updated with the latest from Purio! Turn on notifications to never miss:\t•\tImportant updates\n\t•\tPersonalized tips\n\t•\tExclusive features',
-      'ro': '',
+      'ro': 'Rămâi la curent cu cele mai noi de la Purio! Activează notificările pentru a nu rata niciodată:\t•\tActualizări importante\n\t•\tSfaturi personalizate\n\t•\tFuncții exclusive',
     },
     '56c3uq32': {
       'en': '1. Open Settings',
-      'ro': '',
+      'ro': '1. Deschide Setările',
     },
     'ohkg5sd0': {
       'en': '2. Tap Notifications',
-      'ro': '',
+      'ro': '2. Atinge Notificări',
     },
     'eho3lknd': {
       'en': '3. Allow Purio to end you notifications.',
-      'ro': '',
+      'ro': '3. Permite Purio să îți trimită notificări.',
     },
     'se2g3ybz': {
       'en': 'Notifications',
-      'ro': '',
-    },
-    '4ddf29yt': {
-      'en': 'Home',
-      'ro': '',
+      'ro': 'Notificări',
     },
   },
   // SingUp-LogIn
   {
     '4pwlcxs5': {
       'en': 'Choose better, live healthier.',
-      'ro': '',
+      'ro': 'Alege mai bine, trăiește mai sănătos.',
     },
     'wn1wwzvk': {
       'en': 'Continue with Email',
-      'ro': '',
+      'ro': 'Continuă cu Email',
     },
     '8wzpehyg': {
       'en': 'Continue with Apple',
-      'ro': '',
+      'ro': 'Continuă cu Apple',
     },
     'jc8728go': {
       'en': 'Continue with Google',
-      'ro': '',
-    },
-    '7pm2vkyn': {
-      'en': 'Home',
-      'ro': '',
+      'ro': 'Continuă cu Google',
     },
   },
   // ContinueEmail
   {
     'iwrt97yc': {
       'en': 'What\'s your email?',
-      'ro': '',
+      'ro': 'Care este emailul tău?',
     },
     'on87fhzu': {
       'en': 'E-mail',
-      'ro': '',
+      'ro': 'E-mail',
     },
     '6iwy3c8t': {
       'en': 'E-mail is required',
-      'ro': '',
+      'ro': 'E-mail-ul este obligatoriu',
     },
     'dl11rfgt': {
       'en': 'Wrong email format!',
-      'ro': '',
-    },
-    '8eys0fci': {
-      'en': 'Please choose an option from the dropdown',
-      'ro': '',
+      'ro': 'Format de email greșit!',
     },
     'uifyvl16': {
       'en': 'Continue ',
-      'ro': '',
-    },
-    'orsn8sc6': {
-      'en': 'Home',
-      'ro': '',
+      'ro': 'Continuă',
     },
   },
   // ContinuePassword
   {
     'vg0xbsod': {
       'en': 'Now choose a password',
-      'ro': '',
+      'ro': 'Alege acum o parolă',
     },
     'p6q6bvub': {
       'en': 'You are creating an account with ',
-      'ro': '',
+      'ro': 'Creezi un cont cu ',
     },
     'd0ornpmi': {
       'en': 'Change.',
-      'ro': '',
+      'ro': 'Schimbă.',
     },
     '6dgk7ipy': {
       'en': 'Password',
-      'ro': '',
-    },
-    '0d1j2jtl': {
-      'en': 'Password is required',
-      'ro': '',
-    },
-    'j4ti1s0e': {
-      'en': 'Password must be at least 6 characters',
-      'ro': '',
-    },
-    'k3xsvd36': {
-      'en': 'Please choose an option from the dropdown',
-      'ro': '',
+      'ro': 'Parolă',
     },
     '2ise810c': {
       'en': 'Confirm Password',
-      'ro': '',
-    },
-    '0uaflaan': {
-      'en': 'Password is required',
-      'ro': '',
-    },
-    'dd4k10ok': {
-      'en': 'Password must be at least 6 characters',
-      'ro': '',
-    },
-    'lhn7bjoe': {
-      'en': 'Please choose an option from the dropdown',
-      'ro': '',
+      'ro': 'Confirmă Parola',
     },
     'vb2ld97q': {
       'en': 'I agree to ',
-      'ro': '',
+      'ro': 'Sunt de acord cu ',
     },
     'emiap6x0': {
       'en': 'Terms & Conditions',
-      'ro': '',
+      'ro': 'Termenii și Condițiile',
     },
     '1owv5d59': {
       'en': ' and ',
-      'ro': '',
+      'ro': ' și ',
     },
     '8fble3n3': {
       'en': 'Privacy Policy',
-      'ro': '',
+      'ro': 'Politica de Confidențialitate',
     },
     'gnsgggcs': {
       'en': '',
@@ -804,505 +687,292 @@ Prin utilizarea aplicației Purio, confirmi că:
     },
     'ott5beqb': {
       'en': 'Continue',
-      'ro': '',
-    },
-    '2yx8mst8': {
-      'en': 'Home',
-      'ro': '',
-    },
+      'ro': 'Continuă',
+    }
   },
   // ContinueAccountDetails
   {
     'o0u1599y': {
       'en': 'Account Details',
-      'ro': '',
+      'ro': 'Detalii Cont',
     },
     'q0c6t28l': {
       'en': 'We\'d love to refer to you by name',
-      'ro': '',
+      'ro': 'Ne-ar plăcea să te numim pe nume',
     },
     '1iym6wsx': {
       'en': 'First name',
-      'ro': '',
+      'ro': 'Prenume',
     },
     '7lzk8ecf': {
       'en': 'Last name',
-      'ro': '',
+      'ro': 'Nume',
     },
     'rsh3njnz': {
       'en': 'Continue',
-      'ro': '',
-    },
-    '0wyvrb0v': {
-      'en': 'Home',
-      'ro': '',
+      'ro': 'Continuă',
     },
   },
   // Continue1stQuestion
   {
     '6c55y8ef': {
       'en': '2 quick questions',
-      'ro': '',
+      'ro': '2 întrebări rapide',
     },
     'mgmbqkym': {
       'en': '*1: How do you choose your products?',
-      'ro': '',
+      'ro': '*1: Cum îți alegi produsele?',
     },
     'o63c9mmp': {
       'en': 'Continue ',
-      'ro': '',
+      'ro': 'Continuă',
     },
     'y51rmo0v': {
       'en': 'Terms & Conditions',
-      'ro': '',
-    },
-    'fb2r6np3': {
-      'en': 'Home',
-      'ro': '',
+      'ro': 'Termeni și Condiții',
     },
   },
   // Continue2ndQuestion
   {
     'd0ty1i2e': {
       'en': '2 quick questions',
-      'ro': '',
+      'ro': '2 întrebări rapide',
     },
     '49mr6z1h': {
       'en': '*2: What do you want Purio to help you with?',
-      'ro': '',
+      'ro': '*2: Cu ce vrei să te ajute Purio?',
     },
     'vdrxnj9r': {
       'en': 'Done',
-      'ro': '',
+      'ro': 'Gata',
     },
     'o4toanfy': {
       'en': 'Terms & Conditions',
-      'ro': '',
-    },
-    'n8yersm9': {
-      'en': 'Home',
-      'ro': '',
-    },
+      'ro': 'Termeni și Condiții',
+    }
   },
   // PurioProScreen
   {
     '0gcv45ml': {
       'en': 'FREE PRO\n7-days trial',
-      'ro': '',
+      'ro': 'PRO GRATUIT\n7 zile de încercare',
     },
     'olj1knz7': {
       'en':
           'No payment now. Cancel any time. Then \n139.99 RON/year (11,66 RON/month).',
-      'ro': '',
+      'ro': 'Fără plată acum. Anulează oricând. Apoi \n139,99 RON/an (11,66 RON/lună).',
     },
     'tzfzejzp': {
       'en': 'Continue ',
-      'ro': '',
+      'ro': 'Continuă',
     },
     '6gezjcuo': {
       'en': 'Terms & Conditions',
-      'ro': '',
+      'ro': 'Termeni și Condiții',
     },
     '5lhkthck': {
       'en': 'Purio ',
-      'ro': '',
+      'ro': 'Purio ',
     },
     '2o4n27pd': {
       'en': 'Pro',
-      'ro': '',
-    },
-    'ine7hd05': {
-      'en': 'Home',
-      'ro': '',
+      'ro': 'Pro',
     },
   },
   // IncorrectPassword
   {
     'ku9srp21': {
       'en': 'Welcome back! Log In in \nto your Purio account ',
-      'ro': '',
+      'ro': 'Bine ai revenit! Conectează-te la \ncontul tău Purio',
     },
     'lkdgd0je': {
       'en': 'Email',
-      'ro': '',
+      'ro': 'Email',
     },
     '9ksxi6ui': {
       'en': 'Password',
-      'ro': '',
+      'ro': 'Parolă',
     },
     'qf0w5nzs': {
       'en':
           'Password is incorrect. Try again or use the link to get an \nemail with log-in informations.',
-      'ro': '',
+      'ro': 'Parola este incorectă. Încearcă din nou sau folosește linkul pentru a primi un \nemail cu informațiile de conectare.',
     },
     'l3wjlhe6': {
       'en': 'Log In',
-      'ro': '',
+      'ro': 'Conectare',
     },
     'iux3zrs3': {
       'en': 'Email me a link to log in',
-      'ro': '',
+      'ro': 'Trimite-mi un email cu link de conectare',
     },
     'zxw8kqmd': {
       'en': 'or',
-      'ro': '',
-    },
-    'lp3q6x8y': {
-      'en': 'Continue with Apple',
-      'ro': '',
+      'ro': 'sau',
     },
     '6ux8sd2f': {
       'en': 'Continue with Google',
-      'ro': '',
+      'ro': 'Continuă cu Google',
     },
     '1mz4wwxe': {
       'en': 'Log in',
-      'ro': '',
-    },
-    '4b5a03ur': {
-      'en': 'Home',
-      'ro': '',
+      'ro': 'Conectare',
     },
   },
   // PasswordRecovery
   {
     'ibq84nqr': {
       'en': 'Check your email!',
-      'ro': '',
+      'ro': 'Verifică emailul!',
     },
     '6e8v1ttz': {
       'en': 'We send an email with a link that will log \nyou in to ',
-      'ro': '',
+      'ro': 'Am trimis un email cu un link care te va conecta la ',
     },
     'pvix1n9k': {
       'en': 'name@yahoo.com',
-      'ro': '',
+      'ro': 'exemplu@yahoo.com',
     },
     'czibjxvt': {
       'en': '.',
-      'ro': '',
+      'ro': '.',
     },
     'xhnu7gl3': {
       'en': 'Remember to check the spam folder..',
-      'ro': '',
+      'ro': 'Nu uita să verifici și dosarul spam.',
     },
     'nxzoe4v2': {
       'en': 'I didn’t get an email.',
-      'ro': '',
+      'ro': 'Nu am primit un email.',
     },
     'ev3u6i5n': {
       'en': 'Log in',
-      'ro': '',
-    },
-    '7262nuur': {
-      'en': 'Home',
-      'ro': '',
+      'ro': 'Conectare',
     },
   },
   // Feedback
   {
     'd96v3xf6': {
       'en': 'ISSUE, QUESTION OR SUGGESTION',
-      'ro': '',
+      'ro': 'PROBLEMĂ, ÎNTREBARE SAU SUGESTIE',
     },
     'pkpdfk4m': {
       'en': 'Your Message to Our Team',
-      'ro': '',
+      'ro': 'Mesajul tău către echipa noastră',
     },
     'fxp8nvjw': {
       'en': 'Send',
-      'ro': '',
+      'ro': 'Trimite',
     },
     'wvrb7mdi': {
       'en': 'Privacy Policy',
-      'ro': '',
-    },
-    'v6sjhyxb': {
-      'en': 'Home',
-      'ro': '',
+      'ro': 'Politica de Confidențialitate',
     },
   },
   // LogIn
   {
     'zxstwbxi': {
       'en': 'Welcome back! Log In in \nto your Purio account ',
-      'ro': '',
+      'ro': 'Bine ai revenit! Conectează-te la \ncontul tău Purio',
     },
     'efelxctk': {
       'en': 'Email',
-      'ro': '',
+      'ro': 'Email',
     },
     '5vvgj7nm': {
       'en': 'Password',
-      'ro': '',
+      'ro': 'Parolă',
     },
     'bd1tkpa2': {
       'en': 'Log In',
-      'ro': '',
+      'ro': 'Conectare',
     },
     '4cnlg5zd': {
       'en': 'Email me a link to log in',
-      'ro': '',
+      'ro': 'Trimite-mi un email cu link de conectare',
     },
     'ek1imcbd': {
       'en': 'or',
-      'ro': '',
-    },
-    'gbe4649w': {
-      'en': 'Continue with Apple',
-      'ro': '',
+      'ro': 'sau',
     },
     'tyg9wgvo': {
       'en': 'Continue with Google',
-      'ro': '',
-    },
-    'md54mxa9': {
-      'en': 'Log in',
-      'ro': '',
-    },
-    'ze3xnff9': {
-      'en': 'Home',
-      'ro': '',
+      'ro': 'Continuă cu Google',
     },
   },
   // Search
   {
-    '7iabb8r4': {
-      'en': 'e.g. Paine Vel Pitar ',
-      'ro': '',
-    },
-    'p59vvkdz': {
-      'en': 'Find Your Product',
-      'ro': '',
-    },
-    'orieo052': {
-      'en':
-          'Search by product name or brand and discover detailed insights instantly. 🛒',
-      'ro': '',
-    },
     'cnw6hi6r': {
       'en': 'Search',
-      'ro': '',
+      'ro': 'Caută',
     },
-    '6rmudlhy': {
-      'en': 'Home',
-      'ro': '',
+    'orieo052': {
+      'en': 'Find Your Product',
+      'ro': 'Găsește Produsul Tău',
     },
-  },
-  // Navbar
-  {
-    'gymm28kd': {
-      'en': 'Cancel',
-      'ro': '',
-    },
-  },
-  // ProductCard
-  {
-    'y3i8j1fq': {
-      'en': 'Lorem',
-      'ro': '',
-    },
-    'b17hfra4': {
-      'en': 'Orange Juice 1l',
-      'ro': '',
-    },
-    '32gmewo5': {
-      'en': 'Safety:',
-      'ro': '',
-    },
-    '43xscjca': {
-      'en': '100/100',
-      'ro': '',
+    'search_by_product_name_or_brand': {
+      'en': 'Search by product name or brand and discover detailed insights instantly. 🛒',
+      'ro': 'Caută după numele produsului sau marcă și descoperă informații detaliate instantaneu. 🛒',
     },
   },
   // RecoveryEmailPopup
   {
     'xj8l6u3y': {
       'en': 'Didn’t get the email?',
-      'ro': '',
+      'ro': 'Nu ai primit emailul?',
     },
     'u94e2ug8': {
       'en': 'Send the email again',
-      'ro': '',
+      'ro': 'Trimite emailul din nou',
     },
     '8uzxzp8n': {
       'en': 'Contact support',
-      'ro': '',
+      'ro': 'Contactează suportul',
     },
   },
   // DeleteAccountPopUp
   {
     'sup7de9p': {
       'en': 'Are You Sure?',
-      'ro': '',
+      'ro': 'Ești sigur?',
     },
     'qp8tp30w': {
       'en': 'All your data will be gone. \nSure about this?',
-      'ro': '',
+      'ro': 'Toate datele tale vor fi șterse. \nEști sigur?',
     },
     'rh4mxwuv': {
       'en': 'Keep My Account',
-      'ro': '',
+      'ro': 'Păstrează contul meu',
     },
     'h0ea7x3j': {
       'en': 'Delete It Anyway',
-      'ro': '',
-    },
-  },
-  // FirstQuestion
-  {
-    '4nrmy9zk': {
-      'en': '',
-      'ro': '',
-    },
-  },
-  // SearchProduct
-  {
-    'vhfv4iac': {
-      'en': 'Lorem ipsum',
-      'ro': '',
-    },
-    'g03001l8': {
-      'en': 'Lorem',
-      'ro': '',
-    },
-    'pbz85v9t': {
-      'en': '100/100',
-      'ro': '',
+      'ro': 'Șterge-l oricum',
     },
   },
   // Additives
   {
     '5wsh581s': {
       'en': 'E101',
-      'ro': '',
+      'ro': 'E101',
     },
     'b3x4k9h3': {
       'en': 'Risk Free',
-      'ro': '',
+      'ro': 'Risc Zero',
     },
   },
   // Miscellaneous
   {
-    'fciqtn4z': {
-      'en': '',
-      'ro': '',
-    },
-    'j92ogu64': {
-      'en': 'permission',
-      'ro': '',
-    },
-    'n6zl877e': {
-      'en': 'permission',
-      'ro': '',
-    },
-    '9ih5ljdi': {
-      'en': 'permission',
-      'ro': '',
-    },
-    'mllrcky2': {
-      'en': 'permission',
-      'ro': '',
-    },
     'sgr8p66f': {
       'en': 'Authentication Error: [error]',
-      'ro': '',
-    },
-    't1bp0k5q': {
-      'en': '',
-      'ro': '',
-    },
-    'gr7jtz6h': {
-      'en': '',
-      'ro': '',
-    },
-    'l3xncwkf': {
-      'en': '',
-      'ro': '',
-    },
-    '2xtfjgna': {
-      'en': '',
-      'ro': '',
-    },
-    'fq1yxg14': {
-      'en': '',
-      'ro': '',
-    },
-    'glsgh6rb': {
-      'en': '',
-      'ro': '',
-    },
-    'f0d1o742': {
-      'en': '',
-      'ro': '',
-    },
-    'zznsk8mr': {
-      'en': '',
-      'ro': '',
+      'ro': 'Eroare de autentificare: [eroare]',
     },
     'xnpah5j0': {
       'en': 'Email already in used',
-      'ro': '',
-    },
-    'kpv8b6vx': {
-      'en': 'Invalid credentials',
-      'ro': '',
-    },
-    'lxefse5u': {
-      'en': '',
-      'ro': '',
-    },
-    'nz7rfv72': {
-      'en': '',
-      'ro': '',
-    },
-    '63q9zpc4': {
-      'en': '',
-      'ro': '',
-    },
-    'j5od5yrg': {
-      'en': '',
-      'ro': '',
-    },
-    'h2mfapf7': {
-      'en': '',
-      'ro': '',
-    },
-    'b6e1quzb': {
-      'en': '',
-      'ro': '',
-    },
-    's03a2qg5': {
-      'en': '',
-      'ro': '',
-    },
-    'dkgle5ca': {
-      'en': '',
-      'ro': '',
-    },
-    'svncycwe': {
-      'en': '',
-      'ro': '',
-    },
-    'el5kbqh2': {
-      'en': '',
-      'ro': '',
-    },
-    '3icp9meg': {
-      'en': '',
-      'ro': '',
-    },
-    'jfpuurub': {
-      'en': '',
-      'ro': '',
-    },
-    'ba35ebib': {
-      'en': '',
-      'ro': '',
-    },
-    '2cpeltt8': {
-      'en': '',
-      'ro': '',
+      'ro': 'Emailul este deja folosit',
     },
   },
 ].reduce((a, b) => a..addAll(b));
+
+String getLocalizedText(BuildContext context, String englishText, String romanianText) {
+  return FFLocalizations.of(context).languageCode == 'ro' ? romanianText : englishText;
+}

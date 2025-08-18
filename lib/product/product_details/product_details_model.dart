@@ -1,6 +1,9 @@
 import '/components/product_card_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
+import '/backend/supabase/supabase.dart';
+import '/services/additives_service.dart';
+import '/services/recommendations_service.dart';
 import 'product_details_widget.dart' show ProductDetailsWidget;
 import 'package:flutter/material.dart';
 
@@ -14,6 +17,14 @@ class ProductDetailsModel extends FlutterFlowModel<ProductDetailsWidget> {
   int visibleIngredientsCount = 1;
   List<String> ingredients = [];
   bool hasMoreIngredients = false;
+  
+  // State for additives
+  List<AdditivesRow> additives = [];
+  bool isLoadingAdditives = false;
+  
+  // State for recommendations
+  ProductRow? recommendedProduct;
+  bool isLoadingRecommendations = false;
   
   // State for favorites
   bool isFavorite = false;
@@ -127,6 +138,43 @@ class ProductDetailsModel extends FlutterFlowModel<ProductDetailsWidget> {
       visibleIngredientsCount = ingredients.length;
     }
     hasMoreIngredients = visibleIngredientsCount < ingredients.length;
+  }
+
+  /// Load additives for a product
+  Future<void> loadAdditives(String productId, BuildContext context) async {
+    isLoadingAdditives = true;
+    
+    try {
+      additives = await AdditivesService.getProductAdditives(productId);
+    } catch (e) {
+      print('Error loading additives: $e');
+      additives = [];
+    } finally {
+      isLoadingAdditives = false;
+    }
+  }
+
+  /// Load recommended product
+  Future<void> loadRecommendations(String productId, String category) async {
+    isLoadingRecommendations = true;
+    
+    try {
+      // First try to get a product in the same category
+      recommendedProduct = await RecommendationsService.getBestRatedProductInCategory(category, productId);
+      
+      // If no product found in the same category, get a general recommendation
+      if (recommendedProduct == null) {
+        final generalRecommendations = await RecommendationsService.getGeneralRecommendedProducts(productId, limit: 1);
+        if (generalRecommendations.isNotEmpty) {
+          recommendedProduct = generalRecommendations.first;
+        }
+      }
+    } catch (e) {
+      print('Error loading recommendations: $e');
+      recommendedProduct = null;
+    } finally {
+      isLoadingRecommendations = false;
+    }
   }
 
   @override

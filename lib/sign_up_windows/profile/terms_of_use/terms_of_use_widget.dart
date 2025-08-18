@@ -166,7 +166,7 @@ class _TermsOfUseWidgetState extends State<TermsOfUseWidget> with RouteAware {
               padding: const EdgeInsetsDirectional.fromSTEB(27.0, 27.0, 27.0, 27.0),
               child: Text(
                 FFLocalizations.of(context).getText(
-                  'spyekk13' /* Lorem ipsum dolor sit amet, co... */,
+                  'spyekk13' /*Terms and Conditions – Purio App (Beta Version) */,
                 ),
                 textAlign: TextAlign.justify,
                 style: FlutterFlowTheme.of(context).bodyMedium.override(

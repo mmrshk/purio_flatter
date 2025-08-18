@@ -348,14 +348,16 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                     return DebugFlutterFlowModelContext(
                                                       rootModel:
                                                           _model.rootModel,
-                                                      child: const SettingsCardWidget(
+                                                      child: SettingsCardWidget(
                                                         icon: Icon(
                                                           Icons.person_outlined,
                                                           color:
                                                               Color(0xFF40A5A5),
                                                           size: 28.0,
                                                         ),
-                                                        setting: 'Edit Profile',
+                                                        setting: FFLocalizations.of(context).getText(
+                                                          'fh8utk4t' /* Edit Profile */,
+                                                        ),
                                                       ),
                                                     );
                                                   }),
@@ -380,7 +382,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                     return DebugFlutterFlowModelContext(
                                                       rootModel:
                                                           _model.rootModel,
-                                                      child: const SettingsCardWidget(
+                                                      child: SettingsCardWidget(
                                                         icon: Icon(
                                                           Icons
                                                               .record_voice_over_outlined,
@@ -388,7 +390,9 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                               Color(0xFF40A5A5),
                                                           size: 28.0,
                                                         ),
-                                                        setting: 'Feedback',
+                                                        setting: FFLocalizations.of(context).getText(
+                                                          'feedback' /* Feedback */,
+                                                        ),
                                                       ),
                                                     );
                                                   }),
@@ -436,7 +440,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                     return DebugFlutterFlowModelContext(
                                                       rootModel:
                                                           _model.rootModel,
-                                                      child: const SettingsCardWidget(
+                                                      child: SettingsCardWidget(
                                                         icon: Icon(
                                                           Icons
                                                               .lock_open_outlined,
@@ -444,8 +448,9 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                               Color(0xFF40A5A5),
                                                           size: 28.0,
                                                         ),
-                                                        setting:
-                                                            'Privacy Policy',
+                                                        setting: FFLocalizations.of(context).getText(
+                                                          'hi6tahx5' /* Privacy Policy */,
+                                                        ),
                                                       ),
                                                     );
                                                   }),
@@ -471,7 +476,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                     return DebugFlutterFlowModelContext(
                                                       rootModel:
                                                           _model.rootModel,
-                                                      child: const SettingsCardWidget(
+                                                      child: SettingsCardWidget(
                                                         icon: Icon(
                                                           Icons
                                                               .article_outlined,
@@ -479,7 +484,9 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                               Color(0xFF40A5A5),
                                                           size: 28.0,
                                                         ),
-                                                        setting: 'Terms of Use',
+                                                        setting: FFLocalizations.of(context).getText(
+                                                          '7m87t0no' /* Terms of Use */,
+                                                        ),
                                                       ),
                                                     );
                                                   }),
@@ -505,7 +512,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                     return DebugFlutterFlowModelContext(
                                                       rootModel:
                                                           _model.rootModel,
-                                                      child: const SettingsCardWidget(
+                                                      child: SettingsCardWidget(
                                                         icon: Icon(
                                                           Icons
                                                               .notifications_outlined,
@@ -513,8 +520,9 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                               Color(0xFF40A5A5),
                                                           size: 28.0,
                                                         ),
-                                                        setting:
-                                                            'Notifications',
+                                                        setting: FFLocalizations.of(context).getText(
+                                                          'se2g3ybz' /* Notifications */,
+                                                        ),
                                                       ),
                                                     );
                                                   }),
@@ -528,7 +536,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                 child: Builder(builder: (_) {
                                                   return DebugFlutterFlowModelContext(
                                                     rootModel: _model.rootModel,
-                                                    child: const SettingsCardWidget(
+                                                    child: SettingsCardWidget(
                                                       icon: Icon(
                                                         Icons
                                                             .question_mark_outlined,
@@ -536,7 +544,9 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                             Color(0xFF40A5A5),
                                                         size: 28.0,
                                                       ),
-                                                      setting: 'FAQ',
+                                                      setting: FFLocalizations.of(context).getText(
+                                                        'faq_key' /* FAQ */,
+                                                      ),
                                                     ),
                                                   );
                                                 }),
@@ -549,7 +559,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                 child: Builder(builder: (_) {
                                                   return DebugFlutterFlowModelContext(
                                                     rootModel: _model.rootModel,
-                                                    child: const SettingsCardWidget(
+                                                    child: SettingsCardWidget(
                                                       icon: Icon(
                                                         Icons
                                                             .star_border_purple500_outlined,
@@ -557,7 +567,9 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                             Color(0xFF40A5A5),
                                                         size: 28.0,
                                                       ),
-                                                      setting: 'Subscription',
+                                                      setting: FFLocalizations.of(context).getText(
+                                                        'subscription_key' /* Subscription */,
+                                                      ),
                                                     ),
                                                   );
                                                 }),

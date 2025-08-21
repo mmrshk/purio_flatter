@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/backend/supabase/supabase.dart';
 import '/services/scoring_service.dart';
 import '/services/favorites_service.dart';
+import '/services/health_score_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'product_card_model.dart';
@@ -216,13 +217,11 @@ class _ProductCardWidgetState extends State<ProductCardWidget> with RouteAware {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
-                        color: (widget.product.healthScore ?? 0) > 70
-                            ? const Color(0xFF2ECC71)
-                            : const Color(0xFFE74C3C),
+                        color: HealthScoreService.getHealthScoreColor(widget.product.displayScore ?? widget.product.healthScore ?? 0),
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                       child: Text(
-                        'Safety: ${widget.product.healthScore}/100',
+                        'Safety: ${widget.product.displayScore ?? widget.product.healthScore}/100',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                               font: GoogleFonts.roboto(fontWeight: FontWeight.bold),
                               color: Colors.white,

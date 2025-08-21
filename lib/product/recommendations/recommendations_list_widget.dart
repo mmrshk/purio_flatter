@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/backend/supabase/supabase.dart';
 import '/services/recommendations_service.dart';
+import '/services/health_score_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -44,7 +45,7 @@ class _RecommendationsListWidgetState extends State<RecommendationsListWidget> w
       _model.isLoading = true;
       if (mounted) setState(() {});
       
-      final healthScore = widget.currentProduct.healthScore ?? 0;
+              final healthScore = widget.currentProduct.displayScore ?? widget.currentProduct.healthScore ?? 0;
       final category = widget.currentProduct.category ?? '';
       final recommendations = await RecommendationsService.getProductsWithSameOrHigherScore(
         healthScore,
@@ -212,7 +213,7 @@ class _RecommendationsListWidgetState extends State<RecommendationsListWidget> w
                           Padding(
                             padding: const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 16.0),
                             child: Text(
-                              'Products with same or higher safety score (${widget.currentProduct.healthScore ?? 0}/100)',
+                              'Products with same or higher safety score (${widget.currentProduct.displayScore ?? widget.currentProduct.healthScore ?? 0}/100)',
                               style: FlutterFlowTheme.of(context).bodyMedium.override(
                                     font: GoogleFonts.roboto(
                                       fontWeight: FontWeight.w500,
@@ -378,13 +379,11 @@ class _RecommendationsListWidgetState extends State<RecommendationsListWidget> w
                                                               Container(
                                                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                                                 decoration: BoxDecoration(
-                                                                  color: (product.healthScore ?? 0) > 70
-                                                                      ? const Color(0xFF2ECC71)
-                                                                      : const Color(0xFFE74C3C),
+                                                                  color: HealthScoreService.getHealthScoreColor(product.displayScore ?? product.healthScore ?? 0),
                                                                   borderRadius: BorderRadius.circular(20.0),
                                                                 ),
                                                                 child: Text(
-                                                                  'Safety: ${product.healthScore}/100',
+                                                                  'Safety: ${product.displayScore ?? product.healthScore}/100',
                                                                   style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                         font: GoogleFonts.roboto(fontWeight: FontWeight.bold),
                                                                         color: Colors.white,

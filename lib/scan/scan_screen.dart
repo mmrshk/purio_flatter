@@ -107,26 +107,26 @@ class _ScanScreenState extends State<ScanScreen> with WidgetsBindingObserver {
         _lastScannedCode = code;
       });
 
-      //  final result = await Supabase.instance.client
-      //     .from('Products')
-      //     .select()
-      //     .eq('barcode', code)
-      //     .maybeSingle();
+      final result = await Supabase.instance.client
+          .from('products')
+          .select()
+          .eq('barcode', code)
+          .maybeSingle();
 
-      final products = await Supabase.instance.client
-        .from('products')
-        .select()
-        .order('id', ascending: false)
-        .limit(1);
+      print('Product result: $result');
 
-      print('Products: $products');
-
-      if (products.isNotEmpty) {
+      if (result != null) {
         print('Mounted: ${mounted}');
         if (mounted) {
+          // Turn off flashlight if it's on
+          if (isFlashOn && _qrViewController != null) {
+            _qrViewController!.toggleFlash();
+            isFlashOn = false;
+          }
+          
           Navigator.of(context).push(MaterialPageRoute(
             builder: (_) => ProductDetailsWidget(
-              product: ProductRow(products.first),
+              product: ProductRow(result),
               fromScan: true,
             ),
           ));

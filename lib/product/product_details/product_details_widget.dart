@@ -6,10 +6,12 @@ import '/services/product_service.dart';
 import '/services/history_service.dart';
 import '/services/favorites_service.dart';
 import '/services/additives_service.dart';
+import '/services/health_score_service.dart';
 import '/components/recommendations_widget.dart';
-import '/components/additives_section_widget.dart';
-import '/components/ingredients_section_widget.dart';
+import '/components/additives_ingredients_section_widget.dart';
+import '/components/all_ingredients_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'product_details_model.dart';
 export 'product_details_model.dart';
@@ -41,10 +43,10 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
   void initState() {
     super.initState();
     _model = createModel(context, () => ProductDetailsModel());
-    _model.loadIngredients(widget.product.specifications?['ingredients'] as String?);
+    _loadIngredients();
     
     // Load additives for the product
-    _loadAdditives();
+    _model.loadAdditives(widget.product.id, context);
     
     // Load recommendations
     _loadRecommendations();
@@ -114,23 +116,15 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
     }
   }
 
-  Future<void> _loadAdditives() async {
+  Future<void> _loadIngredients() async {
     try {
-      _model.isLoadingAdditives = true;
-      if (mounted) setState(() {});
-      
-      await _model.loadAdditives(widget.product.id, context);
+      await _model.loadIngredients(widget.product.specifications);
       
       if (mounted) {
         setState(() {});
       }
     } catch (e) {
-      print('Error loading additives: $e');
-      if (mounted) {
-        setState(() {
-          _model.isLoadingAdditives = false;
-        });
-      }
+      print('Error loading ingredients: $e');
     }
   }
 
@@ -244,6 +238,8 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
         ?.parentModelCallback
         ?.call(_model);
 
+
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -284,7 +280,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Text(
-                      widget.product.name ?? 'Product Details',
+                      widget.product.name,
                       style: FlutterFlowTheme.of(context).headlineMedium.override(
                             font: GoogleFonts.roboto(
                               fontWeight: FontWeight.bold,
@@ -449,9 +445,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                                     width: double.infinity,
                                                     height: 50.0,
                                                     decoration: BoxDecoration(
-                                                      color: (widget.product.healthScore ?? 0) > 70 
-                                                          ? const Color(0xFF2ECC71)
-                                                          : const Color(0xFFE74C3C),
+                                                      color: HealthScoreService.getHealthScoreColor(widget.product.displayScore ?? widget.product.healthScore ?? 0),
                                                       borderRadius: const BorderRadius.only(
                                                         bottomLeft: Radius.circular(16.0),
                                                         bottomRight: Radius.circular(16.0),
@@ -466,7 +460,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                                           MainAxisAlignment.center,
                                                       children: [
                                                         Text(
-                                                          'Safety: ${widget.product.healthScore ?? 0}/100',
+                                                          'Safety: ${widget.product.displayScore ?? widget.product.healthScore}/100',
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .bodyMedium
@@ -501,12 +495,13 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                                 ],
                                               ),
                                             ),
+                                            const SizedBox(height: 8.0),
                                             Container(
                                               constraints: BoxConstraints(
                                                 maxWidth: MediaQuery.of(context).size.width * 0.8,
                                               ),
-                                              child: Text(
-                                                widget.product.name ?? '',
+                                              child: SelectableText(
+                                                widget.product.name,
                                                 style: FlutterFlowTheme.of(context)
                                                     .bodyMedium
                                                     .override(
@@ -528,7 +523,23 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                                               .fontStyle,
                                                     ),
                                                 textAlign: TextAlign.center,
-                                                softWrap: true,
+                                                contextMenuBuilder: (context, editableTextState) {
+                                                  return AdaptiveTextSelectionToolbar(
+                                                    anchors: editableTextState.contextMenuAnchors,
+                                                    children: [
+                                                      MaterialButton(
+                                                        onPressed: () {
+                                                          final text = editableTextState.textEditingValue.text;
+                                                          final selection = editableTextState.textEditingValue.selection;
+                                                          final selectedText = text.substring(selection.start, selection.end);
+                                                          Clipboard.setData(ClipboardData(text: selectedText));
+                                                          editableTextState.hideToolbar();
+                                                        },
+                                                        child: const Text('Copy'),
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
                                               ),
                                             ),
                                             Container(
@@ -561,22 +572,40 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                   ),
                                 ),
                               ),
-                              // Additives Section
-                              AdditivesSectionWidget(
+                              // Combined Additives & Ingredients Section
+                              AdditivesIngredientsSectionWidget(
                                 additives: _model.additives,
-                                isLoading: _model.isLoadingAdditives,
-                                onAdditiveTap: (additive) => AdditivesService.showAdditiveInfoDialog(additive, context),
-                              ),
-                              // Ingredients Section
-                              IngredientsSectionWidget(
                                 ingredients: _model.ingredients,
                                 visibleIngredientsCount: _model.visibleIngredientsCount,
                                 hasMoreIngredients: _model.hasMoreIngredients,
                                 onShowMore: () {
-                                  setState(() {
-                                    _model.showMoreIngredients();
-                                  });
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => AllIngredientsWidget(
+                                        additives: _model.additives,
+                                        ingredients: _model.ingredients,
+                                        rawIngredientsText: _model.rawIngredientsText,
+                                        onAdditiveTap: (additive) => AdditivesService.showAdditiveInfoDialog(additive, context),
+                                      ),
+                                    ),
+                                  );
                                 },
+                                onAdditiveTap: (additive) => AdditivesService.showAdditiveInfoDialog(additive, context),
+                                onSeeAll: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => AllIngredientsWidget(
+                                        additives: _model.additives,
+                                        ingredients: _model.ingredients,
+                                        rawIngredientsText: _model.rawIngredientsText,
+                                        onAdditiveTap: (additive) => AdditivesService.showAdditiveInfoDialog(additive, context),
+                                      ),
+                                    ),
+                                  );
+                                },
+
+                                isLoadingIngredients: _model.isLoadingIngredients,
+                                rawIngredientsText: _model.rawIngredientsText,
                               ),
                               // Recommendations Section
                               RecommendationsWidget(
@@ -609,10 +638,11 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                       mainAxisSize: MainAxisSize.max,
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
                                         Padding(
                                           padding: const EdgeInsetsDirectional.fromSTEB(
-                                              15.0, 0.0, 0.0, 0.0),
+                                              10.0, 0.0, 0.0, 0.0),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
                                             mainAxisAlignment:

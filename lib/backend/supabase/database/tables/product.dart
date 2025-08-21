@@ -15,17 +15,13 @@ class ProductRow extends SupabaseDataRow {
   @override
   SupabaseTable get table => ProductTable();
 
-  String get id => getField<String>('id') ?? '';
-  set id(String value) => setField<String>('id', value);
+  String get id => getField<String>('id')!;
 
-  String? get name => getField<String>('name');
-  set name(String? value) => setField<String>('name', value);
+  String get name => getField<String>('name')!;
 
-  String? get category => getField<String>('category');
-  set category(String? value) => setField<String>('category', value);
+  String get category => getField<String>('category')!;
 
   String? get barcode => getField<String>('barcode');
-  set barcode(String? value) => setField<String>('barcode', value);
 
   int? get healthScore {
     final dynamic value = getField<dynamic>('final_score');
@@ -35,14 +31,20 @@ class ProductRow extends SupabaseDataRow {
   }
   set healthScore(int? value) => setField<int?>('final_score', value);
 
+  int? get displayScore {
+    final dynamic value = getField<dynamic>('display_score');
+    if (value is int) return value;
+
+    return null;
+  }
+  set displayScore(int? value) => setField<int?>('display_score', value);
+
   String? get imageFrontUrl => getField<String>('image_front_url');
   set imageFrontUrl(String? value) => setField<String>('image_front_url', value);
 
   DateTime? get createdAt => getField<DateTime>('created_at');
-  set createdAt(DateTime? value) => setField<DateTime>('created_at', value);
 
   DateTime? get updatedAt => getField<DateTime>('updated_at');
-  set updatedAt(DateTime? value) => setField<DateTime>('updated_at', value);
 
   String? get description => getField<String>('description');
   set description(String? value) => setField<String>('description', value);

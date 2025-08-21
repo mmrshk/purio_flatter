@@ -1,6 +1,7 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/backend/supabase/supabase.dart';
+import '/services/health_score_service.dart';
 import '/product/product_details/product_details_widget.dart';
 import '/product/recommendations/recommendations_list_widget.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,7 @@ class RecommendationsWidget extends StatelessWidget {
                         fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                       ),
                       color: Colors.black,
-                      fontSize: 15.0,
+                      fontSize: 16.0,
                       letterSpacing: 0.0,
                       fontWeight: FontWeight.bold,
                       fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
@@ -63,7 +64,7 @@ class RecommendationsWidget extends StatelessWidget {
                           fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                         ),
                         color: const Color(0xFF40A5A5),
-                        fontSize: 12.0,
+                        fontSize: 15.0,
                         letterSpacing: 0.0,
                         fontWeight: FontWeight.bold,
                         fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
@@ -186,13 +187,11 @@ class RecommendationsWidget extends StatelessWidget {
                                 Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                   decoration: BoxDecoration(
-                                    color: (recommendedProduct!.healthScore ?? 0) > 70
-                                        ? const Color(0xFF2ECC71)
-                                        : const Color(0xFFE74C3C),
+                                    color: HealthScoreService.getHealthScoreColor(recommendedProduct!.displayScore ?? recommendedProduct!.healthScore ?? 0),
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
                                   child: Text(
-                                    'Safety: ${recommendedProduct!.healthScore}/100',
+                                    'Safety: ${recommendedProduct!.displayScore ?? recommendedProduct!.healthScore}/100',
                                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                                           font: GoogleFonts.roboto(fontWeight: FontWeight.bold),
                                           color: Colors.white,

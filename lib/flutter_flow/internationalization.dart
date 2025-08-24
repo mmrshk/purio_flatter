@@ -200,6 +200,14 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Ingredients',
       'ro': 'Ingrediente',
     },
+    'ingredients_order_info': {
+      'en': 'The first ingredients listed are the ones used the most in the product.',
+      'ro': 'Primele ingrediente listate sunt cele folosite cel mai mult în produs.',
+    },
+    'raw_ingredients': {
+      'en': 'Raw Ingredients',
+      'ro': 'Ingrediente Brute',
+    },
     '6mn4fkqn': {
       'en': 'See All',
       'ro': 'Vezi Tot',
@@ -966,6 +974,121 @@ Prin utilizarea aplicației Purio, confirmi că:
     'b3x4k9h3': {
       'en': 'Risk Free',
       'ro': 'Risc Zero',
+    },
+  },
+  // Scoring Method
+  {
+    'scoring_method_title': {
+      'en': 'Scoring Method',
+      'ro': 'Metoda de Scorare',
+    },
+    'how_we_score_products': {
+      'en': 'How We Score Products',
+      'ro': 'Cum Scorăm Produsele',
+    },
+    'overall_safety_score': {
+      'en': 'Overall Safety Score',
+      'ro': 'Scorul General de Siguranță',
+    },
+    'overall_safety_description': {
+      'en': 'Our comprehensive safety score (0-100) evaluates multiple factors to help you make informed decisions about the products you consume.',
+      'ro': 'Scorul nostru comprehensiv de siguranță (0-100) evaluează multiple factori pentru a te ajuta să iei decizii informate despre produsele pe care le consumi.',
+    },
+    'nutritional_quality': {
+      'en': 'Nutritional Quality',
+      'ro': 'Calitatea Nutrițională',
+    },
+    'nutritional_quality_description': {
+      'en': 'We analyze the nutritional content including calories, fats, sugars, and essential nutrients to assess the overall health value.',
+      'ro': 'Analizăm conținutul nutrițional incluzând calorii, grăsimi, zaharuri și nutrienți esențiali pentru a evalua valoarea generală pentru sănătate.',
+    },
+    'additives_ingredients': {
+      'en': 'Additives & Ingredients',
+      'ro': 'Aditivi și Ingrediente',
+    },
+    'additives_ingredients_description': {
+      'en': 'We evaluate the safety and necessity of additives, preservatives, and artificial ingredients in the product.',
+      'ro': 'Evaluăm siguranța și necesitatea aditivilor, conservanților și ingredientelor artificiale din produs.',
+    },
+    'processing_level': {
+      'en': 'Processing Level',
+      'ro': 'Nivelul de Procesare',
+    },
+    'processing_level_description': {
+      'en': 'We assess how heavily processed the product is, as less processed foods are generally healthier.',
+      'ro': 'Evaluăm cât de mult este procesat produsul, deoarece alimentele mai puțin procesate sunt în general mai sănătoase.',
+    },
+    'score_interpretation': {
+      'en': 'Score Interpretation',
+      'ro': 'Interpretarea Scorului',
+    },
+    'excellent': {
+      'en': 'Free risk',
+      'ro': 'Riscuri zero',
+    },
+    'very_healthy_choice': {
+      'en': 'Very healthy choice',
+      'ro': 'Alegere foarte sănătoasă',
+    },
+    'good': {
+      'en': 'Low risk',
+      'ro': 'Riscuri reduse',
+    },
+    'generally_healthy_option': {
+      'en': 'Generally healthy option',
+      'ro': 'Opțiune în general sănătoasă',
+    },
+    'fair': {
+      'en': 'Moderate risk',
+      'ro': 'Riscuri moderate',
+    },
+    'moderate_health_impact': {
+      'en': 'Moderate health impact',
+      'ro': 'Impact moderat asupra sănătății',
+    },
+    'poor': {
+      'en': 'High risk',
+      'ro': 'Riscuri ridicate',
+    },
+    'consider_alternatives': {
+      'en': 'Consider alternatives',
+      'ro': 'Ia în considerare alternative',
+    },
+    'our_methodology': {
+      'en': 'Our Methodology',
+      'ro': 'Metodologia Noastră',
+    },
+    'methodology_description': {
+      'en': 'Our scoring system is based on scientific research and nutritional guidelines. We continuously update our methodology to reflect the latest findings in nutrition science and food safety.',
+      'ro': 'Sistemul nostru de scorare se bazează pe cercetări științifice și ghiduri nutriționale. Actualizăm continuu metodologia pentru a reflecta cele mai recente descoperiri în știința nutriției și siguranța alimentelor.',
+    },
+    'scoring_system_intro': {
+      'en': 'Our health scoring system evaluates products based on three key factors:',
+      'ro': 'Sistemul nostru de scorare pentru sănătate evaluează produsele pe baza a trei factori cheie:',
+    },
+    'nova_score_desc': {
+      'en': 'Nova Score (processing level)',
+      'ro': 'Scorul Nova (nivelul de procesare)',
+    },
+    'nutri_score_desc': {
+      'en': 'Nutri Score (nutritional quality)',
+      'ro': 'Scorul Nutri (calitatea nutrițională)',
+    },
+    'additives_score_desc': {
+      'en': 'Additives Score (additive safety)',
+      'ro': 'Scorul Aditivi (siguranța aditivilor)',
+    },
+    'scoring_formula_title': {
+      'en': 'Final Score Formula:',
+      'ro': 'Formula Scorului Final:',
+    },
+    'scoring_formula': {
+      'en': '(Nutri Score × 40%) + (Additives Score × 30%) + (Nova Score × 30%)',
+      'ro': '(Scorul Nutri × 40%) + (Scorul Aditivi × 30%) + (Scorul Nova × 30%)',
+    },
+    'safety_rule': {
+      'en': 'Safety Rule: High-risk additives automatically cap the score at 49 points.',
+      'ro': 'Regula de Siguranță: Aditivii cu risc ridicat limitează automat scorul la 49 de puncte.',
     },
   },
   // Miscellaneous

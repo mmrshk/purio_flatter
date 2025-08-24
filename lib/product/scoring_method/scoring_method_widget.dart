@@ -1,6 +1,7 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
+import '/flutter_flow/internationalization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'scoring_method_model.dart';
@@ -119,7 +120,7 @@ class _ScoringMethodWidgetState extends State<ScoringMethodWidget>
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Text(
-                      'Scoring Method',
+                      FFLocalizations.of(context).getText('scoring_method_title'),
                       style: FlutterFlowTheme.of(context).headlineMedium.override(
                             font: GoogleFonts.roboto(
                               fontWeight: FontWeight.bold,
@@ -175,7 +176,7 @@ class _ScoringMethodWidgetState extends State<ScoringMethodWidget>
                               Padding(
                                 padding: const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 24.0),
                                 child: Text(
-                                  'How We Score Products',
+                                  FFLocalizations.of(context).getText('how_we_score_products'),
                                   style: FlutterFlowTheme.of(context).headlineMedium.override(
                                         font: GoogleFonts.roboto(
                                           fontWeight: FontWeight.bold,
@@ -208,29 +209,29 @@ class _ScoringMethodWidgetState extends State<ScoringMethodWidget>
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       _buildScoreSection(
-                                        'Overall Safety Score',
-                                        'Our comprehensive safety score (0-100) evaluates multiple factors to help you make informed decisions about the products you consume.',
+                                        FFLocalizations.of(context).getText('overall_safety_score'),
+                                        FFLocalizations.of(context).getText('overall_safety_description'),
                                         Icons.security,
                                         const Color(0xFF40A5A5),
                                       ),
                                       const SizedBox(height: 24.0),
                                       _buildScoreSection(
-                                        'Nutritional Quality',
-                                        'We analyze the nutritional content including calories, fats, sugars, and essential nutrients to assess the overall health value.',
+                                        FFLocalizations.of(context).getText('nutritional_quality'),
+                                        FFLocalizations.of(context).getText('nutritional_quality_description'),
                                         Icons.monitor_heart,
                                         const Color(0xFF2ECC71),
                                       ),
                                       const SizedBox(height: 24.0),
                                       _buildScoreSection(
-                                        'Additives & Ingredients',
-                                        'We evaluate the safety and necessity of additives, preservatives, and artificial ingredients in the product.',
+                                        FFLocalizations.of(context).getText('additives_ingredients'),
+                                        FFLocalizations.of(context).getText('additives_ingredients_description'),
                                         Icons.science,
                                         const Color(0xFFFFA500),
                                       ),
                                       const SizedBox(height: 24.0),
                                       _buildScoreSection(
-                                        'Processing Level',
-                                        'We assess how heavily processed the product is, as less processed foods are generally healthier.',
+                                        FFLocalizations.of(context).getText('processing_level'),
+                                        FFLocalizations.of(context).getText('processing_level_description'),
                                         Icons.factory,
                                         const Color(0xFFE74C3C),
                                       ),
@@ -258,7 +259,7 @@ class _ScoringMethodWidgetState extends State<ScoringMethodWidget>
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Score Interpretation',
+                                        FFLocalizations.of(context).getText('score_interpretation'),
                                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                                               font: GoogleFonts.roboto(
                                                 fontWeight: FontWeight.bold,
@@ -272,10 +273,10 @@ class _ScoringMethodWidgetState extends State<ScoringMethodWidget>
                                             ),
                                       ),
                                       const SizedBox(height: 16.0),
-                                      _buildScoreRange('90-100', 'Excellent', 'Very healthy choice', const Color(0xFF2ECC71)),
-                                      _buildScoreRange('70-89', 'Good', 'Generally healthy option', const Color(0xFF40A5A5)),
-                                      _buildScoreRange('50-69', 'Fair', 'Moderate health impact', const Color(0xFFFFA500)),
-                                      _buildScoreRange('0-49', 'Poor', 'Consider alternatives', const Color(0xFFE74C3C)),
+                                      _buildScoreRange('90-100', FFLocalizations.of(context).getText('excellent'), FFLocalizations.of(context).getText('very_healthy_choice'), const Color(0xFF2ECC71)),
+                                      _buildScoreRange('70-89', FFLocalizations.of(context).getText('good'), FFLocalizations.of(context).getText('generally_healthy_option'), const Color(0xFF40A5A5)),
+                                      _buildScoreRange('50-69', FFLocalizations.of(context).getText('fair'), FFLocalizations.of(context).getText('moderate_health_impact'), const Color(0xFFFFA500)),
+                                      _buildScoreRange('0-49', FFLocalizations.of(context).getText('poor'), FFLocalizations.of(context).getText('consider_alternatives'), const Color(0xFFE74C3C)),
                                     ],
                                   ),
                                 ),
@@ -300,7 +301,7 @@ class _ScoringMethodWidgetState extends State<ScoringMethodWidget>
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Our Methodology',
+                                        FFLocalizations.of(context).getText('our_methodology'),
                                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                                               font: GoogleFonts.roboto(
                                                 fontWeight: FontWeight.bold,
@@ -315,7 +316,7 @@ class _ScoringMethodWidgetState extends State<ScoringMethodWidget>
                                       ),
                                       const SizedBox(height: 16.0),
                                       Text(
-                                        'Our scoring system is based on scientific research and nutritional guidelines. We continuously update our methodology to reflect the latest findings in nutrition science and food safety.',
+                                        FFLocalizations.of(context).getText('methodology_description'),
                                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                                               font: GoogleFonts.roboto(
                                                 fontWeight: FontWeight.normal,
@@ -329,19 +330,142 @@ class _ScoringMethodWidgetState extends State<ScoringMethodWidget>
                                             ),
                                       ),
                                       const SizedBox(height: 12.0),
-                                      Text(
-                                        'Detailed scoring information will be provided soon with specific criteria and weightings for each factor.',
-                                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                              font: GoogleFonts.roboto(
-                                                fontWeight: FontWeight.w500,
-                                                fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                              ),
-                                              color: const Color(0xFF40A5A5),
-                                              fontSize: 14.0,
-                                              letterSpacing: 0.0,
-                                              fontWeight: FontWeight.w500,
-                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            FFLocalizations.of(context).getText('scoring_system_intro'),
+                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                  font: GoogleFonts.roboto(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                  ),
+                                                  color: const Color(0xFF40A5A5),
+                                                  fontSize: 14.0,
+                                                  letterSpacing: 0.0,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                ),
+                                          ),
+                                          const SizedBox(height: 8.0),
+                                          Padding(
+                                            padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 0.0, 0.0),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  '• ${FFLocalizations.of(context).getText('nova_score_desc')}',
+                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                        font: GoogleFonts.roboto(
+                                                          fontWeight: FontWeight.normal,
+                                                          fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                        ),
+                                                        color: const Color(0xFF6A7F98),
+                                                        fontSize: 13.0,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight: FontWeight.normal,
+                                                        fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                      ),
+                                                ),
+                                                Text(
+                                                  '• ${FFLocalizations.of(context).getText('nutri_score_desc')}',
+                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                        font: GoogleFonts.roboto(
+                                                          fontWeight: FontWeight.normal,
+                                                          fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                        ),
+                                                        color: const Color(0xFF6A7F98),
+                                                        fontSize: 13.0,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight: FontWeight.normal,
+                                                        fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                      ),
+                                                ),
+                                                Text(
+                                                  '• ${FFLocalizations.of(context).getText('additives_score_desc')}',
+                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                        font: GoogleFonts.roboto(
+                                                          fontWeight: FontWeight.normal,
+                                                          fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                        ),
+                                                        color: const Color(0xFF6A7F98),
+                                                        fontSize: 13.0,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight: FontWeight.normal,
+                                                        fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                      ),
+                                                ),
+                                              ],
                                             ),
+                                          ),
+                                          const SizedBox(height: 12.0),
+                                          Text(
+                                            FFLocalizations.of(context).getText('scoring_formula_title'),
+                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                  font: GoogleFonts.roboto(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                  ),
+                                                  color: const Color(0xFF40A5A5),
+                                                  fontSize: 14.0,
+                                                  letterSpacing: 0.0,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                ),
+                                          ),
+                                          const SizedBox(height: 4.0),
+                                          Container(
+                                            padding: const EdgeInsets.all(8.0),
+                                            decoration: BoxDecoration(
+                                              color: const Color(0xFFF8F9FA),
+                                              borderRadius: BorderRadius.circular(8.0),
+                                              border: Border.all(
+                                                color: const Color(0xFFE9ECEF),
+                                                width: 1.0,
+                                              ),
+                                            ),
+                                            child: Text(
+                                              FFLocalizations.of(context).getText('scoring_formula'),
+                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                    font: GoogleFonts.roboto(
+                                                      fontWeight: FontWeight.w500,
+                                                      fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                    ),
+                                                    color: const Color(0xFF495057),
+                                                    fontSize: 13.0,
+                                                    letterSpacing: 0.0,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                  ),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 12.0),
+                                          Container(
+                                            padding: const EdgeInsets.all(8.0),
+                                            decoration: BoxDecoration(
+                                              color: const Color(0xFFFFF3CD),
+                                              borderRadius: BorderRadius.circular(8.0),
+                                              border: Border.all(
+                                                color: const Color(0xFFFFEAA7),
+                                                width: 1.0,
+                                              ),
+                                            ),
+                                            child: Text(
+                                              FFLocalizations.of(context).getText('safety_rule'),
+                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                    font: GoogleFonts.roboto(
+                                                      fontWeight: FontWeight.w500,
+                                                      fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                    ),
+                                                    color: const Color(0xFF856404),
+                                                    fontSize: 13.0,
+                                                    letterSpacing: 0.0,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                  ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),

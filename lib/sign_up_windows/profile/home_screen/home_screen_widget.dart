@@ -12,6 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'home_screen_model.dart';
 import '/scan/scan_screen.dart';
+import '/sign_up_windows/profile/additives_screen/additives_screen_widget.dart';
 export 'home_screen_model.dart';
 
 class ExploreCard extends StatelessWidget {
@@ -642,7 +643,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
                                         title: FFLocalizations.of(context).getText('4dsnt882' /* Search */),
                                         subtitle: FFLocalizations.of(context).getText('6k9wcww2' /* Find product info fast. */),
                                         onTap: () {
-                                          context.pushNamed('Search');
+                                          context.pushNamed(SearchWidget.routeName);
                                         },
                                       ),
                                       ExploreCard(
@@ -651,7 +652,10 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
                                         title: FFLocalizations.of(context).getText('ba1vcuow' /* Additives */),
                                         subtitle: FFLocalizations.of(context).getText('nsdcps41' /* Learn what's inside. */),
                                         onTap: () {
-                                          // TODO: Add navigation for Additives
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => const AdditivesScreen()),
+                                          );
                                         },
                                       ),
                                       ExploreCard(
@@ -660,7 +664,6 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
                                         title: FFLocalizations.of(context).getText('sg8ho7tf' /* Bad Ingredients */),
                                         subtitle: FFLocalizations.of(context).getText('ga6umnbw' /* Spot harmful items. */),
                                         onTap: () {
-                                          // TODO: Add navigation for Bad Ingredients
                                         },
                                       ),
                                     ],

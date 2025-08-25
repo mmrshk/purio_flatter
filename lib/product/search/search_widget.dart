@@ -150,251 +150,216 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(60.0),
-          child: AppBar(
-            backgroundColor: Colors.white,
-            automaticallyImplyLeading: false,
-            title: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                FlutterFlowIconButton(
-                  borderColor: Colors.transparent,
-                  borderRadius: 100.0,
-                  borderWidth: 1.0,
-                  buttonSize: 45.0,
-                  fillColor: const Color(0xFFFAF9F9),
-                  icon: const Icon(
-                    Icons.arrow_back_ios_new,
-                    color: Color(0xFF40A5A5),
-                    size: 24.0,
-                  ),
-                  onPressed: () async {
-                    context.safePop();
-                  },
-                ),
-                Align(
-                  alignment: const AlignmentDirectional(0.0, 0.0),
-                  child: Padding(
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 0.0, 0.0),
-                    child: SizedBox(
-                      width: 100.0,
-                      height: 50.0,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            FFLocalizations.of(context).getText(
-                              'cnw6hi6r' /* Search */,
-                            ),
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  font: GoogleFonts.roboto(
-                                    fontWeight: FontWeight.bold,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
-                                  color: Colors.black,
-                                  fontSize: 15.0,
-                                  letterSpacing: 0.0,
-                                  fontWeight: FontWeight.bold,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontStyle,
-                                ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 78.0,
-                  height: 30.0,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFFAFAF),
-                    borderRadius: BorderRadius.circular(90.0),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Image.asset(
-                          'assets/images/Group.png',
-                          width: 20.0,
-                          height: 15.0,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Image.asset(
-                          'assets/images/PRO_(1).png',
-                          width: 31.0,
-                          height: 15.0,
-                          fit: BoxFit.none,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+        appBar: AppBar(
+          backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_rounded,
+              color: FlutterFlowTheme.of(context).primaryText,
+              size: 24,
             ),
-            actions: const [],
-            centerTitle: true,
-            elevation: 1.0,
+            onPressed: () async {
+              context.safePop();
+            },
           ),
+          title: Text(
+            FFLocalizations.of(context).getText('cnw6hi6r' /* Search */),
+            style: FlutterFlowTheme.of(context).headlineMedium.override(
+                  color: FlutterFlowTheme.of(context).primaryText,
+                  fontSize: 22,
+                ),
+          ),
+          actions: [],
+          centerTitle: false,
+          elevation: 0,
         ),
         body: SafeArea(
           top: true,
-          child: Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(29.0, 38.0, 29.0, 16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                // Search bar
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        height: 48.0,
-                        decoration: BoxDecoration(
-                          color: FlutterFlowTheme.of(context).secondaryBackground,
-                          borderRadius: BorderRadius.circular(30.0),
-                          border: Border.all(
-                            color: const Color(0xFFEBEBEB),
-                          ),
-                        ),
-                        child: Center(
-                          child: TextField(
-                            controller: _searchController,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'e.g. Paine Vel Pitar',
-                              hintStyle: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    font: GoogleFonts.roboto(
-                                      fontWeight: FontWeight.w300,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
-                                    ),
-                                    color: const Color(0xFF6A7F98),
-                                    fontSize: 15.0,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FontWeight.w300,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
-                              prefixIcon: Icon(
-                                Icons.search,
-                                color: FlutterFlowTheme.of(context).primary,
-                                size: 24.0,
-                              ),
-                              contentPadding: const EdgeInsets.symmetric(vertical: 12.0),
-                            ),
-                            style: FlutterFlowTheme.of(context).bodyMedium,
-                          ),
-                        ),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+                child: TextFormField(
+                  controller: _searchController,
+                  obscureText: false,
+                  decoration: InputDecoration(
+                    labelText: 'Search products...',
+                    labelStyle: FlutterFlowTheme.of(context).labelMedium,
+                    hintStyle: FlutterFlowTheme.of(context).labelMedium,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: FlutterFlowTheme.of(context).alternate,
+                        width: 2,
                       ),
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                  ],
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: FlutterFlowTheme.of(context).primary,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: FlutterFlowTheme.of(context).error,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: FlutterFlowTheme.of(context).error,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    filled: true,
+                    fillColor: FlutterFlowTheme.of(context).secondaryBackground,
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: FlutterFlowTheme.of(context).secondaryText,
+                    ),
+                  ),
+                  style: FlutterFlowTheme.of(context).bodyMedium,
                 ),
-                const SizedBox(height: 24),
-                if (_searchController.text.trim().isEmpty)
-                  Expanded(
-                    child: Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            FFLocalizations.of(context).getText(
-                              'orieo052' /* Find Your Product */,
+              ),
+              Expanded(
+                child: _searchController.text.trim().isEmpty
+                    ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.search,
+                              size: 64,
+                              color: FlutterFlowTheme.of(context).secondaryText,
                             ),
-                            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.center,
-                          ),
-                          const SizedBox(height: 12),
-                          Text(
-                            FFLocalizations.of(context).getText(
-                              'search_by_product_name_or_brand' /* Search by product name or brand and discover detailed insights instantly.  */,
+                            const SizedBox(height: 16),
+                            Text(
+                              FFLocalizations.of(context).getText('orieo052' /* Find Your Product */),
+                              style: FlutterFlowTheme.of(context).bodyLarge.override(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                             ),
-                            style: TextStyle(fontSize: 16, color: Colors.black54),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                if (_isSearching)
-                  const Padding(
-                    padding: EdgeInsets.only(top: 24.0),
-                    child: CircularProgressIndicator(),
-                  ),
-                if (_searchController.text.trim().isNotEmpty && !_isSearching)
-                  Expanded(
-                    child: ListView.builder(
-                      controller: _scrollController,
-                      itemCount: _searchResults.length + (_hasMore ? 1 : 0),
-                      itemBuilder: (context, index) {
-                        if (index < _searchResults.length) {
-                          final product = _searchResults[index];
-                          if (!_imageLoadStartTimes.containsKey(index)) {
-                            _imageLoadStartTimes[index] = DateTime.now();
-                          }
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 2.0),
-                            child: SearchProductWidget(
-                              product: product,
-                              query: _searchController.text,
-                              isLoaded: _loadedImageIndexes.contains(index),
-                              onImageLoaded: () {
-                                if (!_loadedImageIndexes.contains(index)) {
-                                  final loadStart = _imageLoadStartTimes[index]!;
-                                  final elapsed = DateTime.now().difference(loadStart).inMilliseconds;
-                                  if (elapsed < _minSkeletonMillis) {
-                                    Future.delayed(Duration(milliseconds: _minSkeletonMillis - elapsed), () {
-                                      if (mounted) setState(() {
-                                        _loadedImageIndexes.add(index);
-                                      });
-                                    });
-                                  } else {
-                                    setState(() {
-                                      _loadedImageIndexes.add(index);
-                                    });
-                                  }
-                                }
-                              },
+                            const SizedBox(height: 12),
+                            Text(
+                              FFLocalizations.of(context).getText('search_by_product_name_or_brand' /* Search by product name or brand and discover detailed insights instantly.  */),
+                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                    color: FlutterFlowTheme.of(context).secondaryText,
+                                    fontSize: 16,
+                                  ),
+                              textAlign: TextAlign.center,
                             ),
-                          );
-                        } else {
-                          // Load more button at the bottom
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 16.0),
-                            child: Center(
-                              child: ElevatedButton(
-                                onPressed: _isSearching ? null : () => _fetchProducts(loadMore: true),
-                                child: _isSearching ? CircularProgressIndicator() : Text('Load more'),
+                          ],
+                        ),
+                      )
+                    : _isSearching
+                        ? Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    FlutterFlowTheme.of(context).primary,
+                                  ),
+                                ),
+                                const SizedBox(height: 16),
+                                Text(
+                                  'Searching products...',
+                                  style: FlutterFlowTheme.of(context).bodyMedium,
+                                ),
+                              ],
+                            ),
+                          )
+                        : _searchResults.isEmpty
+                            ? Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.search_off,
+                                      size: 64,
+                                      color: FlutterFlowTheme.of(context).secondaryText,
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Text(
+                                      'No products found',
+                                      style: FlutterFlowTheme.of(context).bodyLarge,
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : RefreshIndicator(
+                                onRefresh: () async {
+                                  await _fetchProducts(loadMore: false);
+                                },
+                                child: ListView.builder(
+                                  padding: const EdgeInsets.only(bottom: 16),
+                                  controller: _scrollController,
+                                  scrollDirection: Axis.vertical,
+                                  itemCount: _searchResults.length + (_hasMore ? 1 : 0),
+                                  itemBuilder: (context, index) {
+                                    if (index == _searchResults.length) {
+                                      return _isSearching
+                                          ? Padding(
+                                              padding: const EdgeInsets.all(16.0),
+                                              child: Center(
+                                                child: CircularProgressIndicator(
+                                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                                    FlutterFlowTheme.of(context).primary,
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          : Padding(
+                                              padding: const EdgeInsets.all(16.0),
+                                              child: Center(
+                                                child: ElevatedButton(
+                                                  onPressed: () => _fetchProducts(loadMore: true),
+                                                  child: const Text('Load more'),
+                                                ),
+                                              ),
+                                            );
+                                    }
+                                    
+                                    final product = _searchResults[index];
+                                    if (!_imageLoadStartTimes.containsKey(index)) {
+                                      _imageLoadStartTimes[index] = DateTime.now();
+                                    }
+                                    return Padding(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 8),
+                                      child: SearchProductWidget(
+                                        product: product,
+                                        query: _searchController.text,
+                                        isLoaded: _loadedImageIndexes.contains(index),
+                                        onImageLoaded: () {
+                                          if (!_loadedImageIndexes.contains(index)) {
+                                            final loadStart = _imageLoadStartTimes[index]!;
+                                            final elapsed = DateTime.now().difference(loadStart).inMilliseconds;
+                                            if (elapsed < _minSkeletonMillis) {
+                                              Future.delayed(Duration(milliseconds: _minSkeletonMillis - elapsed), () {
+                                                if (mounted) setState(() {
+                                                  _loadedImageIndexes.add(index);
+                                                });
+                                              });
+                                            } else {
+                                              setState(() {
+                                                _loadedImageIndexes.add(index);
+                                              });
+                                            }
+                                          }
+                                        },
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
-                          );
-                        }
-                      },
-                    ),
-                  ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

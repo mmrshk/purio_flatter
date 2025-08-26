@@ -38,3 +38,5 @@ export '/sign_up_windows/profile/feedback/feedback_widget.dart'
     show FeedbackWidget;
 export '/sign_in_windows/log_in/log_in_widget.dart' show LogInWidget;
 export '/product/search/search_widget.dart' show SearchWidget;
+export '/sign_up_windows/profile/ingredients_screen/ingredients_screen_widget.dart'
+    show IngredientsScreen;

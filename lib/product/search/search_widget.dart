@@ -246,13 +246,18 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                                   ),
                             ),
                             const SizedBox(height: 12),
-                            Text(
-                              FFLocalizations.of(context).getText('search_by_product_name_or_brand' /* Search by product name or brand and discover detailed insights instantly.  */),
-                              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                    color: FlutterFlowTheme.of(context).secondaryText,
-                                    fontSize: 16,
-                                  ),
-                              textAlign: TextAlign.center,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                              child: Text(
+                                FFLocalizations.of(context).getText('search_by_product_name_or_brand' /* Search by product name or brand and discover detailed insights instantly.  */),
+                                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                      color: FlutterFlowTheme.of(context).secondaryText,
+                                      fontSize: 16,
+                                    ),
+                                textAlign: TextAlign.center,
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                           ],
                         ),

@@ -101,7 +101,7 @@ class _SettingsCardWidgetState extends State<SettingsCardWidget>
         child: Container(
           height: 50.0,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Colors.transparent,
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: Row(
@@ -164,7 +164,7 @@ class _SettingsCardWidgetState extends State<SettingsCardWidget>
                 padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                 child: Icon(
                   Icons.arrow_forward_ios,
-                  color: const Color(0xFF40A5A5),
+                  color: const Color(0xFF40E0D0),
                   size: 24.0,
                 ),
               ),

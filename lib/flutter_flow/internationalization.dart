@@ -236,10 +236,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Product Details',
       'ro': 'Detalii Produs',
     },
-    'raw_ingredients': {
-      'en': 'Raw Ingredients',
-      'ro': 'Ingrediente Pure',
-    },
     'no_ingredients': {
       'en': 'No ingredients',
       'ro': 'Fără ingrediente',

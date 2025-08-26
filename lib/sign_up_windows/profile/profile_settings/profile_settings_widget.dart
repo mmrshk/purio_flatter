@@ -172,61 +172,30 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: Colors.white,
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(60.0),
-          child: AppBar(
-            backgroundColor: Colors.white,
-            automaticallyImplyLeading: false,
-            title: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                FlutterFlowIconButton(
-                  borderColor: Colors.transparent,
-                  borderRadius: 100.0,
-                  borderWidth: 1.0,
-                  buttonSize: 45.0,
-                  fillColor: const Color(0xFFFAF9F9),
-                  icon: const Icon(
-                    Icons.arrow_back_ios_new,
-                    color: Color(0xFF40A5A5),
-                    size: 24.0,
-                  ),
-                  onPressed: () {
-                    context.pop();
-                  },
-                ),
-                Expanded(
-                  child: Align(
-                    alignment: const AlignmentDirectional(0.0, 0.0),
-                    child: Text(
-                      '${FFAppState().firstName.isNotEmpty ? FFAppState().firstName : ''} ${FFAppState().lastName.isNotEmpty ? FFAppState().lastName : ''}',
-                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            font: GoogleFonts.roboto(
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .fontStyle
-                            ),
-                            color: Colors.black,
-                            fontSize: 15.0,
-                            letterSpacing: 0.0,
-                            fontWeight: FontWeight.bold,
-                            fontStyle: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .fontStyle,
-                          ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 45.0), // Balance the back button
-              ],
+        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        appBar: AppBar(
+          backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_rounded,
+              color: FlutterFlowTheme.of(context).primaryText,
+              size: 24,
             ),
-            actions: const [],
-            centerTitle: true,
-            elevation: 1.0,
+            onPressed: () {
+              context.pop();
+            },
           ),
+          title: Text(
+            '${FFAppState().firstName.isNotEmpty ? FFAppState().firstName : ''} ${FFAppState().lastName.isNotEmpty ? FFAppState().lastName : ''}',
+            style: FlutterFlowTheme.of(context).headlineMedium.override(
+                  color: FlutterFlowTheme.of(context).primaryText,
+                  fontSize: 22,
+                ),
+          ),
+          actions: [],
+          centerTitle: false,
+          elevation: 0,
         ),
         body: SafeArea(
           top: true,
@@ -276,8 +245,8 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                     shape: BoxShape.circle,
                                                     gradient: const LinearGradient(
                                                       colors: [
-                                                        Color(0xFF50B2B2),
-                                                        Color(0xFF40A5A5),
+                                                        Color(0xFF40E0D0),
+                                                        Color(0xFFA8F0E4),
                                                       ],
                                                       begin: Alignment.topLeft,
                                                       end: Alignment.bottomRight,
@@ -390,10 +359,6 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                   child: Container(
                                     width:
                                         MediaQuery.sizeOf(context).width * 1.0,
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                    ),
                                     child: Column(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -433,7 +398,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                         setting: FFLocalizations.of(context).getText(
                                                           'fh8utk4t' /* Edit Profile */,
                                                         ),
-                                                        backgroundColor: const Color(0xFF4CAF50), // Green for profile
+                                                        backgroundColor: const Color(0xFF40E0D0), // Teal for profile
                                                       ),
                                                     );
                                                   }),
@@ -468,7 +433,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                         setting: FFLocalizations.of(context).getText(
                                                           'feedback' /* Feedback */,
                                                         ),
-                                                        backgroundColor: const Color(0xFFFF9800), // Orange for feedback
+                                                        backgroundColor: const Color.fromARGB(255, 227, 207, 119), // Light yellow for feedback
                                                       ),
                                                     );
                                                   }),
@@ -526,7 +491,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                         setting: FFLocalizations.of(context).getText(
                                                           'hi6tahx5' /* Privacy Policy */,
                                                         ),
-                                                        backgroundColor: const Color(0xFF2196F3), // Blue for privacy
+                                                        backgroundColor: const Color.fromARGB(255, 92, 130, 191), // Light blue for privacy
                                                       ),
                                                     );
                                                   }),
@@ -562,7 +527,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                         setting: FFLocalizations.of(context).getText(
                                                           '7m87t0no' /* Terms of Use */,
                                                         ),
-                                                        backgroundColor: const Color(0xFF9C27B0), // Purple for terms
+                                                        backgroundColor: const Color.fromARGB(255, 191, 96, 104), // Light pink for terms
                                                       ),
                                                     );
                                                   }),

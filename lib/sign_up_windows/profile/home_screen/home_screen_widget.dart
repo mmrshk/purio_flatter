@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'home_screen_model.dart';
 import '/scan/scan_screen.dart';
 import '/sign_up_windows/profile/additives_screen/additives_screen_widget.dart';
+import '/sign_up_windows/profile/ingredients_screen/ingredients_screen_widget.dart';
 export 'home_screen_model.dart';
 
 class ExploreCard extends StatelessWidget {
@@ -146,11 +147,20 @@ class ProductCard extends StatelessWidget {
                     fit: BoxFit.cover,
                     loadingBuilder: loadingBuilder,
                     errorBuilder: (context, error, stackTrace) {
-                      return Image.asset(
-                        'assets/images/ImagePlaceholderIcon.png',
+                      return Container(
                         width: 116,
                         height: 100,
-                        fit: BoxFit.cover,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16.0),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Image.asset(
+                            'assets/images/ImagePlaceholderIcon.png',
+                            fit: BoxFit.contain,
+                          ),
+                        ),
                       );
                     },
                   ),
@@ -661,9 +671,13 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
                                       ExploreCard(
                                         color: const Color(0xFFFFE6E8),
                                         imagePath: 'assets/images/Bad_Ingredients.png',
-                                        title: FFLocalizations.of(context).getText('sg8ho7tf' /* Bad Ingredients */),
+                                        title: FFLocalizations.of(context).getText('9bs48st0' /* Ingredients */),
                                         subtitle: FFLocalizations.of(context).getText('ga6umnbw' /* Spot harmful items. */),
                                         onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => const IngredientsScreen()),
+                                          );
                                         },
                                       ),
                                     ],

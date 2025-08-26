@@ -11,6 +11,7 @@ class IngredientsService {
 
     List<dynamic> matches = parsedIngredientsData['matches'] ?? [];
     List<MatchedIngredient> matchedIngredients = [];
+    Set<String> processedIds = {}; // Track processed ingredient IDs to avoid duplicates
     
     for (Map<String, dynamic> match in matches) {
       String original = match['original'] ?? '';
@@ -18,6 +19,11 @@ class IngredientsService {
       int? novaScore = match['nova_score'];
       String englishName = match['english_name'] ?? '';
       String romanianName = match['romanian_name'] ?? '';
+      
+      // Skip if we've already processed this ingredient ID
+      if (matchedIngredientId.isNotEmpty && processedIds.contains(matchedIngredientId)) {
+        continue;
+      }
       
       // Fetch ingredient details from Supabase using matched_ingredient_id
       String? riskLevel;
@@ -35,6 +41,9 @@ class IngredientsService {
           description = ingredientData['description'];
           roDescription = ingredientData['ro_description'];
           print('🔍 Fetched ingredient data for $matchedIngredientId: risk=$riskLevel, desc=$description');
+          
+          // Mark this ID as processed
+          processedIds.add(matchedIngredientId);
         } catch (e) {
           print('❌ Error fetching ingredient data for $matchedIngredientId: $e');
           riskLevel = null;

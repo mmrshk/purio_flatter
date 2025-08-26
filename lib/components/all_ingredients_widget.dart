@@ -39,22 +39,17 @@ class _AllIngredientsWidgetState extends State<AllIngredientsWidget> {
     
     final currentLanguage = FFLocalizations.of(context).languageCode;
     
-    if (currentLanguage == 'ro') {
-      return ingredient.dbIngredient!.roDescription != null && 
-             ingredient.dbIngredient!.roDescription!.isNotEmpty;
-    }
-    
-    return ingredient.dbIngredient!.description != null && 
-           ingredient.dbIngredient!.description!.isNotEmpty;
+    return currentLanguage == 'ro'
+        ? ingredient.dbIngredient!.roDescription != null && 
+          ingredient.dbIngredient!.roDescription!.isNotEmpty
+        : ingredient.dbIngredient!.description != null && 
+          ingredient.dbIngredient!.description!.isNotEmpty;
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-        FocusManager.instance.primaryFocus?.unfocus();
-      },
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         appBar: PreferredSize(
@@ -77,9 +72,7 @@ class _AllIngredientsWidgetState extends State<AllIngredientsWidget> {
                     color: Color(0xFF40A5A5),
                     size: 24.0,
                   ),
-                  onPressed: () async {
-                    Navigator.of(context).pop();
-                  },
+                  onPressed: () => Navigator.of(context).pop(),
                 ),
                 Expanded(
                   child: Padding(
@@ -389,59 +382,6 @@ class _AllIngredientsWidgetState extends State<AllIngredientsWidget> {
                                   ),
                                 ),
                               ),
-                              
-                              // Raw Ingredients Text Container
-                              if (widget.rawIngredientsText != null && widget.rawIngredientsText!.isNotEmpty) ...[
-                                Container(
-                                  width: double.infinity,
-                                  margin: const EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 24.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(16.0),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.05),
-                                        blurRadius: 8,
-                                        offset: const Offset(0, 2),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(20.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          FFLocalizations.of(context).getText('raw_ingredients'),
-                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                font: GoogleFonts.roboto(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                ),
-                                                color: Colors.black,
-                                                fontSize: 16.0,
-                                                letterSpacing: 0.0,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                        ),
-                                        const SizedBox(height: 12.0),
-                                        Text(
-                                          widget.rawIngredientsText!,
-                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                font: GoogleFonts.roboto(
-                                                  fontWeight: FontWeight.normal,
-                                                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                ),
-                                                color: const Color(0xFF6C757D),
-                                                fontSize: 14.0,
-                                                letterSpacing: 0.0,
-                                              ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
                             ],
                           ),
                         ),

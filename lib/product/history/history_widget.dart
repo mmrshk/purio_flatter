@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -5,9 +9,6 @@ import '/flutter_flow/shimmer_util.dart';
 import '/services/history_service.dart';
 import '/services/favorites_service.dart';
 import '/services/health_score_service.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'history_model.dart';
 export 'history_model.dart';
 
@@ -180,47 +181,30 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: const Color(0xFFF8F9FA),
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(60.0),
-          child: AppBar(
-            backgroundColor: Colors.white,
-            automaticallyImplyLeading: false,
-            title: Text(
-              FFLocalizations.of(context).getText(
-                'ymharo6a' /* History */,
-              ),
-              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                font: GoogleFonts.roboto(
-                  fontWeight: FontWeight.bold,
-                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                ),
-                color: Colors.black,
-                fontSize: 15.0,
-                letterSpacing: 0.0,
-                fontWeight: FontWeight.bold,
-                fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-              ),
+        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        appBar: AppBar(
+          backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_rounded,
+              color: FlutterFlowTheme.of(context).primaryText,
+              size: 24,
             ),
-            leading: FlutterFlowIconButton(
-              borderColor: Colors.transparent,
-              borderRadius: 100.0,
-              borderWidth: 1.0,
-              buttonSize: 45.0,
-              fillColor: const Color(0xFFFAF9F9),
-              icon: const Icon(
-                Icons.arrow_back_ios_new,
-                color: Color(0xFF40A5A5),
-                size: 24.0,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            actions: const [],
-            centerTitle: true,
-            elevation: 1.0,
+            onPressed: () async {
+              context.safePop();
+            },
           ),
+          title: Text(
+            FFLocalizations.of(context).getText('ymharo6a' /* History */),
+            style: FlutterFlowTheme.of(context).headlineMedium.override(
+                  color: FlutterFlowTheme.of(context).primaryText,
+                  fontSize: 22,
+                ),
+          ),
+          actions: [],
+          centerTitle: false,
+          elevation: 0,
         ),
         body: SafeArea(
           top: true,

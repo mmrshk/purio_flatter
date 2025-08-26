@@ -12,3 +12,4 @@ export 'tables/user_favorites.dart';
 export 'tables/product_additives.dart';
 export 'tables/additives.dart';
 export 'tables/ingredients.dart';
+export 'tables/feedbacks.dart';

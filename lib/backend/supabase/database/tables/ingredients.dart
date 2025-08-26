@@ -25,4 +25,8 @@ class IngredientsRow extends SupabaseDataRow {
   int? get novaScore => getField<int>('nova_score');
 
   String? get riskLevel => getField<String>('risk_level');
+
+  String? get description => getField<String>('description');
+
+  String? get roDescription => getField<String>('ro_description');
 }

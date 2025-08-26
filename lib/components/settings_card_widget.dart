@@ -10,10 +10,12 @@ class SettingsCardWidget extends StatefulWidget {
     super.key,
     this.icon,
     this.setting,
+    this.backgroundColor,
   });
 
   final Widget? icon;
   final String? setting;
+  final Color? backgroundColor;
 
   @override
   State<SettingsCardWidget> createState() => _SettingsCardWidgetState();
@@ -118,7 +120,7 @@ class _SettingsCardWidgetState extends State<SettingsCardWidget>
                         width: 48.0,
                         height: 48.0,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFFFFACD),
+                          color: widget.backgroundColor ?? const Color(0xFFFFFACD),
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         child: widget.icon!,

@@ -33,6 +33,21 @@ class _AllIngredientsWidgetState extends State<AllIngredientsWidget> {
     super.initState();
   }
   
+  /// Check if ingredient has a description
+  bool _hasIngredientDescription(MatchedIngredient ingredient) {
+    if (ingredient.dbIngredient == null) return false;
+    
+    final currentLanguage = FFLocalizations.of(context).languageCode;
+    
+    if (currentLanguage == 'ro') {
+      return ingredient.dbIngredient!.roDescription != null && 
+             ingredient.dbIngredient!.roDescription!.isNotEmpty;
+    }
+    
+    return ingredient.dbIngredient!.description != null && 
+           ingredient.dbIngredient!.description!.isNotEmpty;
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -294,7 +309,9 @@ class _AllIngredientsWidgetState extends State<AllIngredientsWidget> {
                                               padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
                                               child: InkWell(
                                                 onTap: () {
-                                                  // TODO: Add ingredient info dialog if needed
+                                                  if (_hasIngredientDescription(widget.ingredients[ingredientIndex])) {
+                                                    IngredientsService.showIngredientInfoDialog(widget.ingredients[ingredientIndex], context);
+                                                  }
                                                 },
                                                 borderRadius: BorderRadius.circular(8.0),
                                                 child: Padding(
@@ -354,6 +371,12 @@ class _AllIngredientsWidgetState extends State<AllIngredientsWidget> {
                                                           ],
                                                         ),
                                                       ),
+                                                      if (_hasIngredientDescription(widget.ingredients[ingredientIndex]))
+                                                        const Icon(
+                                                          Icons.info_outlined,
+                                                          color: Color(0xFF40A5A5),
+                                                          size: 19.5,
+                                                        ),
                                                     ],
                                                   ),
                                                 ),

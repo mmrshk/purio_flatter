@@ -1,11 +1,11 @@
-import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/internationalization.dart';
-import '/backend/supabase/supabase.dart';
-import '/services/additives_service.dart';
-import '/services/ingredients_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '/backend/supabase/supabase.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/internationalization.dart';
+import '/services/additives_service.dart';
+import '/services/ingredients_service.dart';
 
 class AdditivesIngredientsSectionWidget extends StatefulWidget {
   const AdditivesIngredientsSectionWidget({
@@ -313,7 +313,9 @@ class _AdditivesIngredientsSectionWidgetState extends State<AdditivesIngredients
             padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
             child: InkWell(
               onTap: () {
-                // TODO: Add ingredient info dialog if needed
+                if (_hasIngredientDescription(widget.ingredients[ingredientIndex])) {
+                  IngredientsService.showIngredientInfoDialog(widget.ingredients[ingredientIndex], context);
+                }
               },
               borderRadius: BorderRadius.circular(8.0),
               child: Padding(
@@ -369,6 +371,12 @@ class _AdditivesIngredientsSectionWidgetState extends State<AdditivesIngredients
                         ],
                       ),
                     ),
+                    if (_hasIngredientDescription(widget.ingredients[ingredientIndex]))
+                      const Icon(
+                        Icons.info_outlined,
+                        color: Color(0xFF40A5A5),
+                        size: 19.5,
+                      ),
                   ],
                 ),
               ),
@@ -383,25 +391,33 @@ class _AdditivesIngredientsSectionWidgetState extends State<AdditivesIngredients
    }
 
   /// Get risk score for sorting (higher score = higher risk)
-  int _getRiskScore(String? riskLevel) {
-    switch (riskLevel?.toLowerCase()) {
-      case 'high risk':
-        return 4;
-      case 'moderate risk':
-        return 3;
-      case 'low risk':
-        return 2;
-      case 'free risk':
-        return 1;
-      default:
-        return 0; // Unknown gets lowest priority
-    }
-  }
+  int _getRiskScore(String? riskLevel) => switch (riskLevel) {
+    'high' => 4,
+    'moderate' => 3,
+    'low' => 2,
+    'free' => 1,
+    _ => 0, // Unknown gets lowest priority
+  };
 
   /// Check if we should show the "Show More" button
   bool _shouldShowMoreButton() {
     int totalItems = widget.additives.length + widget.ingredients.length;
     return totalItems > 5;
+  }
+
+  /// Check if ingredient has a description
+  bool _hasIngredientDescription(MatchedIngredient ingredient) {
+    if (ingredient.dbIngredient == null) return false;
+    
+    final currentLanguage = FFLocalizations.of(context).languageCode;
+    
+    if (currentLanguage == 'ro') {
+      return ingredient.dbIngredient!.roDescription != null && 
+             ingredient.dbIngredient!.roDescription!.isNotEmpty;
+    }
+    
+    return ingredient.dbIngredient!.description != null && 
+           ingredient.dbIngredient!.description!.isNotEmpty;
   }
 
   /// Get the count of remaining items to show

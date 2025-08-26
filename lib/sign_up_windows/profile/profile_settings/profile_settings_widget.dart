@@ -7,6 +7,7 @@ import '/auth/supabase_auth/auth_util.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'profile_settings_model.dart';
 export 'profile_settings_model.dart';
 
@@ -25,6 +26,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
   late ProfileSettingsModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  bool _isLoadingSocial = false;
 
   @override
   void initState() {
@@ -81,6 +83,80 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
   @override
   void didPushNext() {
     _model.isRouteVisible = false;
+  }
+
+  Future<void> _launchURL(String url) async {
+    if (_isLoadingSocial) return; // Prevent multiple taps
+    
+    setState(() {
+      _isLoadingSocial = true;
+    });
+    
+    try {
+      final Uri uri = Uri.parse(url);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Could not open $url'),
+              backgroundColor: FlutterFlowTheme.of(context).error,
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error opening link: $e'),
+            backgroundColor: FlutterFlowTheme.of(context).error,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoadingSocial = false;
+        });
+      }
+    }
+  }
+
+  Widget _buildSocialButton({
+    required Widget icon,
+    required Color backgroundColor,
+    VoidCallback? onPressed,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: backgroundColor.withOpacity(0.3),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(12),
+          onTap: onPressed,
+          child: Container(
+            width: 56,
+            height: 56,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Center(child: icon),
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -351,13 +427,13 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                       child: SettingsCardWidget(
                                                         icon: Icon(
                                                           Icons.person_outlined,
-                                                          color:
-                                                              Color(0xFF40A5A5),
+                                                          color: Colors.white,
                                                           size: 28.0,
                                                         ),
                                                         setting: FFLocalizations.of(context).getText(
                                                           'fh8utk4t' /* Edit Profile */,
                                                         ),
+                                                        backgroundColor: const Color(0xFF4CAF50), // Green for profile
                                                       ),
                                                     );
                                                   }),
@@ -386,13 +462,13 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                         icon: Icon(
                                                           Icons
                                                               .record_voice_over_outlined,
-                                                          color:
-                                                              Color(0xFF40A5A5),
+                                                          color: Colors.white,
                                                           size: 28.0,
                                                         ),
                                                         setting: FFLocalizations.of(context).getText(
                                                           'feedback' /* Feedback */,
                                                         ),
+                                                        backgroundColor: const Color(0xFFFF9800), // Orange for feedback
                                                       ),
                                                     );
                                                   }),
@@ -444,13 +520,13 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                         icon: Icon(
                                                           Icons
                                                               .lock_open_outlined,
-                                                          color:
-                                                              Color(0xFF40A5A5),
+                                                          color: Colors.white,
                                                           size: 28.0,
                                                         ),
                                                         setting: FFLocalizations.of(context).getText(
                                                           'hi6tahx5' /* Privacy Policy */,
                                                         ),
+                                                        backgroundColor: const Color(0xFF2196F3), // Blue for privacy
                                                       ),
                                                     );
                                                   }),
@@ -480,184 +556,218 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                         icon: Icon(
                                                           Icons
                                                               .article_outlined,
-                                                          color:
-                                                              Color(0xFF40A5A5),
+                                                          color: Colors.white,
                                                           size: 28.0,
                                                         ),
                                                         setting: FFLocalizations.of(context).getText(
                                                           '7m87t0no' /* Terms of Use */,
                                                         ),
+                                                        backgroundColor: const Color(0xFF9C27B0), // Purple for terms
                                                       ),
                                                     );
                                                   }),
                                                 ),
                                               ),
-                                              InkWell(
-                                                splashColor: Colors.transparent,
-                                                focusColor: Colors.transparent,
-                                                hoverColor: Colors.transparent,
-                                                highlightColor:
-                                                    Colors.transparent,
-                                                onTap: () async {
-                                                  context.pushNamed(
-                                                      NotificationsWidget
-                                                          .routeName);
-                                                },
-                                                child: wrapWithModel(
-                                                  model:
-                                                      _model.settingsCardModel6,
-                                                  updateCallback: () =>
-                                                      safeSetState(() {}),
-                                                  child: Builder(builder: (_) {
-                                                    return DebugFlutterFlowModelContext(
-                                                      rootModel:
-                                                          _model.rootModel,
-                                                      child: SettingsCardWidget(
-                                                        icon: Icon(
-                                                          Icons
-                                                              .notifications_outlined,
-                                                          color:
-                                                              Color(0xFF40A5A5),
-                                                          size: 28.0,
-                                                        ),
-                                                        setting: FFLocalizations.of(context).getText(
-                                                          'se2g3ybz' /* Notifications */,
-                                                        ),
-                                                      ),
-                                                    );
-                                                  }),
-                                                ),
-                                              ),
-                                              wrapWithModel(
-                                                model:
-                                                    _model.settingsCardModel7,
-                                                updateCallback: () =>
-                                                    safeSetState(() {}),
-                                                child: Builder(builder: (_) {
-                                                  return DebugFlutterFlowModelContext(
-                                                    rootModel: _model.rootModel,
-                                                    child: SettingsCardWidget(
-                                                      icon: Icon(
-                                                        Icons
-                                                            .question_mark_outlined,
-                                                        color:
-                                                            Color(0xFF40A5A5),
-                                                        size: 28.0,
-                                                      ),
-                                                      setting: FFLocalizations.of(context).getText(
-                                                        'faq_key' /* FAQ */,
-                                                      ),
-                                                    ),
-                                                  );
-                                                }),
-                                              ),
-                                              wrapWithModel(
-                                                model:
-                                                    _model.settingsCardModel8,
-                                                updateCallback: () =>
-                                                    safeSetState(() {}),
-                                                child: Builder(builder: (_) {
-                                                  return DebugFlutterFlowModelContext(
-                                                    rootModel: _model.rootModel,
-                                                    child: SettingsCardWidget(
-                                                      icon: Icon(
-                                                        Icons
-                                                            .star_border_purple500_outlined,
-                                                        color:
-                                                            Color(0xFF40A5A5),
-                                                        size: 28.0,
-                                                      ),
-                                                      setting: FFLocalizations.of(context).getText(
-                                                        'subscription_key' /* Subscription */,
-                                                      ),
-                                                    ),
-                                                  );
-                                                }),
-                                              ),
+                                              // InkWell(
+                                              //   splashColor: Colors.transparent,
+                                              //   focusColor: Colors.transparent,
+                                              //   hoverColor: Colors.transparent,
+                                              //   highlightColor:
+                                              //       Colors.transparent,
+                                              //   onTap: () async {
+                                              //     context.pushNamed(
+                                              //         NotificationsWidget
+                                              //             .routeName);
+                                              //   },
+                                              //   child: wrapWithModel(
+                                              //     model:
+                                              //         _model.settingsCardModel6,
+                                              //     updateCallback: () =>
+                                              //         safeSetState(() {}),
+                                              //     child: Builder(builder: (_) {
+                                              //       return DebugFlutterFlowModelContext(
+                                              //         rootModel:
+                                              //             _model.rootModel,
+                                              //         child: SettingsCardWidget(
+                                              //           icon: Icon(
+                                              //             Icons
+                                              //                 .notifications_outlined,
+                                              //             color:
+                                              //                 Color(0xFF40A5A5),
+                                              //             size: 28.0,
+                                              //           ),
+                                              //           setting: FFLocalizations.of(context).getText(
+                                              //             'se2g3ybz' /* Notifications */,
+                                              //           ),
+                                              //         ),
+                                              //       );
+                                              //     }),
+                                              //   ),
+                                              // ),
+                                              // wrapWithModel(
+                                              //   model:
+                                              //       _model.settingsCardModel7,
+                                              //   updateCallback: () =>
+                                              //       safeSetState(() {}),
+                                              //   child: Builder(builder: (_) {
+                                              //     return DebugFlutterFlowModelContext(
+                                              //       rootModel: _model.rootModel,
+                                              //       child: SettingsCardWidget(
+                                              //         icon: Icon(
+                                              //           Icons
+                                              //               .question_mark_outlined,
+                                              //           color:
+                                              //               Color(0xFF40A5A5),
+                                              //           size: 28.0,
+                                              //         ),
+                                              //         setting: FFLocalizations.of(context).getText(
+                                              //           'faq_key' /* FAQ */,
+                                              //         ),
+                                              //       ),
+                                              //     );
+                                              //   }),
+                                              // ),
+                                              // wrapWithModel(
+                                              //   model:
+                                              //       _model.settingsCardModel8,
+                                              //   updateCallback: () =>
+                                              //       safeSetState(() {}),
+                                              //   child: Builder(builder: (_) {
+                                              //     return DebugFlutterFlowModelContext(
+                                              //       rootModel: _model.rootModel,
+                                              //       child: SettingsCardWidget(
+                                              //         icon: Icon(
+                                              //           Icons
+                                              //               .star_border_purple500_outlined,
+                                              //           color:
+                                              //               Color(0xFF40A5A5),
+                                              //           size: 28.0,
+                                              //         ),
+                                              //         setting: FFLocalizations.of(context).getText(
+                                              //           'subscription_key' /* Subscription */,
+                                              //         ),
+                                              //       ),
+                                              //     );
+                                              //   }),
+                                              // ),
                                               const Divider(
                                                 thickness: 2.0,
                                                 color: Color(0xFFDBD8D8),
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        0.0, 30.0, 0.0, 43.0),
-                                                child: Text(
-                                                  FFLocalizations.of(context)
-                                                      .getText(
-                                                    'y2pb74w6' /* Follow Us */,
+                                              // Follow Us Section
+                                              Container(
+                                                margin: const EdgeInsetsDirectional.fromSTEB(0, 30, 0, 20),
+                                                padding: const EdgeInsetsDirectional.fromSTEB(20, 24, 20, 24),
+                                                decoration: BoxDecoration(
+                                                  gradient: LinearGradient(
+                                                    begin: Alignment.topLeft,
+                                                    end: Alignment.bottomRight,
+                                                    colors: [
+                                                      FlutterFlowTheme.of(context).primary.withOpacity(0.1),
+                                                      FlutterFlowTheme.of(context).primary.withOpacity(0.05),
+                                                    ],
                                                   ),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        font:
-                                                            GoogleFonts.roboto(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMedium
-                                                                  .fontStyle,
-                                                        ),
-                                                        color: Colors.black,
-                                                        fontSize: 24.0,
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .fontStyle,
-                                                      ),
+                                                  borderRadius: BorderRadius.circular(16),
+                                                  border: Border.all(
+                                                    color: FlutterFlowTheme.of(context).primary.withOpacity(0.2),
+                                                    width: 1,
+                                                  ),
                                                 ),
-                                              ),
-                                              Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: [
-                                                  FlutterFlowIconButton(
-                                                    borderRadius: 8.0,
-                                                    icon: const FaIcon(
-                                                      FontAwesomeIcons
-                                                          .instagram,
-                                                      color: Colors.black,
-                                                      size: 40.0,
+                                                child: Column(
+                                                  children: [
+                                                    // Title with icon
+                                                    Row(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      children: [
+                                                        Icon(
+                                                          Icons.favorite,
+                                                          color: FlutterFlowTheme.of(context).primary,
+                                                          size: 24,
+                                                        ),
+                                                        const SizedBox(width: 8),
+                                                        Text(
+                                                          FFLocalizations.of(context).getText('y2pb74w6' /* Follow Us */),
+                                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                            font: GoogleFonts.roboto(
+                                                              fontWeight: FontWeight.bold,
+                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                            ),
+                                                            color: FlutterFlowTheme.of(context).primaryText,
+                                                            fontSize: 20.0,
+                                                            letterSpacing: 0.5,
+                                                            fontWeight: FontWeight.bold,
+                                                            fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                    onPressed: () {
-                                                      print(
-                                                          'IconButton pressed ...');
-                                                    },
-                                                  ),
-                                                  FlutterFlowIconButton(
-                                                    borderRadius: 8.0,
-                                                    icon: const Icon(
-                                                      Icons.facebook_sharp,
-                                                      color: Colors.black,
-                                                      size: 40.0,
+                                                    const SizedBox(height: 8),
+                                                    Text(
+                                                      'Stay connected with us!',
+                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                        font: GoogleFonts.roboto(
+                                                          fontWeight: FontWeight.w400,
+                                                          fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                        ),
+                                                        color: FlutterFlowTheme.of(context).secondaryText,
+                                                        fontSize: 14.0,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight: FontWeight.w400,
+                                                        fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                      ),
                                                     ),
-                                                    onPressed: () {
-                                                      print(
-                                                          'IconButton pressed ...');
-                                                    },
-                                                  ),
-                                                  FlutterFlowIconButton(
-                                                    borderRadius: 8.0,
-                                                    icon: const Icon(
-                                                      Icons.tiktok,
-                                                      color: Color(0xFF090909),
-                                                      size: 40.0,
+                                                    const SizedBox(height: 20),
+                                                    // Social Media Icons
+                                                    Row(
+                                                      mainAxisSize: MainAxisSize.max,
+                                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                      children: [
+                                                        _buildSocialButton(
+                                                          icon: _isLoadingSocial 
+                                                              ? const SizedBox(
+                                                                  width: 24,
+                                                                  height: 24,
+                                                                  child: CircularProgressIndicator(
+                                                                    color: Colors.white,
+                                                                    strokeWidth: 2,
+                                                                  ),
+                                                                )
+                                                              : const FaIcon(
+                                                                  FontAwesomeIcons.instagram,
+                                                                  color: Colors.white,
+                                                                  size: 24.0,
+                                                                ),
+                                                          backgroundColor: const Color(0xFFE4405F),
+                                                          onPressed: _isLoadingSocial ? null : () {
+                                                            _launchURL('https://www.instagram.com/purio.app');
+                                                          },
+                                                        ),
+                                                        _buildSocialButton(
+                                                          icon: const Icon(
+                                                            Icons.facebook_sharp,
+                                                            color: Colors.white,
+                                                            size: 24.0,
+                                                          ),
+                                                          backgroundColor: const Color(0xFF1877F2),
+                                                          onPressed: () {
+                                                            _launchURL('https://www.facebook.com/profile.php?id=61571037985756');
+                                                          },
+                                                        ),
+                                                        _buildSocialButton(
+                                                          icon: const Icon(
+                                                            Icons.tiktok,
+                                                            color: Colors.white,
+                                                            size: 24.0,
+                                                          ),
+                                                          backgroundColor: const Color(0xFF000000),
+                                                          onPressed: () {
+                                                            _launchURL('https://www.tiktok.com/@purio.app');
+                                                          },
+                                                        ),
+                                                      ],
                                                     ),
-                                                    onPressed: () {
-                                                      print(
-                                                          'IconButton pressed ...');
-                                                    },
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
                                             ],
                                           ),

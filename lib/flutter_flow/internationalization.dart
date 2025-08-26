@@ -881,8 +881,24 @@ Prin utilizarea aplicației Purio, confirmi că:
       'ro': 'Trimite',
     },
     'wvrb7mdi': {
-      'en': 'Privacy Policy',
-      'ro': 'Politica de Confidențialitate',
+      'en': 'Feedback',
+      'ro': 'Feedback',
+    },
+    'feedback_enter_message': {
+      'en': 'Please enter your feedback message',
+      'ro': 'Te rugăm să introduci mesajul de feedback',
+    },
+    'feedback_sending': {
+      'en': 'Sending...',
+      'ro': 'Se trimite...',
+    },
+    'feedback_success': {
+      'en': 'Thank you for your feedback!',
+      'ro': 'Mulțumim pentru feedback!',
+    },
+    'feedback_error': {
+      'en': 'Failed to send feedback. Please try again.',
+      'ro': 'Eșec la trimiterea feedback-ului. Te rugăm să încerci din nou.',
     },
   },
   // LogIn

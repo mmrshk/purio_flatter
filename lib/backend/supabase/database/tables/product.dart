@@ -1,5 +1,5 @@
-import '../database.dart';
 import 'dart:convert';
+import '../database.dart';
 
 class ProductTable extends SupabaseTable<ProductRow> {
   @override

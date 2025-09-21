@@ -390,40 +390,6 @@ class _Continue1stQuestionWidgetState extends State<Continue1stQuestionWidget>
                       ),
                     ],
                   ),
-                  Padding(
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 20.0),
-                    child: InkWell(
-                      splashColor: Colors.transparent,
-                      focusColor: Colors.transparent,
-                      hoverColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      onTap: () async {
-                        context.pushNamed(TermsOfUseWidget.routeName);
-                      },
-                      child: Text(
-                        FFLocalizations.of(context).getText(
-                          'y51rmo0v' /* Terms & Conditions */,
-                        ),
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w100,
-                                fontStyle: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .fontStyle,
-                              ),
-                              fontSize: 10.0,
-                              letterSpacing: 0.0,
-                              fontWeight: FontWeight.w100,
-                              fontStyle: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .fontStyle,
-                              decoration: TextDecoration.underline,
-                              color: const Color(0xFF40E0D0),
-                            ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ],

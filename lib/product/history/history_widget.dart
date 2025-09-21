@@ -30,7 +30,6 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
   bool _isRecentTab = true;
   Set<int> _loadedImageIndexes = {};
   final Map<int, DateTime> _imageLoadStartTimes = {};
-  final int _minShimmerMillis = 300;
   final int _minSkeletonMillis = 300;
   bool _isLoadingHistory = true;
 

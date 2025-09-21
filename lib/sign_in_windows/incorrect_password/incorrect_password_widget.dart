@@ -129,8 +129,8 @@ class _IncorrectPasswordWidgetState extends State<IncorrectPasswordWidget>
                     color: Color(0xFF40A5A5),
                     size: 24.0,
                   ),
-                  onPressed: () {
-                    print('IconButton pressed ...');
+                  onPressed: () async {
+                    context.goNamedAuth('SingUp-LogIn', context.mounted);
                   },
                 ),
                 Align(

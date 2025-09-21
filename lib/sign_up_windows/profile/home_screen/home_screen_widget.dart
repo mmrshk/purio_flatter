@@ -205,7 +205,6 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
   final ScrollController _scrollController = ScrollController();
   Set<int> _loadedImageIndexes = {};
   final Map<int, DateTime> _imageLoadStartTimes = {};
-  final int _minShimmerMillis = 1200;
   final int _minSkeletonMillis = 1200;
 
   @override

@@ -133,8 +133,8 @@ class _LogInWidgetState extends State<LogInWidget> with RouteAware {
                     color: Color(0xFF40A5A5),
                     size: 24.0,
                   ),
-                  onPressed: () {
-                    print('IconButton pressed ...');
+                  onPressed: () async {
+                    context.goNamedAuth('SingUp-LogIn', context.mounted);
                   },
                 ),
                 Align(
@@ -198,7 +198,7 @@ class _LogInWidgetState extends State<LogInWidget> with RouteAware {
                       children: [
                         Padding(
                           padding: const EdgeInsetsDirectional.fromSTEB(
-                              0.0, 34.0, 0.0, 29.0),
+                              0.0, 40.0, 0.0, 32.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -220,23 +220,14 @@ to yo... */
                                           ,
                                         ),
                                         style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
+                                            .headlineMedium
                                             .override(
-                                              font: GoogleFonts.roboto(
-                                                fontWeight: FontWeight.w600,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontStyle,
+                                              font: GoogleFonts.poppins(
+                                                fontWeight: FontWeight.w700,
                                               ),
-                                              color: Colors.black,
-                                              fontSize: 25.0,
-                                              letterSpacing: 0.0,
-                                              fontWeight: FontWeight.w600,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
+                                              color: const Color(0xFF1A1A1A),
+                                              fontSize: 28.0,
+                                              letterSpacing: -0.5,
                                             ),
                                       ),
                                     ],
@@ -641,7 +632,7 @@ to yo... */
                           ),
                         ),
                         Container(
-                          height: 45.0,
+                          height: 32.0,
                           decoration: const BoxDecoration(
                             color: Colors.white,
                           ),
@@ -670,8 +661,22 @@ to yo... */
                             width: 305.0,
                             height: 43.0,
                             decoration: BoxDecoration(
-                              color: const Color(0xFF40E0D0),
+                              gradient: const LinearGradient(
+                                colors: [
+                                  Color(0xFF40E0D0),
+                                  Color(0xFF36D1DC),
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
                               borderRadius: BorderRadius.circular(30.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: const Color(0xFF40E0D0).withOpacity(0.3),
+                                  blurRadius: 8.0,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
                             ),
                             alignment: const AlignmentDirectional(0.0, 0.0),
                             child: Padding(
@@ -717,7 +722,7 @@ to yo... */
                     ),
                     Padding(
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 25.0, 0.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 32.0, 0.0, 0.0),
                       child: Container(
                         width: 200.0,
                         height: 25.0,
@@ -758,56 +763,46 @@ to yo... */
                       ),
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 35.0, 0.0, 0.0),
+                      padding: const EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 30.0),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                20.0, 0.0, 20.0, 0.0),
+                          Expanded(
                             child: Container(
-                              width: 140.0,
+                              height: 1.0,
                               decoration: const BoxDecoration(
                                 color: Color(0xFFDBD8D8),
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(0.0),
-                                  bottomRight: Radius.circular(0.0),
-                                  topLeft: Radius.circular(0.0),
-                                  topRight: Radius.circular(0.0),
-                                ),
                               ),
                             ),
                           ),
-                          Text(
-                            FFLocalizations.of(context).getText(
-                              'ek1imcbd' /* or */,
-                            ),
-                            textAlign: TextAlign.center,
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  font: GoogleFonts.roboto(
+                          Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
+                            child: Text(
+                              FFLocalizations.of(context).getText(
+                                'ek1imcbd' /* or */,
+                              ),
+                              textAlign: TextAlign.center,
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    font: GoogleFonts.roboto(
+                                      fontWeight: FontWeight.w500,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    color: const Color(0xFFDBD8D8),
+                                    fontSize: 17.0,
+                                    letterSpacing: 0.0,
                                     fontWeight: FontWeight.w500,
                                     fontStyle: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .fontStyle,
                                   ),
-                                  color: const Color(0xFFDBD8D8),
-                                  fontSize: 17.0,
-                                  letterSpacing: 0.0,
-                                  fontWeight: FontWeight.w500,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontStyle,
-                                  decoration: TextDecoration.underline,
-                                ),
+                            ),
                           ),
-                          Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                20.0, 0.0, 20.0, 0.0),
+                          Expanded(
                             child: Container(
-                              width: 140.0,
                               height: 1.0,
                               decoration: const BoxDecoration(
                                 color: Color(0xFFDBD8D8),
@@ -839,8 +834,16 @@ to yo... */
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30.0),
                           border: Border.all(
-                            color: FlutterFlowTheme.of(context).primary,
+                            color: const Color(0xFFE0E0E0),
+                            width: 1.5,
                           ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.05),
+                              blurRadius: 4.0,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
                         ),
                         child: Padding(
                           padding: const EdgeInsetsDirectional.fromSTEB(
@@ -864,18 +867,12 @@ to yo... */
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
-                                      font: GoogleFonts.roboto(
+                                      font: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w500,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontStyle,
                                       ),
-                                      fontSize: 17.0,
+                                      color: const Color(0xFF374151),
+                                      fontSize: 16.0,
                                       letterSpacing: 0.0,
-                                      fontWeight: FontWeight.w500,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
                                     ),
                               ),
                             ],

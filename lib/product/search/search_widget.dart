@@ -112,8 +112,12 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
       _hasMore = true;
       _loadedImageIndexes.clear();
       _imageLoadStartTimes.clear();
+      setState(() => _isSearching = true);
+    } else {
+      // For load more, only update the loading state without full rebuild
+      _isSearching = true;
     }
-    setState(() => _isSearching = true);
+    
     final query = _searchController.text.trim();
     final results = await Supabase.instance.client
         .from('products')
@@ -123,6 +127,8 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
     final products = (results as List)
         .map((e) => ProductRow(e as Map<String, dynamic>))
         .toList();
+    
+    // Update state only once with all changes
     setState(() {
       if (loadMore) {
         _searchResults.addAll(products);

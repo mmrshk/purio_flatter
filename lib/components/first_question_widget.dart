@@ -12,11 +12,13 @@ class FirstQuestionWidget extends StatefulWidget {
     required this.level,
     required this.description,
     this.btnColor,
+    this.hasValidationError = false,
   });
 
   final String? level;
   final String? description;
   final Color? btnColor;
+  final bool hasValidationError;
 
   @override
   State<FirstQuestionWidget> createState() => _FirstQuestionWidgetState();
@@ -106,6 +108,10 @@ class _FirstQuestionWidgetState extends State<FirstQuestionWidget>
         onTap: () async {
           FFAppState().level = widget.level!;
           _model.updatePage(() {});
+          // Clear validation error when selection is made
+          if (widget.hasValidationError) {
+            _model.updatePage(() {});
+          }
         },
         child: Container(
           width: 350.0,
@@ -114,7 +120,9 @@ class _FirstQuestionWidgetState extends State<FirstQuestionWidget>
             color: Colors.white,
             borderRadius: BorderRadius.circular(10.0),
             border: Border.all(
-              color: const Color(0xFF40E0D0),
+              color: widget.hasValidationError
+                  ? Colors.red
+                  : const Color(0xFF40E0D0),
             ),
           ),
           child: Padding(

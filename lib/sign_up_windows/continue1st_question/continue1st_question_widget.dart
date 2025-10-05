@@ -5,6 +5,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'continue1st_question_model.dart';
 export 'continue1st_question_model.dart';
 
@@ -29,6 +30,15 @@ class _Continue1stQuestionWidgetState extends State<Continue1stQuestionWidget>
   void initState() {
     super.initState();
     _model = createModel(context, () => Continue1stQuestionModel());
+    
+    // Listen for changes to clear validation error when selection is made
+    Provider.of<FFAppState>(context, listen: false).addListener(() {
+      if (_model.hasValidationError && FFAppState().level.isNotEmpty) {
+        setState(() {
+          _model.hasValidationError = false;
+        });
+      }
+    });
   }
 
   @override
@@ -252,6 +262,7 @@ class _Continue1stQuestionWidgetState extends State<Continue1stQuestionWidget>
                                                   description:
                                                       'I pick what looks good or feels \nfamiliar.',
                                                   btnColor: _model.selectedBtnColor,
+                                                  hasValidationError: _model.shouldShowRedBorders(),
                                                 ),
                                               );
                                             }),
@@ -266,6 +277,7 @@ class _Continue1stQuestionWidgetState extends State<Continue1stQuestionWidget>
                                                   level: 'Label Curios',
                                                   description:
                                                       'I sometimes check labels for \nhealthier choices.',
+                                                  hasValidationError: _model.shouldShowRedBorders(),
                                                 ),
                                               );
                                             }),
@@ -280,6 +292,7 @@ class _Continue1stQuestionWidgetState extends State<Continue1stQuestionWidget>
                                                   level: 'Label Pro',
                                                   description:
                                                       'I analyze ingredients to choose \nthe best products.',
+                                                  hasValidationError: _model.shouldShowRedBorders(),
                                                 ),
                                               );
                                             }),
@@ -323,8 +336,15 @@ class _Continue1stQuestionWidgetState extends State<Continue1stQuestionWidget>
                                     hoverColor: Colors.transparent,
                                     highlightColor: Colors.transparent,
                                     onTap: () async {
-                                      context.pushNamed(
-                                          Continue2ndQuestionWidget.routeName);
+                                      // Validate form before proceeding
+                                      if (!_model.validateForm()) {
+                                        setState(() {
+                                          // Error states are already set by validateForm()
+                                        });
+                                      } else {
+                                        context.pushNamed(
+                                            Continue2ndQuestionWidget.routeName);
+                                      }
                                     },
                                     child: Container(
                                       width: 305.0,
@@ -383,6 +403,22 @@ class _Continue1stQuestionWidgetState extends State<Continue1stQuestionWidget>
                                     ),
                                   ),
                                 ),
+                                // Error message display
+                                if (_model.hasValidationError)
+                                  Padding(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 16.0, 0.0, 0.0),
+                                    child: Text(
+                                      'Please select one of the options above',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodySmall
+                                          .override(
+                                            color: Colors.red,
+                                            fontSize: 12.0,
+                                          ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
                               ],
                             ),
                           ],

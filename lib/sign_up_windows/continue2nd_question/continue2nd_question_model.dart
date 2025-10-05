@@ -34,6 +34,11 @@ class Continue2ndQuestionModel
   final Map<String, DebugDataField> debugGeneratorVariables = {};
   final Map<String, DebugDataField> debugBackendQueries = {};
   final Map<String, FlutterFlowModel> widgetBuilderComponents = {};
+  
+  // Validation state
+  bool _hasValidationError = false;
+  bool get hasValidationError => _hasValidationError;
+  set hasValidationError(bool value) => _hasValidationError = value;
   @override
   void initState(BuildContext context) {
     secondQuestionModel1 = createModel(context, () => SecondQuestionModel());
@@ -44,6 +49,17 @@ class Continue2ndQuestionModel
     secondQuestionModel6 = createModel(context, () => SecondQuestionModel());
 
     debugLogWidgetClass(this);
+  }
+
+  bool validateForm() {
+    final hasSelection = FFAppState().expectations.isNotEmpty;
+    _hasValidationError = !hasSelection;
+    return hasSelection;
+  }
+  
+  // Method to check if validation should show red borders
+  bool shouldShowRedBorders() {
+    return _hasValidationError && FFAppState().expectations.isEmpty;
   }
 
   @override

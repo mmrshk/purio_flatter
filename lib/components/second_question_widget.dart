@@ -12,11 +12,13 @@ class SecondQuestionWidget extends StatefulWidget {
     this.image,
     required this.description,
     required this.expectation,
+    this.hasValidationError = false,
   });
 
   final String? image;
   final String? description;
   final String? expectation;
+  final bool hasValidationError;
 
   @override
   State<SecondQuestionWidget> createState() => _SecondQuestionWidgetState();
@@ -141,7 +143,9 @@ class _SecondQuestionWidgetState extends State<SecondQuestionWidget>
           color: Colors.white,
           borderRadius: BorderRadius.circular(10.0),
           border: Border.all(
-            color: const Color(0xFF40E0D0),
+            color: widget.hasValidationError
+                ? Colors.red
+                : const Color(0xFF40E0D0),
             width: FFAppState().expectations.contains(widget.expectation)
                 ? 2.0
                 : 1.0,

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/services/risk_sorting_service.dart';
 
 
 class IngredientsScreenModel extends FlutterFlowModel {
@@ -59,7 +60,7 @@ class IngredientsScreenModel extends FlutterFlowModel {
           .range(currentOffset, currentOffset + batchSize - 1),
       );
       
-      ingredientsList = ingredients;
+      ingredientsList = RiskSortingService.sortIngredientsByRisk(ingredients);
       hasMoreData = ingredients.length == batchSize;
       currentOffset += batchSize;
       isLoading = false;
@@ -83,7 +84,8 @@ class IngredientsScreenModel extends FlutterFlowModel {
           .range(currentOffset, currentOffset + batchSize - 1),
       );
       
-      ingredientsList.addAll(ingredients);
+      final sortedIngredients = RiskSortingService.sortIngredientsByRisk(ingredients);
+      ingredientsList.addAll(sortedIngredients);
       hasMoreData = ingredients.length == batchSize;
       currentOffset += batchSize;
       isLoadingMore = false;
@@ -126,7 +128,7 @@ class IngredientsScreenModel extends FlutterFlowModel {
           .limit(50),
       );
       
-      ingredientsList = searchResults;
+      ingredientsList = RiskSortingService.sortIngredientsByRisk(searchResults);
       hasMoreData = false; // No pagination for search results
       isLoading = false;
       onUpdate();

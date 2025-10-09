@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/internationalization.dart';
 import '/services/additives_service.dart';
 import '/services/ingredients_service.dart';
+import '/services/risk_sorting_service.dart';
 
 class AdditivesIngredientsSectionWidget extends StatefulWidget {
   const AdditivesIngredientsSectionWidget({
@@ -195,7 +196,7 @@ class _AdditivesIngredientsSectionWidgetState extends State<AdditivesIngredients
         'type': 'additive',
         'index': i,
         'riskLevel': widget.additives[i].riskLevel ?? 'Unknown',
-        'riskScore': _getRiskScore(widget.additives[i].riskLevel),
+        'riskScore': RiskSortingService.getRiskScore(widget.additives[i].riskLevel),
       });
     }
     
@@ -205,7 +206,7 @@ class _AdditivesIngredientsSectionWidgetState extends State<AdditivesIngredients
         'type': 'ingredient',
         'index': i,
         'riskLevel': widget.ingredients[i].dbIngredient?.riskLevel ?? 'Unknown',
-        'riskScore': _getRiskScore(widget.ingredients[i].dbIngredient?.riskLevel),
+        'riskScore': RiskSortingService.getRiskScore(widget.ingredients[i].dbIngredient?.riskLevel),
       });
     }
     
@@ -390,14 +391,6 @@ class _AdditivesIngredientsSectionWidgetState extends State<AdditivesIngredients
          return widgets;
    }
 
-  /// Get risk score for sorting (higher score = higher risk)
-  int _getRiskScore(String? riskLevel) => switch (riskLevel) {
-    'high' => 4,
-    'moderate' => 3,
-    'low' => 2,
-    'free' => 1,
-    _ => 0, // Unknown gets lowest priority
-  };
 
   /// Check if we should show the "Show More" button
   bool _shouldShowMoreButton() {

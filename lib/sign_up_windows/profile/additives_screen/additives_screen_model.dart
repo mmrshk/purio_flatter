@@ -1,5 +1,6 @@
 import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/services/risk_sorting_service.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -63,7 +64,7 @@ class AdditivesScreenModel extends FlutterFlowModel {
         },
       );
       
-      additivesList = additives;
+      additivesList = RiskSortingService.sortAdditivesByRisk(additives);
       hasMoreData = additives.length == batchSize;
       currentOffset += batchSize;
       isLoading = false;
@@ -92,7 +93,8 @@ class AdditivesScreenModel extends FlutterFlowModel {
         },
       );
       
-      additivesList.addAll(additives);
+      final sortedAdditives = RiskSortingService.sortAdditivesByRisk(additives);
+      additivesList.addAll(sortedAdditives);
       hasMoreData = additives.length == batchSize;
       currentOffset += batchSize;
       isLoadingMore = false;
@@ -129,7 +131,7 @@ class AdditivesScreenModel extends FlutterFlowModel {
         },
       );
       
-      additivesList = additives;
+      additivesList = RiskSortingService.sortAdditivesByRisk(additives);
       hasMoreData = additives.length == batchSize;
       currentOffset += batchSize;
       isLoading = false;

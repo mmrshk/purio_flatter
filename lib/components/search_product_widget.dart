@@ -1,6 +1,7 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/shimmer_util.dart';
+import '/components/product_image_placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -202,17 +203,17 @@ class _SearchProductWidgetState extends State<SearchProductWidget>
                                           widget.onImageLoaded?.call();
                                         }
                                       });
-                                      return Container(
+                                      return ProductImagePlaceholder(
                                         width: 66.0,
                                         height: 66.0,
-                                        color: Colors.grey[300],
+                                        borderRadius: 16.0,
                                       );
                                     },
                                   )
-                                : Container(
+                                : ProductImagePlaceholder(
                                     width: 66.0,
                                     height: 66.0,
-                                    color: Colors.grey[300],
+                                    borderRadius: 16.0,
                                   ),
                           ),
                         ),

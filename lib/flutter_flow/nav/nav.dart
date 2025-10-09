@@ -62,7 +62,9 @@ const debugRouteLinkMap = {
   '/logIn':
       'https://app.flutterflow.io/project/scan-app-dkuknp?tab=uiBuilder&page=LogIn',
   '/search':
-      'https://app.flutterflow.io/project/scan-app-dkuknp?tab=uiBuilder&page=Search'
+      'https://app.flutterflow.io/project/scan-app-dkuknp?tab=uiBuilder&page=Search',
+  '/popular-scans':
+      'https://app.flutterflow.io/project/scan-app-dkuknp?tab=uiBuilder&page=PopularScans'
 };
 
 class AppStateNotifier extends ChangeNotifier {
@@ -249,6 +251,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: SearchWidget.routeName,
           path: SearchWidget.routePath,
           builder: (context, params) => const SearchWidget(),
+        ),
+        FFRoute(
+          name: PopularScansWidget.routeName,
+          path: PopularScansWidget.routePath,
+          builder: (context, params) => const PopularScansWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
       observers: [routeObserver],

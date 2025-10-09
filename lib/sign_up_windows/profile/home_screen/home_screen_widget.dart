@@ -14,6 +14,8 @@ import 'home_screen_model.dart';
 import '/scan/scan_screen.dart';
 import '/sign_up_windows/profile/additives_screen/additives_screen_widget.dart';
 import '/sign_up_windows/profile/ingredients_screen/ingredients_screen_widget.dart';
+import '/services/popular_products_service.dart';
+import '/services/health_score_service.dart';
 export 'home_screen_model.dart';
 
 class ExploreCard extends StatelessWidget {
@@ -99,6 +101,7 @@ class ProductCard extends StatelessWidget {
   final VoidCallback onTap;
   final bool isLoading;
   final ImageLoadingBuilder loadingBuilder;
+  final int? healthScore;
 
   const ProductCard({
     super.key,
@@ -107,6 +110,7 @@ class ProductCard extends StatelessWidget {
     required this.onTap,
     required this.isLoading,
     required this.loadingBuilder,
+    this.healthScore,
   });
 
   @override
@@ -168,6 +172,24 @@ class ProductCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
+            // Safety score indicator
+            if (healthScore != null)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                decoration: BoxDecoration(
+                  color: HealthScoreService.getHealthScoreColor(healthScore!),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  'Safety: $healthScore/100',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            if (healthScore != null) const SizedBox(height: 4),
             Expanded(
               child: Text(
                 name,
@@ -261,22 +283,11 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
 
   Future<void> _fetchProducts() async {
     try {
-      final result = await SupaFlow.client
-          .from('products')
-          .select('id, name, image_front_url, category, created_at, updated_at, barcode, final_score, description, ingredients, supermarket_url, additional_images_urls, specifications, nutritional')
-          .limit(20); // Fetch more than 5
-
-      if (result.isNotEmpty) {
-        List<ProductRow> allProducts = await ProductTable().queryRows(
-          queryFn: (q) => q.select().limit(20),
-        );
-        allProducts.shuffle();
-        _model.randomProducts = allProducts.take(5).toList();
-      } else {
-        _model.randomProducts = [];
-      }
+      // Use popular products service to get globally popular products
+      final products = await PopularProductsService.instance.getPopularProducts(limit: 5);
+      _model.randomProducts = products;
     } catch (e) {
-      print('Error fetching products: $e');
+      print('Error fetching popular products: $e');
       _model.randomProducts = [];
     }
     safeSetState(() {});
@@ -689,29 +700,34 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
-                                    Text(
-                                      FFLocalizations.of(context).getText(
-                                        'hine2wdn' /* Popular scans */,
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.roboto(
+                                    GestureDetector(
+                                      onTap: () {
+                                        context.pushNamed(PopularScansWidget.routeName);
+                                      },
+                                      child: Text(
+                                        FFLocalizations.of(context).getText(
+                                          'hine2wdn' /* Popular scans */,
+                                        ),
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              font: GoogleFonts.roboto(
+                                                fontWeight: FontWeight.w800,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
+                                              color: const Color(0xFF50B2B2),
+                                              fontSize: 18.0,
+                                              letterSpacing: 0.5,
                                               fontWeight: FontWeight.w800,
                                               fontStyle:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium
                                                       .fontStyle,
                                             ),
-                                            color: const Color(0xFF50B2B2),
-                                            fontSize: 18.0,
-                                            letterSpacing: 0.5,
-                                            fontWeight: FontWeight.w800,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -739,6 +755,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
                                                   child: ProductCard(
                                                     imageUrl: product.imageFrontUrl ?? 'https://picsum.photos/seed/895/600',
                                                     name: product.name ?? '',
+                                                    healthScore: product.healthScore,
                                                     isLoading: !_loadedImageIndexes.contains(index),
                                                     onTap: () {
                                                       context.pushNamed(

@@ -10,6 +10,7 @@ import '/services/health_score_service.dart';
 import '/components/recommendations_widget.dart';
 import '/components/additives_ingredients_section_widget.dart';
 import '/components/all_ingredients_widget.dart';
+import '/components/product_image_placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -378,23 +379,31 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                                   ClipRRect(
                                                     borderRadius:
                                                         BorderRadius.circular(8.0),
-                                                    child: Image.network(
-                                                      widget.product.imageFrontUrl!,
-                                                      width: 185.0,
-                                                      height: 125.0,
-                                                      fit: BoxFit.contain,
-                                                        errorBuilder: (context, error, stackTrace) {
-                                                          return Padding(
+                                                    child: widget.product.imageFrontUrl != null && widget.product.imageFrontUrl!.isNotEmpty
+                                                        ? Image.network(
+                                                            widget.product.imageFrontUrl!,
+                                                            width: 185.0,
+                                                            height: 125.0,
+                                                            fit: BoxFit.contain,
+                                                            errorBuilder: (context, error, stackTrace) {
+                                                              return Padding(
+                                                                padding: const EdgeInsets.only(top: 12.0),
+                                                                child: ProductImagePlaceholder(
+                                                                  width: 120.0,
+                                                                  height: 100.0,
+                                                                  borderRadius: 8.0,
+                                                                ),
+                                                              );
+                                                            },
+                                                          )
+                                                        : Padding(
                                                             padding: const EdgeInsets.only(top: 12.0),
-                                                            child: Image.asset(
-                                                              'assets/images/ImagePlaceholderIcon.png',
+                                                            child: ProductImagePlaceholder(
                                                               width: 120.0,
                                                               height: 100.0,
-                                                              fit: BoxFit.contain,
+                                                              borderRadius: 8.0,
                                                             ),
-                                                          );
-                                                        },
-                                                    ),
+                                                          ),
                                                   ),
                                                   Container(
                                                     width: double.infinity,

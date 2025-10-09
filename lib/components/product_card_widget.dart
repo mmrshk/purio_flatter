@@ -4,6 +4,7 @@ import '/backend/supabase/supabase.dart';
 import '/services/scoring_service.dart';
 import '/services/favorites_service.dart';
 import '/services/health_score_service.dart';
+import '/components/product_image_placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'product_card_model.dart';
@@ -173,20 +174,25 @@ class _ProductCardWidgetState extends State<ProductCardWidget> with RouteAware {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
-              child: Image.network(
-                widget.product.imageFrontUrl ?? '',
-                width: 80.0,
-                height: 80.0,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Image.asset(
-                    'assets/images/ImagePlaceholderIcon.png',
-                    width: 80.0,
-                    height: 80.0,
-                    fit: BoxFit.cover,
-                  );
-                },
-              ),
+              child: widget.product.imageFrontUrl != null && widget.product.imageFrontUrl!.isNotEmpty
+                  ? Image.network(
+                      widget.product.imageFrontUrl!,
+                      width: 80.0,
+                      height: 80.0,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return ProductImagePlaceholder(
+                          width: 80.0,
+                          height: 80.0,
+                          borderRadius: 8.0,
+                        );
+                      },
+                    )
+                  : ProductImagePlaceholder(
+                      width: 80.0,
+                      height: 80.0,
+                      borderRadius: 8.0,
+                    ),
             ),
             const SizedBox(width: 12),
             Expanded(

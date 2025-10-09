@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/shimmer_util.dart';
+import '/components/product_image_placeholder.dart';
 import '/services/history_service.dart';
 import '/services/favorites_service.dart';
 import '/services/health_score_service.dart';
@@ -453,21 +454,17 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                                                   _loadedImageIndexes.add(index);
                                                                 });
                                                               });
-                                                              return Image.asset(
-                                                                'assets/images/ImagePlaceholderIcon.png',
+                                                              return ProductImagePlaceholder(
                                                                 width: 66.0,
                                                                 height: 66.0,
-                                                                fit: BoxFit.contain,
+                                                                borderRadius: 16.0,
                                                               );
                                                             },
                                                           )
-                                                        : Container(
+                                                        : ProductImagePlaceholder(
                                                             width: 66.0,
                                                             height: 66.0,
-                                                            decoration: BoxDecoration(
-                                                              color: Colors.grey[300],
-                                                              borderRadius: BorderRadius.circular(16.0),
-                                                            ),
+                                                            borderRadius: 16.0,
                                                           ),
                                                   ),
                                                 ),
@@ -677,23 +674,18 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                                               ),
                                               child: ClipRRect(
                                                 borderRadius: BorderRadius.circular(16.0),
-                                                child: product.imageFrontUrl != null
+                                                child: product.imageFrontUrl != null && product.imageFrontUrl!.isNotEmpty
                                                     ? Image.network(
                                                         product.imageFrontUrl!,
                                                         fit: BoxFit.cover,
                                                         errorBuilder: (context, error, stackTrace) {
-                                                          return Image.asset(
-                                                            'assets/images/ImagePlaceholderIcon.png',
-                                                            fit: BoxFit.contain,
+                                                          return ProductImagePlaceholder(
+                                                            borderRadius: 16.0,
                                                           );
                                                         },
                                                       )
-                                                    : Container(
-                                                        color: Colors.grey[300],
-                                                        child: const Icon(
-                                                          Icons.image_not_supported,
-                                                          color: Colors.grey,
-                                                        ),
+                                                    : ProductImagePlaceholder(
+                                                        borderRadius: 16.0,
                                                       ),
                                               ),
                                             ),

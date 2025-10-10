@@ -329,9 +329,43 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                                           : Padding(
                                               padding: const EdgeInsets.all(16.0),
                                               child: Center(
-                                                child: ElevatedButton(
-                                                  onPressed: () => _fetchProducts(loadMore: true),
-                                                  child: const Text('Load more'),
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: FlutterFlowTheme.of(context).primaryBackground,
+                                                    borderRadius: BorderRadius.circular(12),
+                                                    border: Border.all(
+                                                      color: FlutterFlowTheme.of(context).primary,
+                                                      width: 2,
+                                                    ),
+                                                  ),
+                                                  child: Material(
+                                                    color: Colors.transparent,
+                                                    child: InkWell(
+                                                      borderRadius: BorderRadius.circular(12),
+                                                      onTap: () => _fetchProducts(loadMore: true),
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                                                        child: Row(
+                                                          mainAxisSize: MainAxisSize.min,
+                                                          children: [
+                                                            Icon(
+                                                              Icons.add,
+                                                              color: FlutterFlowTheme.of(context).primary,
+                                                              size: 20,
+                                                            ),
+                                                            const SizedBox(width: 8),
+                                                            Text(
+                                                              'Load More',
+                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                    color: FlutterFlowTheme.of(context).primary,
+                                                                    fontWeight: FontWeight.bold,
+                                                                  ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             );

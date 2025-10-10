@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'navbar_model.dart';
 import 'dart:io' show Platform, Process;
 import 'dart:async';
+import 'dart:ui';
 
 export 'navbar_model.dart';
 
@@ -269,35 +270,58 @@ class _NavbarWidgetState extends State<NavbarWidget> with RouteAware {
 
     return Container(
       decoration: BoxDecoration(
-        color: widget.backgroundColor,
+        color: Colors.transparent,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          // Modern floating navbar
           Container(
-            height: 60, // Compact height like the example
+            margin: const EdgeInsets.fromLTRB(48, 8, 48, 24),
+            height: 70,
             decoration: BoxDecoration(
-              color: widget.backgroundColor,
-              border: Border(
-                top: BorderSide(
-                  color: Colors.grey.withOpacity(0.2),
-                  width: 0.5,
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(25),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.08),
+                  blurRadius: 20,
+                  spreadRadius: 0,
+                  offset: const Offset(0, 8),
+                ),
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.04),
+                  blurRadius: 40,
+                  spreadRadius: 0,
+                  offset: const Offset(0, 16),
+                ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(25),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.95),
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildNavItem(0, Icons.home_outlined, Icons.home, 'Home'),
+                      _buildNavItem(1, Icons.qr_code_scanner_rounded, Icons.qr_code_scanner_rounded, 'Scan'),
+                      _buildNavItem(2, Icons.history_outlined, Icons.history, 'History'),
+                    ],
+                  ),
                 ),
               ),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildNavItem(0, Icons.home_outlined, Icons.home, 'Home'),
-                _buildNavItem(1, Icons.photo_camera, Icons.photo_camera, 'Scan'),
-                _buildNavItem(2, Icons.history_outlined, Icons.history, 'History'),
-              ],
-            ),
           ),
-          // Background extending to bottom of screen
+          // Bottom padding for safe area
           Container(
             height: MediaQuery.of(context).padding.bottom,
-            color: widget.backgroundColor,
+            color: Colors.transparent,
           ),
         ],
       ),
@@ -320,24 +344,36 @@ class _NavbarWidgetState extends State<NavbarWidget> with RouteAware {
     final isSelected = _selectedIndex == index;
     return GestureDetector(
       onTap: () => _onItemTapped(index),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeInOut,
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        decoration: BoxDecoration(
+          color: isSelected ? const Color(0xFF50B2B2).withOpacity(0.1) : Colors.transparent,
+          borderRadius: BorderRadius.circular(16),
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              isSelected ? activeIcon : icon,
-              size: 24,
-              color: isSelected ? const Color(0xFF40A5A5) : Colors.grey[600],
-            ),
-            const SizedBox(height: 2),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 10,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                color: isSelected ? const Color(0xFF40A5A5) : Colors.grey[600],
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.easeInOut,
+              child: Icon(
+                isSelected ? activeIcon : icon,
+                size: isSelected ? 26 : 24,
+                color: isSelected ? const Color(0xFF50B2B2) : Colors.grey[500],
               ),
+            ),
+            const SizedBox(height: 4),
+            AnimatedDefaultTextStyle(
+              duration: const Duration(milliseconds: 200),
+              style: TextStyle(
+                fontSize: isSelected ? 11 : 10,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                color: isSelected ? const Color(0xFF50B2B2) : Colors.grey[500],
+                letterSpacing: 0.2,
+              ),
+              child: Text(label),
             ),
           ],
         ),

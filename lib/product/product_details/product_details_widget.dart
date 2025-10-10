@@ -11,6 +11,7 @@ import '/components/recommendations_widget.dart';
 import '/components/additives_ingredients_section_widget.dart';
 import '/components/all_ingredients_widget.dart';
 import '/components/product_image_placeholder.dart';
+import '/components/photo_popup_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -282,7 +283,6 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                 width: 45.0,
                 height: 45.0,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFAF9F9),
                   borderRadius: BorderRadius.circular(100.0),
                 ),
                 child: Material(
@@ -376,34 +376,46 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.spaceBetween,
                                                 children: [
-                                                  ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(8.0),
-                                                    child: widget.product.imageFrontUrl != null && widget.product.imageFrontUrl!.isNotEmpty
-                                                        ? Image.network(
-                                                            widget.product.imageFrontUrl!,
-                                                            width: 185.0,
-                                                            height: 125.0,
-                                                            fit: BoxFit.contain,
-                                                            errorBuilder: (context, error, stackTrace) {
-                                                              return Padding(
-                                                                padding: const EdgeInsets.only(top: 12.0),
-                                                                child: ProductImagePlaceholder(
-                                                                  width: 120.0,
-                                                                  height: 100.0,
-                                                                  borderRadius: 8.0,
-                                                                ),
-                                                              );
-                                                            },
-                                                          )
-                                                        : Padding(
-                                                            padding: const EdgeInsets.only(top: 12.0),
-                                                            child: ProductImagePlaceholder(
-                                                              width: 120.0,
-                                                              height: 100.0,
-                                                              borderRadius: 8.0,
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      if (widget.product.imageFrontUrl != null && 
+                                                          widget.product.imageFrontUrl!.isNotEmpty) {
+                                                        PhotoPopupWidget.show(
+                                                          context,
+                                                          widget.product.imageFrontUrl!,
+                                                          productName: widget.product.name,
+                                                        );
+                                                      }
+                                                    },
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(8.0),
+                                                      child: widget.product.imageFrontUrl != null && widget.product.imageFrontUrl!.isNotEmpty
+                                                          ? Image.network(
+                                                              widget.product.imageFrontUrl!,
+                                                              width: 185.0,
+                                                              height: 125.0,
+                                                              fit: BoxFit.contain,
+                                                              errorBuilder: (context, error, stackTrace) {
+                                                                return Padding(
+                                                                  padding: const EdgeInsets.only(top: 12.0),
+                                                                  child: ProductImagePlaceholder(
+                                                                    width: 120.0,
+                                                                    height: 100.0,
+                                                                    borderRadius: 8.0,
+                                                                  ),
+                                                                );
+                                                              },
+                                                            )
+                                                          : Padding(
+                                                              padding: const EdgeInsets.only(top: 12.0),
+                                                              child: ProductImagePlaceholder(
+                                                                width: 120.0,
+                                                                height: 100.0,
+                                                                borderRadius: 8.0,
+                                                              ),
                                                             ),
-                                                          ),
+                                                    ),
                                                   ),
                                                   Container(
                                                     width: double.infinity,

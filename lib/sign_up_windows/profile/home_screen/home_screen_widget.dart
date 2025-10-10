@@ -16,9 +16,10 @@ import '/sign_up_windows/profile/additives_screen/additives_screen_widget.dart';
 import '/sign_up_windows/profile/ingredients_screen/ingredients_screen_widget.dart';
 import '/services/popular_products_service.dart';
 import '/services/health_score_service.dart';
+import '/services/user_stats_service.dart';
 export 'home_screen_model.dart';
 
-class ExploreCard extends StatelessWidget {
+class ExploreCard extends StatefulWidget {
   final Color color;
   final String imagePath;
   final String title;
@@ -35,61 +36,101 @@ class ExploreCard extends StatelessWidget {
   });
 
   @override
+  State<ExploreCard> createState() => _ExploreCardState();
+}
+
+class _ExploreCardState extends State<ExploreCard> with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _scaleAnimation;
+  late Animation<double> _shadowAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
+    );
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 1.05).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+    );
+    _shadowAnimation = Tween<double>(begin: 0.08, end: 0.15).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(24),
-      child: Container(
-        width: 160,
-        height: 170,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(24),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.08),
-              blurRadius: 16,
-              offset: const Offset(0, 6),
-            ),
-          ],
-        ),
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Image.asset(
-              imagePath,
-              width: 40,
-              height: 40,
-              fit: BoxFit.contain,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              title,
-              style: GoogleFonts.roboto(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: Colors.black,
+    return GestureDetector(
+      onTapDown: (_) => _animationController.forward(),
+      onTapUp: (_) => _animationController.reverse(),
+      onTapCancel: () => _animationController.reverse(),
+      onTap: widget.onTap,
+      child: AnimatedBuilder(
+        animation: _animationController,
+        builder: (context, child) {
+          return Transform.scale(
+            scale: _scaleAnimation.value,
+            child: Container(
+              width: 160,
+              height: 170,
+              decoration: BoxDecoration(
+                color: widget.color,
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(_shadowAnimation.value),
+                    blurRadius: 20,
+                    offset: const Offset(0, 8),
+                  ),
+                ],
               ),
-              textAlign: TextAlign.left,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-            const SizedBox(height: 2),
-            Text(
-              subtitle,
-              style: GoogleFonts.roboto(
-                fontWeight: FontWeight.w400,
-                fontSize: 14,
-                color: const Color(0xFF555555),
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    widget.imagePath,
+                    width: 40,
+                    height: 40,
+                    fit: BoxFit.contain,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    widget.title,
+                    style: GoogleFonts.roboto(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
+                    textAlign: TextAlign.left,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    widget.subtitle,
+                    style: GoogleFonts.roboto(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                      color: const Color(0xFF555555),
+                    ),
+                    textAlign: TextAlign.left,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
               ),
-              textAlign: TextAlign.left,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
@@ -225,19 +266,45 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final ScrollController _scrollController = ScrollController();
+  final ScrollController _horizontalScrollController = ScrollController();
   Set<int> _loadedImageIndexes = {};
   final Map<int, DateTime> _imageLoadStartTimes = {};
   final int _minSkeletonMillis = 1200;
+  
+  // User stats
+  int _scanCount = 0;
+  int _streak = 0;
+  
+  // Carousel state
+  int _currentCarouselIndex = 0;
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => HomeScreenModel());
 
+    // Add listener to horizontal scroll controller
+    _horizontalScrollController.addListener(_onHorizontalScroll);
+
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       await _fetchUserData();
       await _fetchProducts();
+      await _fetchUserStats();
     });
+  }
+
+  void _onHorizontalScroll() {
+    if (_horizontalScrollController.hasClients) {
+      final scrollOffset = _horizontalScrollController.offset;
+      final cardWidth = 160.0 + 12.0; // Card width + spacing
+      final newIndex = (scrollOffset / cardWidth).round();
+      
+      if (newIndex != _currentCarouselIndex && newIndex >= 0) {
+        setState(() {
+          _currentCarouselIndex = newIndex;
+        });
+      }
+    }
   }
 
   Future<void> _fetchUserData() async {
@@ -293,10 +360,27 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
     safeSetState(() {});
   }
 
+  Future<void> _fetchUserStats() async {
+    try {
+      final stats = await UserStatsService.instance.getUserStats();
+      setState(() {
+        _scanCount = stats['scanCount'] ?? 0;
+        _streak = stats['streak'] ?? 0;
+      });
+    } catch (e) {
+      print('Error fetching user stats: $e');
+      setState(() {
+        _scanCount = 0;
+        _streak = 0;
+      });
+    }
+  }
+
   @override
   void dispose() {
     routeObserver.unsubscribe(this);
     _scrollController.dispose();
+    _horizontalScrollController.dispose();
     _model.dispose();
 
     super.dispose();
@@ -324,6 +408,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
       setState(() => _model.isRouteVisible = true);
       debugLogWidgetClass(_model);
       _fetchProducts();
+      _fetchUserStats();
     }
   }
 
@@ -370,6 +455,9 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
                     begin: AlignmentDirectional(0.0, -1.0),
                     end: AlignmentDirectional(0, 1.0),
                   ),
+                ),
+                child: CustomPaint(
+                  painter: GeometricPatternPainter(),
                 ),
               ),
             ),
@@ -419,216 +507,260 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Container(
-                                      decoration: const BoxDecoration(),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          InkWell(
-                                            splashColor: Colors.transparent,
-                                            focusColor: Colors.transparent,
-                                            hoverColor: Colors.transparent,
-                                            highlightColor: Colors.transparent,
-                                            onTap: () async {
-                                              context.pushNamed(
-                                                  ProfileSettingsWidget
-                                                      .routeName);
-                                            },
-                                            child: Container(
-                                              width: 47.0,
-                                              height: 47.0,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                gradient: const LinearGradient(
-                                                  colors: [
-                                                    Color(0xFF50B2B2),
-                                                    Color(0xFF40A5A5),
-                                                  ],
-                                                  begin: Alignment.topLeft,
-                                                  end: Alignment.bottomRight,
-                                                ),
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  '${FFAppState().firstName.isNotEmpty ? FFAppState().firstName[0].toUpperCase() : ''}${FFAppState().lastName.isNotEmpty ? FFAppState().lastName[0].toUpperCase() : ''}',
-                                                  style: GoogleFonts.roboto(
-                                                    fontSize: 18.0,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          InkWell(
-                                            splashColor: Colors.transparent,
-                                            focusColor: Colors.transparent,
-                                            hoverColor: Colors.transparent,
-                                            highlightColor: Colors.transparent,
-                                            onTap: () async {
-                                              context.pushNamed(
-                                                  ProfileSettingsWidget.routeName);
-                                            },
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsetsDirectional.fromSTEB(
-                                                      20.0, 0.0, 0.0, 0.0),
-                                              child: Wrap(
-                                                spacing: 0.0,
-                                                runSpacing: 0.0,
-                                                alignment: WrapAlignment.start,
-                                                crossAxisAlignment:
-                                                    WrapCrossAlignment.start,
-                                                direction: Axis.vertical,
-                                                runAlignment: WrapAlignment.start,
-                                                verticalDirection:
-                                                    VerticalDirection.down,
-                                                clipBehavior: Clip.none,
-                                                children: [
-                                                  Text(
-                                                    FFLocalizations.of(context)
-                                                        .getText(
-                                                      'x9q2m7nf' /* Hello 👋🏻 */,
-                                                    ),
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          font:
-                                                              GoogleFonts.roboto(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontStyle:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .fontStyle,
-                                                          ),
-                                                          color:
-                                                              const Color(0xFF40A5A5),
-                                                          fontSize: 22.0,
-                                                          letterSpacing: 0.0,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMedium
-                                                                  .fontStyle,
-                                                        ),
-                                                  ),
-                                                  Text(
-                                                    '${FFAppState().firstName} ${FFAppState().lastName}',
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          font:
-                                                              GoogleFonts.roboto(
-                                                            fontWeight:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .fontWeight,
-                                                            fontStyle:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .fontStyle,
-                                                          ),
-                                                          color:
-                                                              const Color(0xFF6A7F98),
-                                                          fontSize: 16.0,
-                                                          letterSpacing: 0.0,
-                                                          fontWeight:
-                                                              FlutterFlowTheme.of(
-                                                                    context)
-                                                                        .bodyMedium
-                                                                        .fontWeight,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                          .bodyMedium
-                                                                          .fontStyle,
-                                                        ),
-                                                  ),
+                                    // Left side: Avatar + Name + Settings
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        // Clean avatar
+                                        InkWell(
+                                          splashColor: Colors.transparent,
+                                          focusColor: Colors.transparent,
+                                          hoverColor: Colors.transparent,
+                                          highlightColor: Colors.transparent,
+                                          onTap: () async {
+                                            context.pushNamed(
+                                                ProfileSettingsWidget
+                                                    .routeName);
+                                          },
+                                          child: Container(
+                                            width: 47.0,
+                                            height: 47.0,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              gradient: const LinearGradient(
+                                                colors: [
+                                                  Color(0xFF50B2B2),
+                                                  Color(0xFF40A5A5),
                                                 ],
+                                                begin: Alignment.topLeft,
+                                                end: Alignment.bottomRight,
+                                              ),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: const Color(0xFF50B2B2).withOpacity(0.3),
+                                                  blurRadius: 8,
+                                                  spreadRadius: 2,
+                                                  offset: const Offset(0, 2),
+                                                ),
+                                              ],
+                                              border: Border.all(
+                                                color: Colors.white.withOpacity(0.3),
+                                                width: 2,
+                                              ),
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                '${FFAppState().firstName.isNotEmpty ? FFAppState().firstName[0].toUpperCase() : ''}${FFAppState().lastName.isNotEmpty ? FFAppState().lastName[0].toUpperCase() : ''}',
+                                                style: GoogleFonts.roboto(
+                                                  fontSize: 18.0,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                        const SizedBox(width: 12),
+                                        // User name display
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'x9q2m7nf' /* Hello 👋🏻 */,
+                                              ),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    font:
+                                                        GoogleFonts.roboto(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontStyle,
+                                                    ),
+                                                    color:
+                                                        const Color(0xFF40A5A5),
+                                                    fontSize: 22.0,
+                                                    letterSpacing: 0.0,
+                                                    fontWeight:
+                                                        FontWeight.bold,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
+                                            ),
+                                            Text(
+                                              '${FFAppState().firstName} ${FFAppState().lastName}',
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    font:
+                                                        GoogleFonts.roboto(
+                                                      fontWeight:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontWeight,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontStyle,
+                                                    ),
+                                                    color:
+                                                        const Color(0xFF6A7F98),
+                                                    fontSize: 16.0,
+                                                    letterSpacing: 0.0,
+                                                    fontWeight:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontWeight,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
-                                    Container(
-                                      width: 78.0,
-                                      height: 30.0,
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFFFFAFAF),
-                                        borderRadius:
-                                            BorderRadius.circular(90.0),
-                                      ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                            child: Image.asset(
-                                              'assets/images/Group.png',
-                                              width: 20.0,
-                                              height: 15.0,
-                                              fit: BoxFit.cover,
+                                    // User stats dashboard
+                                    Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Icon(
+                                              Icons.qr_code_scanner,
+                                              color: const Color(0xFF50B2B2),
+                                              size: 14,
                                             ),
-                                          ),
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(0.0),
-                                            child: Image.asset(
-                                              'assets/images/PRO_(1).png',
-                                              width: 31.0,
-                                              height: 15.0,
-                                              fit: BoxFit.none,
+                                            const SizedBox(width: 4),
+                                            Text(
+                                              '$_scanCount scans',
+                                              style: GoogleFonts.roboto(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                                color: const Color(0xFF50B2B2),
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Icon(
+                                              Icons.local_fire_department,
+                                              color: const Color(0xFFFF6B35),
+                                              size: 14,
+                                            ),
+                                            const SizedBox(width: 4),
+                                            Text(
+                                              '$_streak day streak',
+                                              style: GoogleFonts.roboto(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                                color: const Color(0xFFFF6B35),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsetsDirectional.fromSTEB(
-                                    23.0, 0.0, 0.0, 29.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Text(
-                                      FFLocalizations.of(context).getText(
-                                        'nhf9yk6j' /* Explore */,
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.roboto(
-                                              fontWeight: FontWeight.w800,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                            color: const Color(0xFF50B2B2),
-                                            fontSize: 18.0,
-                                            letterSpacing: 0.5,
-                                            fontWeight: FontWeight.w800,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
+                                    23.0, 0.0, 23.0, 29.0),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        const Color(0xFF50B2B2).withOpacity(0.1),
+                                        const Color(0xFF50B2B2).withOpacity(0.05),
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
                                     ),
-                                  ],
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                      color: const Color(0xFF50B2B2).withOpacity(0.2),
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Icon(
+                                            Icons.explore,
+                                            color: const Color(0xFF50B2B2),
+                                            size: 20,
+                                          ),
+                                          const SizedBox(width: 8),
+                                          Text(
+                                            FFLocalizations.of(context).getText(
+                                              'nhf9yk6j' /* Explore */,
+                                            ),
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  font: GoogleFonts.roboto(
+                                                    fontWeight: FontWeight.w800,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
+                                                  color: const Color(0xFF50B2B2),
+                                                  fontSize: 18.0,
+                                                  letterSpacing: 0.5,
+                                                  fontWeight: FontWeight.w800,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xFF50B2B2).withOpacity(0.2),
+                                          borderRadius: BorderRadius.circular(12),
+                                        ),
+                                        child: Text(
+                                          'Discover',
+                                          style: TextStyle(
+                                            color: const Color(0xFF50B2B2),
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                               Align(
@@ -694,52 +826,125 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
                                   ),
                                 ),
                               ),
+                              // Section divider
+                              Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(23.0, 20.0, 23.0, 10.0),
+                                child: Container(
+                                  height: 1,
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Colors.transparent,
+                                        const Color(0xFF50B2B2).withOpacity(0.2),
+                                        Colors.transparent,
+                                      ],
+                                      stops: const [0.0, 0.5, 1.0],
+                                    ),
+                                  ),
+                                ),
+                              ),
                               Padding(
                                 padding: const EdgeInsetsDirectional.fromSTEB(
-                                    23.0, 29.0, 0.0, 29.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        context.pushNamed(PopularScansWidget.routeName);
-                                      },
-                                      child: Text(
-                                        FFLocalizations.of(context).getText(
-                                          'hine2wdn' /* Popular scans */,
-                                        ),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              font: GoogleFonts.roboto(
-                                                fontWeight: FontWeight.w800,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontStyle,
-                                              ),
-                                              color: const Color(0xFF50B2B2),
-                                              fontSize: 18.0,
-                                              letterSpacing: 0.5,
-                                              fontWeight: FontWeight.w800,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
+                                    23.0, 20.0, 23.0, 20.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    context.pushNamed(PopularScansWidget.routeName);
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          const Color(0xFF50B2B2).withOpacity(0.1),
+                                          const Color(0xFF50B2B2).withOpacity(0.05),
+                                        ],
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                      ),
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(
+                                        color: const Color(0xFF50B2B2).withOpacity(0.2),
+                                        width: 1,
                                       ),
                                     ),
-                                  ],
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Icon(
+                                              Icons.trending_up,
+                                              color: const Color(0xFF50B2B2),
+                                              size: 20,
+                                            ),
+                                            const SizedBox(width: 8),
+                                            Text(
+                                              FFLocalizations.of(context).getText(
+                                                'hine2wdn' /* Popular scans */,
+                                              ),
+                                              style: FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    font: GoogleFonts.roboto(
+                                                      fontWeight: FontWeight.w800,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(context)
+                                                              .bodyMedium
+                                                              .fontStyle,
+                                                    ),
+                                                    color: const Color(0xFF50B2B2),
+                                                    fontSize: 18.0,
+                                                    letterSpacing: 0.5,
+                                                    fontWeight: FontWeight.w800,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Container(
+                                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                              decoration: BoxDecoration(
+                                                color: const Color(0xFF50B2B2).withOpacity(0.2),
+                                                borderRadius: BorderRadius.circular(12),
+                                              ),
+                                              child: Text(
+                                                'Trending',
+                                                style: TextStyle(
+                                                  color: const Color(0xFF50B2B2),
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(width: 8),
+                                            Icon(
+                                              Icons.arrow_forward_ios,
+                                              color: const Color(0xFF50B2B2),
+                                              size: 16,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsetsDirectional.fromSTEB(
                                     23.0, 0.0, 0.0, 0.0),
                                 child: SingleChildScrollView(
+                                  controller: _horizontalScrollController,
                                   scrollDirection: Axis.horizontal,
                                   clipBehavior: Clip.none,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 12, right: 23, bottom: 23),
+                                    padding: const EdgeInsets.only(left: 12, right: 23, bottom: 10),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -754,7 +959,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
                                                   padding: const EdgeInsets.only(bottom: 12),
                                                   child: ProductCard(
                                                     imageUrl: product.imageFrontUrl ?? 'https://picsum.photos/seed/895/600',
-                                                    name: product.name ?? '',
+                                                    name: product.name,
                                                     healthScore: product.healthScore,
                                                     isLoading: !_loadedImageIndexes.contains(index),
                                                     onTap: () {
@@ -802,6 +1007,38 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
                                   ),
                                 ),
                               ),
+                              // Carousel indicators
+                              if (_model.randomProducts != null && _model.randomProducts!.isNotEmpty)
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 16),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: List.generate(
+                                      _model.randomProducts!.length,
+                                      (index) => GestureDetector(
+                                        onTap: () {
+                                          final cardWidth = 160.0 + 12.0; // Card width + spacing
+                                          _horizontalScrollController.animateTo(
+                                            index * cardWidth,
+                                            duration: const Duration(milliseconds: 300),
+                                            curve: Curves.easeInOut,
+                                          );
+                                        },
+                                        child: Container(
+                                          margin: const EdgeInsets.symmetric(horizontal: 3),
+                                          width: 8,
+                                          height: 8,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: index == _currentCarouselIndex 
+                                                ? const Color(0xFF50B2B2)
+                                                : const Color(0xFF50B2B2).withOpacity(0.3),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               const SizedBox(height: 60),
                             ],
                           ),
@@ -867,4 +1104,35 @@ Widget productNameSkeleton() {
       ),
     ],
   );
+}
+
+class GeometricPatternPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = const Color(0xFF50B2B2).withOpacity(0.03)
+      ..style = PaintingStyle.fill;
+
+    // Draw subtle geometric pattern
+    const double spacing = 60.0;
+    const double radius = 2.0;
+    
+    for (double x = 0; x < size.width + spacing; x += spacing) {
+      for (double y = 0; y < size.height + spacing; y += spacing) {
+        // Offset every other row for a more interesting pattern
+        final offsetX = (y / spacing).floor() % 2 == 0 ? x : x + spacing / 2;
+        
+        if (offsetX < size.width && y < size.height) {
+          canvas.drawCircle(
+            Offset(offsetX, y),
+            radius,
+            paint,
+          );
+        }
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

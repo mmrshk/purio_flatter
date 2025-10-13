@@ -127,8 +127,10 @@ class _AdditivesIngredientsSectionWidgetState extends State<AdditivesIngredients
               ],
             ),
           )
-                            else
-            ..._buildCombinedIngredientsList(),
+        else
+          Column(
+            children: _buildCombinedIngredientsList(),
+          ),
         
         // Show More Button for Combined Ingredients
         if (_shouldShowMoreButton())
@@ -388,7 +390,7 @@ class _AdditivesIngredientsSectionWidgetState extends State<AdditivesIngredients
       totalItems++;
     }
 
-         return widgets;
+    return widgets;
    }
 
 

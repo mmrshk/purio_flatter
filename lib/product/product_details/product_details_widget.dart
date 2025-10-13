@@ -12,6 +12,7 @@ import '/components/additives_ingredients_section_widget.dart';
 import '/components/all_ingredients_widget.dart';
 import '/components/product_image_placeholder.dart';
 import '/components/photo_popup_widget.dart';
+import '/components/nutritional_info_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -518,36 +519,43 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                                 },
                                               ),
                                             ),
-                                            Container(
-                                              constraints: BoxConstraints(
-                                                maxWidth: MediaQuery.of(context).size.width * 0.8,
-                                              ),
-                                              child: Text(
-                                                widget.product.specifications?['origin_country'] ?? '',
-                                                style: FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .override(
-                                                      font: GoogleFonts.roboto(
+                                            if (widget.product.specifications?['origin_country'] != null && 
+                                                widget.product.specifications!['origin_country'].toString().isNotEmpty)
+                                              Container(
+                                                constraints: BoxConstraints(
+                                                  maxWidth: MediaQuery.of(context).size.width * 0.8,
+                                                ),
+                                                child: Text(
+                                                  widget.product.specifications!['origin_country'],
+                                                  style: FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        font: GoogleFonts.roboto(
+                                                          fontWeight: FontWeight.normal,
+                                                          fontStyle:FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                        ),
+                                                        color: const Color(0xFF6A7F98),
+                                                        fontSize: 15.0,
+                                                        letterSpacing: 0.0,
                                                         fontWeight: FontWeight.normal,
-                                                        fontStyle:FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                        fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                       ),
-                                                      color: const Color(0xFF6A7F98),
-                                                      fontSize: 15.0,
-                                                      letterSpacing: 0.0,
-                                                      fontWeight: FontWeight.normal,
-                                                      fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                    ),
-                                                textAlign: TextAlign.center,
-                                                softWrap: true,
+                                                  textAlign: TextAlign.center,
+                                                  softWrap: true,
+                                                ),
                                               ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
+                                          ],
                                         ),
                                       ),
                                     ],
                                   ),
                                 ),
                               ),
+                              // Nutritional Information Section - right after name/country
+                              NutritionalInfoWidget(
+                                nutritionalData: widget.product.nutritional,
+                              ),
+                              const SizedBox(height: 16.0),
                               // Combined Additives & Ingredients Section
                               AdditivesIngredientsSectionWidget(
                                 additives: _model.additives,

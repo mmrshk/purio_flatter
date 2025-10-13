@@ -99,9 +99,13 @@ class IngredientsService {
       final currentLanguage = FFLocalizations.of(context).languageCode;
       String name;
       if (currentLanguage == 'ro') {
-        name = ingredient.dbIngredient!.roName;
+        name = ingredient.dbIngredient!.roName ?? ingredient.originalName;
       } else {
-        name = ingredient.dbIngredient!.name;
+        name = ingredient.dbIngredient!.name ?? ingredient.originalName;
+      }
+      // If the dbIngredient name is empty, fall back to originalName
+      if (name.isEmpty) {
+        return ingredient.originalName;
       }
       return capitalizeFirstLetter(name);
     }

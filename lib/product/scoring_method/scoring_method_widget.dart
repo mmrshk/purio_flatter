@@ -92,59 +92,29 @@ class _ScoringMethodWidgetState extends State<ScoringMethodWidget>
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(60.0),
-          child: AppBar(
-            backgroundColor: Colors.white,
-            automaticallyImplyLeading: false,
-            title: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                FlutterFlowIconButton(
-                  borderColor: Colors.transparent,
-                  borderRadius: 100.0,
-                  borderWidth: 1.0,
-                  buttonSize: 45.0,
-                  fillColor: const Color(0xFFFAF9F9),
-                  icon: const Icon(
-                    Icons.arrow_back_ios_new,
-                    color: Color(0xFF40A5A5),
-                    size: 24.0,
-                  ),
-                  onPressed: () async {
-                    context.safePop();
-                  },
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Text(
-                      FFLocalizations.of(context).getText('scoring_method_title'),
-                      style: FlutterFlowTheme.of(context).headlineMedium.override(
-                            font: GoogleFonts.roboto(
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FlutterFlowTheme.of(context).headlineMedium.fontStyle,
-                            ),
-                            color: Colors.black,
-                            fontSize: 15.0,
-                            letterSpacing: 0.0,
-                            fontWeight: FontWeight.bold,
-                            fontStyle: FlutterFlowTheme.of(context).headlineMedium.fontStyle,
-                          ),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 45.0),
-              ],
+        appBar: AppBar(
+          backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_rounded,
+              color: FlutterFlowTheme.of(context).primaryText,
+              size: 24,
             ),
-            actions: const [],
-            centerTitle: true,
-            elevation: 1.0,
+            onPressed: () async {
+              context.safePop();
+            },
           ),
+          title: Text(
+            FFLocalizations.of(context).getText('scoring_method_title'),
+            style: FlutterFlowTheme.of(context).headlineMedium.override(
+                  color: FlutterFlowTheme.of(context).primaryText,
+                  fontSize: 18,
+                ),
+          ),
+          actions: [],
+          centerTitle: false,
+          elevation: 0,
         ),
         body: SafeArea(
           top: true,

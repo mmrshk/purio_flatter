@@ -3,6 +3,7 @@ import '/components/product_image_placeholder.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/internationalization.dart';
 import '/product/product_details/product_details_widget.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
@@ -452,20 +453,43 @@ class _PopularScansWidgetState extends State<PopularScansWidget> with RouteAware
           // Safety rating
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: HealthScoreService.getHealthScoreColor(product.healthScore ?? 100),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Text(
-                'Safety: ${product.healthScore ?? 100}/100',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+            child: Builder(
+              builder: (context) {
+                final score = product.displayScore ?? product.healthScore;
+                if (score != null) {
+                  return Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: HealthScoreService.getHealthScoreColor(score),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      'Safety: $score/100',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  );
+                } else {
+                  return Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      FFLocalizations.of(context).getText('no_scoring'),
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  );
+                }
+              },
             ),
           ),
           const SizedBox(height: 8),

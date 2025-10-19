@@ -1,9 +1,11 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/internationalization.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/backend/supabase/supabase.dart';
 import '/services/recommendations_service.dart';
 import '/services/health_score_service.dart';
+import '/components/product_image_placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -45,13 +47,25 @@ class _RecommendationsListWidgetState extends State<RecommendationsListWidget> w
       _model.isLoading = true;
       if (mounted) setState(() {});
       
-              final healthScore = widget.currentProduct.displayScore ?? widget.currentProduct.healthScore ?? 0;
+      final healthScore = widget.currentProduct.displayScore ?? widget.currentProduct.healthScore;
       final category = widget.currentProduct.category ?? '';
-      final recommendations = await RecommendationsService.getProductsWithSameOrHigherScore(
-        healthScore,
-        widget.currentProduct.id,
-        category,
-      );
+      
+      List<ProductRow> recommendations;
+      
+      if (healthScore != null) {
+        // Product has a score, get products with same or higher score
+        recommendations = await RecommendationsService.getProductsWithSameOrHigherScore(
+          healthScore,
+          widget.currentProduct.id,
+          category,
+        );
+      } else {
+        // Product has no score, get products with score bigger than 50
+        recommendations = await RecommendationsService.getProductsWithScoreBiggerThan50(
+          widget.currentProduct.id,
+          category,
+        );
+      }
       
       if (mounted) {
         setState(() {
@@ -212,9 +226,16 @@ class _RecommendationsListWidgetState extends State<RecommendationsListWidget> w
                         children: [
                           Padding(
                             padding: const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 16.0),
-                            child: Text(
-                              'Products with same or higher safety score (${widget.currentProduct.displayScore ?? widget.currentProduct.healthScore ?? 0}/100)',
-                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                            child: Builder(
+                              builder: (context) {
+                                final currentScore = widget.currentProduct.displayScore ?? widget.currentProduct.healthScore;
+                                final subtitle = currentScore != null 
+                                    ? 'Products with same or higher safety score ($currentScore/100)'
+                                    : 'Products with safety score bigger than 50';
+                                
+                                return Text(
+                                  subtitle,
+                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
                                     font: GoogleFonts.roboto(
                                       fontWeight: FontWeight.w500,
                                       fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
@@ -225,6 +246,8 @@ class _RecommendationsListWidgetState extends State<RecommendationsListWidget> w
                                     fontWeight: FontWeight.w500,
                                     fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                   ),
+                                );
+                              },
                             ),
                           ),
                           Expanded(
@@ -322,31 +345,17 @@ class _RecommendationsListWidgetState extends State<RecommendationsListWidget> w
                                                                 height: 66.0,
                                                                 fit: BoxFit.cover,
                                                                 errorBuilder: (context, error, stackTrace) {
-                                                                  return Container(
+                                                                  return ProductImagePlaceholder(
                                                                     width: 66.0,
                                                                     height: 66.0,
-                                                                    decoration: BoxDecoration(
-                                                                      color: Colors.grey[300],
-                                                                      borderRadius: BorderRadius.circular(16.0),
-                                                                    ),
-                                                                    child: const Icon(
-                                                                      Icons.error,
-                                                                      color: Colors.grey,
-                                                                    ),
+                                                                    borderRadius: 16.0,
                                                                   );
                                                                 },
                                                               )
-                                                            : Container(
+                                                            : ProductImagePlaceholder(
                                                                 width: 66.0,
                                                                 height: 66.0,
-                                                                decoration: BoxDecoration(
-                                                                  color: Colors.grey[300],
-                                                                  borderRadius: BorderRadius.circular(16.0),
-                                                                ),
-                                                                child: const Icon(
-                                                                  Icons.image_not_supported,
-                                                                  color: Colors.grey,
-                                                                ),
+                                                                borderRadius: 16.0,
                                                               ),
                                                       ),
                                                       const SizedBox(width: 12.0),
@@ -375,22 +384,44 @@ class _RecommendationsListWidgetState extends State<RecommendationsListWidget> w
                                                               overflow: TextOverflow.ellipsis,
                                                             ),
                                                             const SizedBox(height: 8.0),
-                                                            if (product.healthScore != null)
-                                                              Container(
-                                                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                                                decoration: BoxDecoration(
-                                                                  color: HealthScoreService.getHealthScoreColor(product.displayScore ?? product.healthScore ?? 0),
-                                                                  borderRadius: BorderRadius.circular(20.0),
-                                                                ),
-                                                                child: Text(
-                                                                  'Safety: ${product.displayScore ?? product.healthScore}/100',
-                                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                        font: GoogleFonts.roboto(fontWeight: FontWeight.bold),
-                                                                        color: Colors.white,
-                                                                        fontSize: 12.0,
-                                                                      ),
-                                                                ),
-                                                              ),
+                                                            Builder(
+                                                              builder: (context) {
+                                                                final score = product.displayScore ?? product.healthScore;
+                                                                if (score != null) {
+                                                                  return Container(
+                                                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                                                    decoration: BoxDecoration(
+                                                                      color: HealthScoreService.getHealthScoreColor(score),
+                                                                      borderRadius: BorderRadius.circular(20.0),
+                                                                    ),
+                                                                    child: Text(
+                                                                      'Safety: $score/100',
+                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                            font: GoogleFonts.roboto(fontWeight: FontWeight.bold),
+                                                                            color: Colors.white,
+                                                                            fontSize: 12.0,
+                                                                          ),
+                                                                    ),
+                                                                  );
+                                                                } else {
+                                                                  return Container(
+                                                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                                                    decoration: BoxDecoration(
+                                                                      color: Colors.grey[300],
+                                                                      borderRadius: BorderRadius.circular(20.0),
+                                                                    ),
+                                                                    child: Text(
+                                                                      FFLocalizations.of(context).getText('no_scoring'),
+                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                            font: GoogleFonts.roboto(fontWeight: FontWeight.bold),
+                                                                            color: Colors.grey[600],
+                                                                            fontSize: 12.0,
+                                                                          ),
+                                                                    ),
+                                                                  );
+                                                                }
+                                                              },
+                                                            ),
                                                           ],
                                                         ),
                                                       ),

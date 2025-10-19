@@ -59,41 +59,6 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
     
     // Check if product is in favorites
     _checkFavoriteStatus();
-    
-    // Calculate and update health score if not already set
-    if (widget.product.healthScore == null) {
-      _updateHealthScore();
-    }
-  }
-
-  Future<void> _updateHealthScore() async {
-    try {
-      final updateResponse = await ProductService.updateHealthScore(widget.product);
-      
-      if (updateResponse != null) {
-        // Update the local product data
-        if (mounted) {
-          setState(() {
-            widget.product.healthScore = updateResponse['final_score'] as int?;
-          });
-        }
-      }
-      
-      // Also fetch the product again to double-check
-      await Future.delayed(const Duration(milliseconds: 500));
-      
-      final updatedProduct = await ProductTable().queryRows(
-        queryFn: (q) => q.eq('id', widget.product.id),
-      ).then((rows) => rows.firstOrNull);
-      
-      if (updatedProduct != null && mounted) {
-        setState(() {
-          widget.product.healthScore = updatedProduct.healthScore;
-        });
-      }
-    } catch (e) {
-      // Error updating health score
-    }
   }
 
   Future<void> _checkFavoriteStatus() async {
@@ -418,56 +383,92 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                                             ),
                                                     ),
                                                   ),
-                                                  Container(
-                                                    width: double.infinity,
-                                                    height: 50.0,
-                                                    decoration: BoxDecoration(
-                                                      color: HealthScoreService.getHealthScoreColor(widget.product.displayScore ?? widget.product.healthScore ?? 0),
-                                                      borderRadius: const BorderRadius.only(
-                                                        bottomLeft: Radius.circular(16.0),
-                                                        bottomRight: Radius.circular(16.0),
-                                                        topLeft: Radius.circular(0.0),
-                                                        topRight: Radius.circular(0.0),
-                                                      ),
-                                                    ),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment.center,
-                                                      children: [
-                                                        Text(
-                                                          'Safety: ${widget.product.displayScore ?? widget.product.healthScore}/100',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                font: GoogleFonts
-                                                                    .roboto(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontStyle:
-                                                                      FlutterFlowTheme.of(
-                                                                              context)
+                                                  // Show scoring only if available, otherwise show "No scoring"
+                                                  Builder(
+                                                    builder: (context) {
+                                                      final score = widget.product.displayScore ?? widget.product.healthScore;
+                                                      if (score != null) {
+                                                        return Container(
+                                                          width: double.infinity,
+                                                          height: 50.0,
+                                                          decoration: BoxDecoration(
+                                                            color: HealthScoreService.getHealthScoreColor(score),
+                                                            borderRadius: const BorderRadius.only(
+                                                              bottomLeft: Radius.circular(16.0),
+                                                              bottomRight: Radius.circular(16.0),
+                                                              topLeft: Radius.circular(0.0),
+                                                              topRight: Radius.circular(0.0),
+                                                            ),
+                                                          ),
+                                                          child: Row(
+                                                            mainAxisSize: MainAxisSize.max,
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: [
+                                                              Text(
+                                                                'Safety: $score/100',
+                                                                style: FlutterFlowTheme.of(context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      font: GoogleFonts.roboto(
+                                                                        fontWeight: FontWeight.w600,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .fontStyle,
+                                                                      ),
+                                                                      color: Colors.white,
+                                                                      fontSize: 15.0,
+                                                                      letterSpacing: 0.0,
+                                                                      fontWeight: FontWeight.w600,
+                                                                      fontStyle: FlutterFlowTheme.of(context)
                                                                           .bodyMedium
                                                                           .fontStyle,
-                                                                ),
-                                                                color: Colors.white,
-                                                                fontSize: 15.0,
-                                                                letterSpacing: 0.0,
-                                                                fontWeight:
-                                                                    FontWeight.w600,
-                                                                fontStyle:
-                                                                    FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .fontStyle,
+                                                                    ),
                                                               ),
-                                                        ),
-                                                      ].divide(
-                                                          const SizedBox(width: 5.0)),
-                                                    ),
+                                                            ].divide(const SizedBox(width: 5.0)),
+                                                          ),
+                                                        );
+                                                      } else {
+                                                        return Container(
+                                                          width: double.infinity,
+                                                          height: 50.0,
+                                                          decoration: BoxDecoration(
+                                                            color: Colors.grey[300],
+                                                            borderRadius: const BorderRadius.only(
+                                                              bottomLeft: Radius.circular(16.0),
+                                                              bottomRight: Radius.circular(16.0),
+                                                              topLeft: Radius.circular(0.0),
+                                                              topRight: Radius.circular(0.0),
+                                                            ),
+                                                          ),
+                                                          child: Row(
+                                                            mainAxisSize: MainAxisSize.max,
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: [
+                                                              Text(
+                                                                FFLocalizations.of(context).getText('no_scoring'),
+                                                                style: FlutterFlowTheme.of(context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      font: GoogleFonts.roboto(
+                                                                        fontWeight: FontWeight.w600,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .fontStyle,
+                                                                      ),
+                                                                      color: Colors.grey[600],
+                                                                      fontSize: 15.0,
+                                                                      letterSpacing: 0.0,
+                                                                      fontWeight: FontWeight.w600,
+                                                                      fontStyle: FlutterFlowTheme.of(context)
+                                                                          .bodyMedium
+                                                                          .fontStyle,
+                                                                    ),
+                                                              ),
+                                                            ].divide(const SizedBox(width: 5.0)),
+                                                          ),
+                                                        );
+                                                      }
+                                                    },
                                                   ),
                                                 ],
                                               ),

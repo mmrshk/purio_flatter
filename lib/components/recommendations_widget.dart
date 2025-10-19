@@ -1,5 +1,6 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/internationalization.dart';
 import '/backend/supabase/supabase.dart';
 import '/services/health_score_service.dart';
 import '/product/product_details/product_details_widget.dart';
@@ -189,22 +190,44 @@ class RecommendationsWidget extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                               ),
                               const SizedBox(height: 4),
-                              if (recommendedProduct!.healthScore != null)
-                                Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                  decoration: BoxDecoration(
-                                    color: HealthScoreService.getHealthScoreColor(recommendedProduct!.displayScore ?? recommendedProduct!.healthScore ?? 0),
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
-                                  child: Text(
-                                    'Safety: ${recommendedProduct!.displayScore ?? recommendedProduct!.healthScore}/100',
-                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                          font: GoogleFonts.roboto(fontWeight: FontWeight.bold),
-                                          color: Colors.white,
-                                          fontSize: 12.0,
-                                        ),
-                                  ),
-                                ),
+                              Builder(
+                                builder: (context) {
+                                  final score = recommendedProduct!.displayScore ?? recommendedProduct!.healthScore;
+                                  if (score != null) {
+                                    return Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                      decoration: BoxDecoration(
+                                        color: HealthScoreService.getHealthScoreColor(score),
+                                        borderRadius: BorderRadius.circular(20.0),
+                                      ),
+                                      child: Text(
+                                        'Safety: $score/100',
+                                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                              font: GoogleFonts.roboto(fontWeight: FontWeight.bold),
+                                              color: Colors.white,
+                                              fontSize: 12.0,
+                                            ),
+                                      ),
+                                    );
+                                  } else {
+                                    return Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[300],
+                                        borderRadius: BorderRadius.circular(20.0),
+                                      ),
+                                      child: Text(
+                                        FFLocalizations.of(context).getText('no_scoring'),
+                                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                              font: GoogleFonts.roboto(fontWeight: FontWeight.bold),
+                                              color: Colors.grey[600],
+                                              fontSize: 12.0,
+                                            ),
+                                      ),
+                                    );
+                                  }
+                                },
+                              ),
                             ],
                           ),
                         ),

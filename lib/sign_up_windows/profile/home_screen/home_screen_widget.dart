@@ -4,6 +4,7 @@ import '/backend/supabase/supabase.dart';
 import '/components/navbar_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/internationalization.dart';
 import '/flutter_flow/shimmer_util.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
@@ -214,23 +215,44 @@ class ProductCard extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             // Safety score indicator
-            if (healthScore != null)
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(
-                  color: HealthScoreService.getHealthScoreColor(healthScore!),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  'Safety: $healthScore/100',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            if (healthScore != null) const SizedBox(height: 4),
+            Builder(
+              builder: (context) {
+                if (healthScore != null) {
+                  return Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: HealthScoreService.getHealthScoreColor(healthScore!),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      'Safety: $healthScore/100',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  );
+                } else {
+                  return Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      FFLocalizations.of(context).getText('no_scoring'),
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  );
+                }
+              },
+            ),
+            const SizedBox(height: 4),
             Expanded(
               child: Text(
                 name,

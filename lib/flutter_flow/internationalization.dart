@@ -1002,6 +1002,10 @@ Prin utilizarea aplicației Purio, confirmi că:
       'en': 'Overall Safety Score',
       'ro': 'Scorul General de Siguranță',
     },
+    'no_scoring': {
+      'en': 'No scoring',
+      'ro': 'Fără scor',
+    },
     'overall_safety_description': {
       'en': 'Our comprehensive safety score (0-100) evaluates multiple factors to help you make informed decisions about the products you consume.',
       'ro': 'Scorul nostru comprehensiv de siguranță (0-100) evaluează multiple factori pentru a te ajuta să iei decizii informate despre produsele pe care le consumi.',

@@ -1,5 +1,6 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/internationalization.dart';
 import '/flutter_flow/shimmer_util.dart';
 import '/components/product_image_placeholder.dart';
 import 'package:flutter/material.dart';
@@ -273,34 +274,68 @@ class _SearchProductWidgetState extends State<SearchProductWidget>
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 const SizedBox(height: 6),
-                                if (product.healthScore != null)
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                    decoration: BoxDecoration(
-                                      color: HealthScoreService.getHealthScoreColor(product.displayScore ?? product.healthScore ?? 0),
-                                      borderRadius: BorderRadius.circular(30.0),
-                                    ),
-                                    child: Text(
-                                      'Safety: ${product.displayScore ?? product.healthScore ?? 0}',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.roboto(
-                                              fontWeight: FontWeight.bold,
-                                              fontStyle: FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontStyle,
-                                            ),
-                                            color: Colors.white,
-                                            fontSize: 12.0,
-                                            letterSpacing: 0.0,
-                                            fontWeight: FontWeight.bold,
-                                            fontStyle: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .fontStyle,
-                                          ),
-                                    ),
-                                  ),
+                                Builder(
+                                  builder: (context) {
+                                    final score = product.displayScore ?? product.healthScore;
+                                    if (score != null) {
+                                      return Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                        decoration: BoxDecoration(
+                                          color: HealthScoreService.getHealthScoreColor(score),
+                                          borderRadius: BorderRadius.circular(30.0),
+                                        ),
+                                        child: Text(
+                                          'Safety: $score',
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                font: GoogleFonts.roboto(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontStyle: FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                                ),
+                                                color: Colors.white,
+                                                fontSize: 12.0,
+                                                letterSpacing: 0.0,
+                                                fontWeight: FontWeight.bold,
+                                                fontStyle: FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                              ),
+                                        ),
+                                      );
+                                    } else {
+                                      return Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey[300],
+                                          borderRadius: BorderRadius.circular(30.0),
+                                        ),
+                                        child: Text(
+                                          FFLocalizations.of(context).getText('no_scoring'),
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                font: GoogleFonts.roboto(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontStyle: FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                                ),
+                                                color: Colors.grey[600],
+                                                fontSize: 12.0,
+                                                letterSpacing: 0.0,
+                                                fontWeight: FontWeight.bold,
+                                                fontStyle: FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                              ),
+                                        ),
+                                      );
+                                    }
+                                  },
+                                ),
                               ],
                             ),
                           ),

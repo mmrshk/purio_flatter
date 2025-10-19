@@ -88,4 +88,25 @@ class RecommendationsService {
       return [];
     }
   }
+
+  /// Get products with score bigger than 50 when current product has no scoring
+  static Future<List<ProductRow>> getProductsWithScoreBiggerThan50(String excludeProductId, String category, {int limit = 10}) async {
+    try {
+      // Query products with health score bigger than 50 in the same category, excluding the current product
+      final products = await ProductTable().queryRows(
+        queryFn: (q) => q
+            .eq('category', category) // Same category
+            .neq('id', excludeProductId)
+            .not('final_score', 'is', null) // Only products with a health score
+            .gt('final_score', 50) // Score bigger than 50
+            .order('final_score', ascending: false)
+            .limit(limit),
+      );
+      
+      return products;
+    } catch (e) {
+      print('Error fetching products with score bigger than 50: $e');
+      return [];
+    }
+  }
 }

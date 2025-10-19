@@ -36,6 +36,8 @@ export '/sign_in_windows/password_recovery/password_recovery_widget.dart'
     show PasswordRecoveryWidget;
 export '/sign_up_windows/profile/feedback/feedback_widget.dart'
     show FeedbackWidget;
+export '/sign_up_windows/profile/language_selection/language_selection_widget.dart'
+    show LanguageSelectionWidget;
 export '/sign_in_windows/log_in/log_in_widget.dart' show LogInWidget;
 export '/product/search/search_widget.dart' show SearchWidget;
 export '/product/popular_scans/popular_scans_widget.dart' show PopularScansWidget;

@@ -59,6 +59,8 @@ const debugRouteLinkMap = {
       'https://app.flutterflow.io/project/scan-app-dkuknp?tab=uiBuilder&page=PasswordRecovery',
   '/feedback':
       'https://app.flutterflow.io/project/scan-app-dkuknp?tab=uiBuilder&page=Feedback',
+  '/languageSelection':
+      'https://app.flutterflow.io/project/scan-app-dkuknp?tab=uiBuilder&page=LanguageSelection',
   '/logIn':
       'https://app.flutterflow.io/project/scan-app-dkuknp?tab=uiBuilder&page=LogIn',
   '/search':
@@ -236,6 +238,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: FeedbackWidget.routeName,
           path: FeedbackWidget.routePath,
           builder: (context, params) => const FeedbackWidget(),
+        ),
+        FFRoute(
+          name: LanguageSelectionWidget.routeName,
+          path: LanguageSelectionWidget.routePath,
+          builder: (context, params) => const LanguageSelectionWidget(),
         ),
         FFRoute(
           name: LogInWidget.routeName,

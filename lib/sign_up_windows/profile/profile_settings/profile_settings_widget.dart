@@ -412,6 +412,40 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                     Colors.transparent,
                                                 onTap: () async {
                                                   context.pushNamed(
+                                                      LanguageSelectionWidget.routeName);
+                                                },
+                                                child: wrapWithModel(
+                                                  model:
+                                                      _model.settingsCardModel3,
+                                                  updateCallback: () =>
+                                                      safeSetState(() {}),
+                                                  child: Builder(builder: (_) {
+                                                    return DebugFlutterFlowModelContext(
+                                                      rootModel:
+                                                          _model.rootModel,
+                                                      child: SettingsCardWidget(
+                                                        icon: Icon(
+                                                          Icons.language_outlined,
+                                                          color: Colors.white,
+                                                          size: 28.0,
+                                                        ),
+                                                        setting: FFLocalizations.of(context).getText(
+                                                          'language_selection_title' /* Language */,
+                                                        ),
+                                                        backgroundColor: const Color.fromARGB(255, 138, 96, 191), // Purple for language
+                                                      ),
+                                                    );
+                                                  }),
+                                                ),
+                                              ),
+                                              InkWell(
+                                                splashColor: Colors.transparent,
+                                                focusColor: Colors.transparent,
+                                                hoverColor: Colors.transparent,
+                                                highlightColor:
+                                                    Colors.transparent,
+                                                onTap: () async {
+                                                  context.pushNamed(
                                                       FeedbackWidget.routeName);
                                                 },
                                                 child: wrapWithModel(

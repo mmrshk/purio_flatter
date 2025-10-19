@@ -14,6 +14,7 @@ import 'flutter_flow/internationalization.dart';
 
 import 'dart:async';
 import 'package:easy_debounce/easy_debounce.dart';
+import 'dart:ui' as ui;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +24,9 @@ void main() async {
   await SupaFlow.initialize();
 
   await FlutterFlowTheme.initialize();
+  
+  // Initialize localization to load stored locale
+  await FFLocalizations.initialize();
 
   final appState = FFAppState(); // Initialize FFAppState
   await appState.initializePersistedState();
@@ -117,7 +121,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Locale? _locale = const Locale('en');
+  Locale? _locale;
   Locale? get locale => _locale;
   ThemeMode _themeMode = ThemeMode.light;
 
@@ -142,6 +146,9 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    
+    // Initialize locale from stored preference or system locale
+    _initializeLocale();
 
     _appStateNotifier = AppStateNotifier.instance;
     _router = createRouter(_appStateNotifier);
@@ -168,8 +175,32 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void _initializeLocale() {
+    // First try to get stored locale
+    final storedLocale = FFLocalizations.getStoredLocale();
+    if (storedLocale != null && FFLocalizations.languages().contains(storedLocale.languageCode)) {
+      _locale = storedLocale;
+      return;
+    }
+    
+    // Fallback to system locale if supported
+    final systemLocale = ui.PlatformDispatcher.instance.locale;
+    if (FFLocalizations.languages().contains(systemLocale.languageCode)) {
+      _locale = systemLocale;
+      // Store the system locale as user preference
+      FFLocalizations.storeLocale(systemLocale.languageCode);
+    } else {
+      // Final fallback to English
+      _locale = const Locale('en');
+    }
+  }
+
   void setLocale(String language) {
-    safeSetState(() => _locale = createLocale(language));
+    safeSetState(() {
+      _locale = createLocale(language);
+      // Store the selected locale
+      FFLocalizations.storeLocale(language);
+    });
   }
 
   void setThemeMode(ThemeMode mode) => safeSetState(() {

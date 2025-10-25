@@ -35,6 +35,7 @@ class IngredientsService {
               .from('ingredients')
               .select('risk_level, description, ro_description')
               .eq('id', matchedIngredientId)
+              .eq('visible', true)
               .single();
           
           riskLevel = ingredientData['risk_level'];

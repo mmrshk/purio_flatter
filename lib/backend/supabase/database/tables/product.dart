@@ -23,6 +23,8 @@ class ProductRow extends SupabaseDataRow {
 
   String? get barcode => getField<String>('barcode');
 
+  bool get visible => getField<bool>('visible') ?? true;
+
   int? get healthScore {
     final dynamic value = getField<dynamic>('final_score');
     if (value is int) return value;

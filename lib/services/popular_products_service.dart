@@ -39,6 +39,7 @@ class PopularProductsService {
                 .from('products')
                 .select()
                 .eq('id', entry.key)
+                .eq('visible', true)
                 .single();
             
             products.add(ProductRow(productResult));
@@ -53,6 +54,7 @@ class PopularProductsService {
         final recentResults = await Supabase.instance.client
             .from('products')
             .select()
+            .eq('visible', true)
             .order('created_at', ascending: false)
             .limit(limit - products.length);
         
@@ -108,6 +110,7 @@ class PopularProductsService {
                 .from('products')
                 .select()
                 .eq('id', entry.key)
+                .eq('visible', true)
                 .single();
             
             products.add(ProductRow(productResult));
@@ -122,6 +125,7 @@ class PopularProductsService {
         final recentResults = await Supabase.instance.client
             .from('products')
             .select()
+            .eq('visible', true)
             .order('created_at', ascending: false)
             .limit(limit - products.length);
         

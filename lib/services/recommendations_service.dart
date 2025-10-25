@@ -10,6 +10,7 @@ class RecommendationsService {
         queryFn: (q) => q
             .eq('category', category)
             .neq('id', excludeProductId)
+            .eq('visible', true)
             .not('final_score', 'is', null) // Only products with a health score
             .order('final_score', ascending: false)
             .limit(1),
@@ -35,6 +36,7 @@ class RecommendationsService {
         queryFn: (q) => q
             .eq('category', category)
             .neq('id', excludeProductId)
+            .eq('visible', true)
             .not('final_score', 'is', null) // Only products with a health score
             .order('final_score', ascending: false)
             .limit(limit),
@@ -55,6 +57,7 @@ class RecommendationsService {
       final products = await ProductTable().queryRows(
         queryFn: (q) => q
             .neq('id', excludeProductId)
+            .eq('visible', true)
             .not('final_score', 'is', null) // Only products with a health score
             .order('final_score', ascending: false)
             .limit(limit),
@@ -76,6 +79,7 @@ class RecommendationsService {
         queryFn: (q) => q
             .eq('category', category) // Same category
             .neq('id', excludeProductId)
+            .eq('visible', true)
             .not('final_score', 'is', null) // Only products with a health score
             .gte('final_score', healthScore) // Same or higher health score
             .order('final_score', ascending: false)
@@ -97,6 +101,7 @@ class RecommendationsService {
         queryFn: (q) => q
             .eq('category', category) // Same category
             .neq('id', excludeProductId)
+            .eq('visible', true)
             .not('final_score', 'is', null) // Only products with a health score
             .gt('final_score', 50) // Score bigger than 50
             .order('final_score', ascending: false)

@@ -226,11 +226,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
               size: 24,
             ),
             onPressed: () async {
-              if (widget.fromScan) {
-                context.goNamed('HomeScreen');
-              } else {
-                context.safePop();
-              }
+              context.safePop();
             },
           ),
           title: Text(
@@ -284,7 +280,6 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
           centerTitle: false,
           elevation: 0,
         ),
-
         body: SafeArea(
           top: true,
           child: Padding(

@@ -116,6 +116,7 @@ class _SearchProductWidgetState extends State<SearchProductWidget>
         .from('products')
         .select()
         .ilike('name', '%$query%')
+        .eq('visible', true)
         .range(_offset, _offset + _pageSize - 1);
     final products = (results as List)
         .map((e) => ProductRow(e as Map<String, dynamic>))

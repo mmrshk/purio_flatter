@@ -48,6 +48,12 @@ class _ScanScreenState extends State<ScanScreen> with WidgetsBindingObserver {
         break;
       case AppLifecycleState.resumed:
         _qrViewController?.resumeCamera();
+        // Reset processing state when app is resumed
+        if (isProcessingBarcode) {
+          setState(() {
+            isProcessingBarcode = false;
+          });
+        }
         break;
       case AppLifecycleState.inactive:
         _qrViewController?.pauseCamera();
@@ -59,6 +65,12 @@ class _ScanScreenState extends State<ScanScreen> with WidgetsBindingObserver {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _startScanner();
+    // Reset processing state when returning to scan screen
+    if (isProcessingBarcode) {
+      setState(() {
+        isProcessingBarcode = false;
+      });
+    }
   }
 
   Future<void> _initCamera() async {
@@ -111,6 +123,7 @@ class _ScanScreenState extends State<ScanScreen> with WidgetsBindingObserver {
           .from('products')
           .select()
           .eq('barcode', code)
+          .eq('visible', true)
           .maybeSingle();
 
       print('Product result: $result');
@@ -129,7 +142,14 @@ class _ScanScreenState extends State<ScanScreen> with WidgetsBindingObserver {
               product: ProductRow(result),
               fromScan: true,
             ),
-          ));
+          )).then((_) {
+            // Reset processing state when returning from product details
+            if (mounted) {
+              setState(() {
+                isProcessingBarcode = false;
+              });
+            }
+          });
         }
       } else {
         if (mounted) {

@@ -410,25 +410,71 @@ class _Continue2ndQuestionWidgetState extends State<Continue2ndQuestionWidget>
                                                       // Error states are already set by validateForm()
                                                     });
                                                   } else {
+                                                        // Clean expectations list - filter out nulls and empty strings, then join
+                                                        final cleanExpectations = FFAppState()
+                                                            .expectations
+                                                            .where((e) => e.isNotEmpty)
+                                                            .join(' , ');
+                                                        
+                                                        try {
+                                                          // Check if user already exists
+                                                          final existingUsers = await UserDataTable().queryRows(
+                                                            queryFn: (q) => q.eq('user_id', currentUserUid),
+                                                          );
+                                                          
+                                                          if (existingUsers.isNotEmpty) {
+                                                            // Update existing user
+                                                            await UserDataTable().update(
+                                                              data: {
+                                                                'first_name': FFAppState().firstName,
+                                                                'last_name': FFAppState().lastName,
+                                                                'email': currentUserEmail,
+                                                                'type': FFAppState().level,
+                                                                'expectations': cleanExpectations,
+                                                              },
+                                                              matchingRows: (q) => q.eq('user_id', currentUserUid),
+                                                              returnRows: false,
+                                                            );
+                                                            _model.userDataAddResponse = existingUsers.first;
+                                                          } else {
+                                                            // Insert new user
                                                         _model.userDataAddResponse =
-                                                            await UserDataTable()
-                                                                .insert({
-                                                          'first_name':
-                                                              FFAppState().firstName,
-                                                          'last_name':
-                                                              FFAppState().lastName,
+                                                                await UserDataTable().insert({
+                                                              'first_name': FFAppState().firstName,
+                                                              'last_name': FFAppState().lastName,
                                                           'email': currentUserEmail,
                                                           'type': FFAppState().level,
-                                                          'expectations':
-                                                              '${FFAppState().expectations.elementAtOrNull(0)} , ${FFAppState().expectations.elementAtOrNull(1)} , ${FFAppState().expectations.elementAtOrNull(2)} , ${FFAppState().expectations.elementAtOrNull(3)} , ${FFAppState().expectations.elementAtOrNull(4)} , ${FFAppState().expectations.elementAtOrNull(5)}',
+                                                              'expectations': cleanExpectations,
                                                           'user_id': currentUserUid,
                                                         });
-                                                        if (_model
-                                                                .userDataAddResponse !=
-                                                            null) {
-                                                          context.goNamed(
-                                                              HomeScreenWidget
-                                                                  .routeName);
+                                                          }
+                                                        
+                                                          // Wait a bit to ensure data is saved before navigating
+                                                          await Future.delayed(const Duration(milliseconds: 500));
+                                                        
+                                                          if (_model.userDataAddResponse != null) {
+                                                            context.goNamed(HomeScreenWidget.routeName);
+                                                          } else {
+                                                            // Show error if save failed
+                                                            if (mounted) {
+                                                              ScaffoldMessenger.of(context).showSnackBar(
+                                                                const SnackBar(
+                                                                  content: Text('Error saving data. Please try again.'),
+                                                                  backgroundColor: Colors.red,
+                                                                ),
+                                                              );
+                                                            }
+                                                          }
+                                                        } catch (e) {
+                                                          print('❌ Error saving user data: $e');
+                                                          if (mounted) {
+                                                            ScaffoldMessenger.of(context).showSnackBar(
+                                                              SnackBar(
+                                                                content: Text('Error: $e'),
+                                                                backgroundColor: Colors.red,
+                                                              ),
+                                                            );
+                                                          }
                                                         }
 
                                                         safeSetState(() {});

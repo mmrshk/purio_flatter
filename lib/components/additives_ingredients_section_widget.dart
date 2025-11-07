@@ -213,7 +213,8 @@ class _AdditivesIngredientsSectionWidgetState extends State<AdditivesIngredients
     }
     
     // Sort by risk score (high to low)
-    allItems.sort((a, b) => b['riskScore'].compareTo(a['riskScore']));
+    // Lower score = higher risk, so sort ascending (1=high comes before 4=free)
+    allItems.sort((a, b) => a['riskScore'].compareTo(b['riskScore']));
     
     // Build widgets from sorted list
     for (int i = 0; i < allItems.length && totalItems < maxItems; i++) {

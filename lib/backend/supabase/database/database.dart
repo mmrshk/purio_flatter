@@ -13,3 +13,5 @@ export 'tables/product_additives.dart';
 export 'tables/additives.dart';
 export 'tables/ingredients.dart';
 export 'tables/feedbacks.dart';
+export 'tables/pending_product_submission.dart';
+export 'tables/feedback_photo_submissions.dart';

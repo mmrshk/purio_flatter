@@ -309,9 +309,24 @@ class _NavbarWidgetState extends State<NavbarWidget> with RouteAware {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      _buildNavItem(0, Icons.home_outlined, Icons.home, 'Home'),
-                      _buildNavItem(1, Icons.qr_code_scanner_rounded, Icons.qr_code_scanner_rounded, 'Scan'),
-                      _buildNavItem(2, Icons.history_outlined, Icons.history, 'History'),
+                      _buildNavItem(
+                        0,
+                        Icons.home_outlined,
+                        Icons.home,
+                        FFLocalizations.of(context).getText('nav_home' /* Home */),
+                      ),
+                      _buildNavItem(
+                        1,
+                        Icons.qr_code_scanner_rounded,
+                        Icons.qr_code_scanner_rounded,
+                        FFLocalizations.of(context).getText('nav_scan' /* Scan */),
+                      ),
+                      _buildNavItem(
+                        2,
+                        Icons.history_outlined,
+                        Icons.history,
+                        FFLocalizations.of(context).getText('nav_history' /* History */),
+                      ),
                     ],
                   ),
                 ),

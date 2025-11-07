@@ -15,10 +15,27 @@ class IngredientsService {
     
     for (Map<String, dynamic> match in matches) {
       String original = match['original'] ?? '';
-      String matchedIngredientId = match['matched_ingredient_id'] ?? '';
-      int? novaScore = match['nova_score'];
-      String englishName = match['english_name'] ?? '';
-      String romanianName = match['romanian_name'] ?? '';
+      
+      // Extract data from match structure - support both old and new formats
+      Map<String, dynamic>? matchData = match['data'];
+      String matchedIngredientId = '';
+      int? novaScore;
+      String englishName = '';
+      String romanianName = '';
+      
+      if (matchData != null) {
+        // New format: data is nested in 'data' object
+        matchedIngredientId = matchData['id']?.toString() ?? '';
+        novaScore = matchData['nova_score'];
+        englishName = matchData['name'] ?? '';
+        romanianName = matchData['name_ro'] ?? '';
+      } else {
+        // Old format: data is directly in match object (backward compatibility)
+        matchedIngredientId = match['matched_ingredient_id']?.toString() ?? '';
+        novaScore = match['nova_score'];
+        englishName = match['english_name'] ?? '';
+        romanianName = match['romanian_name'] ?? '';
+      }
       
       // Skip if we've already processed this ingredient ID
       if (matchedIngredientId.isNotEmpty && processedIds.contains(matchedIngredientId)) {

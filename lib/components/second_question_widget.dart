@@ -1,5 +1,6 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/internationalization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -91,6 +92,46 @@ class _SecondQuestionWidgetState extends State<SecondQuestionWidget>
     _model.isRouteVisible = false;
   }
 
+  String _getLocalizedExpectation(String? expectation) {
+    if (expectation == null) return '';
+    switch (expectation) {
+      case 'Find':
+        return FFLocalizations.of(context).getText('expectation_find');
+      case 'Understand':
+        return FFLocalizations.of(context).getText('expectation_understand');
+      case 'Create':
+        return FFLocalizations.of(context).getText('expectation_create');
+      case 'Save':
+        return FFLocalizations.of(context).getText('expectation_save');
+      case 'Learn':
+        return FFLocalizations.of(context).getText('expectation_learn');
+      case 'Track':
+        return FFLocalizations.of(context).getText('expectation_track');
+      default:
+        return expectation;
+    }
+  }
+
+  String _getLocalizedExpectationDescription(String? expectation) {
+    if (expectation == null) return '';
+    switch (expectation) {
+      case 'Find':
+        return FFLocalizations.of(context).getText('expectation_find_desc');
+      case 'Understand':
+        return FFLocalizations.of(context).getText('expectation_understand_desc');
+      case 'Create':
+        return FFLocalizations.of(context).getText('expectation_create_desc');
+      case 'Save':
+        return FFLocalizations.of(context).getText('expectation_save_desc');
+      case 'Learn':
+        return FFLocalizations.of(context).getText('expectation_learn_desc');
+      case 'Track':
+        return FFLocalizations.of(context).getText('expectation_track_desc');
+      default:
+        return widget.description ?? '';
+    }
+  }
+
   String _getEmojiForExpectation(String? expectation) {
     switch (expectation) {
       case 'Find':
@@ -140,14 +181,18 @@ class _SecondQuestionWidgetState extends State<SecondQuestionWidget>
         width: 162.0,
         height: 140.0,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: FFAppState().expectations.contains(widget.expectation)
+              ? const Color(0xFFE0F7F5) // Light teal background when selected
+              : Colors.white,
           borderRadius: BorderRadius.circular(10.0),
           border: Border.all(
             color: widget.hasValidationError
                 ? Colors.red
-                : const Color(0xFF40E0D0),
+                : FFAppState().expectations.contains(widget.expectation)
+                    ? const Color(0xFF40E0D0) // Teal border when selected
+                    : const Color(0xFFB0E0DC), // Lighter teal border when not selected
             width: FFAppState().expectations.contains(widget.expectation)
-                ? 2.0
+                ? 2.5 // Thicker border when selected
                 : 1.0,
           ),
         ),
@@ -197,10 +242,7 @@ class _SecondQuestionWidgetState extends State<SecondQuestionWidget>
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: valueOrDefault<String>(
-                            widget.expectation,
-                            'expectation ',
-                          ),
+                          text: _getLocalizedExpectation(widget.expectation),
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(
                                     font: GoogleFonts.roboto(
@@ -222,10 +264,7 @@ class _SecondQuestionWidgetState extends State<SecondQuestionWidget>
                                   ),
                         ),
                         TextSpan(
-                          text: valueOrDefault<String>(
-                            widget.description,
-                            'description ',
-                          ),
+                          text: _getLocalizedExpectationDescription(widget.expectation),
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(
                                     font: GoogleFonts.roboto(
@@ -267,11 +306,17 @@ class _SecondQuestionWidgetState extends State<SecondQuestionWidget>
                 ),
               ],
             ),
-            const Align(
-              alignment: AlignmentDirectional(1.0, -1.0),
+            Align(
+              alignment: const AlignmentDirectional(1.0, -1.0),
               child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 8.0, 0.0),
-                child: Icon(
+                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 8.0, 0.0),
+                child: FFAppState().expectations.contains(widget.expectation)
+                    ? const Icon(
+                        Icons.check_circle,
+                        color: Color(0xFF40E0D0), // Teal checkmark when selected
+                        size: 26.0,
+                      )
+                    : const Icon(
                   Icons.add_circle_outline,
                   color: Color(0xFF474646),
                   size: 26.0,

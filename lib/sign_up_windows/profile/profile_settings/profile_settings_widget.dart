@@ -702,7 +702,8 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget>
                                                     ),
                                                     const SizedBox(height: 8),
                                                     Text(
-                                                      'Stay connected with us!',
+                                                      FFLocalizations.of(context)
+                                                          .getText('stay_connected_title' /* Stay connected with us! */),
                                                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                         font: GoogleFonts.roboto(
                                                           fontWeight: FontWeight.w400,

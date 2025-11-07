@@ -342,7 +342,12 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
         final userData = _model.userDataResponse!.first;
         
         // Check if user has complete profile (has type and expectations)
-        if (userData.type?.isNotEmpty == true && userData.expectations?.isNotEmpty == true) {
+        // Also check that expectations doesn't contain "null" text (from old buggy saves)
+        final hasValidType = userData.type?.isNotEmpty == true;
+        final hasValidExpectations = userData.expectations?.isNotEmpty == true && 
+                                     !userData.expectations!.toLowerCase().contains('null');
+        
+        if (hasValidType && hasValidExpectations) {
           // User has complete profile, proceed to home screen
           FFAppState().firstName = userData.firstName ?? '';
           safeSetState(() {});
@@ -350,11 +355,13 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
           safeSetState(() {});
         } else {
           // User data exists but is incomplete, redirect to onboarding
+          print('⚠️ User profile incomplete - type: $hasValidType, expectations: $hasValidExpectations');
           _redirectToOnboarding();
         }
       } else {
         // No user data found - this could be a new user or an existing user without profile data
         // Redirect to onboarding to complete the profile
+        print('⚠️ No user data found, redirecting to onboarding');
         _redirectToOnboarding();
       }
     } catch (e) {
@@ -674,7 +681,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
                                             ),
                                             const SizedBox(width: 4),
                                             Text(
-                                              '$_scanCount scans',
+                                              '${_scanCount} ${FFLocalizations.of(context).getText('home_scans_label' /* scans */)}',
                                               style: GoogleFonts.roboto(
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.bold,
@@ -694,7 +701,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
                                             ),
                                             const SizedBox(width: 4),
                                             Text(
-                                              '$_streak day streak',
+                                              '${_streak} ${FFLocalizations.of(context).getText('home_day_streak' /* day streak */)}',
                                               style: GoogleFonts.roboto(
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.bold,
@@ -773,7 +780,8 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
                                           borderRadius: BorderRadius.circular(12),
                                         ),
                                         child: Text(
-                                          'Discover',
+                                          FFLocalizations.of(context)
+                                              .getText('home_discover' /* Discover */),
                                           style: TextStyle(
                                             color: const Color(0xFF50B2B2),
                                             fontSize: 12,
@@ -937,7 +945,8 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
                                                 borderRadius: BorderRadius.circular(12),
                                               ),
                                               child: Text(
-                                                'Trending',
+                                                FFLocalizations.of(context)
+                                                    .getText('home_trending' /* Trending */),
                                                 style: TextStyle(
                                                   color: const Color(0xFF50B2B2),
                                                   fontSize: 12,

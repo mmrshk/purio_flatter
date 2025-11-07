@@ -193,6 +193,22 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Popular scans',
       'ro': 'Scanări populare',
     },
+    'home_trending': {
+      'en': 'Trending',
+      'ro': 'În tendințe',
+    },
+    'home_discover': {
+      'en': 'Discover',
+      'ro': 'Descoperă',
+    },
+    'home_scans_label': {
+      'en': 'scans',
+      'ro': 'scanări',
+    },
+    'home_day_streak': {
+      'en': 'day streak',
+      'ro': 'zile la rând',
+    },
   },
   // ProductDetails
   {
@@ -314,9 +330,32 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Edit Profile',
       'ro': 'Editează Profilul',
     },
+    'setting_default': {
+      'en': 'Setting',
+      'ro': 'Setare',
+    },
     'feedback': {
       'en': 'Feedback',
-      'ro': 'Feedback'
+      'ro': 'Reacție'
+    },
+    'stay_connected_title': {
+      'en': 'Stay connected with us!',
+      'ro': 'Rămâi conectat cu noi!',
+    },
+  },
+  // Navigation
+  {
+    'nav_home': {
+      'en': 'Home',
+      'ro': 'Acasă',
+    },
+    'nav_scan': {
+      'en': 'Scan',
+      'ro': 'Scanează',
+    },
+    'nav_history': {
+      'en': 'History',
+      'ro': 'Istoric',
     },
   },
   // PrivacyPolicy
@@ -884,6 +923,10 @@ Prin utilizarea aplicației Purio, confirmi că:
       'en': 'Please enter your feedback message',
       'ro': 'Te rugăm să introduci mesajul de feedback',
     },
+    'feedback_enter_message_or_photo': {
+      'en': 'Please add a message or attach at least one photo.',
+      'ro': 'Te rugăm să adaugi un mesaj sau să atașezi cel puțin o fotografie.',
+    },
     'feedback_sending': {
       'en': 'Sending...',
       'ro': 'Se trimite...',
@@ -895,6 +938,34 @@ Prin utilizarea aplicației Purio, confirmi că:
     'feedback_error': {
       'en': 'Failed to send feedback. Please try again.',
       'ro': 'Eșec la trimiterea feedback-ului. Te rugăm să încerci din nou.',
+    },
+    'feedback_add_photo': {
+      'en': 'Attach Photos',
+      'ro': 'Atașează fotografii',
+    },
+    'feedback_photo_hint': {
+      'en': 'Add up to 5 screenshots or photos to give more context (optional).',
+      'ro': 'Adaugă până la 5 capturi de ecran sau fotografii pentru mai mult context (opțional).',
+    },
+    'feedback_add_photo_action': {
+      'en': 'Add photo',
+      'ro': 'Adaugă fotografie',
+    },
+    'feedback_photo_camera': {
+      'en': 'Take a photo',
+      'ro': 'Fă o fotografie',
+    },
+    'feedback_photo_gallery': {
+      'en': 'Choose from gallery',
+      'ro': 'Alege din galerie',
+    },
+    'feedback_photo_limit': {
+      'en': 'You can attach up to 5 photos.',
+      'ro': 'Poți atașa până la 5 fotografii.',
+    },
+    'feedback_photo_error': {
+      'en': 'We couldn’t load that photo. Please try again.',
+      'ro': 'Nu am putut încărca fotografia. Te rugăm să încerci din nou.',
     },
   },
   // LogIn
@@ -1116,6 +1187,121 @@ Prin utilizarea aplicației Purio, confirmi că:
     'xnpah5j0': {
       'en': 'Email already in used',
       'ro': 'Emailul este deja folosit',
+    },
+    'scan_barcode_text': {
+      'en': 'Please, scan barcode',
+      'ro': 'Vă rugăm, scanați codul de bare',
+    },
+    // First Question Options
+    'level_explorer': {
+      'en': 'Explorer',
+      'ro': 'Explorator',
+    },
+    'level_explorer_desc': {
+      'en': 'I pick what looks good or feels \nfamiliar.',
+      'ro': 'Aleg ce arată bine sau îmi pare \ncunoscut.',
+    },
+    'level_label_curios': {
+      'en': 'Label Curios',
+      'ro': 'Curios de Etichete',
+    },
+    'level_label_curios_desc': {
+      'en': 'I sometimes check labels for \nhealthier choices.',
+      'ro': 'Verific uneori etichetele pentru \nalegeri mai sănătoase.',
+    },
+    'level_label_pro': {
+      'en': 'Label Pro',
+      'ro': 'Expert Etichete',
+    },
+    'level_label_pro_desc': {
+      'en': 'I analyze ingredients to choose \nthe best products.',
+      'ro': 'Analizez ingredientele pentru a alege \ncele mai bune produse.',
+    },
+    // Second Question Options
+    'expectation_find': {
+      'en': 'Find',
+      'ro': 'Găsi',
+    },
+    'expectation_find_desc': {
+      'en': ' healthier food options.',
+      'ro': ' opțiuni alimentare mai sănătoase.',
+    },
+    'expectation_understand': {
+      'en': 'Understand',
+      'ro': 'Înțelege',
+    },
+    'expectation_understand_desc': {
+      'en': ' labels \nbetter',
+      'ro': ' etichetele \nmai bine',
+    },
+    'expectation_create': {
+      'en': 'Create',
+      'ro': 'Creează',
+    },
+    'expectation_create_desc': {
+      'en': ' a healthy \nshopping list.',
+      'ro': ' o listă de cumpărături \nsănătoasă.',
+    },
+    'expectation_save': {
+      'en': 'Save',
+      'ro': 'Economisește',
+    },
+    'expectation_save_desc': {
+      'en': ' time while \nshopping.',
+      'ro': ' timp în timpul \ncumpărăturilor.',
+    },
+    'expectation_learn': {
+      'en': 'Learn',
+      'ro': 'Învață',
+    },
+    'expectation_learn_desc': {
+      'en': ' about \nbalanced nutrition.',
+      'ro': ' despre \nnutriție echilibrată.',
+    },
+    'expectation_track': {
+      'en': 'Track',
+      'ro': 'Urmărește',
+    },
+    'expectation_track_desc': {
+      'en': ' my food\nchoices over time.',
+      'ro': ' alegerile mele alimentare\nîn timp.',
+    },
+    // Product submission dialog
+    'product_not_found_title': {
+      'en': 'Oops! Product Not Found',
+      'ro': 'Ups! Produsul nu a fost găsit',
+    },
+    'product_not_found_message': {
+      'en': 'Wow, you found a rare gem! 🎉',
+      'ro': 'Uau, ai găsit o raritate! 🎉',
+    },
+    'product_not_found_help': {
+      'en': 'Help us grow! Add this product to share with others',
+      'ro': 'Ajută-ne să creștem! Adaugă acest produs pentru a-l împărtăși cu alții',
+    },
+    'no_image_selected': {
+      'en': 'No image selected',
+      'ro': 'Nicio imagine selectată',
+    },
+    'take_photo': {
+      'en': 'Take Photo',
+      'ro': 'Fă o poză',
+    },
+    'choose_from_gallery': {
+      'en': 'Gallery',
+      'ro': 'Galerie',
+    },
+    'add_this_product': {
+      'en': 'Add this product',
+      'ro': 'Adaugă acest produs',
+    },
+    'continue_scanning': {
+      'en': 'Continue scanning',
+      'ro': 'Continuă scanarea',
+    },
+    'product_submitted_success': {
+      'en': 'Product submitted successfully! Thank you for your contribution.',
+      'ro': 'Produsul a fost trimis cu succes! Mulțumim pentru contribuție.',
     },
   },
 ].reduce((a, b) => a..addAll(b));

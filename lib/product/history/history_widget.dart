@@ -34,54 +34,81 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
   final Map<int, DateTime> _imageLoadStartTimes = {};
   final int _minSkeletonMillis = 300;
   bool _isLoadingHistory = true;
+  bool _isLoadingMore = false;
+  bool _hasMoreHistory = true;
+  int _currentPage = 0;
+  final int _itemsPerPage = 20;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => HistoryModel());
     _loadHistoryProducts();
+    
+    // Listen to scroll events to load more items
+    _scrollController.addListener(_onScroll);
   }
 
-  Future<void> _loadHistoryProducts() async {
+  void _onScroll() {
+    if (!_scrollController.hasClients) return;
+    
+    if (_scrollController.position.pixels >= 
+        _scrollController.position.maxScrollExtent * 0.8) {
+      // Load more when user scrolls to 80% of the list
+      if (_hasMoreHistory && !_isLoadingMore && !_isLoadingHistory) {
+        _loadHistoryProducts(loadMore: true);
+      }
+    }
+  }
+
+  Future<void> _loadHistoryProducts({bool loadMore = false}) async {
+    if (loadMore) {
+      if (_isLoadingMore || !_hasMoreHistory) return;
+      setState(() {
+        _isLoadingMore = true;
+      });
+    } else {
     setState(() {
       _isLoadingHistory = true;
-    });
-    
-    // Record start time for minimum loading duration
-    final startTime = DateTime.now();
+        _currentPage = 0;
+        _hasMoreHistory = true;
+      });
+    }
     
     try {
-      final products = await HistoryService.getUserHistory(limit: 10);
+      final offset = _currentPage * _itemsPerPage;
+      final products = await HistoryService.getUserHistory(
+        limit: _itemsPerPage,
+        offset: offset,
+      );
       
       if (mounted) {
-        // Calculate elapsed time
-        final elapsed = DateTime.now().difference(startTime).inMilliseconds;
-        final minLoadingTime = 2000; // 2 seconds minimum loading time
-        
-        if (elapsed < minLoadingTime) {
-          // Wait for remaining time to complete minimum loading duration
-          await Future.delayed(Duration(milliseconds: minLoadingTime - elapsed));
-        }
-        
         setState(() {
+          if (loadMore) {
+            _model.historyProducts.addAll(products);
+            _currentPage++; // Increment page after successful load
+          } else {
           _model.historyProducts = products;
+          }
+          
+          // Check if there are more items to load
+          _hasMoreHistory = products.length == _itemsPerPage;
+          
           _isLoadingHistory = false;
+          _isLoadingMore = false;
         });
       }
     } catch (e) {
       print('Error loading history products: $e');
       
       if (mounted) {
-        // Even on error, ensure minimum loading time
-        final elapsed = DateTime.now().difference(startTime).inMilliseconds;
-        final minLoadingTime = 500;
-        
-        if (elapsed < minLoadingTime) {
-          await Future.delayed(Duration(milliseconds: minLoadingTime - elapsed));
-        }
-        
         setState(() {
           _isLoadingHistory = false;
+          _isLoadingMore = false;
+          if (!loadMore) {
+            _hasMoreHistory = false;
+          }
         });
       }
     }
@@ -115,7 +142,8 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
   @override
   void dispose() {
     routeObserver.unsubscribe(this);
-
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
     _model.dispose();
 
     super.dispose();
@@ -363,8 +391,22 @@ class _HistoryWidgetState extends State<HistoryWidget> with RouteAware {
                             linearGradient: shimmerGradient,
                             child: Expanded(
                               child: ListView.builder(
-                                itemCount: _model.historyProducts.length,
+                                controller: _scrollController,
+                                itemCount: _model.historyProducts.length + (_isLoadingMore ? 1 : 0),
                                 itemBuilder: (context, index) {
+                                  // Show loading indicator at the bottom
+                                  if (index == _model.historyProducts.length) {
+                                    return Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                          valueColor: AlwaysStoppedAnimation<Color>(
+                                            const Color(0xFF40E0D0),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }
                                   final product = _model.historyProducts[index];
                                   return Padding(
                                     padding: const EdgeInsets.only(bottom: 12.0),

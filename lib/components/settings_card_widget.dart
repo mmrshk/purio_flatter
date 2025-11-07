@@ -135,7 +135,9 @@ class _SettingsCardWidgetState extends State<SettingsCardWidget>
                           Text(
                             valueOrDefault<String>(
                               widget.setting,
-                              'Setting',
+                              FFLocalizations.of(context).getText(
+                                'setting_default' /* Setting */,
+                              ),
                             ),
                             style: FlutterFlowTheme.of(context).bodyMedium.override(
                                   font: GoogleFonts.roboto(

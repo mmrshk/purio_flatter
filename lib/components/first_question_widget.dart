@@ -1,5 +1,6 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/internationalization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -91,6 +92,34 @@ class _FirstQuestionWidgetState extends State<FirstQuestionWidget>
     _model.isRouteVisible = false;
   }
 
+  String _getLocalizedLevel(String? level) {
+    if (level == null) return '';
+    switch (level) {
+      case 'Explorer':
+        return FFLocalizations.of(context).getText('level_explorer');
+      case 'Label Curios':
+        return FFLocalizations.of(context).getText('level_label_curios');
+      case 'Label Pro':
+        return FFLocalizations.of(context).getText('level_label_pro');
+      default:
+        return level;
+    }
+  }
+
+  String _getLocalizedDescription(String? level) {
+    if (level == null) return '';
+    switch (level) {
+      case 'Explorer':
+        return FFLocalizations.of(context).getText('level_explorer_desc');
+      case 'Label Curios':
+        return FFLocalizations.of(context).getText('level_label_curios_desc');
+      case 'Label Pro':
+        return FFLocalizations.of(context).getText('level_label_pro_desc');
+      default:
+        return widget.description ?? '';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     DebugFlutterFlowModelContext.maybeOf(context)
@@ -117,12 +146,17 @@ class _FirstQuestionWidgetState extends State<FirstQuestionWidget>
           width: 350.0,
           height: 81.0,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: FFAppState().level == widget.level
+                ? const Color(0xFFE0F7F5) // Light teal background when selected
+                : Colors.white,
             borderRadius: BorderRadius.circular(10.0),
             border: Border.all(
               color: widget.hasValidationError
                   ? Colors.red
-                  : const Color(0xFF40E0D0),
+                  : FFAppState().level == widget.level
+                      ? const Color(0xFF40E0D0) // Teal border when selected
+                      : const Color(0xFFB0E0DC), // Lighter teal border when not selected
+              width: FFAppState().level == widget.level ? 2.5 : 1.0, // Thicker border when selected
             ),
           ),
           child: Padding(
@@ -140,10 +174,7 @@ class _FirstQuestionWidgetState extends State<FirstQuestionWidget>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          valueOrDefault<String>(
-                            widget.level,
-                            'level',
-                          ),
+                          _getLocalizedLevel(widget.level),
                           style: FlutterFlowTheme.of(context).bodyMedium.override(
                                 font: GoogleFonts.roboto(
                                   fontWeight: FontWeight.w500,
@@ -164,10 +195,7 @@ class _FirstQuestionWidgetState extends State<FirstQuestionWidget>
                           padding:
                               const EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
                           child: Text(
-                            valueOrDefault<String>(
-                              widget.description,
-                              'description',
-                            ),
+                            _getLocalizedDescription(widget.level),
                             style:
                                 FlutterFlowTheme.of(context).bodyMedium.override(
                                       font: GoogleFonts.roboto(

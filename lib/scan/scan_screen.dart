@@ -1,10 +1,11 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:async';
 import '/product/product_details/product_details_widget.dart';
 import '/backend/supabase/database/tables/product.dart';
+import '/flutter_flow/internationalization.dart';
+import '/components/add_product_dialog.dart';
 
 class ScanScreen extends StatefulWidget {
   const ScanScreen({super.key});
@@ -15,8 +16,6 @@ class ScanScreen extends StatefulWidget {
 
 class _ScanScreenState extends State<ScanScreen> with WidgetsBindingObserver {
   bool isFlashOn = false;
-  CameraController? _cameraController;
-  List<CameraDescription>? _cameras;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   QRViewController? _qrViewController;
   String? _lastScannedCode;
@@ -73,25 +72,24 @@ class _ScanScreenState extends State<ScanScreen> with WidgetsBindingObserver {
     }
   }
 
-  Future<void> _initCamera() async {
-    _cameras = await availableCameras();
-    if (_cameras != null && _cameras!.isNotEmpty) {
-      _cameraController = CameraController(
-        _cameras!.first,
-        ResolutionPreset.medium,
-        enableAudio: false,
-      );
-      await _cameraController!.initialize();
-      setState(() {});
-    }
-  }
-
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    _qrViewController?.pauseCamera();
     _qrViewController?.dispose();
-    _cameraController?.dispose();
     super.dispose();
+  }
+
+  Future<void> _handleClose() async {
+    try {
+      await _qrViewController?.pauseCamera();
+      await Future.delayed(const Duration(milliseconds: 150));
+    } catch (e) {
+      // ignore pause errors
+    }
+    if (mounted) {
+      Navigator.pop(context);
+    }
   }
 
   void _toggleFlash() {
@@ -112,8 +110,13 @@ class _ScanScreenState extends State<ScanScreen> with WidgetsBindingObserver {
   void _onBarcodeDetected(Barcode scanData) async {
     print('Barcode detected: ${scanData.code}');
     final String? code = scanData.code;
+    if (code != null) {
+      _processBarcode(code);
+    }
+  }
     
-    if (code != null && code != _lastScannedCode && !isProcessingBarcode) {
+  void _processBarcode(String code) async {
+    if (code != _lastScannedCode && !isProcessingBarcode) {
       setState(() {
         isProcessingBarcode = true;
         _lastScannedCode = code;
@@ -147,16 +150,24 @@ class _ScanScreenState extends State<ScanScreen> with WidgetsBindingObserver {
             if (mounted) {
               setState(() {
                 isProcessingBarcode = false;
+                _lastScannedCode = null; // Reset to allow re-scanning
               });
             }
           });
         }
       } else {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Product not found')),
-          );
           setState(() => isProcessingBarcode = false);
+          
+          // Show dialog to add product
+          await AddProductDialog.show(context, code);
+          
+          // Reset last scanned code after dialog closes to allow re-scanning
+          if (mounted) {
+            setState(() {
+              _lastScannedCode = null;
+            });
+          }
         }
       }
     }
@@ -189,7 +200,7 @@ class _ScanScreenState extends State<ScanScreen> with WidgetsBindingObserver {
             left: 24,
             child: IconButton(
               icon: const Icon(Icons.close, size: 36, color: Colors.teal),
-              onPressed: () => Navigator.pop(context),
+              onPressed: _handleClose,
             ),
           ),
           // Flash button
@@ -205,56 +216,31 @@ class _ScanScreenState extends State<ScanScreen> with WidgetsBindingObserver {
               onPressed: _toggleFlash,
             ),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class _ScanButton extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-  final VoidCallback? onAction;
-  final bool enabled;
-
-  const _ScanButton({
-    required this.icon,
-    required this.label,
-    required this.selected,
-    required this.onTap,
-    this.onAction,
-    this.enabled = true,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 140,
-        height: 56,
-        decoration: BoxDecoration(
-          color: selected ? Colors.teal : Colors.black,
-          borderRadius: BorderRadius.circular(32),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: Colors.white, size: 28),
-            const SizedBox(width: 8),
-            Text(
-              label,
-              style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            if (onAction != null && enabled)
-              IconButton(
-                icon: const Icon(Icons.circle, color: Colors.white, size: 20),
-                onPressed: onAction,
+          // Scan instruction text
+          Positioned(
+            bottom: 100,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.6),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  FFLocalizations.of(context).getText('scan_barcode_text'),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
-          ],
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }

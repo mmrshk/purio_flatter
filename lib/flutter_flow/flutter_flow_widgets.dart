@@ -88,9 +88,10 @@ class _FFButtonWidgetState extends State<FFButtonWidget> {
                 : null,
             child: Center(
               child: SizedBox(
-                width: 23,
-                height: 23,
+                width: 16,
+                height: 16,
                 child: CircularProgressIndicator(
+                  strokeWidth: 2,
                   valueColor: AlwaysStoppedAnimation<Color>(
                     widget.options.textStyle?.color ?? Colors.white,
                   ),

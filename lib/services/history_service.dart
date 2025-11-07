@@ -39,7 +39,10 @@ class HistoryService {
   }
 
   /// Get user's history with product details
-  static Future<List<ProductRow>> getUserHistory({int limit = 10}) async {
+  static Future<List<ProductRow>> getUserHistory({
+    int limit = 20,
+    int offset = 0,
+  }) async {
     try {
       // Get the current user's ID from the users table
       final userData = await UserDataTable().queryRows(
@@ -59,7 +62,7 @@ class HistoryService {
             ''')
             .eq('user_id', userId)
             .order('created_at', ascending: false)
-            .limit(limit);
+            .range(offset, offset + limit - 1);
 
         // Convert to ProductRow objects
         final products = history.map((item) {

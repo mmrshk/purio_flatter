@@ -47,6 +47,7 @@ class IngredientsScreenModel extends FlutterFlowModel {
   }
 
   Future<void> loadIngredients() async {
+    debugPrint('[Ingredients] loadIngredients → start');
     isLoading = true;
     currentOffset = 0;
     hasMoreData = true;
@@ -60,12 +61,14 @@ class IngredientsScreenModel extends FlutterFlowModel {
           .range(currentOffset, currentOffset + batchSize - 1),
       );
       
+      debugPrint('[Ingredients] loadIngredients → fetched ${ingredients.length} rows');
       ingredientsList = RiskSortingService.sortIngredientsByRisk(ingredients);
       hasMoreData = ingredients.length == batchSize;
       currentOffset += batchSize;
       isLoading = false;
       onUpdate();
     } catch (e) {
+      debugPrint('[Ingredients] loadIngredients → error: $e');
       isLoading = false;
       onUpdate();
     }
@@ -84,6 +87,7 @@ class IngredientsScreenModel extends FlutterFlowModel {
           .range(currentOffset, currentOffset + batchSize - 1),
       );
       
+      debugPrint('[Ingredients] loadMoreIngredients → fetched ${ingredients.length} rows (offset $currentOffset)');
       final sortedIngredients = RiskSortingService.sortIngredientsByRisk(ingredients);
       ingredientsList.addAll(sortedIngredients);
       hasMoreData = ingredients.length == batchSize;
@@ -91,6 +95,7 @@ class IngredientsScreenModel extends FlutterFlowModel {
       isLoadingMore = false;
       onUpdate();
     } catch (e) {
+      debugPrint('[Ingredients] loadMoreIngredients → error: $e');
       isLoadingMore = false;
       onUpdate();
     }
@@ -116,6 +121,7 @@ class IngredientsScreenModel extends FlutterFlowModel {
       return;
     }
 
+    debugPrint('[Ingredients] searchIngredients("$query") → start');
     searchQuery = query;
     isLoading = true;
     onUpdate();
@@ -123,16 +129,18 @@ class IngredientsScreenModel extends FlutterFlowModel {
     try {
       final searchResults = await IngredientsTable().queryRows(
         queryFn: (q) => q
-          .or('name.ilike.%$query%,name_ro.ilike.%$query%')
+          .or('name.ilike.%$query%,ro_name.ilike.%$query%')
           .order('name')
           .limit(50),
       );
       
+      debugPrint('[Ingredients] searchIngredients("$query") → ${searchResults.length} rows');
       ingredientsList = RiskSortingService.sortIngredientsByRisk(searchResults);
       hasMoreData = false; // No pagination for search results
       isLoading = false;
       onUpdate();
     } catch (e) {
+      debugPrint('[Ingredients] searchIngredients("$query") → error: $e');
       isLoading = false;
       onUpdate();
     }

@@ -28,7 +28,7 @@ class IngredientsService {
         matchedIngredientId = matchData['id']?.toString() ?? '';
         novaScore = matchData['nova_score'];
         englishName = matchData['name'] ?? '';
-        romanianName = matchData['name_ro'] ?? '';
+        romanianName = matchData['ro_name'] ?? '';
       } else {
         // Old format: data is directly in match object (backward compatibility)
         matchedIngredientId = match['matched_ingredient_id']?.toString() ?? '';
@@ -102,7 +102,7 @@ class IngredientsService {
       'id': id,
       'created_at': DateTime.now().toIso8601String(),
       'name': name,
-      'name_ro': roName,
+      'ro_name': roName,
       'nova_score': novaScore,
       'risk_level': riskLevel,
       'description': description,

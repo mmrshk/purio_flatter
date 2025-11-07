@@ -20,7 +20,7 @@ class IngredientsRow extends SupabaseDataRow {
 
   String get name => getField<String>('name')!;
 
-  String get roName => getField<String>('name_ro')!;
+  String? get roName => getField<String>('ro_name');
 
   int? get novaScore => getField<int>('nova_score');
 

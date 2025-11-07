@@ -250,7 +250,7 @@ class _IngredientsScreenState extends State<IngredientsScreen> {
                         children: [
                           Text(
                             FFLocalizations.of(context).languageCode == 'ro' 
-                                ? ingredient.roName 
+                                ? (ingredient.roName ?? ingredient.name) 
                                 : ingredient.name,
                             style: FlutterFlowTheme.of(context).titleMedium.override(
                                   fontWeight: FontWeight.bold,

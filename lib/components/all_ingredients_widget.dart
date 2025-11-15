@@ -27,22 +27,22 @@ class AllIngredientsWidget extends StatefulWidget {
 
 class _AllIngredientsWidgetState extends State<AllIngredientsWidget> {
   late List<Map<String, dynamic>> _sortedItems;
-  
+
   @override
   void initState() {
     super.initState();
   }
-  
+
   /// Check if ingredient has a description
   bool _hasIngredientDescription(MatchedIngredient ingredient) {
     if (ingredient.dbIngredient == null) return false;
-    
+
     final currentLanguage = FFLocalizations.of(context).languageCode;
-    
+
     return currentLanguage == 'ro'
-        ? ingredient.dbIngredient!.roDescription != null && 
+        ? ingredient.dbIngredient!.roDescription != null &&
           ingredient.dbIngredient!.roDescription!.isNotEmpty
-        : ingredient.dbIngredient!.description != null && 
+        : ingredient.dbIngredient!.description != null &&
           ingredient.dbIngredient!.description!.isNotEmpty;
   }
 
@@ -263,7 +263,7 @@ class _AllIngredientsWidgetState extends State<AllIngredientsWidget> {
                                                                   borderRadius: BorderRadius.circular(12.0),
                                                                 ),
                                                                 child: Text(
-                                                                  widget.additives[additiveIndex].riskLevel!,
+                                                                  AdditivesService.getRiskLevelText(widget.additives[additiveIndex].riskLevel!, context),
                                                                   style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                         font: GoogleFonts.roboto(
                                                                           fontWeight: FontWeight.bold,
@@ -342,11 +342,11 @@ class _AllIngredientsWidgetState extends State<AllIngredientsWidget> {
                                                               Container(
                                                                 padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                                                                 decoration: BoxDecoration(
-                                                                  color: IngredientsService.getRiskLevel(widget.ingredients[ingredientIndex].dbIngredient!.riskLevel)['color'],
+                                                                  color: IngredientsService.getRiskLevel(widget.ingredients[ingredientIndex].dbIngredient!.riskLevel, context)['color'],
                                                                   borderRadius: BorderRadius.circular(12.0),
                                                                 ),
                                                                 child: Text(
-                                                                  IngredientsService.getRiskLevel(widget.ingredients[ingredientIndex].dbIngredient!.riskLevel)['text'],
+                                                                  IngredientsService.getRiskLevel(widget.ingredients[ingredientIndex].dbIngredient!.riskLevel, context)['text'],
                                                                   style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                         font: GoogleFonts.roboto(
                                                                           fontWeight: FontWeight.bold,
@@ -396,5 +396,5 @@ class _AllIngredientsWidgetState extends State<AllIngredientsWidget> {
       ),
     );
   }
-  
+
 }

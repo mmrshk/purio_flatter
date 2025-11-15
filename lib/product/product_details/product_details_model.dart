@@ -5,6 +5,7 @@ import '/backend/supabase/supabase.dart';
 import '/services/additives_service.dart';
 import '/services/recommendations_service.dart';
 import '/services/ingredients_service.dart';
+import '/services/risk_sorting_service.dart';
 import 'product_details_widget.dart' show ProductDetailsWidget;
 import 'package:flutter/material.dart';
 
@@ -19,25 +20,26 @@ class ProductDetailsModel extends FlutterFlowModel<ProductDetailsWidget> {
   List<MatchedIngredient> _ingredients = [];
   bool hasMoreIngredients = false;
   String? _rawIngredientsText;
-  
+
   List<MatchedIngredient> get ingredients => _ingredients;
   set ingredients(List<MatchedIngredient> value) {
     _ingredients = value;
   }
-  
+
   String? get rawIngredientsText => _rawIngredientsText;
   set rawIngredientsText(String? value) {
     _rawIngredientsText = value;
   }
-  
+
   // State for additives
   List<AdditivesRow> additives = [];
   bool isLoadingIngredients = false;
-  
+  bool isLoadingAdditives = false;
+
   // State for recommendations
   ProductRow? recommendedProduct;
   bool isLoadingRecommendations = false;
-  
+
   // State for favorites
   bool isFavorite = false;
   bool isLoadingFavorite = false;
@@ -48,7 +50,7 @@ class ProductDetailsModel extends FlutterFlowModel<ProductDetailsWidget> {
   @override
   void initState(BuildContext context) {
     productCardModel = createModel(context, () => ProductCardModel());
-    
+
     // Ensure ingredients is properly initialized
     _ingredients = [];
     hasMoreIngredients = false;
@@ -70,7 +72,7 @@ class ProductDetailsModel extends FlutterFlowModel<ProductDetailsWidget> {
 
     // Get parsed_ingredients from specifications
     Map<String, dynamic>? parsedIngredientsData = specifications['parsed_ingredients'];
-    
+
     if (parsedIngredientsData == null) {
       _ingredients = [];
       _rawIngredientsText = null;
@@ -83,9 +85,11 @@ class ProductDetailsModel extends FlutterFlowModel<ProductDetailsWidget> {
     _rawIngredientsText = extractedIngredients.join(', ');
 
     isLoadingIngredients = true;
-    
+
     try {
       _ingredients = await IngredientsService.parseAndMatchIngredients(parsedIngredientsData);
+      // Sort ingredients by risk level (high to low)
+      _ingredients = _sortIngredientsByRisk(_ingredients);
       int totalIngredientsCount = _ingredients.length;
       hasMoreIngredients = totalIngredientsCount > 1;
     } catch (e) {
@@ -108,22 +112,51 @@ class ProductDetailsModel extends FlutterFlowModel<ProductDetailsWidget> {
 
   /// Load additives for a product
   Future<void> loadAdditives(String productId, BuildContext context) async {
+    isLoadingAdditives = true;
     try {
       additives = await AdditivesService.getProductAdditives(productId);
+      // Sort additives by risk level (high to low)
+      additives = RiskSortingService.sortAdditivesByRisk(additives);
     } catch (e) {
       print('Error loading additives: $e');
       additives = [];
+    } finally {
+      isLoadingAdditives = false;
     }
+  }
+
+  /// Sort ingredients by risk level (high to low)
+  List<MatchedIngredient> _sortIngredientsByRisk(List<MatchedIngredient> ingredients) {
+    final sortedList = List<MatchedIngredient>.from(ingredients);
+    sortedList.sort((a, b) {
+      final aRisk = a.dbIngredient?.riskLevel ?? 'unknown';
+      final bRisk = b.dbIngredient?.riskLevel ?? 'unknown';
+
+      final aPriority = RiskSortingService.getRiskPriority(aRisk);
+      final bPriority = RiskSortingService.getRiskPriority(bRisk);
+
+      // Sort by risk level first (high to low)
+      if (aPriority != bPriority) {
+        return aPriority.compareTo(bPriority);
+      }
+
+      // If risk levels are the same, sort by name
+      final aName = a.dbIngredient?.name ?? a.originalName;
+      final bName = b.dbIngredient?.name ?? b.originalName;
+      return aName.compareTo(bName);
+    });
+
+    return sortedList;
   }
 
   /// Load recommended product
   Future<void> loadRecommendations(String productId, String category) async {
     isLoadingRecommendations = true;
-    
+
     try {
       // First try to get a product in the same category
       recommendedProduct = await RecommendationsService.getBestRatedProductInCategory(category, productId);
-      
+
       // If no product found in the same category, get a general recommendation
       if (recommendedProduct == null) {
         final generalRecommendations = await RecommendationsService.getGeneralRecommendedProducts(productId, limit: 1);

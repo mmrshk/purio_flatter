@@ -215,7 +215,7 @@ class _LogInWidgetState extends State<LogInWidget> with RouteAware {
                                     children: [
                                       Text(
                                         FFLocalizations.of(context).getText(
-                                          'zxstwbxi' /* Welcome back! Log In in 
+                                          'zxstwbxi' /* Welcome back! Log In in
 to yo... */
                                           ,
                                         ),

@@ -1,6 +1,7 @@
 import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/internationalization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -12,14 +13,14 @@ class AdditivesService {
       final productAdditives = await ProductAdditivesTable().queryRows(
         queryFn: (q) => q.eq('product_id', productId),
       );
-      
+
       if (productAdditives.isEmpty) {
         return [];
       }
-      
+
       // Get the additive IDs
       final additiveIds = productAdditives.map((pa) => pa.additiveId).toList();
-      
+
       // Fetch the full additive details by ID
       List<AdditivesRow> additives = [];
       for (String additiveId in additiveIds) {
@@ -34,7 +35,7 @@ class AdditivesService {
           print('Error fetching additive $additiveId: $e');
         }
       }
-      
+
       return additives;
     } catch (e) {
       print('Error fetching product additives: $e');
@@ -45,27 +46,59 @@ class AdditivesService {
   /// Get the appropriate description based on current language
   static String getLocalizedDescription(AdditivesRow additive, BuildContext context) {
     final currentLanguage = FFLocalizations.of(context).languageCode;
-    
+
     if (currentLanguage == 'ro' && additive.roDescription != null && additive.roDescription!.isNotEmpty) {
       return additive.roDescription!;
     }
-    
+
     return additive.description ?? additive.code;
+  }
+
+  /// Normalize risk level string for consistent comparison
+  static String _normalizeRiskLevel(String riskLevel) {
+    return riskLevel.toLowerCase().trim();
   }
 
   /// Get risk level color based on risk level string
   static Color getRiskLevelColor(String riskLevel) {
-    switch (riskLevel.toLowerCase().trim()) {
-      case 'low risk':
+    final normalized = _normalizeRiskLevel(riskLevel);
+    switch (normalized) {
+      case 'free':
       case 'free risk':
+      case 'low':
+      case 'low risk':
         return const Color(0xFF2ECC71); // Green for low/free risk
+      case 'moderate':
       case 'moderate risk':
         return const Color(0xFFFFA500); // Orange for moderate risk
+      case 'high':
       case 'high risk':
         return const Color(0xFFE74C3C); // Red for high risk
       default:
         print('Unknown risk level: "$riskLevel" - using grey');
         return const Color(0xFF6A7F98);
+    }
+  }
+
+  /// Get translated risk level text based on risk level string
+  static String getRiskLevelText(String riskLevel, BuildContext context) {
+    final normalized = _normalizeRiskLevel(riskLevel);
+    switch (normalized) {
+      case 'free':
+      case 'free risk':
+        return FFLocalizations.of(context).getText('risk_free');
+      case 'low':
+      case 'low risk':
+        return FFLocalizations.of(context).getText('risk_low');
+      case 'moderate':
+      case 'moderate risk':
+        return FFLocalizations.of(context).getText('risk_moderate');
+      case 'high':
+      case 'high risk':
+        return FFLocalizations.of(context).getText('risk_high');
+      default:
+        print('Unknown risk level: "$riskLevel"');
+        return riskLevel; // Return original if unknown
     }
   }
 
@@ -97,7 +130,7 @@ class AdditivesService {
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                   child: Text(
-                    additive.riskLevel!,
+                    getRiskLevelText(additive.riskLevel!, context),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                           font: GoogleFonts.roboto(fontWeight: FontWeight.bold),
                           color: Colors.white,

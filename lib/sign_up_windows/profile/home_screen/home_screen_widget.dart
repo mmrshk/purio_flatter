@@ -225,7 +225,7 @@ class ProductCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
-                      'Safety: $healthScore/100',
+                      '${FFLocalizations.of(context).getText('safety_label')}: $healthScore/100',
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 10,
@@ -292,11 +292,11 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
   Set<int> _loadedImageIndexes = {};
   final Map<int, DateTime> _imageLoadStartTimes = {};
   final int _minSkeletonMillis = 1200;
-  
+
   // User stats
   int _scanCount = 0;
   int _streak = 0;
-  
+
   // Carousel state
   int _currentCarouselIndex = 0;
 
@@ -320,7 +320,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
       final scrollOffset = _horizontalScrollController.offset;
       final cardWidth = 160.0 + 12.0; // Card width + spacing
       final newIndex = (scrollOffset / cardWidth).round();
-      
+
       if (newIndex != _currentCarouselIndex && newIndex >= 0) {
         setState(() {
           _currentCarouselIndex = newIndex;
@@ -337,16 +337,16 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
           currentUserUid,
         ),
       );
-      
+
       if ((_model.userDataResponse?.isNotEmpty ?? false) == true) {
         final userData = _model.userDataResponse!.first;
-        
+
         // Check if user has complete profile (has type and expectations)
         // Also check that expectations doesn't contain "null" text (from old buggy saves)
         final hasValidType = userData.type?.isNotEmpty == true;
-        final hasValidExpectations = userData.expectations?.isNotEmpty == true && 
+        final hasValidExpectations = userData.expectations?.isNotEmpty == true &&
                                      !userData.expectations!.toLowerCase().contains('null');
-        
+
         if (hasValidType && hasValidExpectations) {
           // User has complete profile, proceed to home screen
           FFAppState().firstName = userData.firstName ?? '';
@@ -935,33 +935,6 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
                                             ),
                                           ],
                                         ),
-                                        Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Container(
-                                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                              decoration: BoxDecoration(
-                                                color: const Color(0xFF50B2B2).withOpacity(0.2),
-                                                borderRadius: BorderRadius.circular(12),
-                                              ),
-                                              child: Text(
-                                                FFLocalizations.of(context)
-                                                    .getText('home_trending' /* Trending */),
-                                                style: TextStyle(
-                                                  color: const Color(0xFF50B2B2),
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(width: 8),
-                                            Icon(
-                                              Icons.arrow_forward_ios,
-                                              color: const Color(0xFF50B2B2),
-                                              size: 16,
-                                            ),
-                                          ],
-                                        ),
                                       ],
                                     ),
                                   ),
@@ -1061,7 +1034,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> with RouteAware {
                                           height: 8,
                                           decoration: BoxDecoration(
                                             shape: BoxShape.circle,
-                                            color: index == _currentCarouselIndex 
+                                            color: index == _currentCarouselIndex
                                                 ? const Color(0xFF50B2B2)
                                                 : const Color(0xFF50B2B2).withOpacity(0.3),
                                           ),
@@ -1147,12 +1120,12 @@ class GeometricPatternPainter extends CustomPainter {
     // Draw subtle geometric pattern
     const double spacing = 60.0;
     const double radius = 2.0;
-    
+
     for (double x = 0; x < size.width + spacing; x += spacing) {
       for (double y = 0; y < size.height + spacing; y += spacing) {
         // Offset every other row for a more interesting pattern
         final offsetX = (y / spacing).floor() % 2 == 0 ? x : x + spacing / 2;
-        
+
         if (offsetX < size.width && y < size.height) {
           canvas.drawCircle(
             Offset(offsetX, y),

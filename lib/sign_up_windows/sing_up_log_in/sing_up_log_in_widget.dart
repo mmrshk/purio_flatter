@@ -99,49 +99,44 @@ class _SingUpLogInWidgetState extends State<SingUpLogInWidget> with RouteAware {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 180.0, 0.0, 100.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.asset(
-                            'assets/images/logo_draft_8,_1_2.png',
-                            width: 258.0,
-                            height: 143.0,
-                            fit: BoxFit.cover,
-                          ),
+              Expanded(
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Image.asset(
+                          'assets/images/logo_draft_8,_1_2.png',
+                          width: 258.0,
+                          height: 143.0,
+                          fit: BoxFit.cover,
                         ),
-                        Text(
-                          FFLocalizations.of(context).getText(
-                            '4pwlcxs5' /* Choose better, live healthier. */,
-                          ),
-                          style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.roboto(
-                                      fontWeight: FontWeight.bold,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
-                                    ),
-                                    color: const Color(0xFF6A7F98),
-                                    fontSize: 22.0,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FontWeight.bold,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
+                      ),
+                      const SizedBox(height: 16.0),
+                      Text(
+                        FFLocalizations.of(context).getText(
+                          '4pwlcxs5' /* Choose better, live healthier. */,
                         ),
-                      ],
-                    ),
-                  ],
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              font: GoogleFonts.roboto(
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontStyle,
+                              ),
+                              color: const Color(0xFF6A7F98),
+                              fontSize: 22.0,
+                              letterSpacing: 0.0,
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
+                            ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Padding(

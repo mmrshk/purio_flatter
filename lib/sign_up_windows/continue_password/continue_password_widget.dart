@@ -167,10 +167,11 @@ class _ContinuePasswordWidgetState extends State<ContinuePasswordWidget>
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Column(
-                            mainAxisSize: MainAxisSize.max,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                          Expanded(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
                               Padding(
                                 padding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 15.0),
@@ -198,7 +199,7 @@ class _ContinuePasswordWidgetState extends State<ContinuePasswordWidget>
                                       ),
                                 ),
                               ),
-                              Row(
+                                Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -311,9 +312,10 @@ class _ContinuePasswordWidgetState extends State<ContinuePasswordWidget>
                               ),
                             ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
+                  ),
                     Padding(
                       padding:
                           const EdgeInsetsDirectional.fromSTEB(23.0, 0.0, 0.0, 24.0),
@@ -685,7 +687,7 @@ class _ContinuePasswordWidgetState extends State<ContinuePasswordWidget>
                                       padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 1.0),
                                       child: Text(
                                         FFLocalizations.of(context).getText(
-                                          'emiap6x0' /* Terms & Conditions */,
+                                          '7m87t0no' /* Terms & Conditions */,
                                         ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium

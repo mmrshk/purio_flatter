@@ -117,18 +117,19 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
       // For load more, only update the loading state without full rebuild
       _isSearching = true;
     }
-    
+
     final query = _searchController.text.trim();
     final results = await Supabase.instance.client
         .from('products')
         .select()
         .ilike('name', '%$query%')
         .eq('visible', true)
+        .not('display_score', 'is', null) // Only products with a display_score
         .range(_offset, _offset + _pageSize - 1);
     final products = (results as List)
         .map((e) => ProductRow(e as Map<String, dynamic>))
         .toList();
-    
+
     // Update state only once with all changes
     setState(() {
       if (loadMore) {
@@ -192,7 +193,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                   controller: _searchController,
                   obscureText: false,
                   decoration: InputDecoration(
-                    labelText: 'Search products...',
+                    labelText: FFLocalizations.of(context).getText('search_products'),
                     labelStyle: FlutterFlowTheme.of(context).labelMedium,
                     hintStyle: FlutterFlowTheme.of(context).labelMedium,
                     enabledBorder: OutlineInputBorder(
@@ -371,7 +372,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                                               ),
                                             );
                                     }
-                                    
+
                                     final product = _searchResults[index];
                                     if (!_imageLoadStartTimes.containsKey(index)) {
                                       _imageLoadStartTimes[index] = DateTime.now();

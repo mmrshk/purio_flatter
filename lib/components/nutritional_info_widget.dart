@@ -1,5 +1,6 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/internationalization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -25,38 +26,38 @@ class NutritionalInfoWidget extends StatelessWidget {
 
   Widget _buildNutritionalGrid(BuildContext context) {
     final items = <Widget>[];
-    
+
     // Add nutritional items if they exist - using the actual field names from specifications
     if (nutritionalData!['fat'] != null) {
-      items.add(_buildNutritionItem(context, 'Fat', '${nutritionalData!['fat']}g', Icons.opacity, const Color(0xFFE57373)));
+      items.add(_buildNutritionItem(context, FFLocalizations.of(context).getText('nutrition_fat'), '${nutritionalData!['fat']}g', Icons.opacity, const Color(0xFFE57373)));
     }
-    
+
     if (nutritionalData!['saturated_fat'] != null) {
       items.add(_buildNutritionItem(context, 'Saturated Fat', '${nutritionalData!['saturated_fat']}g', Icons.opacity, const Color(0xFFE57373)));
     }
-    
+
     if (nutritionalData!['sugar'] != null) {
-      items.add(_buildNutritionItem(context, 'Sugar', '${nutritionalData!['sugar']}g', Icons.cake, const Color(0xFFF06292)));
+      items.add(_buildNutritionItem(context, FFLocalizations.of(context).getText('nutrition_sugar'), '${nutritionalData!['sugar']}g', Icons.cake, const Color(0xFFF06292)));
     }
-    
+
     if (nutritionalData!['protein'] != null) {
-      items.add(_buildNutritionItem(context, 'Protein', '${nutritionalData!['protein']}g', Icons.fitness_center, const Color(0xFF81C784)));
+      items.add(_buildNutritionItem(context, FFLocalizations.of(context).getText('nutrition_protein'), '${nutritionalData!['protein']}g', Icons.fitness_center, const Color(0xFF81C784)));
     }
-    
+
     if (nutritionalData!['carbohydrates'] != null) {
-      items.add(_buildNutritionItem(context, 'Carbs', '${nutritionalData!['carbohydrates']}g', Icons.grain, const Color(0xFFFFB74D)));
+      items.add(_buildNutritionItem(context, FFLocalizations.of(context).getText('nutrition_carbs'), '${nutritionalData!['carbohydrates']}g', Icons.grain, const Color(0xFFFFB74D)));
     }
-    
+
     if (nutritionalData!['fiber'] != null) {
       items.add(_buildNutritionItem(context, 'Fiber', '${nutritionalData!['fiber']}g', Icons.grain, const Color(0xFF9C27B0)));
     }
-    
+
     if (nutritionalData!['salt'] != null) {
       items.add(_buildNutritionItem(context, 'Salt', '${nutritionalData!['salt']}g', Icons.grain, const Color(0xFF607D8B)));
     }
-    
+
     if (nutritionalData!['calories_per_100g_or_100ml'] != null) {
-      items.add(_buildNutritionItem(context, 'Calories', '${nutritionalData!['calories_per_100g_or_100ml']} kcal', Icons.local_fire_department, const Color(0xFFFF8A65)));
+      items.add(_buildNutritionItem(context, FFLocalizations.of(context).getText('nutrition_calories'), '${nutritionalData!['calories_per_100g_or_100ml']} kcal', Icons.local_fire_department, const Color(0xFFFF8A65)));
     }
 
     if (items.isEmpty) {

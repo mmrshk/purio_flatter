@@ -117,6 +117,7 @@ class _SearchProductWidgetState extends State<SearchProductWidget>
         .select()
         .ilike('name', '%$query%')
         .eq('visible', true)
+        .not('display_score', 'is', null) // Only products with a display_score
         .range(_offset, _offset + _pageSize - 1);
     final products = (results as List)
         .map((e) => ProductRow(e as Map<String, dynamic>))

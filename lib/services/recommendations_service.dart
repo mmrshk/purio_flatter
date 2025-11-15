@@ -5,21 +5,21 @@ class RecommendationsService {
   static Future<ProductRow?> getBestRatedProductInCategory(String category, String excludeProductId) async {
     try {
       // Query products in the same category, excluding the current product
-      // Order by health score (final_score) descending to get the best rated
+      // Order by health score (display_score) descending to get the best rated
       final products = await ProductTable().queryRows(
         queryFn: (q) => q
             .eq('category', category)
             .neq('id', excludeProductId)
             .eq('visible', true)
-            .not('final_score', 'is', null) // Only products with a health score
-            .order('final_score', ascending: false)
+            .not('display_score', 'is', null) // Only products with a health score
+            .order('display_score', ascending: false)
             .limit(1),
       );
-      
+
       if (products.isNotEmpty) {
         return products.first;
       }
-      
+
       return null;
     } catch (e) {
       print('Error fetching recommended product: $e');
@@ -31,17 +31,17 @@ class RecommendationsService {
   static Future<List<ProductRow>> getRecommendedProductsInCategory(String category, String excludeProductId, {int limit = 3}) async {
     try {
       // Query products in the same category, excluding the current product
-      // Order by health score (final_score) descending to get the best rated
+      // Order by health score (display_score) descending to get the best rated
       final products = await ProductTable().queryRows(
         queryFn: (q) => q
             .eq('category', category)
             .neq('id', excludeProductId)
             .eq('visible', true)
-            .not('final_score', 'is', null) // Only products with a health score
-            .order('final_score', ascending: false)
+            .not('display_score', 'is', null) // Only products with a health score
+            .order('display_score', ascending: false)
             .limit(limit),
       );
-      
+
       return products;
     } catch (e) {
       print('Error fetching recommended products: $e');
@@ -53,16 +53,16 @@ class RecommendationsService {
   static Future<List<ProductRow>> getGeneralRecommendedProducts(String excludeProductId, {int limit = 3}) async {
     try {
       // Query products across all categories, excluding the current product
-      // Order by health score (final_score) descending to get the best rated
+      // Order by health score (display_score) descending to get the best rated
       final products = await ProductTable().queryRows(
         queryFn: (q) => q
             .neq('id', excludeProductId)
             .eq('visible', true)
-            .not('final_score', 'is', null) // Only products with a health score
-            .order('final_score', ascending: false)
+            .not('display_score', 'is', null) // Only products with a health score
+            .order('display_score', ascending: false)
             .limit(limit),
       );
-      
+
       return products;
     } catch (e) {
       print('Error fetching general recommended products: $e');
@@ -74,18 +74,18 @@ class RecommendationsService {
   static Future<List<ProductRow>> getProductsWithSameOrHigherScore(int healthScore, String excludeProductId, String category, {int limit = 10}) async {
     try {
       // Query products with same or higher health score in the same category, excluding the current product
-      // Order by health score (final_score) descending
+      // Order by health score (display_score) descending
       final products = await ProductTable().queryRows(
         queryFn: (q) => q
             .eq('category', category) // Same category
             .neq('id', excludeProductId)
             .eq('visible', true)
-            .not('final_score', 'is', null) // Only products with a health score
-            .gte('final_score', healthScore) // Same or higher health score
-            .order('final_score', ascending: false)
+            .not('display_score', 'is', null) // Only products with a health score
+            .gte('display_score', healthScore) // Same or higher health score
+            .order('display_score', ascending: false)
             .limit(limit),
       );
-      
+
       return products;
     } catch (e) {
       print('Error fetching products with same or higher score: $e');
@@ -102,12 +102,12 @@ class RecommendationsService {
             .eq('category', category) // Same category
             .neq('id', excludeProductId)
             .eq('visible', true)
-            .not('final_score', 'is', null) // Only products with a health score
-            .gt('final_score', 50) // Score bigger than 50
-            .order('final_score', ascending: false)
+            .not('display_score', 'is', null) // Only products with a health score
+            .gt('display_score', 50) // Score bigger than 50
+            .order('display_score', ascending: false)
             .limit(limit),
       );
-      
+
       return products;
     } catch (e) {
       print('Error fetching products with score bigger than 50: $e');

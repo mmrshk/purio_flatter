@@ -1,5 +1,6 @@
 import '/auth/supabase_auth/auth_util.dart';
 import '/backend/supabase/supabase.dart';
+import '/backend/supabase/database/tables/user_data.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -84,50 +85,70 @@ class _DeleteAccountPopUpWidgetState extends State<DeleteAccountPopUpWidget>
     _model.isRouteVisible = false;
   }
 
-  Future<void> _deleteUserAccount() async {
-    try {
-      // Show loading indicator
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-      );
-
-      // Delete user data from database first
-      try {
-        await SupaFlow.client
-            .from('users')
-            .delete()
-            .eq('user_id', currentUserUid);
-        print('User data deleted successfully');
-      } catch (e) {
-        print('Error deleting user data: $e');
-      }
-
-      // Sign out the user (this is the closest we can get to "deleting" from client side)
-      await authManager.deleteUser(context);
-      
-      // Close loading dialog
-      Navigator.of(context).pop();
-      
-      // Close the delete account popup
-      Navigator.of(context).pop();
-      
-      // Navigate to login screen
-      context.goNamed(SingUpLogInWidget.routeName);
-      
-    } catch (e) {
-      // Close loading dialog
-      Navigator.of(context).pop();
-      
-      // Show error message
+  Future<void> _requestAccountDeletion() async {
+    final userId = currentUserUid;
+    if (userId.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to delete account: ${e.toString()}'),
+          content: Text(
+            FFLocalizations.of(context).getText('delete_request_error'),
+          ),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    // Show loading indicator
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+
+    try {
+      final userRows = await UserDataTable().queryRows(
+        queryFn: (q) => q.eq('user_id', userId).limit(1),
+      );
+      final userRow = userRows.isNotEmpty ? userRows.first : null;
+      if (userRow == null) {
+        throw Exception('No user profile found for current user.');
+      }
+
+      await SupaFlow.client.from('account_deletion_requests').insert({
+        'user_id': userRow.id,
+        'email': currentUserEmail,
+        'requested_at': DateTime.now().toUtc().toIso8601String(),
+      });
+
+      Navigator.of(context).pop(); // loading
+      Navigator.of(context).pop(); // popup
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            FFLocalizations.of(context).getText('delete_request_success'),
+          ),
+        ),
+      );
+
+      await authManager.signOut();
+      context.goNamed(SingUpLogInWidget.routeName);
+    } catch (e) {
+      Navigator.of(context).pop();
+      debugPrint('❌ Account deletion request failed: $e');
+      final friendlyMessage =
+          (e is PostgrestException && e.message.isNotEmpty) ? e.message : null;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            friendlyMessage ??
+                FFLocalizations.of(context).getText('delete_request_error'),
+          ),
           backgroundColor: Colors.red,
         ),
       );
@@ -238,7 +259,7 @@ class _DeleteAccountPopUpWidgetState extends State<DeleteAccountPopUpWidget>
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 19.0),
             child: InkWell(
-              onTap: _deleteUserAccount,
+              onTap: _requestAccountDeletion,
               child: Text(
                 FFLocalizations.of(context).getText(
                   'h0ea7x3j' /* Delete It Anyway */,

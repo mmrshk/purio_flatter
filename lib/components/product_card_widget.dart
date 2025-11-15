@@ -44,9 +44,9 @@ class _ProductCardWidgetState extends State<ProductCardWidget> with RouteAware {
     try {
       _model.isLoadingFavorite = true;
       if (mounted) setState(() {});
-      
+
       final isFavorite = await FavoritesService.isFavorite(widget.product.id);
-      
+
       if (mounted) {
         setState(() {
           _model.isFavorite = isFavorite;
@@ -67,7 +67,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> with RouteAware {
     try {
       _model.isLoadingFavorite = true;
       if (mounted) setState(() {});
-      
+
       if (_model.isFavorite) {
         await FavoritesService.removeFromFavorites(widget.product.id);
         if (mounted) {
@@ -176,7 +176,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> with RouteAware {
           children: [
             GestureDetector(
               onTap: () {
-                if (widget.product.imageFrontUrl != null && 
+                if (widget.product.imageFrontUrl != null &&
                     widget.product.imageFrontUrl!.isNotEmpty) {
                   PhotoPopupWidget.show(
                     context,
@@ -244,7 +244,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> with RouteAware {
                             borderRadius: BorderRadius.circular(20.0),
                           ),
                           child: Text(
-                            'Safety: $score/100',
+                            '${FFLocalizations.of(context).getText('safety_label')}: $score/100',
                             style: FlutterFlowTheme.of(context).bodyMedium.override(
                                   font: GoogleFonts.roboto(fontWeight: FontWeight.bold),
                                   color: Colors.white,

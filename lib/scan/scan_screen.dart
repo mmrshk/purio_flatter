@@ -114,7 +114,7 @@ class _ScanScreenState extends State<ScanScreen> with WidgetsBindingObserver {
       _processBarcode(code);
     }
   }
-    
+
   void _processBarcode(String code) async {
     if (code != _lastScannedCode && !isProcessingBarcode) {
       setState(() {
@@ -127,6 +127,7 @@ class _ScanScreenState extends State<ScanScreen> with WidgetsBindingObserver {
           .select()
           .eq('barcode', code)
           .eq('visible', true)
+          .not('display_score', 'is', null) // Only products with a display_score
           .maybeSingle();
 
       print('Product result: $result');
@@ -139,7 +140,7 @@ class _ScanScreenState extends State<ScanScreen> with WidgetsBindingObserver {
             _qrViewController!.toggleFlash();
             isFlashOn = false;
           }
-          
+
           Navigator.of(context).push(MaterialPageRoute(
             builder: (_) => ProductDetailsWidget(
               product: ProductRow(result),
@@ -158,10 +159,10 @@ class _ScanScreenState extends State<ScanScreen> with WidgetsBindingObserver {
       } else {
         if (mounted) {
           setState(() => isProcessingBarcode = false);
-          
+
           // Show dialog to add product
           await AddProductDialog.show(context, code);
-          
+
           // Reset last scanned code after dialog closes to allow re-scanning
           if (mounted) {
             setState(() {

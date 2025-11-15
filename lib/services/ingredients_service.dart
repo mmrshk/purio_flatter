@@ -1,6 +1,7 @@
 import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/internationalization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -12,17 +13,17 @@ class IngredientsService {
     List<dynamic> matches = parsedIngredientsData['matches'] ?? [];
     List<MatchedIngredient> matchedIngredients = [];
     Set<String> processedIds = {}; // Track processed ingredient IDs to avoid duplicates
-    
+
     for (Map<String, dynamic> match in matches) {
       String original = match['original'] ?? '';
-      
+
       // Extract data from match structure - support both old and new formats
       Map<String, dynamic>? matchData = match['data'];
       String matchedIngredientId = '';
       int? novaScore;
       String englishName = '';
       String romanianName = '';
-      
+
       if (matchData != null) {
         // New format: data is nested in 'data' object
         matchedIngredientId = matchData['id']?.toString() ?? '';
@@ -36,12 +37,12 @@ class IngredientsService {
         englishName = match['english_name'] ?? '';
         romanianName = match['romanian_name'] ?? '';
       }
-      
+
       // Skip if we've already processed this ingredient ID
       if (matchedIngredientId.isNotEmpty && processedIds.contains(matchedIngredientId)) {
         continue;
       }
-      
+
       // Fetch ingredient details from Supabase using matched_ingredient_id
       String? riskLevel;
       String? description;
@@ -54,12 +55,12 @@ class IngredientsService {
               .eq('id', matchedIngredientId)
               .eq('visible', true)
               .single();
-          
+
           riskLevel = ingredientData['risk_level'];
           description = ingredientData['description'];
           roDescription = ingredientData['ro_description'];
           print('🔍 Fetched ingredient data for $matchedIngredientId: risk=$riskLevel, desc=$description');
-          
+
           // Mark this ID as processed
           processedIds.add(matchedIngredientId);
         } catch (e) {
@@ -84,7 +85,7 @@ class IngredientsService {
         isMatched: true,
       ));
     }
-    
+
     return matchedIngredients;
   }
 
@@ -131,20 +132,47 @@ class IngredientsService {
   }
 
   /// Get risk level color and text based on risk_level field
-  static Map<String, dynamic> getRiskLevel(String? riskLevel) {
-    switch (riskLevel?.toLowerCase()) {
+  static Map<String, dynamic> getRiskLevel(String? riskLevel, [BuildContext? context]) {
+    final normalizedRisk = riskLevel?.toLowerCase().trim();
+    Color color;
+    String text;
+
+    switch (normalizedRisk) {
       case 'free':
-        return {'color': const Color(0xFF2ECC71), 'text': 'Free risk'};
+      case 'free risk':
+        color = const Color(0xFF2ECC71);
+        text = context != null
+            ? FFLocalizations.of(context).getText('risk_free')
+            : 'Free risk';
+        break;
       case 'low':
-        return {'color': const Color(0xFF2ECC71), 'text': 'Low risk'};
+      case 'low risk':
+        color = const Color(0xFF2ECC71);
+        text = context != null
+            ? FFLocalizations.of(context).getText('risk_low')
+            : 'Low risk';
+        break;
       case 'moderate':
-        return {'color': const Color(0xFFFFA500), 'text': 'Moderate risk'};
+      case 'moderate risk':
+        color = const Color(0xFFFFA500);
+        text = context != null
+            ? FFLocalizations.of(context).getText('risk_moderate')
+            : 'Moderate risk';
+        break;
       case 'high':
-        return {'color': const Color(0xFFE74C3C), 'text': 'High risk'};
+      case 'high risk':
+        color = const Color(0xFFE74C3C);
+        text = context != null
+            ? FFLocalizations.of(context).getText('risk_high')
+            : 'High risk';
+        break;
       default:
         print('🔍 Unknown risk level: $riskLevel');
-        return {'color': const Color(0xFF6A7F98), 'text': 'Unknown'};
+        color = const Color(0xFF6A7F98);
+        text = 'Unknown';
     }
+
+    return {'color': color, 'text': text};
   }
 
   /// Get the appropriate description based on current language
@@ -152,13 +180,13 @@ class IngredientsService {
     if (ingredient.dbIngredient == null) {
       return ingredient.originalName;
     }
-    
+
     final currentLanguage = FFLocalizations.of(context).languageCode;
-    
+
     if (currentLanguage == 'ro' && ingredient.dbIngredient!.roDescription != null && ingredient.dbIngredient!.roDescription!.isNotEmpty) {
       return ingredient.dbIngredient!.roDescription!;
     }
-    
+
     return ingredient.dbIngredient!.description ?? ingredient.originalName;
   }
 
@@ -187,11 +215,11 @@ class IngredientsService {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                   decoration: BoxDecoration(
-                    color: getRiskLevel(ingredient.dbIngredient!.riskLevel)['color'],
+                    color: getRiskLevel(ingredient.dbIngredient!.riskLevel, context)['color'],
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                   child: Text(
-                    getRiskLevel(ingredient.dbIngredient!.riskLevel)['text'],
+                    getRiskLevel(ingredient.dbIngredient!.riskLevel, context)['text'],
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                           font: GoogleFonts.roboto(fontWeight: FontWeight.bold),
                           color: Colors.white,

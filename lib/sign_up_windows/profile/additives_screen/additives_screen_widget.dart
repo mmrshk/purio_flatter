@@ -81,7 +81,7 @@ class _AdditivesScreenState extends State<AdditivesScreen> {
                   focusNode: _model.searchFocusNode,
                   obscureText: false,
                   decoration: InputDecoration(
-                    labelText: 'Search additives...',
+                    labelText: FFLocalizations.of(context).getText('search_additives'),
                     labelStyle: FlutterFlowTheme.of(context).labelMedium,
                     hintStyle: FlutterFlowTheme.of(context).labelMedium,
                     enabledBorder: OutlineInputBorder(
@@ -156,7 +156,7 @@ class _AdditivesScreenState extends State<AdditivesScreen> {
                                 ),
                                 const SizedBox(height: 16),
                                 Text(
-                                  _model.searchQuery.isEmpty 
+                                  _model.searchQuery.isEmpty
                                       ? 'No additives available'
                                       : 'No additives found',
                                   style: FlutterFlowTheme.of(context).bodyLarge,
@@ -197,7 +197,7 @@ class _AdditivesScreenState extends State<AdditivesScreen> {
                                         )
                                       : const SizedBox.shrink();
                                 }
-                                
+
                                 final additive = _model.getFilteredAdditives()[index];
                                 return _buildAdditiveCard(additive);
                               },
@@ -253,7 +253,7 @@ class _AdditivesScreenState extends State<AdditivesScreen> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
-                                additive.riskLevel!,
+                                AdditivesService.getRiskLevelText(additive.riskLevel!, context),
                                 style: FlutterFlowTheme.of(context).bodySmall.override(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w600,
@@ -264,8 +264,8 @@ class _AdditivesScreenState extends State<AdditivesScreen> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        FFLocalizations.of(context).languageCode == 'ro' 
-                            ? additive.roName 
+                        FFLocalizations.of(context).languageCode == 'ro'
+                            ? additive.roName
                             : additive.name,
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                               fontWeight: FontWeight.w500,

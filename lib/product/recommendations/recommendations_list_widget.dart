@@ -36,7 +36,7 @@ class _RecommendationsListWidgetState extends State<RecommendationsListWidget> w
   void initState() {
     super.initState();
     _model = createModel(context, () => RecommendationsListModel());
-    
+
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       await _fetchRecommendations();
     });
@@ -46,12 +46,12 @@ class _RecommendationsListWidgetState extends State<RecommendationsListWidget> w
     try {
       _model.isLoading = true;
       if (mounted) setState(() {});
-      
+
       final healthScore = widget.currentProduct.displayScore ?? widget.currentProduct.healthScore;
       final category = widget.currentProduct.category ?? '';
-      
+
       List<ProductRow> recommendations;
-      
+
       if (healthScore != null) {
         // Product has a score, get products with same or higher score
         recommendations = await RecommendationsService.getProductsWithSameOrHigherScore(
@@ -66,7 +66,7 @@ class _RecommendationsListWidgetState extends State<RecommendationsListWidget> w
           category,
         );
       }
-      
+
       if (mounted) {
         setState(() {
           _model.recommendations = recommendations;
@@ -229,10 +229,10 @@ class _RecommendationsListWidgetState extends State<RecommendationsListWidget> w
                             child: Builder(
                               builder: (context) {
                                 final currentScore = widget.currentProduct.displayScore ?? widget.currentProduct.healthScore;
-                                final subtitle = currentScore != null 
+                                final subtitle = currentScore != null
                                     ? 'Products with same or higher safety score ($currentScore/100)'
                                     : 'Products with safety score bigger than 50';
-                                
+
                                 return Text(
                                   subtitle,
                                   style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -395,7 +395,7 @@ class _RecommendationsListWidgetState extends State<RecommendationsListWidget> w
                                                                       borderRadius: BorderRadius.circular(20.0),
                                                                     ),
                                                                     child: Text(
-                                                                      'Safety: $score/100',
+                                                                      '${FFLocalizations.of(context).getText('safety_label')}: $score/100',
                                                                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                             font: GoogleFonts.roboto(fontWeight: FontWeight.bold),
                                                                             color: Colors.white,

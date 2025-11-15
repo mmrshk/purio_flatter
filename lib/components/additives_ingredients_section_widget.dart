@@ -90,7 +90,7 @@ class _AdditivesIngredientsSectionWidgetState extends State<AdditivesIngredients
             ],
           ),
         ),
-        
+
         // Combined Ingredients List (Additives + Ingredients)
         if (widget.isLoadingIngredients)
           const Padding(
@@ -131,7 +131,7 @@ class _AdditivesIngredientsSectionWidgetState extends State<AdditivesIngredients
           Column(
             children: _buildCombinedIngredientsList(),
           ),
-        
+
         // Show More Button for Combined Ingredients
         if (_shouldShowMoreButton())
           Align(
@@ -161,7 +161,7 @@ class _AdditivesIngredientsSectionWidgetState extends State<AdditivesIngredients
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        '${_getRemainingCount()} more ingredients',
+                        FFLocalizations.of(context).getText('more_ingredients_format').replaceAll('{count}', '${_getRemainingCount()}'),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                               font: GoogleFonts.roboto(
                                 fontWeight: FontWeight.bold,
@@ -191,7 +191,7 @@ class _AdditivesIngredientsSectionWidgetState extends State<AdditivesIngredients
 
     // Create combined list of all items with their risk levels
     List<Map<String, dynamic>> allItems = [];
-    
+
     // Add additives with their risk levels
     for (int i = 0; i < widget.additives.length; i++) {
       allItems.add({
@@ -201,7 +201,7 @@ class _AdditivesIngredientsSectionWidgetState extends State<AdditivesIngredients
         'riskScore': RiskSortingService.getRiskScore(widget.additives[i].riskLevel),
       });
     }
-    
+
     // Add ingredients with their risk levels
     for (int i = 0; i < widget.ingredients.length; i++) {
       allItems.add({
@@ -211,15 +211,15 @@ class _AdditivesIngredientsSectionWidgetState extends State<AdditivesIngredients
         'riskScore': RiskSortingService.getRiskScore(widget.ingredients[i].dbIngredient?.riskLevel),
       });
     }
-    
+
     // Sort by risk score (high to low)
     // Lower score = higher risk, so sort ascending (1=high comes before 4=free)
     allItems.sort((a, b) => a['riskScore'].compareTo(b['riskScore']));
-    
+
     // Build widgets from sorted list
     for (int i = 0; i < allItems.length && totalItems < maxItems; i++) {
       var item = allItems[i];
-      
+
       if (item['type'] == 'additive') {
         int additiveIndex = item['index'];
         widgets.add(
@@ -281,7 +281,7 @@ class _AdditivesIngredientsSectionWidgetState extends State<AdditivesIngredients
                                 borderRadius: BorderRadius.circular(12.0),
                               ),
                               child: Text(
-                                widget.additives[additiveIndex].riskLevel!,
+                                AdditivesService.getRiskLevelText(widget.additives[additiveIndex].riskLevel!, context),
                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                                       font: GoogleFonts.roboto(
                                         fontWeight: FontWeight.bold,
@@ -353,11 +353,11 @@ class _AdditivesIngredientsSectionWidgetState extends State<AdditivesIngredients
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                               decoration: BoxDecoration(
-                                color: IngredientsService.getRiskLevel(widget.ingredients[ingredientIndex].dbIngredient!.riskLevel)['color'],
+                                color: IngredientsService.getRiskLevel(widget.ingredients[ingredientIndex].dbIngredient!.riskLevel, context)['color'],
                                 borderRadius: BorderRadius.circular(12.0),
                               ),
                               child: Text(
-                                IngredientsService.getRiskLevel(widget.ingredients[ingredientIndex].dbIngredient!.riskLevel)['text'],
+                                IngredientsService.getRiskLevel(widget.ingredients[ingredientIndex].dbIngredient!.riskLevel, context)['text'],
                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                                       font: GoogleFonts.roboto(
                                         fontWeight: FontWeight.bold,
@@ -404,15 +404,15 @@ class _AdditivesIngredientsSectionWidgetState extends State<AdditivesIngredients
   /// Check if ingredient has a description
   bool _hasIngredientDescription(MatchedIngredient ingredient) {
     if (ingredient.dbIngredient == null) return false;
-    
+
     final currentLanguage = FFLocalizations.of(context).languageCode;
-    
+
     if (currentLanguage == 'ro') {
-      return ingredient.dbIngredient!.roDescription != null && 
+      return ingredient.dbIngredient!.roDescription != null &&
              ingredient.dbIngredient!.roDescription!.isNotEmpty;
     }
-    
-    return ingredient.dbIngredient!.description != null && 
+
+    return ingredient.dbIngredient!.description != null &&
            ingredient.dbIngredient!.description!.isNotEmpty;
   }
 

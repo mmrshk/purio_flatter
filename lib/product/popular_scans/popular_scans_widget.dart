@@ -53,9 +53,9 @@ class _PopularScansWidgetState extends State<PopularScansWidget> with RouteAware
       setState(() {
         _isLoadingFavorite[productId] = true;
       });
-      
+
       final isFavorite = await FavoritesService.isFavorite(productId);
-      
+
       if (mounted) {
         setState(() {
           _favoriteStatus[productId] = isFavorite;
@@ -77,15 +77,15 @@ class _PopularScansWidgetState extends State<PopularScansWidget> with RouteAware
       setState(() {
         _isLoadingFavorite[productId] = true;
       });
-      
+
       final isCurrentlyFavorite = _favoriteStatus[productId] ?? false;
-      
+
       if (isCurrentlyFavorite) {
         await FavoritesService.removeFromFavorites(productId);
       } else {
         await FavoritesService.addToFavorites(productId);
       }
-      
+
       if (mounted) {
         setState(() {
           _favoriteStatus[productId] = !isCurrentlyFavorite;
@@ -160,19 +160,19 @@ class _PopularScansWidgetState extends State<PopularScansWidget> with RouteAware
     } else {
       setState(() => _isLoadingMore = true);
     }
-    
+
     final loadStart = DateTime.now();
-    
+
     try {
       final products = await PopularProductsService.instance.getPopularProducts(
         limit: _pageSize * (_currentPage + 1)
       );
-      
+
       final elapsed = DateTime.now().difference(loadStart).inMilliseconds;
       if (elapsed < _minLoadingMillis && !loadMore) {
         await Future.delayed(Duration(milliseconds: _minLoadingMillis - elapsed));
       }
-      
+
       setState(() {
         if (loadMore) {
           _popularProducts.addAll(products.skip(_currentPage * _pageSize));
@@ -464,7 +464,7 @@ class _PopularScansWidgetState extends State<PopularScansWidget> with RouteAware
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
-                      'Safety: $score/100',
+                      '${FFLocalizations.of(context).getText('safety_label')}: $score/100',
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 10,

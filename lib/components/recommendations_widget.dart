@@ -59,7 +59,7 @@ class RecommendationsWidget extends StatelessWidget {
                   );
                 },
                 child: Text(
-                  FFLocalizations.of(context).getText('4h3ql1fs' /* See All */),
+                  FFLocalizations.of(context).getText('6mn4fkqn' /* See All */),
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
                         font: GoogleFonts.roboto(
                           fontWeight: FontWeight.bold,
@@ -76,7 +76,7 @@ class RecommendationsWidget extends StatelessWidget {
             ],
           ),
         ),
-        
+
         // Description
         Padding(
           padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 18.0),
@@ -100,7 +100,7 @@ class RecommendationsWidget extends StatelessWidget {
             ],
           ),
         ),
-        
+
         // Recommendation Content
         if (isLoading)
           const Padding(
@@ -201,7 +201,7 @@ class RecommendationsWidget extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
                                       child: Text(
-                                        'Safety: $score/100',
+                                        '${FFLocalizations.of(context).getText('safety_label')}: $score/100',
                                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                                               font: GoogleFonts.roboto(fontWeight: FontWeight.bold),
                                               color: Colors.white,

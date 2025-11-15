@@ -2,7 +2,6 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/backend/supabase/supabase.dart';
-import '/services/product_service.dart';
 import '/services/history_service.dart';
 import '/services/favorites_service.dart';
 import '/services/additives_service.dart';
@@ -46,28 +45,40 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
   void initState() {
     super.initState();
     _model = createModel(context, () => ProductDetailsModel());
-    _loadIngredients();
-    
-    // Load additives for the product
-    _model.loadAdditives(widget.product.id, context);
-    
+
+    // Load ingredients and additives together, then update UI once
+    _loadIngredientsAndAdditives();
+
     // Load recommendations
     _loadRecommendations();
-    
+
     // Add product to user's history
     HistoryService.addToHistory(widget.product.id);
-    
+
     // Check if product is in favorites
     _checkFavoriteStatus();
+  }
+
+  Future<void> _loadIngredientsAndAdditives() async {
+    // Load both ingredients and additives in parallel
+    await Future.wait([
+      _loadIngredients(),
+      _model.loadAdditives(widget.product.id, context),
+    ]);
+
+    // Update UI once both are loaded
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   Future<void> _checkFavoriteStatus() async {
     try {
       _model.isLoadingFavorite = true;
       if (mounted) setState(() {});
-      
+
       final isFavorite = await FavoritesService.isFavorite(widget.product.id);
-      
+
       if (mounted) {
         setState(() {
           _model.isFavorite = isFavorite;
@@ -87,10 +98,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
   Future<void> _loadIngredients() async {
     try {
       await _model.loadIngredients(widget.product.specifications);
-      
-      if (mounted) {
-        setState(() {});
-      }
+      // Don't call setState here - we'll update UI after both ingredients and additives load
     } catch (e) {
       print('Error loading ingredients: $e');
     }
@@ -100,9 +108,9 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
     try {
       _model.isLoadingRecommendations = true;
       if (mounted) setState(() {});
-      
+
       await _model.loadRecommendations(widget.product.id, widget.product.category ?? '');
-      
+
       if (mounted) {
         setState(() {});
       }
@@ -120,7 +128,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
     try {
       _model.isLoadingFavorite = true;
       if (mounted) setState(() {});
-      
+
       if (_model.isFavorite) {
         await FavoritesService.removeFromFavorites(widget.product.id);
         if (mounted) {
@@ -339,7 +347,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                                 children: [
                                                   GestureDetector(
                                                     onTap: () {
-                                                      if (widget.product.imageFrontUrl != null && 
+                                                      if (widget.product.imageFrontUrl != null &&
                                                           widget.product.imageFrontUrl!.isNotEmpty) {
                                                         PhotoPopupWidget.show(
                                                           context,
@@ -400,7 +408,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                                             mainAxisAlignment: MainAxisAlignment.center,
                                                             children: [
                                                               Text(
-                                                                'Safety: $score/100',
+                                                                '${FFLocalizations.of(context).getText('safety_label')}: $score/100',
                                                                 style: FlutterFlowTheme.of(context)
                                                                     .bodyMedium
                                                                     .override(
@@ -515,7 +523,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                                 },
                                               ),
                                             ),
-                                            if (widget.product.specifications?['origin_country'] != null && 
+                                            if (widget.product.specifications?['origin_country'] != null &&
                                                 widget.product.specifications!['origin_country'].toString().isNotEmpty)
                                               Container(
                                                 constraints: BoxConstraints(
@@ -584,7 +592,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                   );
                                 },
 
-                                isLoadingIngredients: _model.isLoadingIngredients,
+                                isLoadingIngredients: _model.isLoadingIngredients || _model.isLoadingAdditives,
                                 rawIngredientsText: _model.rawIngredientsText,
                               ),
                               // Recommendations Section
@@ -593,7 +601,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget>
                                 isLoading: _model.isLoadingRecommendations,
                                 currentProduct: widget.product,
                               ),
-                             
+
                               InkWell(
                                 onTap: () {
                                   context.pushNamed('ScoringMethod');

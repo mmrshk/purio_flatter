@@ -81,7 +81,7 @@ class _IngredientsScreenState extends State<IngredientsScreen> {
                   focusNode: _model.searchFocusNode,
                   obscureText: false,
                   decoration: InputDecoration(
-                    labelText: 'Search ingredients...',
+                    labelText: FFLocalizations.of(context).getText('search_ingredients'),
                     labelStyle: FlutterFlowTheme.of(context).labelMedium,
                     hintStyle: FlutterFlowTheme.of(context).labelMedium,
                     enabledBorder: OutlineInputBorder(
@@ -157,7 +157,7 @@ class _IngredientsScreenState extends State<IngredientsScreen> {
                                 ),
                                 const SizedBox(height: 16),
                                 Text(
-                                  _model.searchQuery.isEmpty 
+                                  _model.searchQuery.isEmpty
                                       ? 'No ingredients available'
                                       : 'No ingredients found',
                                   style: FlutterFlowTheme.of(context).bodyLarge,
@@ -198,7 +198,7 @@ class _IngredientsScreenState extends State<IngredientsScreen> {
                                         )
                                       : const SizedBox.shrink();
                                 }
-                                
+
                                 final ingredient = _model.getFilteredIngredients()[index];
                                 return _buildIngredientCard(ingredient);
                               },
@@ -223,7 +223,7 @@ class _IngredientsScreenState extends State<IngredientsScreen> {
             dbIngredient: ingredient,
             isMatched: true,
           );
-          
+
           if (_hasIngredientDescription(matchedIngredient)) {
             IngredientsService.showIngredientInfoDialog(matchedIngredient, context);
           }
@@ -249,8 +249,8 @@ class _IngredientsScreenState extends State<IngredientsScreen> {
                       Row(
                         children: [
                           Text(
-                            FFLocalizations.of(context).languageCode == 'ro' 
-                                ? (ingredient.roName ?? ingredient.name) 
+                            FFLocalizations.of(context).languageCode == 'ro'
+                                ? (ingredient.roName ?? ingredient.name)
                                 : ingredient.name,
                             style: FlutterFlowTheme.of(context).titleMedium.override(
                                   fontWeight: FontWeight.bold,
@@ -261,11 +261,11 @@ class _IngredientsScreenState extends State<IngredientsScreen> {
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                               decoration: BoxDecoration(
-                                color: IngredientsService.getRiskLevel(ingredient.riskLevel)['color'],
+                                color: IngredientsService.getRiskLevel(ingredient.riskLevel, context)['color'],
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
-                                IngredientsService.getRiskLevel(ingredient.riskLevel)['text'],
+                                IngredientsService.getRiskLevel(ingredient.riskLevel, context)['text'],
                                 style: FlutterFlowTheme.of(context).bodySmall.override(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w600,
@@ -311,13 +311,13 @@ class _IngredientsScreenState extends State<IngredientsScreen> {
 
   bool _hasIngredientDescription(MatchedIngredient ingredient) {
     if (ingredient.dbIngredient == null) return false;
-    
+
     final currentLanguage = FFLocalizations.of(context).languageCode;
-    
+
     return currentLanguage == 'ro'
-        ? ingredient.dbIngredient!.roDescription != null && 
+        ? ingredient.dbIngredient!.roDescription != null &&
           ingredient.dbIngredient!.roDescription!.isNotEmpty
-        : ingredient.dbIngredient!.description != null && 
+        : ingredient.dbIngredient!.description != null &&
           ingredient.dbIngredient!.description!.isNotEmpty;
   }
 }

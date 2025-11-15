@@ -182,8 +182,8 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ro': 'Află ce este înăuntru.',
     },
     'sg8ho7tf': {
-      'en': 'Bad Ingredients',
-      'ro': 'Ingrediente Dăunătoare',
+      'en': 'Bad ingredients',
+      'ro': 'Ingrediente dăunătoare',
     },
     'ga6umnbw': {
       'en': 'Spot harmful items.',
@@ -221,12 +221,12 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ro': 'Primele ingrediente listate sunt cele folosite cel mai mult în produs.',
     },
     'raw_ingredients': {
-      'en': 'Raw Ingredients',
-      'ro': 'Ingrediente Brute',
+      'en': 'Raw ingredients',
+      'ro': 'Ingrediente brute',
     },
     '6mn4fkqn': {
-      'en': 'See All',
-      'ro': 'Vezi Tot',
+      'en': 'See all',
+      'ro': 'Vezi tot',
     },
     'xme295my': {
       'en': 'Recommendations',
@@ -241,16 +241,16 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ro': 'Cauți o alternativă mai sănătoasă?',
     },
     't0jrl3ay': {
-      'en': 'Scoring Method',
-      'ro': 'Metoda de Evaluare',
+      'en': 'Scoring method',
+      'ro': 'Metoda de evaluare',
     },
     'pus9jfji': {
       'en': 'Learn how products are rated',
       'ro': 'Află cum sunt evaluate produsele',
     },
     'muer1xqs': {
-      'en': 'Product Details',
-      'ro': 'Detalii Produs',
+      'en': 'Product details',
+      'ro': 'Detalii produs',
     },
     'no_ingredients': {
       'en': 'No ingredients',
@@ -259,14 +259,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   },
   // History
   {
-    'rgp2q0f4': {
-      'en': 'No Favorites Yet',
-      'ro': 'Încă Nu Ai Favorite',
-    },
-    'eweoeg3t': {
-      'en': 'Save your favorite items to find them here \neasily next time!',
-      'ro': 'Salvează-ți produsele favorite pentru a le găsi aici \ncu ușurință data viitoare!',
-    },
     'ymharo6a': {
       'en': 'History',
       'ro': 'Istoric',
@@ -281,7 +273,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'no_favorites': {
       'en': 'No favorites yet',
-      'ro': 'Încă Nu Ai Favorite',
+      'ro': 'Încă nu ai favorite',
     },
     'your_favorite_products_will_appear_here': {
       'en': 'Your favorite products will appear here',
@@ -304,7 +296,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   // ProfileSettings
   {
     'y2pb74w6': {
-      'en': 'Follow Us',
+      'en': 'Follow us',
       'ro': 'Urmărește-ne',
     },
     'faq_key': {
@@ -319,24 +311,24 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   // EditProfile
   {
     'c4vorr30': {
-      'en': 'Sign Out',
-      'ro': 'Deconectare',
+      'en': 'Sign out',
+      'ro': 'Deconectează-te',
     },
     't9wjo91d': {
-      'en': 'Delete Account',
-      'ro': 'Șterge Cont',
+      'en': 'Delete account',
+      'ro': 'Șterge contul',
     },
     'fh8utk4t': {
-      'en': 'Edit Profile',
-      'ro': 'Editează Profilul',
+      'en': 'Edit profile',
+      'ro': 'Editează profilul',
     },
     'setting_default': {
-      'en': 'Setting',
-      'ro': 'Setare',
+      'en': 'Settings',
+      'ro': 'Setări',
     },
     'feedback': {
       'en': 'Feedback',
-      'ro': 'Reacție'
+      'ro': 'Feedback'
     },
     'stay_connected_title': {
       'en': 'Stay connected with us!',
@@ -356,6 +348,17 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     'nav_history': {
       'en': 'History',
       'ro': 'Istoric',
+    },
+  },
+  // LanguageSelection
+  {
+    'language_selection_title': {
+      'en': 'Language Selection',
+      'ro': 'Selectarea limbii',
+    },
+    'language_selection_subtitle': {
+      'en': 'Select your preferred language',
+      'ro': 'Selectează limba preferată',
     },
   },
   // PrivacyPolicy
@@ -620,15 +623,15 @@ Prin utilizarea aplicației Purio, confirmi că:
 - Înțelegi că aplicația este în versiune beta și că anumite funcționalități și informații pot fi supuse modificărilor.''',
     },
     '7m87t0no': {
-      'en': 'Terms of Use',
-      'ro': 'Termeni și Condiții',
+      'en': 'Terms & Conditions',
+      'ro': 'Termeni și condiții',
     },
   },
   // Notifications
   {
     'slf2ttsv': {
-      'en': 'Allow Notifications',
-      'ro': 'Permite Notificări',
+      'en': 'Allow notifications',
+      'ro': 'Permite notificări',
     },
     '34tdq6vv': {
       'en':
@@ -636,11 +639,11 @@ Prin utilizarea aplicației Purio, confirmi că:
       'ro': 'Rămâi la curent cu cele mai noi de la Purio! Activează notificările pentru a nu rata niciodată:\t•\tActualizări importante\n\t•\tSfaturi personalizate\n\t•\tFuncții exclusive',
     },
     '56c3uq32': {
-      'en': '1. Open Settings',
+      'en': '1. Open settings',
       'ro': '1. Deschide Setările',
     },
     'ohkg5sd0': {
-      'en': '2. Tap Notifications',
+      'en': '2. Tap notifications',
       'ro': '2. Atinge Notificări',
     },
     'eho3lknd': {
@@ -656,11 +659,11 @@ Prin utilizarea aplicației Purio, confirmi că:
   {
     '4pwlcxs5': {
       'en': 'Choose better, live healthier.',
-      'ro': 'Alege mai bine, trăiește mai sănătos.',
+      'ro': 'Alege conștient, trăiește sănătos.',
     },
     'wn1wwzvk': {
-      'en': 'Continue with Email',
-      'ro': 'Continuă cu Email',
+      'en': 'Continue with email',
+      'ro': 'Continuă cu email',
     },
     '8wzpehyg': {
       'en': 'Continue with Apple',
@@ -698,7 +701,7 @@ Prin utilizarea aplicației Purio, confirmi că:
   {
     'vg0xbsod': {
       'en': 'Now choose a password',
-      'ro': 'Alege acum o parolă',
+      'ro': 'Alege o parolă pentru contul tău',
     },
     'p6q6bvub': {
       'en': 'You are creating an account with ',
@@ -713,24 +716,20 @@ Prin utilizarea aplicației Purio, confirmi că:
       'ro': 'Parolă',
     },
     '2ise810c': {
-      'en': 'Confirm Password',
-      'ro': 'Confirmă Parola',
+      'en': 'Confirm password',
+      'ro': 'Confirmă parola',
     },
     'vb2ld97q': {
       'en': 'I agree to ',
       'ro': 'Sunt de acord cu ',
-    },
-    'emiap6x0': {
-      'en': 'Terms & Conditions',
-      'ro': 'Termenii și Condițiile',
     },
     '1owv5d59': {
       'en': ' and ',
       'ro': ' și ',
     },
     '8fble3n3': {
-      'en': 'Privacy Policy',
-      'ro': 'Politica de Confidențialitate',
+      'en': 'Privacy policy',
+      'ro': 'Politica de confidențialitate',
     },
     'gnsgggcs': {
       'en': '',
@@ -745,11 +744,11 @@ Prin utilizarea aplicației Purio, confirmi că:
   {
     'o0u1599y': {
       'en': 'Account Details',
-      'ro': 'Detalii Cont',
+      'ro': 'Detalii cont',
     },
     'q0c6t28l': {
       'en': 'We\'d love to refer to you by name',
-      'ro': 'Ne-ar plăcea să te numim pe nume',
+      'ro': 'Ne-ar plăcea să te cunoaștem mai bine',
     },
     '1iym6wsx': {
       'en': 'First name',
@@ -778,10 +777,6 @@ Prin utilizarea aplicației Purio, confirmi că:
       'en': 'Continue ',
       'ro': 'Continuă',
     },
-    'y51rmo0v': {
-      'en': 'Terms & Conditions',
-      'ro': 'Termeni și Condiții',
-    },
   },
   // Continue2ndQuestion
   {
@@ -797,10 +792,6 @@ Prin utilizarea aplicației Purio, confirmi că:
       'en': 'Done',
       'ro': 'Gata',
     },
-    'o4toanfy': {
-      'en': 'Terms & Conditions',
-      'ro': 'Termeni și Condiții',
-    }
   },
   // PurioProScreen
   {
@@ -817,10 +808,6 @@ Prin utilizarea aplicației Purio, confirmi că:
       'en': 'Continue ',
       'ro': 'Continuă',
     },
-    '6gezjcuo': {
-      'en': 'Terms & Conditions',
-      'ro': 'Termeni și Condiții',
-    },
     '5lhkthck': {
       'en': 'Purio ',
       'ro': 'Purio ',
@@ -834,7 +821,7 @@ Prin utilizarea aplicației Purio, confirmi că:
   {
     'ku9srp21': {
       'en': 'Welcome back! Log In in \nto your Purio account ',
-      'ro': 'Bine ai revenit! Conectează-te la \ncontul tău Purio',
+      'ro': 'Bine ai revenit! Intră în \ncontul tău Purio',
     },
     'lkdgd0je': {
       'en': 'Email',
@@ -851,11 +838,11 @@ Prin utilizarea aplicației Purio, confirmi că:
     },
     'l3wjlhe6': {
       'en': 'Log In',
-      'ro': 'Conectare',
+      'ro': 'Conectează-te',
     },
     'iux3zrs3': {
       'en': 'Email me a link to log in',
-      'ro': 'Trimite-mi un email cu link de conectare',
+      'ro': 'Trimite-mi un email pentru conectare',
     },
     'zxw8kqmd': {
       'en': 'or',
@@ -908,7 +895,7 @@ Prin utilizarea aplicației Purio, confirmi că:
       'ro': 'PROBLEMĂ, ÎNTREBARE SAU SUGESTIE',
     },
     'pkpdfk4m': {
-      'en': 'Your Message to Our Team',
+      'en': 'Your message to our team',
       'ro': 'Mesajul tău către echipa noastră',
     },
     'fxp8nvjw': {
@@ -972,7 +959,7 @@ Prin utilizarea aplicației Purio, confirmi că:
   {
     'zxstwbxi': {
       'en': 'Welcome back! Log In in \nto your Purio account ',
-      'ro': 'Bine ai revenit! Conectează-te la \ncontul tău Purio',
+      'ro': 'Bine ai revenit! Intră în \ncontul tău Purio',
     },
     'efelxctk': {
       'en': 'Email',
@@ -983,12 +970,12 @@ Prin utilizarea aplicației Purio, confirmi că:
       'ro': 'Parolă',
     },
     'bd1tkpa2': {
-      'en': 'Log In',
-      'ro': 'Conectare',
+      'en': 'Log in',
+      'ro': 'Conectează-te',
     },
     '4cnlg5zd': {
       'en': 'Email me a link to log in',
-      'ro': 'Trimite-mi un email cu link de conectare',
+      'ro': 'Trimite-mi un email pentru conectare',
     },
     'ek1imcbd': {
       'en': 'or',
@@ -1007,11 +994,11 @@ Prin utilizarea aplicației Purio, confirmi că:
     },
     'orieo052': {
       'en': 'Find Your Product',
-      'ro': 'Găsește Produsul Tău',
+      'ro': 'Caută produsul dorit',
     },
     'search_by_product_name_or_brand': {
       'en': 'Search by product name or brand and discover detailed insights instantly. 🛒',
-      'ro': 'Caută după numele produsului sau marcă și descoperă informații detaliate instantaneu. 🛒',
+      'ro': 'Caută un produs după nume sau marcă și află instant detalii despre el. 🛒',
     },
   },
   // RecoveryEmailPopup
@@ -1032,20 +1019,28 @@ Prin utilizarea aplicației Purio, confirmi că:
   // DeleteAccountPopUp
   {
     'sup7de9p': {
-      'en': 'Are You Sure?',
-      'ro': 'Ești sigur?',
+      'en': 'Are you sure?',
+      'ro': 'Sigur vrei să ștergi contul?',
     },
     'qp8tp30w': {
       'en': 'All your data will be gone. \nSure about this?',
-      'ro': 'Toate datele tale vor fi șterse. \nEști sigur?',
+      'ro': 'Toate datele tale se vor pierde. \nSigur vrei să ștergi contul?',
     },
     'rh4mxwuv': {
-      'en': 'Keep My Account',
-      'ro': 'Păstrează contul meu',
+      'en': 'Keep my account',
+      'ro': 'Păstrează contul',
     },
     'h0ea7x3j': {
-      'en': 'Delete It Anyway',
+      'en': 'Delete it anyway',
       'ro': 'Șterge-l oricum',
+    },
+    'delete_request_success': {
+      'en': 'We received your request. We’ll delete your account shortly.',
+      'ro': 'Am primit solicitarea ta. Îți vom șterge contul în curând.',
+    },
+    'delete_request_error': {
+      'en': 'Couldn’t submit the request. Please try again.',
+      'ro': 'Nu am putut trimite solicitarea. Încearcă din nou.',
     },
   },
   // Additives
@@ -1055,8 +1050,8 @@ Prin utilizarea aplicației Purio, confirmi că:
       'ro': 'E101',
     },
     'b3x4k9h3': {
-      'en': 'Risk Free',
-      'ro': 'Risc Zero',
+      'en': 'Risk free',
+      'ro': 'Risc zero',
     },
   },
   // Scoring Method
@@ -1066,8 +1061,8 @@ Prin utilizarea aplicației Purio, confirmi că:
       'ro': 'Metoda de Scorare',
     },
     'how_we_score_products': {
-      'en': 'How We Score Products',
-      'ro': 'Cum Scorăm Produsele',
+      'en': 'How we score products',
+      'ro': 'Cum scorăm produsele',
     },
     'overall_safety_score': {
       'en': 'Overall Safety Score',
@@ -1199,72 +1194,72 @@ Prin utilizarea aplicației Purio, confirmi că:
     },
     'level_explorer_desc': {
       'en': 'I pick what looks good or feels \nfamiliar.',
-      'ro': 'Aleg ce arată bine sau îmi pare \ncunoscut.',
+      'ro': 'Aleg produsele care arată bine sau îmi par familiare.',
     },
     'level_label_curios': {
-      'en': 'Label Curios',
-      'ro': 'Curios de Etichete',
+      'en': 'Label curios',
+      'ro': 'Curios de etichete',
     },
     'level_label_curios_desc': {
       'en': 'I sometimes check labels for \nhealthier choices.',
-      'ro': 'Verific uneori etichetele pentru \nalegeri mai sănătoase.',
+      'ro': 'Citesc uneori etichetele ca să fac alegeri mai sănătoase.',
     },
     'level_label_pro': {
       'en': 'Label Pro',
-      'ro': 'Expert Etichete',
+      'ro': 'Expert în etichete',
     },
     'level_label_pro_desc': {
       'en': 'I analyze ingredients to choose \nthe best products.',
-      'ro': 'Analizez ingredientele pentru a alege \ncele mai bune produse.',
+      'ro': 'Analizez ingredientele pentru a alege cele mai bune produse.',
     },
     // Second Question Options
     'expectation_find': {
       'en': 'Find',
-      'ro': 'Găsi',
+      'ro': 'Găsesc',
     },
     'expectation_find_desc': {
-      'en': ' healthier food options.',
-      'ro': ' opțiuni alimentare mai sănătoase.',
+      'en': ' healthier food options',
+      'ro': ' mai ușor \nvariante sănătoase',
     },
     'expectation_understand': {
       'en': 'Understand',
-      'ro': 'Înțelege',
+      'ro': 'Înțeleg',
     },
     'expectation_understand_desc': {
       'en': ' labels \nbetter',
-      'ro': ' etichetele \nmai bine',
+      'ro': ' mai bine etichetele',
     },
     'expectation_create': {
       'en': 'Create',
-      'ro': 'Creează',
+      'ro': 'Creez',
     },
     'expectation_create_desc': {
-      'en': ' a healthy \nshopping list.',
-      'ro': ' o listă de cumpărături \nsănătoasă.',
+      'en': ' a healthy \nshopping list',
+      'ro': ' liste de cumpărături sănătoase',
     },
     'expectation_save': {
       'en': 'Save',
-      'ro': 'Economisește',
+      'ro': 'Economisesc',
     },
     'expectation_save_desc': {
-      'en': ' time while \nshopping.',
-      'ro': ' timp în timpul \ncumpărăturilor.',
+      'en': ' time while \nshopping',
+      'ro': ' timp la cumpărături',
     },
     'expectation_learn': {
       'en': 'Learn',
-      'ro': 'Învață',
+      'ro': 'Învăț',
     },
     'expectation_learn_desc': {
-      'en': ' about \nbalanced nutrition.',
-      'ro': ' despre \nnutriție echilibrată.',
+      'en': ' about \nbalanced nutrition',
+      'ro': ' despre nutriție echilibrată',
     },
     'expectation_track': {
       'en': 'Track',
-      'ro': 'Urmărește',
+      'ro': 'Urmăresc',
     },
     'expectation_track_desc': {
-      'en': ' my food\nchoices over time.',
-      'ro': ' alegerile mele alimentare\nîn timp.',
+      'en': ' my food\nchoices over time',
+      'ro': ' alegerile mele alimentare în timp',
     },
     // Product submission dialog
     'product_not_found_title': {

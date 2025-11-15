@@ -405,7 +405,7 @@ class _PurioProScreenWidgetState extends State<PurioProScreenWidget>
                       },
                       child: Text(
                         FFLocalizations.of(context).getText(
-                          '6gezjcuo' /* Terms & Conditions */,
+                          '7m87t0no' /* Terms & Conditions */,
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                               font: GoogleFonts.poppins(

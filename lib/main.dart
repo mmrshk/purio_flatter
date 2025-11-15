@@ -24,7 +24,7 @@ void main() async {
   await SupaFlow.initialize();
 
   await FlutterFlowTheme.initialize();
-  
+
   // Initialize localization to load stored locale
   await FFLocalizations.initialize();
 
@@ -77,7 +77,7 @@ void main() async {
       }
 
       final result = '''${details.exceptionAsString()}
-      
+
 The relevant error-causing widget was: $widgetName
 
 Stack trace: ${filteredStackTrace.join("\n")}''';
@@ -146,7 +146,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    
+
     // Initialize locale from stored preference or system locale
     _initializeLocale();
 
@@ -182,7 +182,7 @@ class _MyAppState extends State<MyApp> {
       _locale = storedLocale;
       return;
     }
-    
+
     // Fallback to system locale if supported
     final systemLocale = ui.PlatformDispatcher.instance.locale;
     if (FFLocalizations.languages().contains(systemLocale.languageCode)) {
